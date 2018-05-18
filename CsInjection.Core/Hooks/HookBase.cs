@@ -35,7 +35,7 @@ namespace CsInjection.Core.Hooks
 
         public void InstallHook()
         {
-            //LocalHook hook = HookHelper.Create(Address, GetDetourDelegate(), this);
+            //LocalHook hook = LocalHook.Create(Address, GetDetourDelegate(), this);
             //hook.ThreadACL.SetExclusiveACL(new Int32[] { 0 });
             //NativeAPI.RhWakeUpProcess();
         }
