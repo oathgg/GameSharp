@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics;
-using CsInjection.Library.Helpers;
 
-namespace CsInjection.Library.Models
+namespace CsInjection.Core.Models
 {
     public class MemoryAddress
     {
@@ -12,14 +10,14 @@ namespace CsInjection.Library.Models
             Address = address;
         }
 
-        public T Read<T>(int offset, int size)
+        public T Read<T>(int size, int offset = 0)
         {
-            return Native.ReadFromMemory<T>(Address + offset, size);
+            return NativeAPI.ReadFromMemory<T>(Address + offset, size);
         }
 
         public void Write(byte[] newBytes)
         {
-            Native.WriteToMemory(Address, newBytes);
+            NativeAPI.WriteToMemory(Address, newBytes);
         }
     }
 }

@@ -1,21 +1,21 @@
-﻿using CsInjection.Library.Models;
+﻿using CsInjection.Core.Models;
 using System;
 using System.Collections.Generic;
 
-namespace CsInjection.Library.Helpers
+namespace CsInjection.Core
 {
     /// <summary>
     /// Keeps track of all the bytes patched and keeps track of the original opcodes.
     /// If we want to get rid of all the patches we can call the public static method DisposePatches.
     /// Otherwise call a Dispose which will deactivate the patch by restoring the original opcodes and then disposes the object.
     /// </summary>
-    public class BytePatch : IDisposable
+    public class BytePatcher : IDisposable
     {
         #region Properties
         /// <summary>
         /// List of all our current patches, either active or inactive.
         /// </summary>
-        private static List<BytePatch> _patchList = new List<BytePatch>();
+        private static List<BytePatcher> _patchList = new List<BytePatcher>();
         /// <summary>
         /// Address in memory which we are going to patch.
         /// </summary>
@@ -27,7 +27,7 @@ namespace CsInjection.Library.Helpers
         /// <summary>
         /// State of our current patch.
         /// </summary>
-        private bool IsActive { get; set; } = false;
+        private bool _isActive { get; set; } = false;
         #endregion
 
         #region Constructor
@@ -36,7 +36,7 @@ namespace CsInjection.Library.Helpers
         /// </summary>
         /// <param name="patchKey">Unique key for this patch, will be used to deactivate a patch</param>
         /// <param name="addressToPatch"></param>
-        public BytePatch(IntPtr addressToPatch)
+        public BytePatcher(IntPtr addressToPatch)
         {
             _memoryAddress = new MemoryAddress(addressToPatch);
             _patchList.Add(this);
@@ -61,16 +61,11 @@ namespace CsInjection.Library.Helpers
         /// <param name="newBytes">An array of bytes</param>
         public void Patch(byte[] newBytes)
         {
-            if (!IsActive)
+            if (!_isActive)
             {
-                _originalBytes = new byte[newBytes.Length];
-                // Save the original opcodes (same length) so we can restore it to it's default value.
-                for (int i = 0; i < newBytes.Length; i++)
-                {
-                    _originalBytes[i] = _memoryAddress.Read<byte>(i, newBytes.Length);
-                }
+                _originalBytes = _memoryAddress.Read<byte[]>(newBytes.Length);
                 _memoryAddress.Write(newBytes);
-                IsActive = true;
+                _isActive = true;
             }
             else
             {
@@ -85,10 +80,10 @@ namespace CsInjection.Library.Helpers
         /// </summary>
         public void Deactivate()
         {
-            if (IsActive)
+            if (_isActive)
             {
                 _memoryAddress.Write(_originalBytes);
-                IsActive = false;
+                _isActive = false;
             }
         }
         #endregion

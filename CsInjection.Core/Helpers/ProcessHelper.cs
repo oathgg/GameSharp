@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace CsInjection.Library.Helpers
+namespace CsInjection.Core.Helpers
 {
     public static class ProcessHelper
     {

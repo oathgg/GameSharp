@@ -1,10 +1,9 @@
 using System;
-using System.Runtime.InteropServices;
 using System.Linq;
 
-namespace CsInjection.Library.Helpers
+namespace CsInjection.Core.Helpers
 {
-    public static class Convert
+    public static class ConvertHelper
     {
         public static T FromByteArray<T>(byte[] data)
         {

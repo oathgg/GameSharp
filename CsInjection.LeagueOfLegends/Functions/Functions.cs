@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace CsInjection.Library.Helpers
+namespace CsInjection.LeagueOfLegends.Helpers
 {
     public class Functions
     {
