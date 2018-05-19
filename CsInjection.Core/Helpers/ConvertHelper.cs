@@ -15,6 +15,7 @@ namespace CsInjection.Core.Helpers
                 case TypeCode.Int32:
                     result = BitConverter.ToInt32(data, 0);
                     break;
+                // byte[] is an object.
                 case TypeCode.Object:
                 case TypeCode.Byte:
                     result = data;
@@ -35,7 +36,7 @@ namespace CsInjection.Core.Helpers
                     result = BitConverter.ToDouble(data, 0);
                     break;
                 case TypeCode.Decimal:
-                    result = System.Convert.ToDecimal(data);
+                    result = Convert.ToDecimal(data);
                     break;
                 case TypeCode.String:
                     result = System.Text.Encoding.UTF8.GetString(data);

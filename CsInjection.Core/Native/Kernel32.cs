@@ -11,18 +11,20 @@ namespace CsInjection.Core.Native
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, Int32 nSize, out IntPtr lpNumberOfBytesWritten);
-        public static void WriteToMemory(IntPtr memoryAddress, byte[] newBytes)
+
+        public static void WriteProcessMemory(IntPtr memoryAddress, byte[] newBytes)
         {
             WriteProcessMemory(ProcessHelper.GetCurrentProcess.Handle, memoryAddress, newBytes, newBytes.Length, out IntPtr outVar);
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, Int32 nSize, out IntPtr lpNumberOfBytesRead);
-        public static T ReadFromMemory<T>(IntPtr memoryAddress, int size)
+
+        public static T ReadProcessMemory<T>(IntPtr memoryAddress, int size)
         {
             byte[] buffer = new byte[size];
             ReadProcessMemory(ProcessHelper.GetCurrentProcess.Handle, memoryAddress, buffer, size, out IntPtr outVar);
-            return Helpers.ConvertHelper.FromByteArray<T>(buffer);
+            return ConvertHelper.FromByteArray<T>(buffer);
         }
     }
 }
