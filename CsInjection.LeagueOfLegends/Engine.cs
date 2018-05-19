@@ -21,30 +21,14 @@ namespace CsInjection.LeagueOfLegends
 
             SampleFunctionDetour();
 
-            Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
             return 0;
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall, SetLastError = true)]
-        public delegate void OnAfkDelegate(IntPtr thisPtr);
-
-        private static void OnAfkDetour(IntPtr thisPtr)
-        {
-            Console.WriteLine($"Event::OnAfk");
-            detour.CallOriginal(thisPtr);
-        }
-
-        private static Detour detour;
         private static void SampleFunctionDetour()
         {
-            Console.WriteLine("Hooking on AFK");
-
-            detour = new Detour(Marshal.GetDelegateForFunctionPointer<OnAfkDelegate>(Offsets.OnAfk), 
-                new OnAfkDelegate(OnAfkDetour));
-            detour.Enable();
-
-            Console.WriteLine("Finished hooking on AFK");
+            HookOnAfk afkHook = new HookOnAfk();
+            afkHook.InstallHook();
         }
 
         private static void SamplePrintChat()

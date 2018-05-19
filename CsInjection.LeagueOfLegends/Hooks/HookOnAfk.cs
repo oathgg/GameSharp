@@ -1,4 +1,5 @@
 ﻿using CsInjection.Core.Hooks;
+using CsInjection.LeagueOfLegends.Helpers;
 using System;
 using System.Runtime.InteropServices;
 
@@ -14,20 +15,20 @@ namespace CsInjection.LeagueOfLegends.Hooks
             return "OnAfk";
         }
 
-        public override int GetAddress()
+        public override Delegate GetToHookDelegate()
         {
-            // Patch 8.10.229.7328
-            return 0x005D6BC0;
+            return Marshal.GetDelegateForFunctionPointer<OnAfkDelegate>(Offsets.OnAfk);
         }
 
-        public override Delegate GetDelegate()
+        public override Delegate GetToDetourDelegate()
         {
-            return new OnAfkDelegate(Detour);
+            return new OnAfkDelegate(DetourMethod);
         }
 
-        private void Detour(IntPtr thisPtr)
+        private void DetourMethod(IntPtr thisPtr)
         {
             Console.WriteLine($"Event::{GetName()}");
+            Detour.CallOriginal(thisPtr);
         }
     }
 }
