@@ -1,5 +1,5 @@
 ﻿using System;
-using CsInjection.Core.Helpers;
+using CsInjection.Core.Utilities;
 using System.Diagnostics;
 
 namespace CsInjection.Core.Hooks

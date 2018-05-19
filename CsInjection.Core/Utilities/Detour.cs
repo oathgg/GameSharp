@@ -1,4 +1,4 @@
-﻿// Credits go to Lolp1 for giving the idea to start with
+﻿// Part of the credits go to Lolp1 for giving the idea how to finish.
 // https://github.com/lolp1/Process.NET/blob/master/src/Process.NET/Applied/Detours/Detour.cs
 //
 
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using CsInjection.Core.Models;
 
-namespace CsInjection.Core
+namespace CsInjection.Core.Utilities
 {
     public class Detour
     {

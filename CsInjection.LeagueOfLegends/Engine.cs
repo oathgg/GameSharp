@@ -1,7 +1,6 @@
 using System;
-using System.Runtime.InteropServices;
-using CsInjection.Core;
-using CsInjection.Core.Helpers;
+using CsInjection.Core.Utilities;
+using CsInjection.Core.Native;
 using CsInjection.LeagueOfLegends.Helpers;
 using CsInjection.LeagueOfLegends.Hooks;
 
@@ -11,7 +10,7 @@ namespace CsInjection.LeagueOfLegends
     {
         public static int Initialize(string s)
         {
-            NativeAPI.AllocConsole();
+            Kernel32.AllocConsole();
 
             Console.WriteLine("Printing text to Console.");
 

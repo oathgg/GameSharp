@@ -2,9 +2,9 @@ using CsInjection.Core.Helpers;
 using System;
 using System.Runtime.InteropServices;
 
-namespace CsInjection.Core
+namespace CsInjection.Core.Native
 {
-    public static class NativeAPI
+    public static class Kernel32
     {
         [DllImport("kernel32.dll", EntryPoint = "AllocConsole", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern int AllocConsole();

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CsInjection.Core
+namespace CsInjection.Core.Utilities
 {
     /// <summary>
     ///     Keeps track of all the bytes patched and keeps track of the original opcodes.

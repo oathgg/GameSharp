@@ -1,4 +1,5 @@
 using System;
+using CsInjection.Core.Native;
 
 namespace CsInjection.Core.Models
 {
@@ -12,12 +13,12 @@ namespace CsInjection.Core.Models
 
         public T Read<T>(int size, int offset = 0)
         {
-            return NativeAPI.ReadFromMemory<T>(Address + offset, size);
+            return Kernel32.ReadFromMemory<T>(Address + offset, size);
         }
 
         public void Write(byte[] newBytes)
         {
-            NativeAPI.WriteToMemory(Address, newBytes);
+            Kernel32.WriteToMemory(Address, newBytes);
         }
     }
 }
