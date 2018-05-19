@@ -50,6 +50,7 @@
     <Compile Include="Models\MemoryAddress.cs" />
     <Compile Include="Native\Kernel32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\SigScanner.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
