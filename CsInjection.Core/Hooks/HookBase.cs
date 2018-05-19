@@ -10,7 +10,7 @@ namespace CsInjection.Core.Hooks
 
         public HookBase()
         {
-            Address = GetModuleAddress() + GetHookAddress();
+            Address = GetModuleAddress() + GetAddress();
         }
 
         public virtual IntPtr GetModuleAddress()
@@ -18,26 +18,28 @@ namespace CsInjection.Core.Hooks
             return Process.GetCurrentProcess().MainModule.BaseAddress;
         }
 
-        public virtual int GetHookAddress()
+        public virtual int GetAddress()
         {
             throw new NotImplementedException();
         }
 
-        public virtual Delegate GetDetourDelegate()
+        public virtual Delegate GetDelegate()
         {
             throw new NotImplementedException();
         }
 
-        public virtual string GetHookName()
+        public virtual string GetName()
         {
             throw new NotImplementedException();
         }
 
         public void InstallHook()
         {
-            //LocalHook hook = LocalHook.Create(Address, GetDetourDelegate(), this);
-            //hook.ThreadACL.SetExclusiveACL(new Int32[] { 0 });
-            //NativeAPI.RhWakeUpProcess();
+            // Allocate memory (Needed for our detour and old function?)
+            // Create a copy of the first 10 bytes of the to be hooked function to the allocation
+            // Create a jump back to the original function + 10 bytes
+            // Create a jump in the function to our detour
+            // Do our stuff and do a call do a delegate call of the original function
         }
     }
 }

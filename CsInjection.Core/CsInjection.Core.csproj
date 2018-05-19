@@ -41,12 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BytePatcher.cs" />
+    <Compile Include="Detour.cs" />
     <Compile Include="Helpers\ConvertHelper.cs" />
     <Compile Include="Helpers\HookHelper.cs" />
     <Compile Include="Hooks\HookBase.cs" />
     <Compile Include="Hooks\IHook.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
-    <Compile Include="Models\RemoteAddress.cs" />
+    <Compile Include="Models\MemoryAddress.cs" />
     <Compile Include="NativeAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -9,9 +9,9 @@ namespace CsInjection.Core.Hooks
     public interface IHook
     {
         void InstallHook();
-        string GetHookName();
-        Delegate GetDetourDelegate();
+        string GetName();
+        Delegate GetDelegate();
         IntPtr GetModuleAddress();
-        int GetHookAddress();
+        int GetAddress();
     }
 }

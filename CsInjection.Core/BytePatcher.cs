@@ -5,80 +5,81 @@ using System.Collections.Generic;
 namespace CsInjection.Core
 {
     /// <summary>
-    /// Keeps track of all the bytes patched and keeps track of the original opcodes.
-    /// If we want to get rid of all the patches we can call the public static method DisposePatches.
-    /// Otherwise call a Dispose which will deactivate the patch by restoring the original opcodes and then disposes the object.
+    ///     Keeps track of all the bytes patched and keeps track of the original opcodes.
+    ///     If we want to get rid of all the patches we can call the public static method DisposePatches.
+    ///     Otherwise call a Dispose which will deactivate the patch by restoring the original opcodes and then disposes the object.
     /// </summary>
     public class BytePatcher : IDisposable
     {
         #region Properties
         /// <summary>
-        /// List of all our current patches, either active or inactive.
+        ///     List of all our current patches, either active or inactive.
         /// </summary>
-        private static List<BytePatcher> _patchList = new List<BytePatcher>();
+        public static List<BytePatcher> PatchList = new List<BytePatcher>();
+        
         /// <summary>
-        /// Address in memory which we are going to patch.
+        ///     Address in memory which we are going to patch.
         /// </summary>
         private MemoryAddress _memoryAddress { get; }
+        
         /// <summary>
-        /// The original opcodes which belonged to this patch.
+        ///     The original opcodes which belonged to this patch.
         /// </summary>
         private byte[] _originalBytes { get; set; }
+        
         /// <summary>
-        /// State of our current patch.
+        ///     State of our current patch.
         /// </summary>
         private bool _isActive { get; set; } = false;
+
+        /// <summary>
+        ///     New bytes which will be used to patch.
+        /// </summary>
+        private byte[] _newBytes { get; set; }
         #endregion
 
         #region Constructor
         /// <summary>
-        /// 
+        ///     Overloaded method of the default BytePatcher
         /// </summary>
-        /// <param name="patchKey">Unique key for this patch, will be used to deactivate a patch</param>
-        /// <param name="addressToPatch"></param>
+        /// <param name="addressToPatch">The address of the byte which we want to patch</param>
         public BytePatcher(IntPtr addressToPatch)
         {
             _memoryAddress = new MemoryAddress(addressToPatch);
-            _patchList.Add(this);
+            PatchList.Add(this);
         }
         #endregion
 
         #region Methods
 
         #region Patch
+
         /// <summary>
-        /// Patch by using new bytes in a list
+        ///     Patches the bytes at the <see cref="MemoryAddress"/> provided in the constructor
+        ///     and activates the patch.
         /// </summary>
-        /// <param name="newBytes">A list of bytes</param>
-        public void Patch(List<byte> newBytes)
+        /// <param name="newBytes"></param>
+        public void PatchAndActivate(byte[] newBytes)
         {
-            Patch(newBytes.ToArray());
+            Patch(newBytes);
+            Enable();
         }
 
         /// <summary>
-        /// Patch by using new bytes in an array.
+        ///     Patch by using new bytes in an array.
         /// </summary>
         /// <param name="newBytes">An array of bytes</param>
         public void Patch(byte[] newBytes)
         {
-            if (!_isActive)
-            {
-                _originalBytes = _memoryAddress.Read<byte[]>(newBytes.Length);
-                _memoryAddress.Write(newBytes);
-                _isActive = true;
-            }
-            else
-            {
-                Console.WriteLine($"There is already a patch active at address {_memoryAddress}");
-            }
+            _originalBytes = _memoryAddress.Read<byte[]>(newBytes.Length);
+            _newBytes = newBytes;
         }
         #endregion
 
-        #region Deactivate
         /// <summary>
-        /// Deactivates the patch by restoring the original opcodes.
+        ///     Disables the patch by restoring the original opcodes.
         /// </summary>
-        public void Deactivate()
+        public void Disable()
         {
             if (_isActive)
             {
@@ -86,29 +87,41 @@ namespace CsInjection.Core
                 _isActive = false;
             }
         }
-        #endregion
+
+        /// <summary>
+        ///     Enables the patch by using the provided new bytes
+        /// </summary>
+        public void Enable()
+        {
+            if (!_isActive)
+            {
+                _memoryAddress.Write(_newBytes);
+                _isActive = true;
+            }
+        }
 
         #region Dispose (Implemented from IDisposable)
         /// <summary>
-        /// Deactivates the patch and disposes of the object
+        ///     Disables the patch and disposes of the object
         /// </summary>
         public void Dispose()
         {
-            Deactivate();
+            Disable();
+            GC.SuppressFinalize(this);
         }
         #endregion
 
         #region DisposePatches
         /// <summary>
-        /// Disposes all the patches
+        ///     Disposes all the patches
         /// </summary>
         public static void DisposePatches()
         {
-            foreach (var patch in _patchList)
+            foreach (var patch in PatchList)
             {
                 patch.Dispose();
             }
-            _patchList.Clear();
+            PatchList.Clear();
         }
         #endregion
 
