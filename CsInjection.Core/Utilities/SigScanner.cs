@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using CsInjection.Core.Models;
 using CsInjection.Core.Native;
 
 namespace CsInjection.Core.Utilities
@@ -10,7 +11,7 @@ namespace CsInjection.Core.Utilities
         /// <summary>
         ///     Contains all the bytes of the specified module.
         /// </summary>
-        private byte[] _moduleBytes { get; }
+        public byte[] ModuleBytes { get; set; }
 
         /// <summary>
         ///     The <see cref="ProcessModule"/> that has been selected to scan for patterns.
@@ -30,7 +31,7 @@ namespace CsInjection.Core.Utilities
         {
             _selectedModule = module;
             _moduleBase = module.BaseAddress;
-            _moduleBytes = Kernel32.ReadProcessMemory<byte[]>(module.BaseAddress, module.ModuleMemorySize);
+            ModuleBytes = Kernel32.ReadProcessMemory<byte[]>(module.BaseAddress, module.ModuleMemorySize);
         }
 
         /// <summary>
@@ -39,22 +40,22 @@ namespace CsInjection.Core.Utilities
         /// <param name="pattern"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public IntPtr FindPattern(string pattern, int offset = 0)
+        public MemoryAddress FindPattern(string pattern, int offset = 0)
         {
             byte[] arrPattern = ParsePatternString(pattern);
 
-            for (int index = 0; index < _moduleBytes.Length; index++)
+            for (int index = 0; index < ModuleBytes.Length; index++)
             {
-                if (_moduleBytes[index] != arrPattern[0])
+                if (ModuleBytes[index] != arrPattern[0])
                     continue;
 
-                if (PatternCheck(index, arrPattern))
+                if (PatternCheck(index, arrPattern, out index))
                 {
-                    return _moduleBase + index + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber);
+                    return new MemoryAddress(_moduleBase + index + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber));
                 }
             }
 
-            return IntPtr.Zero;
+            return null;
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace CsInjection.Core.Utilities
         /// </summary>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        private byte[] ParsePatternString(string pattern)
+        public byte[] ParsePatternString(string pattern)
         {
             List<byte> patternbytes = new List<byte>();
 
@@ -81,18 +82,20 @@ namespace CsInjection.Core.Utilities
         /// <param name="index"></param>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        private bool PatternCheck(int index, byte[] pattern)
+        public bool PatternCheck(int index, byte[] pattern, out int newIndex)
         {
+            newIndex = index;
+
             for (int i = 0; i < pattern.Length; i++)
             {
                 // Skip this byte in case its a variable.
                 if (pattern[i] == 0x0)
                     continue;
 
-                if (pattern[i] != _moduleBytes[index + i])
+                if (pattern[i] != ModuleBytes[index + i])
                 {
                     // Increase the index with the i we stopped at so we don't repeat scanning those bytes again.
-                    index += i;
+                    newIndex += i;
                     return false;
                 }
             }

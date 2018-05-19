@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="LibraryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SigScannerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
