@@ -83,14 +83,18 @@ namespace CsInjection.Core.Utilities
         /// <returns></returns>
         private bool PatternCheck(int index, byte[] pattern)
         {
-            for (; index < pattern.Length; index++)
+            for (int i = 0; i < pattern.Length; i++)
             {
                 // Skip this byte in case its a variable.
-                if (pattern[index] == 0x0)
+                if (pattern[i] == 0x0)
                     continue;
 
-                if (pattern[index] != _moduleBytes[index])
+                if (pattern[i] != _moduleBytes[index + i])
+                {
+                    // Increase the index with the i we stopped at so we don't repeat scanning those bytes again.
+                    index += i;
                     return false;
+                }
             }
 
             return true;
