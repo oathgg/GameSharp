@@ -11,14 +11,8 @@ namespace CsInjection.Core.Hooks
     {
         protected Detour Detour;
 
-        public virtual string GetName()
-        {
-            throw new NotImplementedException();
-        }
-
         public void InstallHook()
         {
-            Console.WriteLine($"Hooking {GetName()}");
             Detour = new Detour(GetToHookDelegate(), GetToDetourDelegate());
             Detour.Enable();
         }

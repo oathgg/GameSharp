@@ -10,11 +10,6 @@ namespace CsInjection.LeagueOfLegends.Hooks
         [UnmanagedFunctionPointer(CallingConvention.ThisCall, SetLastError = true)]
         public delegate void OnAfkDelegate(IntPtr thisPtr);
 
-        public override string GetName()
-        {
-            return "OnAfk";
-        }
-
         public override Delegate GetToHookDelegate()
         {
             return Marshal.GetDelegateForFunctionPointer<OnAfkDelegate>(Offsets.OnAfk);
@@ -27,7 +22,7 @@ namespace CsInjection.LeagueOfLegends.Hooks
 
         private void DetourMethod(IntPtr thisPtr)
         {
-            Console.WriteLine($"Event::{GetName()}");
+            Console.WriteLine($"Event::ONAFK has been triggered");
             Detour.CallOriginal(thisPtr);
         }
     }

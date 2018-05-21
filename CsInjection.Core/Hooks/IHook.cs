@@ -14,11 +14,6 @@ namespace CsInjection.Core.Hooks
         void InstallHook();
 
         /// <summary>
-        ///     Gets the name of the <see cref="IHook"/>
-        /// </summary>
-        string GetName();
-
-        /// <summary>
         ///     This should return an UnmanagedFunctionPointer delegate.
         ///     
         ///     e.g. Marshal.GetDelegateForFunctionPointer<DELEGATE>(ADDRESS);
