@@ -60,7 +60,7 @@
       <Project>{214b3d50-3f2a-485f-a523-3b406b86d93d}</Project>
       <Name>CsInjection.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CsInjection.Library\CsInjection.LeagueOfLegends.csproj">
+    <ProjectReference Include="..\CsInjection.LeagueOfLegends\CsInjection.LeagueOfLegends.csproj">
       <Project>{58e9c1ad-e291-4a73-a202-c283f81393b4}</Project>
       <Name>CsInjection.LeagueOfLegends</Name>
     </ProjectReference>
