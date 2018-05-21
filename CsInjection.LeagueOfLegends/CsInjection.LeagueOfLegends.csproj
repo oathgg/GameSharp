@@ -32,6 +32,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Functions\Functions.cs" />
+    <Compile Include="Functions\IssueOrder.cs" />
+    <Compile Include="Functions\Chat.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Hooks\HookOnDeleteObject.cs" />
     <Compile Include="Hooks\HookOnCreateObject.cs" />

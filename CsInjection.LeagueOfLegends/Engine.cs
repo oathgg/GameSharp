@@ -3,6 +3,7 @@ using CsInjection.Core.Utilities;
 using CsInjection.Core.Native;
 using CsInjection.LeagueOfLegends.Helpers;
 using CsInjection.LeagueOfLegends.Hooks;
+using CsInjection.LeagueOfLegends.Functions;
 
 namespace CsInjection.LeagueOfLegends
 {
@@ -40,7 +41,7 @@ namespace CsInjection.LeagueOfLegends
         private static void SamplePrintChat()
         {
             Console.WriteLine($"Printing something to chat in game.");
-            Functions.PrintChat("Injected.");
+            Chat.Print("Injected.");
         }
 
         private static void SampleDrawCirclePatch()
