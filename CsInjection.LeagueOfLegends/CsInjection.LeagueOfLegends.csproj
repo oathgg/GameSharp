@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Functions\Functions.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="Hooks\HookOnDeleteObject.cs" />
     <Compile Include="Hooks\HookOnCreateObject.cs" />
     <Compile Include="Hooks\HookOnAfk.cs" />
     <Compile Include="Memory\Offsets.cs" />

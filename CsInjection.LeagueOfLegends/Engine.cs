@@ -10,7 +10,6 @@ namespace CsInjection.LeagueOfLegends
     {
         public static int Initialize(string s)
         {
-            // Creates a new console window
             Kernel32.AllocConsole();
 
             SamplePrintChat();
@@ -32,6 +31,10 @@ namespace CsInjection.LeagueOfLegends
             Console.WriteLine("Hooking on create object");
             HookOnCreateObject onCreateObject = new HookOnCreateObject();
             onCreateObject.InstallHook();
+
+            Console.WriteLine("Hooking on delete object");
+            HookOnDeleteObject onDeleteObject = new HookOnDeleteObject();
+            onDeleteObject.InstallHook();
         }
 
         private static void SamplePrintChat()
