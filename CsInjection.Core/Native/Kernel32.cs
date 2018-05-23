@@ -23,7 +23,7 @@ namespace CsInjection.Core.Native
             byte[] data = new byte[size];
             for (int i = 0; i < size; i++)
             {
-                data[i] = (Marshal.ReadByte(memoryAddress, i));
+                data[i] = Marshal.ReadByte(memoryAddress, i);
             }
 
             if (!ConvertHelper.FromByteArray<T>(data, out T result))
