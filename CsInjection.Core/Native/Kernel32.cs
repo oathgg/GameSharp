@@ -28,7 +28,7 @@ namespace CsInjection.Core.Native
 
             if (!ConvertHelper.FromByteArray<T>(data, out T result))
             {
-                // Last resort
+                // Last resort to resolve the object
                 result = Marshal.PtrToStructure<T>(memoryAddress);
             }
             return result;
