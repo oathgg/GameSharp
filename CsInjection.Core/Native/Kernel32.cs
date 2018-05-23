@@ -15,6 +15,7 @@ namespace CsInjection.Core.Native
 
         public static void WriteProcessMemory(IntPtr memoryAddress, byte[] newBytes)
         {
+            // TODO: Make this a marshal as well.
             WriteProcessMemory(ProcessHelper.GetCurrentProcess.Handle, memoryAddress, newBytes, newBytes.Length, out IntPtr outVar);
         }
 
