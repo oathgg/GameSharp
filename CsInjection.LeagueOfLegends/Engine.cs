@@ -4,6 +4,7 @@ using CsInjection.Core.Native;
 using CsInjection.LeagueOfLegends.Helpers;
 using CsInjection.LeagueOfLegends.Hooks;
 using CsInjection.LeagueOfLegends.Functions;
+using System.Runtime.InteropServices;
 
 namespace CsInjection.LeagueOfLegends
 {

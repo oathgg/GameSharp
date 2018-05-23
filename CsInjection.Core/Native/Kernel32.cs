@@ -1,5 +1,6 @@
 using CsInjection.Core.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace CsInjection.Core.Native
@@ -17,14 +18,20 @@ namespace CsInjection.Core.Native
             WriteProcessMemory(ProcessHelper.GetCurrentProcess.Handle, memoryAddress, newBytes, newBytes.Length, out IntPtr outVar);
         }
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, Int32 nSize, out IntPtr lpNumberOfBytesRead);
-
         public static T ReadProcessMemory<T>(IntPtr memoryAddress, int size)
         {
-            byte[] buffer = new byte[size];
-            ReadProcessMemory(ProcessHelper.GetCurrentProcess.Handle, memoryAddress, buffer, size, out IntPtr outVar);
-            return ConvertHelper.FromByteArray<T>(buffer);
+            byte[] data = new byte[size];
+            for (int i = 0; i < size; i++)
+            {
+                data[i] = (Marshal.ReadByte(memoryAddress, i));
+            }
+
+            if (!ConvertHelper.FromByteArray<T>(data, out T result))
+            {
+                // Last resort
+                result = Marshal.PtrToStructure<T>(memoryAddress);
+            }
+            return result;
         }
     }
 }

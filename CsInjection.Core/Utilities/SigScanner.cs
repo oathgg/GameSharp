@@ -11,7 +11,7 @@ namespace CsInjection.Core.Utilities
         /// <summary>
         ///     Contains all the bytes of the specified module.
         /// </summary>
-        public byte[] ModuleBytes { get; set; }
+        private byte[] ModuleBytes { get; set; }
 
         /// <summary>
         ///     The <see cref="ProcessModule"/> that has been selected to scan for patterns.
@@ -21,7 +21,7 @@ namespace CsInjection.Core.Utilities
         /// <summary>
         ///     The base address of the module.
         /// </summary>
-        private IntPtr _moduleBase { get; }
+        private MemoryAddress _moduleBase { get; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SigScanner" /> class.
@@ -30,8 +30,8 @@ namespace CsInjection.Core.Utilities
         public SigScanner(ProcessModule module)
         {
             _selectedModule = module;
-            _moduleBase = module.BaseAddress;
-            ModuleBytes = Kernel32.ReadProcessMemory<byte[]>(module.BaseAddress, module.ModuleMemorySize);
+            _moduleBase = new MemoryAddress(module.BaseAddress);
+            ModuleBytes = _moduleBase.Read<byte[]>(module.ModuleMemorySize);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace CsInjection.Core.Utilities
 
                 if (PatternCheck(index, arrPattern, out index))
                 {
-                    return new MemoryAddress(_moduleBase + index + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber));
+                    return new MemoryAddress(_moduleBase.Address + index + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber));
                 }
             }
 
@@ -63,7 +63,7 @@ namespace CsInjection.Core.Utilities
         /// </summary>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        public byte[] ParsePatternString(string pattern)
+        private byte[] ParsePatternString(string pattern)
         {
             List<byte> patternbytes = new List<byte>();
 
@@ -82,7 +82,7 @@ namespace CsInjection.Core.Utilities
         /// <param name="index"></param>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        public bool PatternCheck(int index, byte[] pattern, out int newIndex)
+        private bool PatternCheck(int index, byte[] pattern, out int newIndex)
         {
             newIndex = index;
 

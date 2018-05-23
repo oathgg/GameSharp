@@ -12,16 +12,16 @@ namespace CsInjection.Tests
         [TestMethod]
         public void ConvertTest()
         {
-            var iResult = ConvertHelper.FromByteArray<int>(new byte[] { 0xFF, 0xFF, 0xFF, 0xFF });
+            ConvertHelper.FromByteArray<int>(new byte[] { 0xFF, 0xFF, 0xFF, 0xFF }, out var iResult);
             Assert.AreEqual(-1, iResult);
 
-            var sResult = ConvertHelper.FromByteArray<string>(new byte[] { 0x53, 0x61, 0x6e, 0x64, 0x65, 0x72 });
+            ConvertHelper.FromByteArray<string>(new byte[] { 0x53, 0x61, 0x6e, 0x64, 0x65, 0x72 }, out var sResult);
             Assert.AreEqual("Sander", sResult);
 
-            var bResult = ConvertHelper.FromByteArray<byte[]>(new byte[] { 0x53, 0x61, 0x6E, 0x64, 0x65, 0x72 });
+            ConvertHelper.FromByteArray<byte[]>(new byte[] { 0x53, 0x61, 0x6E, 0x64, 0x65, 0x72 }, out var bResult);
             Assert.AreEqual((byte) 0x6E, bResult[2]);
 
-            var boolResult = ConvertHelper.FromByteArray<bool>(new byte[] { 0x01 });
+            ConvertHelper.FromByteArray<bool>(new byte[] { 0x01 }, out var boolResult);
             Assert.IsTrue(boolResult);
         }
 

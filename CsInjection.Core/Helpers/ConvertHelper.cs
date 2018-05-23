@@ -1,52 +1,59 @@
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace CsInjection.Core.Helpers
 {
     public static class ConvertHelper
     {
-        public static T FromByteArray<T>(byte[] data)
+        public static bool FromByteArray<T>(byte[] data, out T result)
         {
-            object result = default(T);
+            object val = default(T);
+            result = (T) val;
 
             TypeCode typeCode = Type.GetTypeCode(typeof(T));
+
+            // Additional type checking
+            if (typeof(T) == typeof(IntPtr))
+                typeCode = TypeCode.Int32;
+            if (typeof(T) == typeof(byte[]))
+                typeCode = TypeCode.Byte;
+
             switch (typeCode)
             {
                 case TypeCode.Int32:
-                    result = BitConverter.ToInt32(data, 0);
+                    val = BitConverter.ToInt32(data, 0);
                     break;
-                // byte[] is an object.
-                case TypeCode.Object:
                 case TypeCode.Byte:
-                    result = data;
+                    val = data;
                     break;
                 case TypeCode.Boolean:
-                    result = data.First() > 0;
+                    val = data.First() > 0;
                     break;
                 case TypeCode.Char:
-                    result = BitConverter.ToChar(data, 0);
+                    val = BitConverter.ToChar(data, 0);
                     break;
                 case TypeCode.Int64:
-                    result = BitConverter.ToInt64(data, 0);
+                    val = BitConverter.ToInt64(data, 0);
                     break;
                 case TypeCode.Single:
-                    result = BitConverter.ToSingle(data, 0);
+                    val = BitConverter.ToSingle(data, 0);
                     break;
                 case TypeCode.Double:
-                    result = BitConverter.ToDouble(data, 0);
+                    val = BitConverter.ToDouble(data, 0);
                     break;
                 case TypeCode.Decimal:
-                    result = Convert.ToDecimal(data);
+                    val = Convert.ToDecimal(data);
                     break;
                 case TypeCode.String:
-                    result = System.Text.Encoding.UTF8.GetString(data);
+                    val = System.Text.Encoding.UTF8.GetString(data);
                     break;
                 default:
-                    Console.WriteLine($"Unparseable typecode: {typeCode}");
-                    break;
+                    return false;
             }
 
-            return (T) result;
+            result = (T) val;
+            return true;
         }
     }
 }
