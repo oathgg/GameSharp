@@ -10,13 +10,12 @@ namespace CsInjection.Core.Native
         [DllImport("kernel32.dll", EntryPoint = "AllocConsole", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern int AllocConsole();
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, Int32 nSize, out IntPtr lpNumberOfBytesWritten);
-
         public static void WriteProcessMemory(IntPtr memoryAddress, byte[] newBytes)
         {
-            // TODO: Make this a marshal as well.
-            WriteProcessMemory(ProcessHelper.GetCurrentProcess.Handle, memoryAddress, newBytes, newBytes.Length, out IntPtr outVar);
+            for (int i = 0; i < newBytes.Length; i++)
+            {
+                System.Runtime.InteropServices.Marshal.WriteByte(memoryAddress, i, newBytes[i]);
+            }
         }
 
         public static T ReadProcessMemory<T>(IntPtr memoryAddress, int size)
@@ -24,13 +23,13 @@ namespace CsInjection.Core.Native
             byte[] data = new byte[size];
             for (int i = 0; i < size; i++)
             {
-                data[i] = Marshal.ReadByte(memoryAddress, i);
+                data[i] = System.Runtime.InteropServices.Marshal.ReadByte(memoryAddress, i);
             }
 
             if (!ConvertHelper.FromByteArray<T>(data, out T result))
             {
                 // Last resort to resolve the object
-                result = Marshal.PtrToStructure<T>(memoryAddress);
+                result = System.Runtime.InteropServices.Marshal.PtrToStructure<T>(memoryAddress);
             }
             return result;
         }
