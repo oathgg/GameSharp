@@ -1,5 +1,6 @@
 ﻿using CsInjection.Core.Helpers;
 using System;
+using System.Runtime.InteropServices;
 
 namespace CsInjection.Core.Native
 {
@@ -9,7 +10,7 @@ namespace CsInjection.Core.Native
         {
             for (int i = 0; i < newBytes.Length; i++)
             {
-                System.Runtime.InteropServices.Marshal.WriteByte(memoryAddress, i, newBytes[i]);
+                Marshal.WriteByte(memoryAddress, i, newBytes[i]);
             }
         }
 
@@ -18,15 +19,21 @@ namespace CsInjection.Core.Native
             byte[] data = new byte[size];
             for (int i = 0; i < size; i++)
             {
-                data[i] = System.Runtime.InteropServices.Marshal.ReadByte(memoryAddress, i);
+                data[i] = Marshal.ReadByte(memoryAddress, i);
             }
 
-            if (!ConvertHelper.FromByteArray<T>(data, out T result))
+            if (!ConvertHelper.FromByteArray(data, out T result))
             {
                 // Last resort to resolve the object
-                result = System.Runtime.InteropServices.Marshal.PtrToStructure<T>(memoryAddress);
+                result = Marshal.PtrToStructure<T>(memoryAddress);
             }
             return result;
+        }
+
+        // Slower tha
+        public static T ReadProcessMemory<T>(IntPtr memoryAddress) where T : struct
+        {
+            return Marshal.PtrToStructure<T>(memoryAddress);
         }
     }
 }
