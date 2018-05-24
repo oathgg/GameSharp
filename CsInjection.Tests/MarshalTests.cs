@@ -16,7 +16,7 @@ namespace CsInjection.Tests
             IntPtr unmanagedArrayPtr = Marshal.AllocHGlobal(byteArray.Length);
 
             // Call our function
-            Kernel32.WriteProcessMemory(unmanagedArrayPtr, byteArray);
+            Memory.WriteProcessMemory(unmanagedArrayPtr, byteArray);
 
             // Read the bytes from the memory address
             for (int i = 0; i < byteArray.Length; i++)

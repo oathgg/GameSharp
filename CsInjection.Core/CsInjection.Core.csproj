@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Native\Marshalling.cs" />
+    <Compile Include="Native\Memory.cs" />
     <Compile Include="Utilities\BytePatcher.cs" />
     <Compile Include="Utilities\Detour.cs" />
     <Compile Include="Helpers\ConvertHelper.cs" />

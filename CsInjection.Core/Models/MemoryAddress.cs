@@ -13,12 +13,12 @@ namespace CsInjection.Core.Models
 
         public T Read<T>(int size, int offset = 0)
         {
-            return Kernel32.ReadProcessMemory<T>(Address + offset, size);
+            return Memory.ReadProcessMemory<T>(Address + offset, size);
         }
 
         public void Write(byte[] newBytes)
         {
-            Kernel32.WriteProcessMemory(Address, newBytes);
+            Memory.WriteProcessMemory(Address, newBytes);
         }
     }
 }
