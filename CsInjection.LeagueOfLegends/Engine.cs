@@ -26,17 +26,21 @@ namespace CsInjection.LeagueOfLegends
 
         private static void SampleFunctionDetour()
         {
-            Console.WriteLine("Hooking on AFK");
-            HookOnAfk afkHook = new HookOnAfk();
-            afkHook.InstallHook();
+            //Console.WriteLine("Hooking on AFK");
+            //HookOnAfk afkHook = new HookOnAfk();
+            //afkHook.InstallHook();
 
-            Console.WriteLine("Hooking on create object");
-            HookOnCreateObject onCreateObject = new HookOnCreateObject();
-            onCreateObject.InstallHook();
+            //Console.WriteLine("Hooking on create object");
+            //HookOnCreateObject onCreateObject = new HookOnCreateObject();
+            //onCreateObject.InstallHook();
 
-            Console.WriteLine("Hooking on delete object");
-            HookOnDeleteObject onDeleteObject = new HookOnDeleteObject();
-            onDeleteObject.InstallHook();
+            //Console.WriteLine("Hooking on delete object");
+            //HookOnDeleteObject onDeleteObject = new HookOnDeleteObject();
+            //onDeleteObject.InstallHook();
+
+            Console.WriteLine("Hooking on game update");
+            HookOnUpdate onUpdate = new HookOnUpdate();
+            onUpdate.InstallHook();
         }
 
         private static void SamplePrintChat()
