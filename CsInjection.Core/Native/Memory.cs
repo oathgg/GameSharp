@@ -6,21 +6,16 @@ namespace CsInjection.Core.Native
 {
     public class Memory
     {
-        //public static void WriteProcessMemory(IntPtr memoryAddress, byte[] newBytes)
-        //{
-        //    for (int i = 0; i < newBytes.Length; i++)
-        //    {
-        //        Marshal.WriteByte(memoryAddress, i, newBytes[i]);
-        //    }
-        //}
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, Int32 nSize, out IntPtr lpNumberOfBytesWritten);
-
-        public static void WriteProcessMemory(IntPtr memoryAddress, byte[] newBytes)
+        public static void WriteProcessMemory(IntPtr destination, byte[] nBytes)
         {
-            // TODO: Make this a marshal as well.
-            WriteProcessMemory(ProcessHelper.GetCurrentProcess.Handle, memoryAddress, newBytes, newBytes.Length, out IntPtr outVar);
+            // Update the memory section so we can write to it.
+            Kernel32.VirtualProtect(destination, nBytes.Length, Kernel32.Protection.PAGE_EXECUTE_READWRITE, out Kernel32.Protection old);
+
+            // Write to buffer to the memory destination.
+            Marshal.Copy(nBytes, 0, destination, nBytes.Length);
+
+            // Restore the page execution permissions.
+            Kernel32.VirtualProtect(destination, nBytes.Length, old, out var x);
         }
 
         public static T ReadProcessMemory<T>(IntPtr memoryAddress, int size)
