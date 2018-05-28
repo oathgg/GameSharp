@@ -20,13 +20,12 @@ namespace CsInjection.Core.Native
 
         public static T ReadProcessMemory<T>(IntPtr memoryAddress, int size)
         {
-            byte[] data = new byte[size];
-            for (int i = 0; i < size; i++)
-            {
-                data[i] = Marshal.ReadByte(memoryAddress, i);
-            }
+            byte[] destination = new byte[size];
 
-            if (!ConvertHelper.FromByteArray(data, out T result))
+            // Copy the memory to our own object
+            Marshal.Copy(memoryAddress, destination, 0, destination.Length);
+
+            if (!ConvertHelper.FromByteArray(destination, out T result))
             {
                 // Last resort to resolve the object
                 result = Marshal.PtrToStructure<T>(memoryAddress);
@@ -34,7 +33,6 @@ namespace CsInjection.Core.Native
             return result;
         }
 
-        // Slower tha
         public static T ReadProcessMemory<T>(IntPtr memoryAddress) where T : struct
         {
             return Marshal.PtrToStructure<T>(memoryAddress);

@@ -59,7 +59,7 @@ namespace CsInjection.Core.Utilities
         ///     and activates the patch.
         /// </summary>
         /// <param name="newBytes"></param>
-        public void PatchAndActivate(byte[] newBytes)
+        public void PatchAndEnable(byte[] newBytes)
         {
             Patch(newBytes);
             Enable();

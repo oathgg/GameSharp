@@ -33,7 +33,7 @@ namespace CsInjection.Tests
             int testCount = 10000;
             for(int i = 0; i < testCount; i++)
             {
-                byte[] bArray = new byte[10];
+                byte[] bArray = new byte[16];
                 rnd.NextBytes(bArray);
 
                 IntPtr unmanagedArrayPtr = Marshal.AllocHGlobal(bArray.Length);
