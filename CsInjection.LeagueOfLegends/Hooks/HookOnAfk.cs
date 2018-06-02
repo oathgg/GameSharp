@@ -10,12 +10,12 @@ namespace CsInjection.LeagueOfLegends.Hooks
         [UnmanagedFunctionPointer(CallingConvention.ThisCall, SetLastError = true)]
         public delegate void OnAfkDelegate(IntPtr thisPtr);
 
-        public override Delegate GetToHookDelegate()
+        public override Delegate GetHookDelegate()
         {
             return Marshal.GetDelegateForFunctionPointer<OnAfkDelegate>(Offsets.OnAfk);
         }
 
-        public override Delegate GetToDetourDelegate()
+        public override Delegate GetDetourDelegate()
         {
             return new OnAfkDelegate(DetourMethod);
         }

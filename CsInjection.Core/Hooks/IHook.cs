@@ -19,7 +19,7 @@ namespace CsInjection.Core.Hooks
         ///     e.g. Marshal.GetDelegateForFunctionPointer<DELEGATE>(ADDRESS);
         /// </summary>
         /// <returns></returns>
-        Delegate GetToHookDelegate();
+        Delegate GetHookDelegate();
 
         /// <summary>
         ///     This should return the delegate to the hook with the function where it needs to go.
@@ -28,6 +28,6 @@ namespace CsInjection.Core.Hooks
         ///     In this function you can call the <see cref="Detour.CallOriginal(object[])"/> of the <see cref="Detour"/> class
         ///     to also call the original function of the program.
         /// </summary>
-        Delegate GetToDetourDelegate();
+        Delegate GetDetourDelegate();
     }
 }

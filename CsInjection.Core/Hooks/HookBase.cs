@@ -13,16 +13,16 @@ namespace CsInjection.Core.Hooks
 
         public void InstallHook()
         {
-            Detour = new Detour(GetToHookDelegate(), GetToDetourDelegate());
+            Detour = new Detour(GetHookDelegate(), GetDetourDelegate());
             Detour.Enable();
         }
 
-        public virtual Delegate GetToHookDelegate()
+        public virtual Delegate GetHookDelegate()
         {
             throw new NotImplementedException();
         }
 
-        public virtual Delegate GetToDetourDelegate()
+        public virtual Delegate GetDetourDelegate()
         {
             throw new NotImplementedException();
         }

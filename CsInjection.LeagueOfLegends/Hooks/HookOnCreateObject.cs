@@ -8,22 +8,22 @@ namespace CsInjection.LeagueOfLegends.Hooks
     class HookOnCreateObject : HookBase
     {
         [UnmanagedFunctionPointer(CallingConvention.ThisCall, SetLastError = true)]
-        public delegate void OnCreateDelegate(IntPtr thisPtr, IntPtr playerObject);
+        public delegate void OnCreateDelegate(IntPtr thisPtr, IntPtr @object);
 
-        public override Delegate GetToHookDelegate()
+        public override Delegate GetHookDelegate()
         {
             return Marshal.GetDelegateForFunctionPointer<OnCreateDelegate>(Offsets.OnCreateObject);
         }
 
-        public override Delegate GetToDetourDelegate()
+        public override Delegate GetDetourDelegate()
         {
             return new OnCreateDelegate(DetourMethod);
         }
 
-        private void DetourMethod(IntPtr thisPtr, IntPtr playerObject)
+        private void DetourMethod(IntPtr thisPtr, IntPtr @object)
         {
-            Console.WriteLine($"Created object {playerObject.ToString("X")}");
-            Detour.CallOriginal(thisPtr, playerObject);
+            Console.WriteLine($"Created object {@object.ToString("X")}");
+            Detour.CallOriginal(thisPtr, @object);
         }
     }
 }

@@ -8,22 +8,22 @@ namespace CsInjection.LeagueOfLegends.Hooks
     class HookOnDeleteObject : HookBase
     {
         [UnmanagedFunctionPointer(CallingConvention.ThisCall, SetLastError = true)]
-        public delegate void OnDeleteDelegate(IntPtr thisPtr, IntPtr playerObject);
+        public delegate void OnDeleteDelegate(IntPtr thisPtr, IntPtr @object);
 
-        public override Delegate GetToHookDelegate()
+        public override Delegate GetHookDelegate()
         {
             return Marshal.GetDelegateForFunctionPointer<OnDeleteDelegate>(Offsets.OnDeleteObject);
         }
 
-        public override Delegate GetToDetourDelegate()
+        public override Delegate GetDetourDelegate()
         {
             return new OnDeleteDelegate(DetourMethod);
         }
 
-        private void DetourMethod(IntPtr thisPtr, IntPtr playerObject)
+        private void DetourMethod(IntPtr thisPtr, IntPtr @object)
         {
-            Console.WriteLine($"Deleted object 0x{playerObject.ToString("X")}");
-            Detour.CallOriginal(thisPtr, playerObject);
+            Console.WriteLine($"Deleted object 0x{@object.ToString("X")}");
+            Detour.CallOriginal(thisPtr, @object);
         }
     }
 }
