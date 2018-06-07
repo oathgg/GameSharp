@@ -44,9 +44,7 @@
     <Compile Include="Utilities\BytePatcher.cs" />
     <Compile Include="Utilities\Detour.cs" />
     <Compile Include="Helpers\ConvertHelper.cs" />
-    <Compile Include="Helpers\HookHelper.cs" />
     <Compile Include="Hooks\HookBase.cs" />
-    <Compile Include="Hooks\IHook.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Models\MemoryAddress.cs" />
     <Compile Include="Native\Kernel32.cs" />

@@ -11,12 +11,7 @@ namespace CsInjection.Core.Utilities
         /// <summary>
         ///     Contains all the bytes of the specified module.
         /// </summary>
-        private byte[] ModuleBytes { get; set; }
-
-        /// <summary>
-        ///     The <see cref="ProcessModule"/> that has been selected to scan for patterns.
-        /// </summary>
-        private ProcessModule _selectedModule { get; }
+        private byte[] _bytes { get; set; }
 
         /// <summary>
         ///     The base address of the module.
@@ -29,9 +24,14 @@ namespace CsInjection.Core.Utilities
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
         public SigScanner(ProcessModule module)
         {
-            _selectedModule = module;
             _moduleBase = new MemoryAddress(module.BaseAddress);
-            ModuleBytes = _moduleBase.Read<byte[]>(module.ModuleMemorySize);
+            _bytes = _moduleBase.Read<byte[]>(module.ModuleMemorySize);
+        }
+
+        public SigScanner(byte[] bytesToScan)
+        {
+            _bytes = bytesToScan;
+            _moduleBase = new MemoryAddress(IntPtr.Zero);
         }
 
         /// <summary>
@@ -44,14 +44,18 @@ namespace CsInjection.Core.Utilities
         {
             byte[] arrPattern = ParsePatternString(pattern);
 
-            for (int index = 0; index < ModuleBytes.Length; index++)
+            for (int memByteOffset = 0; memByteOffset < _bytes.Length; memByteOffset++)
             {
-                if (ModuleBytes[index] != arrPattern[0])
+                if (_bytes[memByteOffset] != arrPattern[0])
                     continue;
 
-                if (PatternCheck(index, arrPattern, out index))
+                if (PatternCheck(ref memByteOffset, arrPattern))
                 {
-                    return new MemoryAddress(_moduleBase.Address + index + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber));
+                    return new MemoryAddress(_moduleBase.Address 
+                        // pattern index offset
+                        + memByteOffset 
+                        // offset given by user
+                        + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber));
                 }
             }
 
@@ -82,24 +86,23 @@ namespace CsInjection.Core.Utilities
         /// <param name="index"></param>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        private bool PatternCheck(int index, byte[] pattern, out int newIndex)
+        private bool PatternCheck(ref int index, byte[] pattern)
         {
-            newIndex = index;
-
             for (int i = 0; i < pattern.Length; i++)
             {
                 // Skip this byte in case its a variable.
                 if (pattern[i] == 0x0)
                     continue;
 
-                if (pattern[i] != ModuleBytes[index + i])
+                if (pattern[i] != _bytes[index + i])
                 {
                     // Increase the index with the i we stopped at so we don't repeat scanning those bytes again.
-                    newIndex += i;
+                    index += i;
                     return false;
                 }
             }
 
+            // Pattern has been found.
             return true;
         }
     }
