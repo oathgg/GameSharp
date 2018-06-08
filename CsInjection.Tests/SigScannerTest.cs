@@ -23,7 +23,7 @@ namespace CsInjection.Tests
 
             SigScanner sigScanner = new SigScanner(byteArray);
             MemoryAddress result = sigScanner.FindPattern("48 65 6c 6c 6f ? 77 6f 72 6c 64");
-            Assert.IsNotNull(result);
+            Assert.AreEqual(rndMemLocation, result.Address.ToInt32());
         }
     }
 }
