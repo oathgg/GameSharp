@@ -7,15 +7,16 @@ namespace Sandbox.Injectable
 {
     public class Injectable
     {
-        public void Main()
+        public static int Main(string s)
         {
             Kernel32.AllocConsole();
 
-            Console.WriteLine("Message");
-
-            MessageBox.Show("Hello world from injectable class");
+            Console.WriteLine("Hello world from C# injectable class");
+            MessageBox.Show("Hello world from C# injectable class");
 
             Console.ReadKey();
+
+            return 0;
         }
     }
 }

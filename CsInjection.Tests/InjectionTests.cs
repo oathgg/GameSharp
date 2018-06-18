@@ -17,14 +17,7 @@ namespace CsInjection.Tests
             Process targetProcess = Process.Start(Path.Combine(dir, "Sandbox.App.exe"));
             ManualMapInjector injector = new ManualMapInjector(targetProcess);
             FileInfo fileInfo = new FileInfo(Path.Combine(dir, "Sandbox.Bootstrap.dll"));
-
-            MessageBox.Show("Starting injection.");
-
             injector.Inject(fileInfo.FullName);
-
-            MessageBox.Show("Injection completed.");
-
-            targetProcess.Kill();
         }
     }
 }
