@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CsInjection.Core.Native;
+using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Sandbox.Injectable
@@ -11,7 +9,13 @@ namespace Sandbox.Injectable
     {
         public void Main()
         {
+            Kernel32.AllocConsole();
+
+            Console.WriteLine("Message");
+
             MessageBox.Show("Hello world from injectable class");
+
+            Console.ReadKey();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace LoLBinaryLoader
             {
                 wc.DownloadFile(new Uri(strBaseURL + strListFileName), strListFileName);
             }
-            catch (WebException ex)
+            catch
             {
                 Console.WriteLine("ListNotFound:" + strBaseURL + strListFileName);
                 return;
@@ -47,7 +47,7 @@ namespace LoLBinaryLoader
                 {
                     wc.DownloadFile(new Uri(strUrl), compressedFileName);
                 }
-                catch (WebException ex)
+                catch
                 {
                     Console.WriteLine("No File In Release:" + strUrl);
                     // Delete the directory if we created it and any files in the directory.
