@@ -23,7 +23,11 @@ namespace Sandbox.Injectable
         private void DetourMethod()
         {
             Console.WriteLine($"About has been pressed.");
-            Detour.CallOriginal();
+
+            ThreadContextHelper.Context tContext = ThreadContextHelper.GetThreadContext();
+            var a = tContext.Eip;
+
+            CallOriginal();
         }
     }
 }

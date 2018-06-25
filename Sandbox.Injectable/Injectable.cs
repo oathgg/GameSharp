@@ -22,10 +22,16 @@ namespace Sandbox.Injectable
         {
             const string text = "Hello world from C# injectable class";
             GenerateConsoleLine(text);
-            GenerateMessageBox(text);
             GenerateManagedException();
             HookOnAbout();
+            CallFunction();
         }
+
+        private static void CallFunction()
+        {
+            CallAbout.Run();
+        }
+
         private static void HookOnAbout()
         {
             Console.WriteLine("Hooking on about");
@@ -41,13 +47,8 @@ namespace Sandbox.Injectable
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                GenerateConsoleLine(ex.Message);
             }
-        }
-
-        private static void GenerateMessageBox(string text)
-        {
-            MessageBox.Show(text);
         }
 
         private static void GenerateConsoleLine(string text)
