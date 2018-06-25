@@ -1,4 +1,5 @@
-﻿using CsInjection.Core.Hooks;
+﻿using CsInjection.Core.Helpers;
+using CsInjection.Core.Hooks;
 using System;
 using System.Runtime.InteropServices;
 
@@ -11,8 +12,7 @@ namespace Sandbox.Injectable
 
         public override Delegate GetHookDelegate()
         {
-            return Marshal.GetDelegateForFunctionPointer<OnAboutDelegate>
-                (CsInjection.Core.Helpers.ProcessHelper.GetMainModuleBaseAddress + 0x11AB0);
+            return Marshal.GetDelegateForFunctionPointer<OnAboutDelegate>(ProcessHelper.GetMainModuleBaseAddress + 0x11AB0);
         }
 
         public override Delegate GetDetourDelegate()
