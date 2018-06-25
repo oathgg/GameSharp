@@ -11,12 +11,48 @@ namespace Sandbox.Injectable
         {
             Kernel32.AllocConsole();
 
-            Console.WriteLine("Hello world from C# injectable class");
-            MessageBox.Show("Hello world from C# injectable class");
+            RunTests();
 
             Console.ReadKey();
 
             return 0;
+        }
+
+        private static void RunTests()
+        {
+            const string text = "Hello world from C# injectable class";
+            GenerateConsoleLine(text);
+            GenerateMessageBox(text);
+            GenerateManagedException();
+            HookOnAbout();
+        }
+        private static void HookOnAbout()
+        {
+            Console.WriteLine("Hooking on about");
+            HookOnAbout onAbout = new HookOnAbout();
+            onAbout.InstallHook();
+        }
+
+        private static void GenerateManagedException()
+        {
+            try
+            {
+                throw new Exception("Fake error has been thrown.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private static void GenerateMessageBox(string text)
+        {
+            MessageBox.Show(text);
+        }
+
+        private static void GenerateConsoleLine(string text)
+        {
+            Console.WriteLine(text);
         }
     }
 }
