@@ -1,11 +1,10 @@
-﻿using CsInjection.ManualMapInjection.Injection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
-using System.Windows.Forms;
+using CsInjection.ManualMapInjection.Injection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace CsInjection.Tests
+namespace Sandbox.Tests
 {
     [TestClass]
     public class InjectionTests
