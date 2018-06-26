@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 
 namespace CsInjection.LeagueOfLegends
 {
-    public class Engine
+    public class Injectable
     {
-        public static int Initialize(string s)
+        public static int Main(string s)
         {
             Kernel32.AllocConsole();
 

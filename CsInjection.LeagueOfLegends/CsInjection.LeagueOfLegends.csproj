@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="Functions\IssueOrder.cs" />
     <Compile Include="Functions\Chat.cs" />
-    <Compile Include="Engine.cs" />
+    <Compile Include="Injectable.cs" />
     <Compile Include="Hooks\HookOnUpdate.cs" />
     <Compile Include="Hooks\HookOnDeleteObject.cs" />
     <Compile Include="Hooks\HookOnCreateObject.cs" />
