@@ -17,6 +17,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LolBinaryLoader", "LolBinar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DauntlessBinaryLoader", "DauntlessBinaryLoader\DauntlessBinaryLoader.csproj", "{504D43DB-6900-49A4-BE57-1CEE89C17A2A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandbox", "Sandbox", "{ADB956E1-7285-4917-998E-D1CA2FD80616}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox.App", "Sandbox.App\Sandbox.App.vcxproj", "{569642C6-D591-4688-92D7-3BE4C05F58C1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox.Bootstrap", "Sandbox.Bootstrap\Sandbox.Bootstrap.vcxproj", "{00962E49-FEAB-438C-981A-A6C24F77E0FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.Injectable", "Sandbox.Injectable\Sandbox.Injectable.csproj", "{BD6BD163-58CC-4910-B274-17D2F44342DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.Injector", "Sandbox.Injector\Sandbox.Injector.csproj", "{8021C73D-97FB-408C-901B-F5E2ECA3E957}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,21 +107,15 @@ Global
 		{BC7DC42E-8A12-4C35-B949-EEB9BCC5206D}.Release|x64.Build.0 = Release|Any CPU
 		{BC7DC42E-8A12-4C35-B949-EEB9BCC5206D}.Release|x86.ActiveCfg = Release|Any CPU
 		{BC7DC42E-8A12-4C35-B949-EEB9BCC5206D}.Release|x86.Build.0 = Release|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Debug|x64.Build.0 = Debug|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Debug|x86.Build.0 = Debug|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Release|x64.ActiveCfg = Release|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Release|x64.Build.0 = Release|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Release|x86.ActiveCfg = Release|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{569642C6-D591-4688-92D7-3BE4C05F58C1} = {ADB956E1-7285-4917-998E-D1CA2FD80616}
+		{00962E49-FEAB-438C-981A-A6C24F77E0FA} = {ADB956E1-7285-4917-998E-D1CA2FD80616}
+		{BD6BD163-58CC-4910-B274-17D2F44342DF} = {ADB956E1-7285-4917-998E-D1CA2FD80616}
+		{8021C73D-97FB-408C-901B-F5E2ECA3E957} = {ADB956E1-7285-4917-998E-D1CA2FD80616}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D08A4915-36D7-4636-A195-69744BA601A1}

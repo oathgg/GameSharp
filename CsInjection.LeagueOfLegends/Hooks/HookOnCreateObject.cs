@@ -23,7 +23,7 @@ namespace CsInjection.LeagueOfLegends.Hooks
         private void DetourMethod(IntPtr thisPtr, IntPtr obj)
         {
             Console.WriteLine($"Created object {obj.ToString("X")}");
-            Detour.CallOriginal(thisPtr, obj);
+            CallOriginal(thisPtr, obj);
         }
     }
 }

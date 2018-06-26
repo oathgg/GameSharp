@@ -4,24 +4,26 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{214B3D50-3F2A-485F-A523-3B406B86D93D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CsInjection.Core</RootNamespace>
-    <AssemblyName>CsInjection.Core</AssemblyName>
+    <ProjectGuid>{8021C73D-97FB-408C-901B-F5E2ECA3E957}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Sandbox.Injector</RootNamespace>
+    <AssemblyName>Sandbox.Injector</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
+    <OutputPath>..\Output\Sandbox\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,17 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ThreadContextHelper.cs" />
-    <Compile Include="Native\Memory.cs" />
-    <Compile Include="Utilities\BytePatcher.cs" />
-    <Compile Include="Utilities\Detour.cs" />
-    <Compile Include="Helpers\ConvertHelper.cs" />
-    <Compile Include="Hooks\HookBase.cs" />
-    <Compile Include="Helpers\ProcessHelper.cs" />
-    <Compile Include="Models\MemoryAddress.cs" />
-    <Compile Include="Native\Kernel32.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\SigScanner.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CsInjection.ManualMapInjection\CsInjection.ManualMapInjection.csproj">
+      <Project>{52A52765-574F-4CDB-B739-40EAB4965294}</Project>
+      <Name>CsInjection.ManualMapInjection</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

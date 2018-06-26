@@ -23,7 +23,7 @@ namespace CsInjection.LeagueOfLegends.Hooks
         private void DetourMethod(IntPtr thisPtr)
         {
             Console.WriteLine($"Event::OnUpdate");
-            Detour.CallOriginal(thisPtr);
+            CallOriginal(thisPtr);
         }
     }
 }

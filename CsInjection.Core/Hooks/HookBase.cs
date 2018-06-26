@@ -9,15 +9,24 @@ namespace CsInjection.Core.Hooks
     /// </summary>
     public abstract class HookBase
     {
-        protected Detour Detour;
+        private Detour Detour;
 
         /// <summary>
-        ///     Will be used to install the <see cref="IHook"/> and enable it.
+        ///     Will be used to install the <c>Hook</c> and enable it.
         /// </summary>
         public void InstallHook()
         {
-            Detour = new Detour(GetHookDelegate(), GetDetourDelegate());
+            if (Detour == null)
+                Detour = new Detour(GetHookDelegate(), GetDetourDelegate());
             Detour.Enable();
+        }
+
+        /// <summary>
+        ///     Will be used to uninstall the <c>Hook</c>.
+        /// </summary>
+        public void UninstallHook()
+        {
+            Detour.Disable();
         }
 
         /// <summary>
@@ -32,9 +41,16 @@ namespace CsInjection.Core.Hooks
         ///     This should return the delegate to the hook with the function where it needs to go.
         ///     
         ///     e.g. return new OnAfkDelegate(DetourMethod);
-        ///     In this function you can call the <see cref="Detour.CallOriginal(object[])"/> of the <see cref="Detour"/> class
-        ///     to also call the original function of the program.
         /// </summary>
         public abstract Delegate GetDetourDelegate();
+
+        /// <summary>
+        ///     Call the original function, parameters are taken right to left.
+        /// </summary>
+        /// <param name="parms"></param>
+        protected void CallOriginal(params object[] parms)
+        {
+            Detour.CallOriginal(parms);
+        }
     }
 }
