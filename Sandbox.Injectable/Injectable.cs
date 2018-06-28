@@ -7,12 +7,13 @@ namespace Sandbox.Injectable
 {
     public class Injectable
     {
-        public static int Main(string s)
+        public static int EntryPoint(string s)
         {
             Kernel32.AllocConsole();
 
             RunTests();
 
+            Console.WriteLine("Press any key to exit");
             Console.ReadKey();
 
             return 0;
@@ -24,7 +25,7 @@ namespace Sandbox.Injectable
             GenerateConsoleLine(text);
             GenerateManagedException();
             HookOnAbout();
-            CallFunction();
+            //CallFunction();
         }
 
         private static void CallFunction()

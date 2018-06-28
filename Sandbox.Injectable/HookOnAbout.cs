@@ -12,7 +12,7 @@ namespace Sandbox.Injectable
 
         public override Delegate GetHookDelegate()
         {
-            return Marshal.GetDelegateForFunctionPointer<OnAboutDelegate>(ProcessHelper.GetMainModuleBaseAddress + 0x11AB0);
+            return Marshal.GetDelegateForFunctionPointer<OnAboutDelegate>(ProcessHelper.GetMainModuleBaseAddress + 0x12C0);
         }
 
         public override Delegate GetDetourDelegate()

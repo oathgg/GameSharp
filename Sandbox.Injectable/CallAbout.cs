@@ -10,7 +10,7 @@ namespace Sandbox.Injectable
         private delegate IntPtr AboutDelegate();
         public static void Run()
         {
-            Marshal.GetDelegateForFunctionPointer<AboutDelegate>(ProcessHelper.GetMainModuleBaseAddress + 0x11AB0).DynamicInvoke();
+            Marshal.GetDelegateForFunctionPointer<AboutDelegate>(ProcessHelper.GetMainModuleBaseAddress + 0x12C0).DynamicInvoke();
         }
     }
 }

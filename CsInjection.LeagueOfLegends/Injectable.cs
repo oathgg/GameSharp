@@ -10,7 +10,7 @@ namespace CsInjection.LeagueOfLegends
 {
     public class Injectable
     {
-        public static int Main(string s)
+        public static int EntryPoint(string s)
         {
             Kernel32.AllocConsole();
 
