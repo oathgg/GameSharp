@@ -12,7 +12,6 @@ namespace LoLBinaryLoader
     {
         const string strBaseURL = "http://l3cdn.riotgames.com/releases/live/projects/lol_game_client/releases/";
         const string strListFileName = @"releaselisting_EUW";
-        static string targetPathBase = @"D:\Dissassembly\League of Legends\";
 
         static void Main(string[] args)
         {
@@ -30,15 +29,16 @@ namespace LoLBinaryLoader
 
             string line;
             StreamReader file = new StreamReader(strListFileName);
-            while ((line = file.ReadLine()) != null)
+            line = file.ReadLine();
+            //while ((line = file.ReadLine()) != null)
             {
                 // Skip any blanc lines
                 if (line == "")
-                    continue;
+                    return;
 
                 // version URL for compressed league file
                 string strUrl = strBaseURL + line + "/files/League of Legends.exe.compressed";
-                string targetPath = $@"{targetPathBase}{line}";
+                string targetPath = $@"{line}";
                 Directory.CreateDirectory(targetPath);
                 string compressedFileName = $@"{targetPath}\League of Legends.exe.compressed";
 
@@ -53,19 +53,19 @@ namespace LoLBinaryLoader
                     // Delete the directory if we created it and any files in the directory.
                     if (Directory.Exists(targetPath))
                         Directory.Delete(targetPath, true);
-                    continue;
+                    return;
                 }
 
                 if (!File.Exists(compressedFileName))
                 {
                     Console.WriteLine("FileNotFound:" + compressedFileName);
-                    continue;
+                    return;
                 }
                 byte[] fileInBytes = File.ReadAllBytes(compressedFileName);
                 if (fileInBytes[0] != 0x78 || fileInBytes[1] != 0x9C)
                 {
                     Console.WriteLine("File:" + compressedFileName + "-HeaderInvalid:" + fileInBytes[0].ToString() + "," + fileInBytes[1].ToString());
-                    continue;
+                    return;
                 }
                 // We skip the first 2 bytes as these are only needed for the header.
                 Stream byteStreamOriginal = new MemoryStream(fileInBytes, 2, fileInBytes.Length - 2);
