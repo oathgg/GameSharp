@@ -9,13 +9,20 @@ namespace CsInjection.Core.Helpers
     public static class ExceptionHelper
     {
         /// <summary>
+        ///     Simple wrapper.
+        /// </summary>
+        /// <param name="exception"></param>
+        public static void BeautifyException(object exception)
+        {
+            BeautifyException(exception as Exception);
+        }
+
+        /// <summary>
         ///     Elobuddy exception logger.
         /// </summary>
         /// <param name="ex"></param>
-        public static void BeautifyException(object ex)
+        public static void BeautifyException(Exception exception)
         {
-            var exception = ex as Exception;
-
             Console.WriteLine("");
             Console.WriteLine("===================================================");
             Console.WriteLine("");

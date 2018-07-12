@@ -1,11 +1,8 @@
-﻿using CsInjection.ManualMapInjection.Injection;
+﻿using CsInjection.Core.Helpers;
+using CsInjection.ManualMapInjection.Injection;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sandbox.Injector
 {
@@ -18,9 +15,11 @@ namespace Sandbox.Injector
         {
             Process targetProcess = Process.Start(exe);
             ManualMapInjector injector = new ManualMapInjector(targetProcess);
+
+            if (Debugger.IsAttached)
+                targetProcess.Attach();
+
             injector.Inject(dll);
-            
-            //targetProcess.Kill();
         }
     }
 }

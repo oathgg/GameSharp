@@ -1,15 +1,16 @@
-﻿using CsInjection.Core.Native;
+﻿using CsInjection.Core.Helpers;
 using System;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace Sandbox.Injectable
 {
-    public class Injectable
+    /// <summary>
+    ///     EntryPoint class needs to have a static Main method which returns an int and takes 1 string parameter.
+    /// </summary>
+    public class EntryPoint
     {
-        public static int EntryPoint(string s)
+        public static int Main(string s)
         {
-            Kernel32.AllocConsole();
+            InjectionHelper.Initialize();
 
             RunTests();
 
@@ -47,7 +48,7 @@ namespace Sandbox.Injectable
             }
             catch (Exception ex)
             {
-                GenerateConsoleLine(ex.Message);
+                ExceptionHelper.BeautifyException(ex);
             }
         }
 

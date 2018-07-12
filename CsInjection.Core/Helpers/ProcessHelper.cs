@@ -34,19 +34,15 @@ namespace CsInjection.Core.Helpers
                     Processes processes = dte.Debugger.LocalProcesses;
                     foreach (EnvDTE80.Process2 proc in processes.Cast<EnvDTE80.Process2>().Where(proc => proc.Name.IndexOf(process.ProcessName) != -1))
                     {
-                        EnvDTE100.Debugger5 dbg5 = (EnvDTE100.Debugger5)dte.Debugger;
-                        EnvDTE80.Transport trans = dbg5.Transports.Item("Default");
-                        EnvDTE80.Engine dbgeng = trans.Engines.Item("Managed (v4.6, v4.5, v4.0)");
-                        var proc2 = (EnvDTE80.Process2)dbg5.GetProcesses(trans, ".").Item(process.ProcessName);
-                        proc2.Attach2(dbgeng);
-                        Debug.WriteLine(String.Format("Attached to process {0} successfully.", process.ProcessName));
+                        // Get the debug engine we want to use.
+                        EnvDTE80.Engine debugEngine = proc.Transport.Engines.Item("Managed (v4.6, v4.5, v4.0)");
+                        proc.Attach2(debugEngine);
                         break;
                     }
                     break;
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
                     System.Threading.Thread.Sleep(1000);
                 }
             }

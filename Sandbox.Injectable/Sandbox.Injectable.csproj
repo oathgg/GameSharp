@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="CallAbout.cs" />
     <Compile Include="HookOnAbout.cs" />
-    <Compile Include="Injectable.cs" />
+    <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
