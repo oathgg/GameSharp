@@ -1,8 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
-using CsInjection.LeagueOfLegends.Helpers;
+using Injectable.Helpers;
 
-namespace CsInjection.LeagueOfLegends.Functions
+namespace Injectable.Functions
 {
     public class Chat
     {

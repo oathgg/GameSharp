@@ -34,6 +34,26 @@ namespace CsInjection.Core.Utilities
             _moduleBase = new MemoryAddress(IntPtr.Zero);
         }
 
+        public MemoryAddress FindByteAddress(byte[] array, int offset = 0)
+        {
+            for (int memByteOffset = 0; memByteOffset < _bytes.Length; memByteOffset++)
+            {
+                if (_bytes[memByteOffset] != array[0])
+                    continue;
+
+                if (PatternCheck(ref memByteOffset, array))
+                {
+                    return new MemoryAddress(_moduleBase.Address
+                        // pattern index offset
+                        + memByteOffset
+                        // offset given by user
+                        + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber));
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         ///     Find a pattern that matches the string.
         /// </summary>

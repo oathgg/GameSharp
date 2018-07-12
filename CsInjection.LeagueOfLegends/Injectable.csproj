@@ -7,8 +7,8 @@
     <ProjectGuid>{58E9C1AD-E291-4A73-A202-C283F81393B4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CsInjection.LeagueOfLegends</RootNamespace>
-    <AssemblyName>CsInjection.LeagueOfLegends</AssemblyName>
+    <RootNamespace>Injectable</RootNamespace>
+    <AssemblyName>Injectable</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="Functions\IssueOrder.cs" />
     <Compile Include="Functions\Chat.cs" />
-    <Compile Include="Injectable.cs" />
+    <Compile Include="EntryPoint.cs" />
     <Compile Include="Hooks\HookOnUpdate.cs" />
     <Compile Include="Hooks\HookOnDeleteObject.cs" />
     <Compile Include="Hooks\HookOnCreateObject.cs" />

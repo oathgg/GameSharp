@@ -1,16 +1,16 @@
 using System;
 using CsInjection.Core.Utilities;
 using CsInjection.Core.Helpers;
-using CsInjection.LeagueOfLegends.Helpers;
-using CsInjection.LeagueOfLegends.Hooks;
-using CsInjection.LeagueOfLegends.Functions;
+using Injectable.Helpers;
+using Injectable.Hooks;
+using Injectable.Functions;
 using System.Runtime.InteropServices;
 
-namespace CsInjection.LeagueOfLegends
+namespace Injectable
 {
-    public class Injectable
+    public class EntryPoint
     {
-        public static int EntryPoint(string s)
+        public static int Main(string s)
         {
             InjectionHelper.Initialize();
 
@@ -25,18 +25,6 @@ namespace CsInjection.LeagueOfLegends
 
         private static void SampleFunctionDetour()
         {
-            //Console.WriteLine("Hooking on AFK");
-            //HookOnAfk afkHook = new HookOnAfk();
-            //afkHook.InstallHook();
-
-            //Console.WriteLine("Hooking on create object");
-            //HookOnCreateObject onCreateObject = new HookOnCreateObject();
-            //onCreateObject.InstallHook();
-
-            //Console.WriteLine("Hooking on delete object");
-            //HookOnDeleteObject onDeleteObject = new HookOnDeleteObject();
-            //onDeleteObject.InstallHook();
-
             Console.WriteLine("Hooking on game update");
             HookOnUpdate onUpdate = new HookOnUpdate();
             onUpdate.InstallHook();

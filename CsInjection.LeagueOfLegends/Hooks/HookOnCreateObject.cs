@@ -1,9 +1,9 @@
 ﻿using CsInjection.Core.Hooks;
-using CsInjection.LeagueOfLegends.Helpers;
+using Injectable.Helpers;
 using System;
 using System.Runtime.InteropServices;
 
-namespace CsInjection.LeagueOfLegends.Hooks
+namespace Injectable.Hooks
 {
     class HookOnCreateObject : HookBase
     {

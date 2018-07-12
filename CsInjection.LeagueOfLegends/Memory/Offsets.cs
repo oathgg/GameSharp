@@ -1,7 +1,7 @@
 using System;
 using CsInjection.Core.Helpers;
 
-namespace CsInjection.LeagueOfLegends.Helpers
+namespace Injectable.Helpers
 {
     public static class Offsets
     {

@@ -1,9 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
-using CsInjection.LeagueOfLegends.Helpers;
+using Injectable.Helpers;
 using System.Numerics;
 
-namespace CsInjection.LeagueOfLegends.Functions
+namespace Injectable.Functions
 {
     public class IssueOrder
     {

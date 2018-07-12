@@ -30,7 +30,7 @@ namespace CsInjection.Tests
         {
             Process targetProcess = Process.Start(@"C:\Program Files (x86)\Notepad++\notepad++.exe");
             ManualMapInjector injector = new ManualMapInjector(targetProcess);
-            FileInfo fileInfo = new FileInfo(@"CsInjection.Cpp.Bootstrap.dll");
+            FileInfo fileInfo = new FileInfo(@"LeagueOfLegends.Bootstrap.dll");
             injector.Inject(fileInfo.FullName);
         }
     }

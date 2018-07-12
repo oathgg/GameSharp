@@ -64,9 +64,9 @@
       <Project>{214b3d50-3f2a-485f-a523-3b406b86d93d}</Project>
       <Name>CsInjection.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CsInjection.LeagueOfLegends\CsInjection.LeagueOfLegends.csproj">
+    <ProjectReference Include="..\CsInjection.LeagueOfLegends\Injectable.csproj">
       <Project>{58e9c1ad-e291-4a73-a202-c283f81393b4}</Project>
-      <Name>CsInjection.LeagueOfLegends</Name>
+      <Name>Injectable</Name>
     </ProjectReference>
     <ProjectReference Include="..\CsInjection.ManualMapInjection\CsInjection.ManualMapInjection.csproj">
       <Project>{52a52765-574f-4cdb-b739-40eab4965294}</Project>

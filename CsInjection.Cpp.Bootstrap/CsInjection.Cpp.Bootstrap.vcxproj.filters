@@ -26,10 +26,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CsInjection.Cpp.Bootstrap.cpp">
+    <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="CsInjection.Bootstrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
