@@ -6,12 +6,11 @@ namespace CsInjection.Core.Helpers
 {
     public static class ConvertHelper
     {
-        public static bool FromByteArray<T>(byte[] data, out T result)
+        public static T FromByteArray<T>(byte[] data)
         {
             object val = default(T);
-            result = (T) val;
-
-            TypeCode typeCode = Type.GetTypeCode(typeof(T));
+            Type realType = typeof(T);
+            TypeCode typeCode = Type.GetTypeCode(realType);
 
             // Additional type checking
             if (typeof(T) == typeof(IntPtr))
@@ -28,7 +27,7 @@ namespace CsInjection.Core.Helpers
                     val = data;
                     break;
                 case TypeCode.Boolean:
-                    val = data.First() > 0;
+                    val = data[0] > 0;
                     break;
                 case TypeCode.Char:
                     val = BitConverter.ToChar(data, 0);
@@ -48,12 +47,9 @@ namespace CsInjection.Core.Helpers
                 case TypeCode.String:
                     val = System.Text.Encoding.UTF8.GetString(data);
                     break;
-                default:
-                    return false;
             }
 
-            result = (T) val;
-            return true;
+            return (T) val;
         }
     }
 }

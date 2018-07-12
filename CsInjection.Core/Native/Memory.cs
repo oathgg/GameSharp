@@ -25,12 +25,7 @@ namespace CsInjection.Core.Native
             // Copy the memory to our own object
             Marshal.Copy(memoryAddress, destination, 0, destination.Length);
 
-            if (!ConvertHelper.FromByteArray(destination, out T result))
-            {
-                // Last resort to resolve the object
-                result = Marshal.PtrToStructure<T>(memoryAddress);
-            }
-            return result;
+            return ConvertHelper.FromByteArray<T>(destination);
         }
 
         public static T ReadProcessMemory<T>(IntPtr memoryAddress) where T : struct
