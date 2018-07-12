@@ -1,6 +1,6 @@
 using System;
 using CsInjection.Core.Utilities;
-using CsInjection.Core.Native;
+using CsInjection.Core.Helpers;
 using CsInjection.LeagueOfLegends.Helpers;
 using CsInjection.LeagueOfLegends.Hooks;
 using CsInjection.LeagueOfLegends.Functions;
@@ -12,7 +12,7 @@ namespace CsInjection.LeagueOfLegends
     {
         public static int EntryPoint(string s)
         {
-            Kernel32.AllocConsole();
+            InjectionHelper.Initialize();
 
             SamplePrintChat();
 
@@ -20,7 +20,6 @@ namespace CsInjection.LeagueOfLegends
 
             SampleFunctionDetour();
 
-            Console.ReadKey();
             return 0;
         }
 

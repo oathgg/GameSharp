@@ -88,6 +88,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CsInjection.Core\CsInjection.Core.csproj">
+      <Project>{214b3d50-3f2a-485f-a523-3b406b86d93d}</Project>
+      <Name>CsInjection.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

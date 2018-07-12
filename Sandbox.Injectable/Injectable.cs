@@ -13,7 +13,6 @@ namespace Sandbox.Injectable
 
             RunTests();
 
-            Console.WriteLine("Press any key to exit");
             Console.ReadKey();
 
             return 0;
@@ -25,7 +24,7 @@ namespace Sandbox.Injectable
             GenerateConsoleLine(text);
             GenerateManagedException();
             HookOnAbout();
-            //CallFunction();
+            CallFunction();
         }
 
         private static void CallFunction()

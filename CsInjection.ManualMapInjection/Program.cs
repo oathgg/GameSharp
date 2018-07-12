@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using CsInjection.ManualMapInjection.Injection;
+using CsInjection.Core.Helpers;
 
 namespace CsInjection.ManualMapInjection
 {
@@ -13,6 +14,9 @@ namespace CsInjection.ManualMapInjection
             Process targetProcess = Process.GetProcessesByName("League of legends").FirstOrDefault();
             ManualMapInjector injector = new ManualMapInjector(targetProcess);
             FileInfo fileInfo = new FileInfo(@"CsInjection.Cpp.Bootstrap.dll");
+#if DEBUG
+            targetProcess.Attach();
+#endif
             injector.Inject(fileInfo.FullName);
         }
     }
