@@ -1,6 +1,7 @@
 ﻿using CsInjection.Core.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,8 @@ namespace CsInjection.Core.Utilities
         private static void UnhandledException(object sender, UnhandledExceptionEventArgs eventArgs)
         {
             ExceptionHelper.BeautifyException(eventArgs.ExceptionObject);
-            Console.ReadKey();
+            if (Debugger.IsAttached)
+                Debugger.Break();
         }
     }
 }
