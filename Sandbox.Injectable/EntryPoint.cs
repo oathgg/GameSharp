@@ -11,11 +11,8 @@ namespace Sandbox.Injectable
         public static int Main(string s)
         {
             InjectionHelper.Initialize();
-
             RunTests();
-
             Console.ReadKey();
-
             return 0;
         }
 

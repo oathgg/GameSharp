@@ -12,7 +12,7 @@ namespace CsInjection.Core.Utilities
     {
         public static void Initialize()
         {
-            // Whenever an unhandled exception occurs we call our friendly exception handler method.
+            // We call our friendly ExceptionHandler method whenever an unhandled exception occurs in the CLR. 
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
         }
 
