@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace CsInjection.ManualMapInjection.Injection.Types
+namespace CsInjection.Injection.Types
 {
     public class ManagedPtr<T> where T : struct
     {

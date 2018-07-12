@@ -3,18 +3,19 @@ using CsInjection.Injection;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
-namespace Sandbox.Injector
+namespace LeagueOfLegends.Injector
 {
     class Program
     {
         static readonly string dir = Environment.CurrentDirectory;
-        static readonly string exe = Path.Combine(dir, "Sandbox.App.exe");
+        static readonly string exe = "League of Legends";
         static readonly string dll = Path.Combine(dir, "CsInjection.Bootstrapper.dll");
 
         static void Main(string[] args)
         {
-            Process targetProcess = Process.Start(exe);
+            Process targetProcess = Process.GetProcessesByName(exe).FirstOrDefault();
             ManualMapInjection injector = new ManualMapInjection(targetProcess);
 
             if (Debugger.IsAttached)

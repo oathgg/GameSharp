@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8021C73D-97FB-408C-901B-F5E2ECA3E957}</ProjectGuid>
+    <ProjectGuid>{B345B8D3-D9DF-4528-AD28-10D1C8DB98E6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Sandbox.Injector</RootNamespace>
-    <AssemblyName>Sandbox.Injector</AssemblyName>
+    <RootNamespace>LeagueOfLegends.Injector</RootNamespace>
+    <AssemblyName>LeagueOfLegends.Injector</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\Sandbox\</OutputPath>
+    <OutputPath>..\Output\LeagueOfLegends\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -57,7 +57,7 @@
       <Name>CsInjection.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\CsInjection.Injection\CsInjection.Injection.csproj">
-      <Project>{52a52765-574f-4cdb-b739-40eab4965294}</Project>
+      <Project>{52A52765-574F-4CDB-B739-40EAB4965294}</Project>
       <Name>CsInjection.Injection</Name>
     </ProjectReference>
   </ItemGroup>

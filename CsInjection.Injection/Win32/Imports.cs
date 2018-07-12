@@ -4,7 +4,7 @@ using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace CsInjection.ManualMapInjection.Injection.Win32
+namespace CsInjection.Injection.Win32
 {
     [SuppressUnmanagedCodeSecurity]
     internal static class Imports

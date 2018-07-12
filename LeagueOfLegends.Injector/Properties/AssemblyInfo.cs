@@ -1,15 +1,15 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Injectable")]
+[assembly: AssemblyTitle("LeagueOfLegends.Injector")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Injectable")]
+[assembly: AssemblyProduct("LeagueOfLegends.Injector")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("58e9c1ad-e291-4a73-a202-c283f81393b4")]
+[assembly: Guid("b345b8d3-d9df-4528-ad28-10d1c8db98e6")]
 
 // Version information for an assembly consists of the following four values:
 //

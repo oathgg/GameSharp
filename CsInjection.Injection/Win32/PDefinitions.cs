@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using CsInjection.ManualMapInjection.Injection.Types;
+using CsInjection.Injection.Types;
 
-namespace CsInjection.ManualMapInjection.Injection.Win32
+namespace CsInjection.Injection.Win32
 {
     public class PIMAGE_DOS_HEADER : ManagedPtr<IMAGE_DOS_HEADER>
     {

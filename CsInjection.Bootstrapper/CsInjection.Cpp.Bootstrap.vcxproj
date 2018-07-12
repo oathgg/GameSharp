@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{7733ECA9-BF8B-4EB2-8078-05E62D4EABDA}</ProjectGuid>
+    <ProjectGuid>{BD081B69-BCC0-4118-806E-069FA578CD6D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CsInjectionCppBootstrap</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>

@@ -64,13 +64,9 @@
       <Project>{214b3d50-3f2a-485f-a523-3b406b86d93d}</Project>
       <Name>CsInjection.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CsInjection.LeagueOfLegends\Injectable.csproj">
-      <Project>{58e9c1ad-e291-4a73-a202-c283f81393b4}</Project>
-      <Name>Injectable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CsInjection.ManualMapInjection\CsInjection.ManualMapInjection.csproj">
+    <ProjectReference Include="..\CsInjection.Injection\CsInjection.Injection.csproj">
       <Project>{52a52765-574f-4cdb-b739-40eab4965294}</Project>
-      <Name>CsInjection.ManualMapInjection</Name>
+      <Name>CsInjection.Injection</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

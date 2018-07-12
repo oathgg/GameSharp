@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using CsInjection.ManualMapInjection.Injection.Types;
+using CsInjection.Injection.Types;
 
-namespace CsInjection.ManualMapInjection.Injection.Win32
+namespace CsInjection.Injection.Win32
 {
     public enum MachineType : ushort
     {

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using CsInjection.ManualMapInjection.Injection.Win32;
+using CsInjection.Injection.Win32;
 
-namespace CsInjection.ManualMapInjection.Injection
+namespace CsInjection.Injection
 {
-    public class ManualMapInjector
+    public class ManualMapInjection
     {
         #region settings
 
@@ -1036,7 +1036,7 @@ namespace CsInjection.ManualMapInjection.Injection
 
         #endregion
 
-        public ManualMapInjector(Process p)
+        public ManualMapInjection(Process p)
         {
             _process = p;
         }

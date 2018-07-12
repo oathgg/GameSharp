@@ -1,7 +1,7 @@
 ﻿using CsInjection.Core.Helpers;
 using System;
 
-namespace Sandbox.Injectable
+namespace Injectable
 {
     /// <summary>
     ///     EntryPoint class needs to have a static Main method which returns an int and takes 1 string parameter.

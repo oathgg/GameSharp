@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace CsInjection.ManualMapInjection.Injection
+namespace CsInjection.Injection
 {
     internal static class Helpers
     {

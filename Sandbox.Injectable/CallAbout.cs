@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Sandbox.Injectable
+namespace Injectable
 {
     public class CallAbout
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CsInjection.Core.Helpers;
-using CsInjection.ManualMapInjection.Injection;
+using CsInjection.Injection;
 using System.Diagnostics;
 using System.IO;
 
@@ -29,7 +29,7 @@ namespace CsInjection.Tests
         public void CrashTest()
         {
             Process targetProcess = Process.Start(@"C:\Program Files (x86)\Notepad++\notepad++.exe");
-            ManualMapInjector injector = new ManualMapInjector(targetProcess);
+            ManualMapInjection injector = new ManualMapInjection(targetProcess);
             FileInfo fileInfo = new FileInfo(@"LeagueOfLegends.Bootstrap.dll");
             injector.Inject(fileInfo.FullName);
         }
