@@ -1,13 +1,13 @@
-using CsInjection.Core.Helpers;
-using CsInjection.Core.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace CsInjection.Core.Native
 {
     public static class Kernel32
     {
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)]
+        public static extern UIntPtr GetProcAddress(IntPtr hModule, string procName);
+
         [DllImport("kernel32.dll", EntryPoint = "AllocConsole", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern int AllocConsole();
 

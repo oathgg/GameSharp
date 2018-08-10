@@ -55,10 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\InjectorHelper.cs" />
     <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Helpers\InjectionHelper.cs" />
     <Compile Include="Helpers\ThreadContextHelper.cs" />
     <Compile Include="Native\Memory.cs" />
+    <Compile Include="Native\WinAPI.cs" />
     <Compile Include="Utilities\BytePatcher.cs" />
     <Compile Include="Utilities\Detour.cs" />
     <Compile Include="Helpers\ConvertHelper.cs" />

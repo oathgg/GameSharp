@@ -1,6 +1,5 @@
-﻿using System;
-using CsInjection.Core.Utilities;
-using System.Diagnostics;
+﻿using CsInjection.Core.Utilities;
+using System;
 
 namespace CsInjection.Core.Hooks
 {
@@ -31,7 +30,7 @@ namespace CsInjection.Core.Hooks
 
         /// <summary>
         ///     This should return an UnmanagedFunctionPointer delegate.
-        ///     
+        ///
         ///     e.g. Marshal.GetDelegateForFunctionPointer<DELEGATE>(ADDRESS);
         /// </summary>
         /// <returns></returns>
@@ -39,7 +38,7 @@ namespace CsInjection.Core.Hooks
 
         /// <summary>
         ///     This should return the delegate to the hook with the function where it needs to go.
-        ///     
+        ///
         ///     e.g. return new OnAfkDelegate(DetourMethod);
         /// </summary>
         public abstract Delegate GetDetourDelegate();

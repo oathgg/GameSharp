@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Injectable.Hooks
 {
-    class HookOnUpdate : HookBase
+    internal class HookOnUpdate : HookBase
     {
         [UnmanagedFunctionPointer(CallingConvention.ThisCall, SetLastError = true)]
         public delegate void OnUpdateDelegate(IntPtr thisPtr);

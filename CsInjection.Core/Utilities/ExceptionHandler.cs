@@ -1,10 +1,6 @@
 ﻿using CsInjection.Core.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsInjection.Core.Utilities
 {
@@ -12,7 +8,7 @@ namespace CsInjection.Core.Utilities
     {
         public static void Initialize()
         {
-            // We call our friendly ExceptionHandler method whenever an unhandled exception occurs in the CLR. 
+            // We call our friendly ExceptionHandler method whenever an unhandled exception occurs in the CLR.
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
         }
 

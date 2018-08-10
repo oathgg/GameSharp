@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoLBinaryLoader
 {
-    class Program
+    internal class Program
     {
         public static void Main()
         {

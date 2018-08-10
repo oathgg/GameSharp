@@ -1,16 +1,17 @@
-using System;
-using CsInjection.Core.Utilities;
 using CsInjection.Core.Helpers;
+using CsInjection.Core.Utilities;
+using Injectable.Functions;
 using Injectable.Helpers;
 using Injectable.Hooks;
-using Injectable.Functions;
-using System.Runtime.InteropServices;
+using RGiesecke.DllExport;
+using System;
 
 namespace Injectable
 {
     public class EntryPoint
     {
-        public static int Main(string s)
+        [DllExport("Initialize")]
+        public static void Main()
         {
             InjectionHelper.Initialize();
 
@@ -19,8 +20,6 @@ namespace Injectable
             SampleDrawCirclePatch();
 
             SampleFunctionDetour();
-
-            return 0;
         }
 
         private static void SampleFunctionDetour()

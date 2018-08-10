@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Injectable.Hooks
 {
-    class HookOnDeleteObject : HookBase
+    internal class HookOnDeleteObject : HookBase
     {
         [UnmanagedFunctionPointer(CallingConvention.ThisCall, SetLastError = true)]
         public delegate void OnDeleteDelegate(IntPtr thisPtr, IntPtr obj);

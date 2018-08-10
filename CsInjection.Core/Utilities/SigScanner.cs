@@ -1,8 +1,7 @@
-﻿using System;
+﻿using CsInjection.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using CsInjection.Core.Models;
-using CsInjection.Core.Native;
 
 namespace CsInjection.Core.Utilities
 {
@@ -71,9 +70,9 @@ namespace CsInjection.Core.Utilities
 
                 if (PatternCheck(ref memByteOffset, arrPattern))
                 {
-                    return new MemoryAddress(_moduleBase.Address 
+                    return new MemoryAddress(_moduleBase.Address
                         // pattern index offset
-                        + memByteOffset 
+                        + memByteOffset
                         // offset given by user
                         + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber));
                 }
@@ -96,7 +95,7 @@ namespace CsInjection.Core.Utilities
                 // when we have a ? it's a variable, otherwise convert it to a byte.
                 patternbytes.Add(curByte == "?" ? (byte)0x0 : Convert.ToByte(curByte, 16));
             }
-                
+
             return patternbytes.ToArray();
         }
 

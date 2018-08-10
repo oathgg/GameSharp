@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using CsInjection.Core.Models;
 
 namespace CsInjection.Core.Utilities
 {

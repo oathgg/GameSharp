@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CsInjection.Core.Helpers
 {
@@ -51,44 +45,56 @@ namespace CsInjection.Core.Helpers
             public uint ErrorSelector;
             public uint DataOffset;
             public uint DataSelector;
+
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 80)]
             public byte[] RegisterArea;
+
             public uint Cr0NpxState;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct Context
         {
-            public uint ContextFlags; //set this to an appropriate value 
-                                      // Retrieved by CONTEXT_DEBUG_REGISTERS 
+            public uint ContextFlags; //set this to an appropriate value
+
+                                      // Retrieved by CONTEXT_DEBUG_REGISTERS
             public uint Dr0;
+
             public uint Dr1;
             public uint Dr2;
             public uint Dr3;
             public uint Dr6;
             public uint Dr7;
-            // Retrieved by CONTEXT_FLOATING_POINT 
+
+            // Retrieved by CONTEXT_FLOATING_POINT
             public FloatingSaveArea FloatSave;
-            // Retrieved by CONTEXT_SEGMENTS 
+
+            // Retrieved by CONTEXT_SEGMENTS
             public uint SegGs;
+
             public uint SegFs;
             public uint SegEs;
             public uint SegDs;
-            // Retrieved by CONTEXT_INTEGER 
+
+            // Retrieved by CONTEXT_INTEGER
             public uint Edi;
+
             public uint Esi;
             public uint Ebx;
             public uint Edx;
             public uint Ecx;
             public uint Eax;
-            // Retrieved by CONTEXT_CONTROL 
+
+            // Retrieved by CONTEXT_CONTROL
             public uint Ebp;
+
             public uint Eip;
             public uint SegCs;
             public uint EFlags;
             public uint Esp;
             public uint SegSs;
-            // Retrieved by CONTEXT_EXTENDED_REGISTERS 
+
+            // Retrieved by CONTEXT_EXTENDED_REGISTERS
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
             public byte[] ExtendedRegisters;
         }
@@ -117,7 +123,7 @@ namespace CsInjection.Core.Helpers
 
             Context Context = new Context();
             Context.ContextFlags = (uint)ContextFlags.CONTEXT_CONTROL;
-            IntPtr hThread = OpenThread(ThreadAccessFlags.GET_CONTEXT, false, (uint) curThread.Id);
+            IntPtr hThread = OpenThread(ThreadAccessFlags.GET_CONTEXT, false, (uint)curThread.Id);
 
             if (hThread == IntPtr.Zero)
                 throw new Win32Exception(Marshal.GetLastWin32Error());

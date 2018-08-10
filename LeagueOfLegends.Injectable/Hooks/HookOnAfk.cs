@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Injectable.Hooks
 {
-    class HookOnAfk : HookBase
+    internal class HookOnAfk : HookBase
     {
         [UnmanagedFunctionPointer(CallingConvention.ThisCall, SetLastError = true)]
         public delegate void OnAfkDelegate(IntPtr thisPtr);

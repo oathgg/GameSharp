@@ -1,11 +1,12 @@
-using System;
 using CsInjection.Core.Native;
+using System;
 
 namespace CsInjection.Core.Models
 {
     public class MemoryAddress
     {
         public IntPtr Address { get; private set; }
+
         public MemoryAddress(IntPtr address)
         {
             Address = address;

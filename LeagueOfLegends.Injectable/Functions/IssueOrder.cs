@@ -1,7 +1,7 @@
-using System;
-using System.Runtime.InteropServices;
 using Injectable.Helpers;
+using System;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace Injectable.Functions
 {
@@ -15,6 +15,7 @@ namespace Injectable.Functions
 
         [UnmanagedFunctionPointer(CallingConvention.ThisCall, SetLastError = true)]
         private delegate IntPtr IssueOrderDelegate(IntPtr thisPtr, OrderType order, Vector3 targetPos, IntPtr targetObject, bool b1, bool b2, int networkId);
+
         public static void Move(string message)
         {
             Marshal.GetDelegateForFunctionPointer<IssueOrderDelegate>(Offsets.IssueOrder).DynamicInvoke

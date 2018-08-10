@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DauntlessBinaryLoader
 {
@@ -22,7 +20,9 @@ namespace DauntlessBinaryLoader
             ConfigurationStorage.ReadConfigFile();
         }
 
-        private ConfigurationStorage() { }
+        private ConfigurationStorage()
+        {
+        }
 
         // Token: 0x060000FC RID: 252 RVA: 0x00006DFE File Offset: 0x00004FFE
         public bool ShouldSerializeValues()

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Injectable.Hooks
 {
-    class HookOnCreateObject : HookBase
+    internal class HookOnCreateObject : HookBase
     {
         [UnmanagedFunctionPointer(CallingConvention.ThisCall, SetLastError = true)]
         public delegate void OnCreateDelegate(IntPtr thisPtr, IntPtr obj);

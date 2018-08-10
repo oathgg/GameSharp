@@ -12,21 +12,22 @@ namespace CsInjection.Core.Utilities
     public class BytePatcher : IDisposable
     {
         #region Properties
+
         /// <summary>
         ///     List of all our current patches, either active or inactive.
         /// </summary>
         public static List<BytePatcher> PatchList = new List<BytePatcher>();
-        
+
         /// <summary>
         ///     Address in memory which we are going to patch.
         /// </summary>
         private MemoryAddress _memoryAddress { get; }
-        
+
         /// <summary>
         ///     The original opcodes which belonged to this patch.
         /// </summary>
         private byte[] _originalBytes { get; set; }
-        
+
         /// <summary>
         ///     State of our current patch.
         /// </summary>
@@ -36,9 +37,11 @@ namespace CsInjection.Core.Utilities
         ///     New bytes which will be used to patch.
         /// </summary>
         private byte[] _newBytes { get; set; }
-        #endregion
+
+        #endregion Properties
 
         #region Constructor
+
         /// <summary>
         ///     Overloaded method of the default BytePatcher
         /// </summary>
@@ -48,7 +51,8 @@ namespace CsInjection.Core.Utilities
             _memoryAddress = new MemoryAddress(addressToPatch);
             PatchList.Add(this);
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Methods
 
@@ -74,7 +78,8 @@ namespace CsInjection.Core.Utilities
             _originalBytes = _memoryAddress.Read<byte[]>(newBytes.Length);
             _newBytes = newBytes;
         }
-        #endregion
+
+        #endregion Patch
 
         /// <summary>
         ///     Disables the patch by restoring the original opcodes.
@@ -101,6 +106,7 @@ namespace CsInjection.Core.Utilities
         }
 
         #region Dispose (Implemented from IDisposable)
+
         /// <summary>
         ///     Disables the patch and disposes of the object
         /// </summary>
@@ -109,9 +115,11 @@ namespace CsInjection.Core.Utilities
             Disable();
             GC.SuppressFinalize(this);
         }
-        #endregion
+
+        #endregion Dispose (Implemented from IDisposable)
 
         #region DisposePatches
+
         /// <summary>
         ///     Disposes all the patches
         /// </summary>
@@ -123,8 +131,9 @@ namespace CsInjection.Core.Utilities
             }
             PatchList.Clear();
         }
-        #endregion
 
-        #endregion
+        #endregion DisposePatches
+
+        #endregion Methods
     }
 }

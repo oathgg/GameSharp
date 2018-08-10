@@ -1,5 +1,4 @@
 ﻿using CsInjection.Core.Helpers;
-using CsInjection.Injection;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -7,21 +6,21 @@ using System.Linq;
 
 namespace LeagueOfLegends.Injector
 {
-    class Program
+    internal class Program
     {
-        static readonly string dir = Environment.CurrentDirectory;
-        static readonly string exe = "League of Legends";
-        static readonly string dll = Path.Combine(dir, "CsInjection.Bootstrapper.dll");
+        private const string exe = "League of Legends";
+        private const string dllEntryPoint = "Initialize";
+        private static readonly string dll = Path.Combine(Environment.CurrentDirectory, "LeagueOfLegends.Injectable.dll");
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Process targetProcess = Process.GetProcessesByName(exe).FirstOrDefault();
-            ManualMapInjection injector = new ManualMapInjection(targetProcess);
+            InjectorHelper injector = new InjectorHelper(targetProcess);
 
             if (Debugger.IsAttached)
                 targetProcess.Attach();
 
-            injector.Inject(dll);
+            injector.Inject(dll, dllEntryPoint);
         }
     }
 }

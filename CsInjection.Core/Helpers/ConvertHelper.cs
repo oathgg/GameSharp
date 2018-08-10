@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace CsInjection.Core.Helpers
 {
@@ -23,33 +21,41 @@ namespace CsInjection.Core.Helpers
                 case TypeCode.Int32:
                     val = BitConverter.ToInt32(data, 0);
                     break;
+
                 case TypeCode.Byte:
                     val = data;
                     break;
+
                 case TypeCode.Boolean:
                     val = data[0] > 0;
                     break;
+
                 case TypeCode.Char:
                     val = BitConverter.ToChar(data, 0);
                     break;
+
                 case TypeCode.Int64:
                     val = BitConverter.ToInt64(data, 0);
                     break;
+
                 case TypeCode.Single:
                     val = BitConverter.ToSingle(data, 0);
                     break;
+
                 case TypeCode.Double:
                     val = BitConverter.ToDouble(data, 0);
                     break;
+
                 case TypeCode.Decimal:
                     val = Convert.ToDecimal(data);
                     break;
+
                 case TypeCode.String:
                     val = System.Text.Encoding.UTF8.GetString(data);
                     break;
             }
 
-            return (T) val;
+            return (T)val;
         }
     }
 }
