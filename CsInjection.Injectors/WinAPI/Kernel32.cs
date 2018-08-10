@@ -21,8 +21,7 @@ namespace CsInjection.WinAPI
         public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
 
         [DllImport("kernel32.dll")]
-        public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress,
-           IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
+        public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr LoadLibraryExA(string lpFileName, IntPtr hReservedNull, Enums.LoadLibraryFlags dwFlags);
