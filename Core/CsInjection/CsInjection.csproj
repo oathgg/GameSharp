@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B5395935-6E48-4673-A1E3-C1DDD110BF91}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>LeagueOfLegends.Injector</RootNamespace>
-    <AssemblyName>LeagueOfLegends.Injector</AssemblyName>
+    <ProjectGuid>{350DD1BB-E2B1-43CC-B71C-0BAA961446F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CsInjection</RootNamespace>
+    <AssemblyName>CsInjection</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,21 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Injector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\CsInjection.Core\CsInjection.Core.csproj">
-      <Project>{214b3d50-3f2a-485f-a523-3b406b86d93d}</Project>
-      <Name>CsInjection.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Core\CsInjection\CsInjection.csproj">
-      <Project>{350dd1bb-e2b1-43cc-b71c-0baa961446f3}</Project>
-      <Name>CsInjection</Name>
-    </ProjectReference>
+    <Compile Include="WinAPI.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

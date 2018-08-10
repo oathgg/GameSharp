@@ -1,16 +1,19 @@
 ﻿using CsInjection.Core.Native;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace CsInjection.Core.Helpers
+namespace CsInjection
 {
-    public class InjectorHelper
+    public class Injector
     {
         private Process _process;
 
-        public InjectorHelper(Process process)
+        public Injector(Process process)
         {
             _process = process;
         }

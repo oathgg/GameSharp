@@ -15,7 +15,7 @@ namespace LeagueOfLegends.Injector
         private static void Main(string[] args)
         {
             Process targetProcess = Process.GetProcessesByName(exe).FirstOrDefault();
-            InjectorHelper injector = new InjectorHelper(targetProcess);
+            CsInjection.Injector injector = new CsInjection.Injector(targetProcess);
 
             if (Debugger.IsAttached)
                 targetProcess.Attach();
