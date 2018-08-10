@@ -49,13 +49,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\CsInjection.Core\CsInjection.Core.csproj">
-      <Project>{214b3d50-3f2a-485f-a523-3b406b86d93d}</Project>
+    <ProjectReference Include="..\CsInjection.Core\CsInjection.Core.csproj">
+      <Project>{214B3D50-3F2A-485F-A523-3B406B86D93D}</Project>
       <Name>CsInjection.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Core\CsInjection\CsInjection.csproj">
-      <Project>{350dd1bb-e2b1-43cc-b71c-0baa961446f3}</Project>
-      <Name>CsInjection</Name>
+    <ProjectReference Include="..\CsInjection.Injectors\CsInjection.Injectors.csproj">
+      <Project>{350DD1BB-E2B1-43CC-B71C-0BAA961446F3}</Project>
+      <Name>CsInjection.Injectors</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

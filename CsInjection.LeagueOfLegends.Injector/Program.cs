@@ -1,4 +1,5 @@
 ﻿using CsInjection.Core.Helpers;
+using CsInjection;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -15,7 +16,7 @@ namespace LeagueOfLegends.Injector
         private static void Main(string[] args)
         {
             Process targetProcess = Process.GetProcessesByName(exe).FirstOrDefault();
-            CsInjection.Injector injector = new CsInjection.Injector(targetProcess);
+            RemoteThreadInjection injector = new RemoteThreadInjection(targetProcess);
 
             if (Debugger.IsAttached)
                 targetProcess.Attach();
