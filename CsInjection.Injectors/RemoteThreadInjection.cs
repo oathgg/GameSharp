@@ -18,16 +18,22 @@ namespace CsInjection
 
         public void Inject(string pathToDll, string entryPoint)
         {
+            // Sanity check.
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
                 throw new ArgumentException(string.Format("Cannot access DLL: \"{0}\"", pathToDll));
 
+            // Opens a handle to the process with FULL CONTROL.
             IntPtr processHandle = Kernel32.OpenProcess(Enums.ProcessAccessFlags.All, bInheritHandle: false, processId: _process.Id);
 
+            // Gets the bytes of our path to our dll which will be used to write into the process so the loadlibrary function knows where to look.
             byte[] pathBytes = Encoding.ASCII.GetBytes(pathToDll);
+
+            // Allocates memory the size of our path to our dll in bytes in the remote process.
             var addressOfDllPath = Kernel32.VirtualAllocEx(processHandle, IntPtr.Zero, (uint)pathBytes.Length,
                 Enums.AllocationType.Reserve | Enums.AllocationType.Commit,
                 Enums.MemoryProtection.ExecuteReadWrite);
 
+            // Write the path to our dll in the newly allocated memory section of the process.
             if (Kernel32.WriteProcessMemory(processHandle, addressOfDllPath, pathBytes, pathBytes.Length, out IntPtr a))
             {
                 // Gets the base address of the Kernel32.Dll file
