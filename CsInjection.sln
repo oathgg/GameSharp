@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.BinaryLoaders.Dauntless", "CsInjection.BinaryLoaders.Dauntless\CsInjection.BinaryLoaders.Dauntless.csproj", "{504D43DB-6900-49A4-BE57-1CEE89C17A2A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.BinaryLoaders.LeagueOfLegends", "CsInjection.BinaryLoaders.LeagueOfLegends\CsInjection.BinaryLoaders.LeagueOfLegends.csproj", "{BC7DC42E-8A12-4C35-B949-EEB9BCC5206D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.Core", "CsInjection.Core\CsInjection.Core.csproj", "{214B3D50-3F2A-485F-A523-3B406B86D93D}"
@@ -21,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{504D43DB-6900-49A4-BE57-1CEE89C17A2A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC7DC42E-8A12-4C35-B949-EEB9BCC5206D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BC7DC42E-8A12-4C35-B949-EEB9BCC5206D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC7DC42E-8A12-4C35-B949-EEB9BCC5206D}.Release|Any CPU.ActiveCfg = Release|Any CPU
