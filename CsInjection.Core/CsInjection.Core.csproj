@@ -65,7 +65,7 @@
     <Compile Include="Utilities\Detour.cs" />
     <Compile Include="Helpers\ConvertHelper.cs" />
     <Compile Include="Hooks\HookBase.cs" />
-    <Compile Include="Helpers\ProcessHelper.cs" />
+    <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Models\MemoryAddress.cs" />
     <Compile Include="Native\Kernel32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
