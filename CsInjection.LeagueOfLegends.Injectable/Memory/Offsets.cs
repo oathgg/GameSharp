@@ -6,7 +6,7 @@ namespace Injectable.Helpers
     public static class Offsets
     {
         // Patch 8.10.229.7328 offsets :: Base 0.
-        private static IntPtr ClientModuleBaseAddress = DebugHelper.GetMainModuleBaseAddress;
+        private static IntPtr ClientModuleBaseAddress = System.Diagnostics.Process.GetCurrentProcess().MainModule.BaseAddress;
 
         // Functions
         public static IntPtr PrintChat = ClientModuleBaseAddress + 0x56CD30;

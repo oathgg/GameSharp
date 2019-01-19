@@ -4,13 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace CsInjection.Core.Helpers
+namespace CsInjection.Core.Extensions
 {
-    public static class DebugHelper
+    public static class ProcessExtension
     {
-        public static ProcessModule GetMainModule = System.Diagnostics.Process.GetCurrentProcess().MainModule;
-        public static IntPtr GetMainModuleBaseAddress = GetMainModule.BaseAddress;
-
         public static void Attach(this System.Diagnostics.Process process)
         {
             // Reference Visual Studio core

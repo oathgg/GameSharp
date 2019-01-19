@@ -1,4 +1,4 @@
-﻿using CsInjection.Core.Helpers;
+﻿using CsInjection.Core.Extensions;
 using CsInjection;
 using System;
 using System.Diagnostics;
