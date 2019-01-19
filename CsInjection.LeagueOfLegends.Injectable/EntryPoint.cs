@@ -10,7 +10,7 @@ namespace Injectable
 {
     public class EntryPoint
     {
-        [DllExport("Initialize")]
+        [DllExport("Main")]
         public static void Main()
         {
             InjectionHelper.Initialize();

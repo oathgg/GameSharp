@@ -10,7 +10,7 @@ namespace LeagueOfLegends.Injector
     internal class Program
     {
         private const string exe = "League of Legends";
-        private const string dllEntryPoint = "Initialize";
+        private const string dllEntryPoint = "Main";
         private static readonly string dll = Path.Combine(Environment.CurrentDirectory, "LeagueOfLegends.Injectable.dll");
 
         private static void Main(string[] args)
