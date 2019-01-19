@@ -15,22 +15,27 @@ namespace CsInjection.Core.Native
             Marshal.Copy(nBytes, 0, destination, nBytes.Length);
 
             // Restore the page execution permissions.
-            Kernel32.VirtualProtect(destination, nBytes.Length, old, out var x);
-        }
-
-        public static T ReadProcessMemory<T>(IntPtr memoryAddress, int size)
-        {
-            byte[] destination = new byte[size];
-
-            // Copy the memory to our own object
-            Marshal.Copy(memoryAddress, destination, 0, destination.Length);
-
-            return ConvertHelper.FromByteArray<T>(destination);
+            Kernel32.VirtualProtect(destination, nBytes.Length, old, out Kernel32.Protection x);
         }
 
         public static T ReadProcessMemory<T>(IntPtr memoryAddress) where T : struct
         {
             return Marshal.PtrToStructure<T>(memoryAddress);
+        }
+
+        public static T ReadProcessMemory<T>(IntPtr memoryAddress, int size)
+        {
+            return ReadProcessMemory<T>(memoryAddress, 0, size);
+        }
+
+        public static T ReadProcessMemory<T>(IntPtr memoryAddress, int offset, int size)
+        {
+            byte[] destination = new byte[size];
+
+            // Copy the memory to our own object
+            Marshal.Copy(memoryAddress, destination, offset, destination.Length);
+
+            return ConvertHelper.FromByteArray<T>(destination);
         }
     }
 }
