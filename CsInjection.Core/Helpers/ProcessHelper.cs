@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace CsInjection.Core.Helpers
 {
-    public static class ProcessHelper
+    public static class DebugHelper
     {
         public static ProcessModule GetMainModule = System.Diagnostics.Process.GetCurrentProcess().MainModule;
         public static IntPtr GetMainModuleBaseAddress = GetMainModule.BaseAddress;
