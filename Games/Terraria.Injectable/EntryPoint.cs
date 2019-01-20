@@ -14,8 +14,13 @@ namespace Terraria.Injectable
         {
             ExceptionHandler.Initialize();
 
-            Log.Write("Hello world");
+            //Log.Write("Hello world");
 
+            LayeredException();
+        }
+
+        private static void LayeredException()
+        {
             throw new Exception("Managed exception");
         }
     }
