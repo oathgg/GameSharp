@@ -24,10 +24,11 @@ namespace CsInjection.Core.Helpers
             Console.WriteLine("");
             Console.WriteLine("===================================================");
             Console.WriteLine("");
-            Console.WriteLine(exception.Message);
 
             if (exception != null)
             {
+                Console.WriteLine(exception.Message);
+
                 do
                 {
                     Console.WriteLine("");
