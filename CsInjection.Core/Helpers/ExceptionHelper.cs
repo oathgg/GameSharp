@@ -27,8 +27,6 @@ namespace CsInjection.Core.Helpers
 
             if (exception != null)
             {
-                Console.WriteLine(exception.Message);
-
                 do
                 {
                     Console.WriteLine("");
