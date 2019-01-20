@@ -73,8 +73,6 @@
     <Compile Include="Utilities\ExceptionHandler.cs" />
     <Compile Include="Utilities\SigScanner.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Attributes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
