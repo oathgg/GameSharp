@@ -1,6 +1,8 @@
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Runtime.InteropServices;
 using static CsInjection.Injection.Native.Enums;
+using static CsInjection.Injection.Native.Structs;
 
 namespace CsInjection.Injection.Native
 {
@@ -36,5 +38,16 @@ namespace CsInjection.Injection.Native
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool FreeLibrary(IntPtr hModule);
+
+        /// <summary>
+        ///     Retrieves information about a range of pages within the virtual address space of a specified process.
+        /// </summary>
+        /// <param name="processHandle"></param>
+        /// <param name="baseAddress"></param>
+        /// <param name="buffer"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern bool VirtualQueryEx(IntPtr processHandle, IntPtr baseAddress, out MemoryBasicInformation buffer, int length);
     }
 }
