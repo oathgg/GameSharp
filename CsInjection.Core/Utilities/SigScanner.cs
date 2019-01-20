@@ -1,4 +1,4 @@
-﻿using CsInjection.Core.Models;
+﻿using CsInjection.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ namespace CsInjection.Core.Utilities
         /// <summary>
         ///     The base address of the module.
         /// </summary>
-        private MemoryAddress _moduleBase { get; }
+        private IntPtr _moduleBase { get; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SigScanner" /> class.
@@ -23,17 +23,17 @@ namespace CsInjection.Core.Utilities
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
         public SigScanner(ProcessModule module)
         {
-            _moduleBase = new MemoryAddress(module.BaseAddress);
+            _moduleBase = module.BaseAddress;
             _bytes = _moduleBase.Read<byte[]>(module.ModuleMemorySize);
         }
 
         public SigScanner(byte[] bytesToScan)
         {
             _bytes = bytesToScan;
-            _moduleBase = new MemoryAddress(IntPtr.Zero);
+            _moduleBase = new IntPtr();
         }
 
-        public MemoryAddress FindByteAddress(byte[] array, int offset = 0)
+        public IntPtr FindByteAddress(byte[] array, int offset = 0)
         {
             for (int memByteOffset = 0; memByteOffset < _bytes.Length; memByteOffset++)
             {
@@ -42,15 +42,15 @@ namespace CsInjection.Core.Utilities
 
                 if (PatternCheck(ref memByteOffset, array))
                 {
-                    return new MemoryAddress(_moduleBase.Address
+                    return _moduleBase
                         // pattern index offset
                         + memByteOffset
                         // offset given by user
-                        + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber));
+                        + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber);
                 }
             }
 
-            return null;
+            return IntPtr.Zero;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace CsInjection.Core.Utilities
         /// <param name="pattern"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public MemoryAddress FindPattern(string pattern, int offset = 0)
+        public IntPtr FindPattern(string pattern, int offset = 0)
         {
             byte[] arrPattern = ParsePatternString(pattern);
 
@@ -70,15 +70,15 @@ namespace CsInjection.Core.Utilities
 
                 if (PatternCheck(ref memByteOffset, arrPattern))
                 {
-                    return new MemoryAddress(_moduleBase.Address
+                    return _moduleBase
                         // pattern index offset
                         + memByteOffset
                         // offset given by user
-                        + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber));
+                        + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber);
                 }
             }
 
-            return null;
+            return IntPtr.Zero;
         }
 
         /// <summary>

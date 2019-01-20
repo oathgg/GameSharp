@@ -1,4 +1,5 @@
 ﻿using CsInjection.Core.Helpers;
+using CsInjection.Core.Utilities;
 using RGiesecke.DllExport;
 using System;
 

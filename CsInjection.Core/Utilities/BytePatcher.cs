@@ -1,4 +1,4 @@
-﻿using CsInjection.Core.Models;
+﻿using CsInjection.Core.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +21,7 @@ namespace CsInjection.Core.Utilities
         /// <summary>
         ///     Address in memory which we are going to patch.
         /// </summary>
-        private MemoryAddress _memoryAddress { get; }
+        private IntPtr _addressToPatch { get; }
 
         /// <summary>
         ///     The original opcodes which belonged to this patch.
@@ -48,7 +48,7 @@ namespace CsInjection.Core.Utilities
         /// <param name="addressToPatch">The address of the byte which we want to patch</param>
         public BytePatcher(IntPtr addressToPatch)
         {
-            _memoryAddress = new MemoryAddress(addressToPatch);
+            _addressToPatch = addressToPatch;
             PatchList.Add(this);
         }
 
@@ -75,7 +75,7 @@ namespace CsInjection.Core.Utilities
         /// <param name="newBytes">An array of bytes</param>
         public void Patch(byte[] newBytes)
         {
-            _originalBytes = _memoryAddress.Read<byte[]>(newBytes.Length);
+            _originalBytes = _addressToPatch.Read<byte[]>(newBytes.Length);
             _newBytes = newBytes;
         }
 
@@ -88,7 +88,7 @@ namespace CsInjection.Core.Utilities
         {
             if (_isActive)
             {
-                _memoryAddress.Write(_originalBytes);
+                _addressToPatch.Write(_originalBytes);
                 _isActive = false;
             }
         }
@@ -100,7 +100,7 @@ namespace CsInjection.Core.Utilities
         {
             if (!_isActive)
             {
-                _memoryAddress.Write(_newBytes);
+                _addressToPatch.Write(_newBytes);
                 _isActive = true;
             }
         }

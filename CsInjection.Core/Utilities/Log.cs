@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsInjection.Core.Helpers
+namespace CsInjection.Core.Utilities
 {
     public static class Log
     {

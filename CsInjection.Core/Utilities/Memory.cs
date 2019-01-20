@@ -2,13 +2,14 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace CsInjection.Core.Native
+namespace CsInjection.Core.Utilities
 {
     public class Memory
     {
-        public static void WriteProcessMemory(IntPtr destination, byte[] nBytes)
+        public static void Write(IntPtr destination, byte[] nBytes)
         {
             throw new Exception("Refactor code");
+
             //// Update the memory section so we can write to it.
             //Kernel32.VirtualProtect(destination, nBytes.Length, Enums.Protection.PAGE_EXECUTE_READWRITE, out Enums.Protection old);
 
@@ -19,17 +20,17 @@ namespace CsInjection.Core.Native
             //Kernel32.VirtualProtect(destination, nBytes.Length, old, out Enums.Protection x);
         }
 
-        public static T ReadProcessMemory<T>(IntPtr memoryAddress) where T : struct
+        public static T Read<T>(IntPtr memoryAddress) where T : struct
         {
             return Marshal.PtrToStructure<T>(memoryAddress);
         }
 
-        public static T ReadProcessMemory<T>(IntPtr memoryAddress, int size)
+        public static T Read<T>(IntPtr memoryAddress, int size)
         {
-            return ReadProcessMemory<T>(memoryAddress, 0, size);
+            return Read<T>(memoryAddress, 0, size);
         }
 
-        public static T ReadProcessMemory<T>(IntPtr memoryAddress, int offset, int size)
+        public static T Read<T>(IntPtr memoryAddress, int offset, int size)
         {
             byte[] destination = new byte[size];
 
