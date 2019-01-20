@@ -18,10 +18,8 @@ namespace CsInjection.Injection.Injection
 
         public void InjectAndExecute(string pathToDll, string entryPoint)
         {
-            string coreDllPath = Path.GetDirectoryName(pathToDll);
-            string processPath = Path.GetDirectoryName(_process.MainModule.FileName);
-            string coreFileName = "CsInjection.Core.dll";
-            File.Copy(Path.Combine(coreDllPath, coreFileName), Path.Combine(processPath, coreFileName), overwrite: true);
+            // Update all DLL files in WoW exe directory which we need to inject.
+            UpdateDlls(pathToDll);
 
             // Creates a console for the output we want to write from the injected program.
             AllocConsole();
@@ -34,6 +32,18 @@ namespace CsInjection.Injection.Injection
             // TODO: WoW cancels the debugger out, Anti-Debugger?
             //if (Debugger.IsAttached)
             //    _process.Attach();
+        }
+
+        private void UpdateDlls(string pathToDll)
+        {
+            string coreDllPath = Path.GetDirectoryName(pathToDll);
+            string processPath = Path.GetDirectoryName(_process.MainModule.FileName);
+            foreach (string filePath in Directory.GetFiles(Path.GetDirectoryName(pathToDll), "*.dll"))
+            {
+                string destination = Path.Combine(processPath, Path.GetFileName(filePath));
+                Console.WriteLine($"Copying {filePath} to {destination}");
+                File.Copy(filePath, destination, overwrite: true);
+            }
         }
 
         protected abstract void Inject(string pathToDll, string entryPoint);
