@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using CsInjection.Types;
 using CsInjection.Injectors.Injection;
 
 namespace Terraria.Injector

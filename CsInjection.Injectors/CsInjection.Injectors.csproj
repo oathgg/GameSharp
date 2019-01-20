@@ -59,7 +59,7 @@
     <Compile Include="Extensions\ProcessExtension.cs" />
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
-    <Compile Include="Types\RemoteThreadInjection.cs" />
+    <Compile Include="Injection\RemoteThreadInjection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

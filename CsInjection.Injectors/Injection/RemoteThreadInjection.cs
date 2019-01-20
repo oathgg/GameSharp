@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace CsInjection.Types
+namespace CsInjection.Injectors.Injection
 {
     public class RemoteThreadInjection : InjectionBase
     {
