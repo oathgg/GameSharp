@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace CsInjection.Core.Extensions
+namespace CsInjection.Injectors.Extensions
 {
     public static class ProcessExtension
     {

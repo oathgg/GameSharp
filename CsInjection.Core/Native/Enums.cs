@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace CsInjection.WinAPI
+namespace CsInjection.Core.Native
 {
-    internal class Enums
+    public class Enums
     {
         [Flags]
         public enum ProcessAccessFlags : uint

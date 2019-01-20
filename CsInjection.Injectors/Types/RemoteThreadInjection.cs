@@ -1,22 +1,19 @@
-﻿using CsInjection.WinAPI;
+﻿using CsInjection.Core.Native;
+using CsInjection.Interfaces;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 
-namespace CsInjection
+namespace CsInjection.Types
 {
-    public class RemoteThreadInjection
+    public class RemoteThreadInjection : InjectionBase
     {
-        private Process _process;
-
-        public RemoteThreadInjection(Process process)
+        public RemoteThreadInjection(Process process) : base(process)
         {
-            _process = process;
         }
 
-        public void Inject(string pathToDll, string entryPoint)
+        public override void InjectImplementation(string pathToDll, string entryPoint)
         {
             // Sanity check.
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
