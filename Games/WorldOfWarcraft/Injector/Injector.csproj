@@ -4,17 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8D7FBEDF-1550-46F9-AC3D-3FA8ECD681E0}</ProjectGuid>
+    <ProjectGuid>{DBC39920-3A58-4D46-BEA1-80BCC80542B4}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Terraria.Injector</RootNamespace>
-    <AssemblyName>Terraria.Injector</AssemblyName>
+    <RootNamespace>Injector</RootNamespace>
+    <AssemblyName>Injector</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -54,9 +54,9 @@
       <Project>{350dd1bb-e2b1-43cc-b71c-0baa961446f3}</Project>
       <Name>CsInjection.Injection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Terraria.Injectable\Terraria.Injectable.csproj">
-      <Project>{db7306d4-b5b4-4d9d-bc36-39f7923f71f4}</Project>
-      <Name>Terraria.Injectable</Name>
+    <ProjectReference Include="..\WoWSharp\WoWSharp.csproj">
+      <Project>{94f31bc5-d64a-4327-a549-af4283050447}</Project>
+      <Name>WoWSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
