@@ -16,6 +16,7 @@ namespace CsInjection.Core.Utilities
         private static void UnhandledException(object sender, UnhandledExceptionEventArgs eventArgs)
         {
             ExceptionHelper.BeautifyException(eventArgs.ExceptionObject);
+
             if (Debugger.IsAttached)
                 Debugger.Break();
         }

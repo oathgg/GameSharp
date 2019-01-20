@@ -10,6 +10,7 @@ namespace CsInjection.Core.Helpers
         /// <param name="exception"></param>
         public static void BeautifyException(object exception)
         {
+            // Safe cast it as an exception
             if (exception is Exception)
                 BeautifyException(exception as Exception);
         }
