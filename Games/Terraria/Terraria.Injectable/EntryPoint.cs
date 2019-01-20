@@ -1,6 +1,7 @@
 ﻿using CsInjection.Core.Utilities;
 using RGiesecke.DllExport;
 using System;
+using System.Diagnostics;
 
 namespace Terraria.Injectable
 {
@@ -12,16 +13,10 @@ namespace Terraria.Injectable
         [DllExport]
         public static void Main()
         {
-            ExceptionHandler.Initialize();
+            for (int i = 0; i < 1000; i++)
+                Log.Write("Hello World");
 
-            //Log.Write("Hello world");
-
-            LayeredException();
-        }
-
-        private static void LayeredException()
-        {
-            throw new Exception("Managed exception");
+            Debugger.Break();
         }
     }
 }

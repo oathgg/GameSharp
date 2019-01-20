@@ -50,7 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CsInjection.Injectors\CsInjection.Injection.csproj">
+    <ProjectReference Include="..\..\..\CsInjection.Injectors\CsInjection.Injection.csproj">
       <Project>{350DD1BB-E2B1-43CC-B71C-0BAA961446F3}</Project>
       <Name>CsInjection.Injection</Name>
     </ProjectReference>
