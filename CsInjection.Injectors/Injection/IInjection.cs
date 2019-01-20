@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsInjection.Injectors.Injection
+namespace CsInjection.Injection.Injection
 {
     public interface IInjection
     {

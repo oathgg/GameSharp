@@ -1,8 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
-using static CsInjection.Core.Native.Enums;
+using static CsInjection.Injection.Native.Enums;
 
-namespace CsInjection.Core.Native
+namespace CsInjection.Injection.Native
 {
     public static class Kernel32
     {

@@ -1,7 +1,7 @@
-﻿using CsInjection.Core.Native;
-using CsInjection.Core.Utilities;
+﻿using CsInjection.Core.Utilities;
+using CsInjection.Injection.Native;
 
-namespace CsInjection.Core.Helpers
+namespace CsInjection.Injection.Helpers
 {
     public abstract class InjectionHelper
     {

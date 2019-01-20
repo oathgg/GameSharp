@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.Core", "CsInjection.Core\CsInjection.Core.csproj", "{214B3D50-3F2A-485F-A523-3B406B86D93D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.Injectors", "CsInjection.Injectors\CsInjection.Injectors.csproj", "{350DD1BB-E2B1-43CC-B71C-0BAA961446F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.Injection", "CsInjection.Injectors\CsInjection.Injection.csproj", "{350DD1BB-E2B1-43CC-B71C-0BAA961446F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Terraria", "Terraria", "{1F7ED702-91AB-427B-9582-380B9350AB32}"
 EndProject

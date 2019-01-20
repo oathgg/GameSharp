@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CsInjection.Injectors\CsInjection.Injectors.csproj">
+    <ProjectReference Include="..\..\CsInjection.Injectors\CsInjection.Injection.csproj">
       <Project>{350DD1BB-E2B1-43CC-B71C-0BAA961446F3}</Project>
-      <Name>CsInjection.Injectors</Name>
+      <Name>CsInjection.Injection</Name>
     </ProjectReference>
     <ProjectReference Include="..\Terraria.Injectable\Terraria.Injectable.csproj">
       <Project>{db7306d4-b5b4-4d9d-bc36-39f7923f71f4}</Project>

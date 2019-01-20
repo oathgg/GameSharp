@@ -1,9 +1,9 @@
-﻿using CsInjection.Core.Helpers;
-using CsInjection.Injectors.Extensions;
+﻿using CsInjection.Injection.Helpers;
+using CsInjection.Injection.Extensions;
 using System;
 using System.Diagnostics;
 
-namespace CsInjection.Injectors.Injection
+namespace CsInjection.Injection.Injection
 {
     public abstract class InjectionBase : IInjection
     {
