@@ -18,6 +18,11 @@ namespace CsInjection.Injection.Injection
 
         public void InjectAndExecute(string pathToDll, string entryPoint)
         {
+            string coreDllPath = Path.GetDirectoryName(pathToDll);
+            string processPath = Path.GetDirectoryName(_process.MainModule.FileName);
+            string coreFileName = "CsInjection.Core.dll";
+            File.Copy(Path.Combine(coreDllPath, coreFileName), Path.Combine(processPath, coreFileName), overwrite: true);
+
             // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
             //if (Debugger.IsAttached)
             //    _process.Attach();
