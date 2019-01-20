@@ -16,7 +16,8 @@ namespace CsInjection.Injectors.Injection
         public void InjectAndExecute(string pathToDll, string entryPoint)
         {
             Inject(pathToDll, entryPoint);
-            
+            Execute(pathToDll, entryPoint);
+
             // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
             if (Debugger.IsAttached)
                 _process.Attach();
