@@ -24,6 +24,6 @@ namespace CsInjection.Interfaces
             InjectionHelper.Initialize();
         }
 
-        public abstract void InjectImplementation(string pathToDll, string entryPoint);
+        protected abstract void InjectImplementation(string pathToDll, string entryPoint);
     }
 }

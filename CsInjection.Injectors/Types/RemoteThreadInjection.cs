@@ -1,4 +1,5 @@
-﻿using CsInjection.Core.Native;
+﻿using CsInjection.Core.Helpers;
+using CsInjection.Core.Native;
 using CsInjection.Interfaces;
 using System;
 using System.Diagnostics;
@@ -13,7 +14,7 @@ namespace CsInjection.Types
         {
         }
 
-        public override void InjectImplementation(string pathToDll, string entryPoint)
+        protected override void InjectImplementation(string pathToDll, string entryPoint)
         {
             // Sanity check.
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
@@ -40,11 +41,17 @@ namespace CsInjection.Types
                 // Creates a remote thread in the process that will call the function loadlibrary which takes a memory pointer which contains the path to our dll.
                 IntPtr remoteThreadHandle = Kernel32.CreateRemoteThread(processHandle, IntPtr.Zero, 0, loadLibraryAddress, addressOfDllPath, 0, IntPtr.Zero);
 
-                // Dynamically load the DLL into our own process.
-                IntPtr myModule = Kernel32.LoadLibraryExA(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
-                // Get the address of our entry point.
+                /* EXECUTE OUR DLL ENTRYPOINT */
+
+                // Loads the specified module into the address space of the calling process. The specified module may cause other modules to be loaded.
+                IntPtr myModule = Kernel32.LoadLibraryEx(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
+                // Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
                 IntPtr loadLibraryAnsiPtr = Kernel32.GetProcAddress(myModule, entryPoint);
-                // Invoke the entry point in the remote process
+                if (loadLibraryAnsiPtr == IntPtr.Zero)
+                {
+                    Log.Write("Entry point cannot be found in DLL, is there an export available?");
+                }
+                // Creates a thread that runs in the virtual address space of another process.
                 IntPtr modulePath = Kernel32.CreateRemoteThread(processHandle, IntPtr.Zero, 0, loadLibraryAnsiPtr, IntPtr.Zero, 0, IntPtr.Zero);
             }
         }
