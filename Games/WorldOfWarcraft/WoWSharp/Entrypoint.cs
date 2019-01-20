@@ -1,10 +1,6 @@
 ﻿using CsInjection.Core.Utilities;
 using RGiesecke.DllExport;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WoWSharp
@@ -16,7 +12,9 @@ namespace WoWSharp
         {
             MessageBox.Show("Hello World");
             Console.WriteLine("Hello world");
-            Log.Write("Hello World");
+
+            // Fails if you don't have the DLL in the WOW folder installed.
+            Log.Write("Hello world");
         }
     }
 }
