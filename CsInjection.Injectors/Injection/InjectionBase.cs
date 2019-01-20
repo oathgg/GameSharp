@@ -2,7 +2,7 @@
 using CsInjection.Injectors.Extensions;
 using System.Diagnostics;
 
-namespace CsInjection.Interfaces
+namespace CsInjection.Injectors.Injection
 {
     public abstract class InjectionBase : IInjection
     {
@@ -13,10 +13,10 @@ namespace CsInjection.Interfaces
             _process = process;
         }
 
-        public void Inject(string pathToDll, string entryPoint)
+        public void InjectAndExecute(string pathToDll, string entryPoint)
         {
-            InjectImplementation(pathToDll, entryPoint);
-
+            Inject(pathToDll, entryPoint);
+            
             // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
             if (Debugger.IsAttached)
                 _process.Attach();
@@ -24,6 +24,7 @@ namespace CsInjection.Interfaces
             InjectionHelper.Initialize();
         }
 
-        protected abstract void InjectImplementation(string pathToDll, string entryPoint);
+        protected abstract void Inject(string pathToDll, string entryPoint);
+        protected abstract void Execute(string pathToDll, string entryPoint);
     }
 }

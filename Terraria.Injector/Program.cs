@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using CsInjection.Types;
+using CsInjection.Injectors.Injection;
 
 namespace Terraria.Injector
 {
@@ -15,9 +16,9 @@ namespace Terraria.Injector
         private static void Main(string[] args)
         {
             Process targetProcess = Process.GetProcessesByName(exe).FirstOrDefault();
-            RemoteThreadInjection injector = new RemoteThreadInjection(targetProcess);
+            IInjection injector = new RemoteThreadInjection(targetProcess);
 
-            injector.Inject(dll, dllEntryPoint);
+            injector.InjectAndExecute(dll, dllEntryPoint);
         }
     }
 }
