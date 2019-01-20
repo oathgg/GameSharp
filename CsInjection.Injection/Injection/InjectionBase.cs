@@ -46,6 +46,11 @@ namespace CsInjection.Injection.Injection
             }
         }
 
+        /// <summary>
+        ///     DLL needs to be the same platform as the game (e.g. x64 or x86).
+        /// </summary>
+        /// <param name="pathToDll"></param>
+        /// <param name="entryPoint"></param>
         protected abstract void Inject(string pathToDll, string entryPoint);
         protected abstract void Execute(string pathToDll, string entryPoint);
         protected abstract void AllocConsole();
