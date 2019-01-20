@@ -1,5 +1,6 @@
 ﻿using CsInjection.Core.Helpers;
 using CsInjection.Injectors.Extensions;
+using System;
 using System.Diagnostics;
 
 namespace CsInjection.Injectors.Injection
@@ -10,7 +11,7 @@ namespace CsInjection.Injectors.Injection
 
         public InjectionBase(Process process)
         {
-            _process = process;
+            _process = process ?? throw new NullReferenceException();
         }
 
         public void InjectAndExecute(string pathToDll, string entryPoint)

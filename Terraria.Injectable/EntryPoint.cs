@@ -1,5 +1,6 @@
 ﻿using CsInjection.Core.Helpers;
 using RGiesecke.DllExport;
+using System;
 
 namespace Terraria.Injectable
 {
@@ -12,6 +13,8 @@ namespace Terraria.Injectable
         public static void Main()
         {
             Log.Write("Injected");
+
+            Console.ReadKey();
         }
     }
 }

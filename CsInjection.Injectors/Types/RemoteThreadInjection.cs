@@ -10,11 +10,8 @@ namespace CsInjection.Types
 {
     public class RemoteThreadInjection : InjectionBase
     {
-        IntPtr _processHandle;
         public RemoteThreadInjection(Process process) : base(process)
         {
-            // Opens a handle to the process with FULL CONTROL.
-            _processHandle = Kernel32.OpenProcess(Enums.ProcessAccessFlags.All, false, _process.Id);
         }
 
         protected override void Inject(string pathToDll, string entryPoint)
@@ -25,11 +22,11 @@ namespace CsInjection.Types
             byte[] pathBytes = Encoding.ASCII.GetBytes(pathToDll);
 
             // Allocates memory the size of our path to our dll in bytes in the remote process.
-            IntPtr allocatedMemory = Kernel32.VirtualAllocEx(_processHandle, IntPtr.Zero, (uint)pathBytes.Length,
+            IntPtr allocatedMemory = Kernel32.VirtualAllocEx(_process.Handle, IntPtr.Zero, (uint)pathBytes.Length,
                 Enums.AllocationType.Reserve | Enums.AllocationType.Commit, Enums.MemoryProtection.ExecuteReadWrite);
 
             // Write the path to our dll in the newly allocated memory section of the process.
-            if (Kernel32.WriteProcessMemory(_processHandle, allocatedMemory, pathBytes, pathBytes.Length, out IntPtr a))
+            if (Kernel32.WriteProcessMemory(_process.Handle, allocatedMemory, pathBytes, pathBytes.Length, out IntPtr a))
             {
                 // Gets the base address of the Kernel32.Dll file
                 IntPtr kernel32Module = Kernel32.GetModuleHandle(Constants.KERNEL32_DLL);
@@ -38,7 +35,7 @@ namespace CsInjection.Types
                 IntPtr loadLibraryAddress = Kernel32.GetProcAddress(kernel32Module, Constants.LOAD_LIBRARY_PROC);
 
                 // Creates a remote thread in the process that will call the function loadlibrary which takes a memory pointer which contains the path to our dll.
-                IntPtr remoteThreadHandle = Kernel32.CreateRemoteThread(_processHandle, IntPtr.Zero, 0, loadLibraryAddress, allocatedMemory, 0, IntPtr.Zero);
+                IntPtr remoteThreadHandle = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, loadLibraryAddress, allocatedMemory, 0, IntPtr.Zero);
             }
         }
 
@@ -56,7 +53,7 @@ namespace CsInjection.Types
             }
 
             // Creates a thread that runs in the virtual address space of another process.
-            IntPtr modulePath = Kernel32.CreateRemoteThread(_processHandle, IntPtr.Zero, 0, moduleEntryPoint, IntPtr.Zero, 0, IntPtr.Zero);
+            IntPtr modulePath = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, moduleEntryPoint, IntPtr.Zero, 0, IntPtr.Zero);
         }
     }
 }
