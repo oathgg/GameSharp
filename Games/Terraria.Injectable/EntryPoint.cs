@@ -1,4 +1,4 @@
-﻿using CsInjection.Injection.Native;
+﻿using CsInjection.Core.Utilities;
 using RGiesecke.DllExport;
 using System;
 
@@ -12,8 +12,11 @@ namespace Terraria.Injectable
         [DllExport]
         public static void Main()
         {
-            Console.WriteLine("Hello world");
-            Console.ReadKey();
+            ExceptionHandler.Initialize();
+
+            Log.Write("Hello world");
+
+            throw new Exception("Managed exception");
         }
     }
 }

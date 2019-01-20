@@ -1,5 +1,4 @@
-﻿using CsInjection.Injection.Helpers;
-using CsInjection.Injection.Extensions;
+﻿using CsInjection.Injection.Extensions;
 using System;
 using System.Diagnostics;
 using CsInjection.Injection.Obfuscasion;

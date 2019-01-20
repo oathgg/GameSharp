@@ -8,7 +8,7 @@ namespace Terraria.Injector
 {
     internal class Program
     {
-        private const string exe = "Terraria";
+        private const string exe = "Sandbox.App";
         private const string dllEntryPoint = "Main";
         private static readonly string dll = Path.Combine(Environment.CurrentDirectory, "Terraria.Injectable.dll");
 

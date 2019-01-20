@@ -41,27 +41,12 @@ namespace CsInjection.Injection.Injection
 
         protected override void Execute(string pathToDll, string entryPoint)
         {
-            string dllName = Path.GetFileName(pathToDll);
-
-            // Get the DLL base address of the injected DLL in the remote process.
-            ProcessModule remoteInjectedDllModule = _process.Modules.Cast<ProcessModule>()
-                .SingleOrDefault(m => string.Equals(m.ModuleName, dllName, StringComparison.OrdinalIgnoreCase));
-
-            // Loads the specified module into the address space of the calling process. The specified module may cause other modules to be loaded.
-            IntPtr localInjectedDllModule = Kernel32.LoadLibraryEx(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
-
-            // Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
-            IntPtr dllEntryPoint = Kernel32.GetProcAddress(localInjectedDllModule, entryPoint) - (int)localInjectedDllModule;
-            if (dllEntryPoint == IntPtr.Zero)
-            {
-                Log.Write("Entry point cannot be found in DLL, is there an export available?");
-            }
-
-            // Calculate the Entry point in the remote process.
-            IntPtr dllEntryPointRemoteProcess = remoteInjectedDllModule.BaseAddress + (int)dllEntryPoint;
-
-            // Creates a thread that runs in the virtual address space of another process.
-            IntPtr modulePath = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, dllEntryPointRemoteProcess, IntPtr.Zero, 0, IntPtr.Zero);
+            // Dynamically load the DLL into our own process.
+            IntPtr myModule = Kernel32.LoadLibraryEx(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
+            // Get the address of our entry point.
+            IntPtr loadLibraryAnsiPtr = Kernel32.GetProcAddress(myModule, entryPoint);
+            // Invoke the entry point in the remote process
+            IntPtr modulePath = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, loadLibraryAnsiPtr, IntPtr.Zero, 0, IntPtr.Zero);
         }
 
         protected override void AllocConsole()

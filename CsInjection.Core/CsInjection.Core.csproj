@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\IntPtrExtension.cs" />
-    <Compile Include="Helpers\ExceptionHelper.cs" />
     <Compile Include="Utilities\Log.cs" />
     <Compile Include="Helpers\ThreadContextHelper.cs" />
     <Compile Include="Utilities\Memory.cs" />

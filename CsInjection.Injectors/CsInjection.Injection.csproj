@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ProcessExtension.cs" />
-    <Compile Include="Helpers\InjectionHelper.cs" />
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />
