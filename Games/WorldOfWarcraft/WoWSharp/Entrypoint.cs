@@ -1,4 +1,5 @@
-﻿using RGiesecke.DllExport;
+﻿using CsInjection.Core.Utilities;
+using RGiesecke.DllExport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace WoWSharp
         {
             MessageBox.Show("Hello World");
             Console.WriteLine("Hello world");
+            Log.Write("Hello World");
         }
     }
 }

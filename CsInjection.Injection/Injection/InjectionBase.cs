@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using CsInjection.Injection.Obfuscasion;
 using System.Threading;
+using System.IO;
 
 namespace CsInjection.Injection.Injection
 {
@@ -18,8 +19,8 @@ namespace CsInjection.Injection.Injection
         public void InjectAndExecute(string pathToDll, string entryPoint)
         {
             // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
-            if (Debugger.IsAttached)
-                _process.Attach();
+            //if (Debugger.IsAttached)
+            //    _process.Attach();
 
             // Creates a console for the output we want to write from the injected program.
             AllocConsole();
