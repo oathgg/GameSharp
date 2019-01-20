@@ -88,7 +88,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CsInjection.Core\CsInjection.Core.csproj">
+    <ProjectReference Include="..\..\..\CsInjection.Core\CsInjection.Core.csproj">
       <Project>{214b3d50-3f2a-485f-a523-3b406b86d93d}</Project>
       <Name>CsInjection.Core</Name>
     </ProjectReference>
