@@ -8,7 +8,7 @@ namespace CsInjection.Injection.Helpers
         public static void Initialize()
         {
             Kernel32.AllocConsole();
-            ExceptionHandler.Initialize();
+            //ExceptionHandler.Initialize();
         }
     }
 }
