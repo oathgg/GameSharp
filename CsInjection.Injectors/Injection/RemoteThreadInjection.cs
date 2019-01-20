@@ -63,5 +63,17 @@ namespace CsInjection.Injection.Injection
             // Creates a thread that runs in the virtual address space of another process.
             IntPtr modulePath = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, dllEntryPointRemoteProcess, IntPtr.Zero, 0, IntPtr.Zero);
         }
+
+        protected override void AllocConsole()
+        {
+            // Gets the base address of the Kernel32.Dll file
+            IntPtr kernel32Module = Kernel32.GetModuleHandle(Constants.KERNEL32_DLL);
+
+            // Gets the address of the exported function 'LoadLibraryA' from the kernel32.dll file
+            IntPtr allocConsoleAddress = Kernel32.GetProcAddress(kernel32Module, "AllocConsole");
+
+            // Creates a remote thread in the process that will call the function loadlibrary which takes a memory pointer which contains the path to our dll.
+            IntPtr remoteThreadHandle = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using CsInjection.Core.Utilities;
-using CsInjection.Injection.Helpers;
+﻿using CsInjection.Injection.Native;
 using RGiesecke.DllExport;
 using System;
 
@@ -13,10 +12,8 @@ namespace Terraria.Injectable
         [DllExport]
         public static void Main()
         {
-            //InjectionHelper.Initialize();
-
             Console.WriteLine("Hello world");
-            Console.Read();
+            Console.ReadKey();
         }
     }
 }

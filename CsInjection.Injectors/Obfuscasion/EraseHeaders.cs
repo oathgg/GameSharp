@@ -20,14 +20,16 @@ namespace CsInjection.Injection.Obfuscasion
             string dllName = Path.GetFileName(dllPath);
 
             // Get an instance of the dll in the process
-            ProcessModule module = process.Modules.Cast<ProcessModule>()
-                .SingleOrDefault(m => string.Equals(m.ModuleName, dllName, StringComparison.OrdinalIgnoreCase));
-
-            if (module is null)
+            ProcessModule module;
+            do
             {
-                throw new ArgumentException($"There is no module named {dllName} loaded in the process");
-            }
+                process.Refresh();
 
+                // Get an instance of the dll in the process
+                module = process.Modules.Cast<ProcessModule>()
+                    .SingleOrDefault(m => string.Equals(m.ModuleName, dllName, StringComparison.OrdinalIgnoreCase));
+            } while (module is null);
+            
             // Get the base address of the dll
             IntPtr dllBaseAddress = module.BaseAddress;
 

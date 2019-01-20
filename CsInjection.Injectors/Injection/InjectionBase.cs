@@ -22,15 +22,16 @@ namespace CsInjection.Injection.Injection
             if (Debugger.IsAttached)
                 _process.Attach();
 
+            // Creates a console for the output we want to write from the injected program.
+            AllocConsole();
+
             Inject(pathToDll, entryPoint);
-
-            Thread.Sleep(1000);
-
             EraseHeaders.Erase(_process, pathToDll);
             Execute(pathToDll, entryPoint);
         }
 
         protected abstract void Inject(string pathToDll, string entryPoint);
         protected abstract void Execute(string pathToDll, string entryPoint);
+        protected abstract void AllocConsole();
     }
 }
