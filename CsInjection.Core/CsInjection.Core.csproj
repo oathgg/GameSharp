@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\IntPtrExtension.cs" />
-    <Compile Include="Utilities\Log.cs" />
+    <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Helpers\ThreadContextHelper.cs" />
     <Compile Include="Utilities\Memory.cs" />
     <Compile Include="Utilities\BytePatcher.cs" />

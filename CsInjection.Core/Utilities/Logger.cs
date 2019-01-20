@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CsInjection.Core.Utilities
 {
-    public static class Log
+    public static class Logger
     {
         public static void Write(string message)
         {
-            Console.WriteLine($"[CsInjection] - {message}");
+            Console.WriteLine($"[CsInjection] :: {message}");
         }
     }
 }

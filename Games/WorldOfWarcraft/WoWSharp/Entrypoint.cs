@@ -12,11 +12,14 @@ namespace WoWSharp
     /// </summary>
     public class Entrypoint
     {
-
         [DllExport]
         public static void Main()
         {
-            Log.Write("Injected.");
+            ExceptionHandler.Initialize();
+
+            Logger.Write("Injected");
+
+            //throw new NullReferenceException();
         }
     }
 }

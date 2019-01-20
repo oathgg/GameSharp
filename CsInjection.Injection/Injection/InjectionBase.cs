@@ -23,16 +23,17 @@ namespace CsInjection.Injection.Injection
             string coreFileName = "CsInjection.Core.dll";
             File.Copy(Path.Combine(coreDllPath, coreFileName), Path.Combine(processPath, coreFileName), overwrite: true);
 
-            // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
-            //if (Debugger.IsAttached)
-            //    _process.Attach();
-
             // Creates a console for the output we want to write from the injected program.
             AllocConsole();
 
             Inject(pathToDll, entryPoint);
             EraseHeaders.Erase(_process, pathToDll);
             Execute(pathToDll, entryPoint);
+
+            // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
+            // TODO: WoW cancels the debugger out, Anti-Debugger?
+            //if (Debugger.IsAttached)
+            //    _process.Attach();
         }
 
         protected abstract void Inject(string pathToDll, string entryPoint);

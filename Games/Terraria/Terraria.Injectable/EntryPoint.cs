@@ -14,7 +14,7 @@ namespace Terraria.Injectable
         public static void Main()
         {
             for (int i = 0; i < 1000; i++)
-                Log.Write("Hello World");
+                Logger.Write("Hello World");
 
             Debugger.Break();
         }

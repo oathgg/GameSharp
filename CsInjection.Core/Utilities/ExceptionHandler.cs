@@ -25,7 +25,7 @@ namespace CsInjection.Core.Utilities
         ///     Simple wrapper.
         /// </summary>
         /// <param name="exception"></param>
-        public static void BeautifyException(object exception)
+        private static void BeautifyException(object exception)
         {
             // Safe cast it as an exception
             if (exception is Exception)
