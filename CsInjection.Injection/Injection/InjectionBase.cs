@@ -1,4 +1,5 @@
 ﻿using CsInjection.Injection.Extensions;
+using CsInjection.Injection.Native;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -49,6 +50,18 @@ namespace CsInjection.Injection.Injection
             }
         }
 
+        private void AllocConsole()
+        {
+            // Gets the base address of the Kernel32.Dll file
+            IntPtr kernel32Module = Kernel32.GetModuleHandle(Constants.KERNEL32_DLL);
+
+            // Gets the address of the exported function 'LoadLibraryA' from the kernel32.dll file
+            IntPtr allocConsoleAddress = Kernel32.GetProcAddress(kernel32Module, "AllocConsole");
+
+            // Creates a remote thread in the process that will call the function loadlibrary which takes a memory pointer which contains the path to our dll.
+            IntPtr remoteThreadHandle = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
+        }
+
         /// <summary>
         ///     DLL needs to be the same platform as the game (e.g. x64 or x86).
         /// </summary>
@@ -56,6 +69,5 @@ namespace CsInjection.Injection.Injection
         /// <param name="entryPoint"></param>
         protected abstract void Inject(string pathToDll, string entryPoint);
         protected abstract void Execute(string pathToDll, string entryPoint);
-        protected abstract void AllocConsole();
     }
 }
