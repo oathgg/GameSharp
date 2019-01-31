@@ -65,7 +65,6 @@
     <Compile Include="Native\Enums.cs" />
     <Compile Include="Native\Kernel32.cs" />
     <Compile Include="Native\Structs.cs" />
-    <Compile Include="Obfuscasion\EraseHeaders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

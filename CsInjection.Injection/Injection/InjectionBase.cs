@@ -1,8 +1,6 @@
 ﻿using CsInjection.Injection.Extensions;
 using System;
 using System.Diagnostics;
-using CsInjection.Injection.Obfuscasion;
-using System.Threading;
 using System.IO;
 
 namespace CsInjection.Injection.Injection
@@ -25,13 +23,18 @@ namespace CsInjection.Injection.Injection
             AllocConsole();
 
             Inject(pathToDll, entryPoint);
-            EraseHeaders.Erase(_process, pathToDll);
-            Execute(pathToDll, entryPoint);
 
+            // To Hide our presence we randomize the PE headers of the DLL we have injected.
+            _process.RandomizePeHeader(pathToDll);
+
+            Execute(pathToDll, entryPoint);
+        }
+
+        public void AttachToProcess()
+        {
             // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
-            // TODO: WoW cancels the debugger out, Anti-Debugger?
-            //if (Debugger.IsAttached)
-            //    _process.Attach();
+            if (Debugger.IsAttached)
+                _process.Attach();
         }
 
         private void UpdateDlls(string pathToDll)
