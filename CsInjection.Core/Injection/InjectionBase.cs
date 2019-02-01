@@ -1,6 +1,7 @@
 ﻿using CsInjection.Core.Extensions;
 using CsInjection.Core.Native;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
@@ -9,6 +10,7 @@ namespace CsInjection.Core.Injection
     public abstract class InjectionBase : IInjection
     {
         protected Process _process;
+        List<string> _copiedDlls = new List<string>();
 
         public InjectionBase(Process process)
         {
@@ -25,12 +27,15 @@ namespace CsInjection.Core.Injection
 
             Inject(pathToDll, entryPoint);
 
-            // To Hide our presence we randomize the PE headers of the DLL we have injected.
+            // To hide our presence we randomize the PE headers of the DLL we have injected.
             _process.RandomizePeHeader(pathToDll);
 
             Execute(pathToDll, entryPoint);
         }
 
+        /// <summary>
+        ///     Attaches the debugger to the process, we need to hide our presence here.
+        /// </summary>
         public void AttachToProcess()
         {
             // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
@@ -40,13 +45,34 @@ namespace CsInjection.Core.Injection
 
         private void UpdateDlls(string pathToDll)
         {
+            // Directory of our currently injecting DLL
             string coreDllPath = Path.GetDirectoryName(pathToDll);
+
+            // Full path to the process
             string processPath = Path.GetDirectoryName(_process.MainModule.FileName);
+
+            // Copy all DLLs which our injecting DLL might use which are in the same folder.
             foreach (string filePath in Directory.GetFiles(Path.GetDirectoryName(pathToDll), "*.dll"))
             {
                 string destination = Path.Combine(processPath, Path.GetFileName(filePath));
-                Console.WriteLine($"Copying {filePath} to {destination}");
                 File.Copy(filePath, destination, overwrite: true);
+                _copiedDlls.Add(destination);
+            }
+
+            // Once the process exits we want to cleanup any lingering DLLs
+            _process.Exited += CleanUpDlls;
+        }
+
+        /// <summary>
+        ///     Gets triggered once the process exits and removes all copied Dlls
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CleanUpDlls(object sender, EventArgs e)
+        {
+            foreach (string copiedDll in _copiedDlls)
+            {
+                File.Delete(copiedDll);
             }
         }
 
