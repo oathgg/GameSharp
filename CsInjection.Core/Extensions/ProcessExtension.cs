@@ -50,7 +50,7 @@ namespace CsInjection.Core.Extensions
                     }
                     break;
                 }
-                catch (Exception ex)
+                catch
                 {
                     Thread.Sleep(1000);
                 }
