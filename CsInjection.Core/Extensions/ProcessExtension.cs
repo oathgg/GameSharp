@@ -30,7 +30,7 @@ namespace CsInjection.Core.Extensions
             }
             catch (COMException)
             {
-                Debug.WriteLine(String.Format(@"Visual studio not found."));
+                Debug.WriteLine(string.Format(@"Visual studio not found."));
                 return;
             }
 
