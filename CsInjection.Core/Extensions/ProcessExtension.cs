@@ -99,8 +99,8 @@ namespace CsInjection.Core.Extensions
             new Random().NextBytes(buffer);
 
             // Write over the header region with the buffer
-            Kernel32.WriteProcessMemory(process.Handle, dllBaseAddress, buffer, (int)memoryInformation.RegionSize, out IntPtr ignored);
-                //throw new Exception("Cannot write to memory.");
+            if (!Kernel32.WriteProcessMemory(process.Handle, dllBaseAddress, buffer, (int)memoryInformation.RegionSize, out IntPtr ignored))
+                throw new Exception("Cannot write to memory.");
         }
     }
 }

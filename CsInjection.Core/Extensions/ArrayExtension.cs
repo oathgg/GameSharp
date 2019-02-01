@@ -2,9 +2,15 @@ using System;
 
 namespace CsInjection.Core.Helpers
 {
-    public static class ConvertHelper
+    public static class ArrayExtension
     {
-        public static T FromByteArray<T>(byte[] data)
+        /// <summary>
+        ///     Casts the data into the specified object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static T Cast<T>(this byte[] data)
         {
             object val = default(T);
             Type realType = typeof(T);

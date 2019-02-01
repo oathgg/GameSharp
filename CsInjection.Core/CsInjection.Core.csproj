@@ -71,7 +71,7 @@
     <Compile Include="Utilities\Memory.cs" />
     <Compile Include="Utilities\BytePatcher.cs" />
     <Compile Include="Utilities\Detour.cs" />
-    <Compile Include="Helpers\ConvertHelper.cs" />
+    <Compile Include="Extensions\ArrayExtension.cs" />
     <Compile Include="Hooks\HookBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExceptionHandler.cs" />

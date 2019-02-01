@@ -37,7 +37,7 @@ namespace CsInjection.Core.Utilities
             // Copy the memory to our own object
             Marshal.Copy(memoryAddress, destination, offset, destination.Length);
 
-            return ConvertHelper.FromByteArray<T>(destination);
+            return destination.Cast<T>();
         }
     }
 }
