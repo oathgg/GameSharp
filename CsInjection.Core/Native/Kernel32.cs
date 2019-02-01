@@ -20,7 +20,7 @@ namespace CsInjection.Core.Native
         [DllImport("kernel32.dll")]
         internal static extern IntPtr OpenProcess(ProcessAccessFlags processAccess, bool bInheritHandle, int processId);
 
-        [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
+        [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -41,6 +41,24 @@ namespace CsInjection.Core.Native
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool FreeLibrary(IntPtr hModule);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern bool CloseHandle(IntPtr hObject);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern int ResumeThread(IntPtr hThread);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern int SuspendThread(IntPtr hThread);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern IntPtr OpenThread(ThreadAccessFlags dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern bool GetThreadContext(IntPtr hThread, ref Context lpContext);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern bool SetThreadContext(IntPtr hThread, ref Context lpContext);
 
         /// <summary>
         ///     Retrieves information about a range of pages within the virtual address space of a specified process.
