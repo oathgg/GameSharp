@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AF8FC131-6421-4FA8-8E06-4B21C214E4B8}</ProjectGuid>
+    <ProjectGuid>{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>InjectorTest</RootNamespace>
-    <AssemblyName>InjectorTest</AssemblyName>
+    <RootNamespace>CsInjection.Injector</RootNamespace>
+    <AssemblyName>CsInjection.Injector</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -50,13 +50,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CsInjection.Core\CsInjection.Core.csproj">
+    <ProjectReference Include="..\CsInjection.Core\CsInjection.Core.csproj">
       <Project>{214B3D50-3F2A-485F-A523-3B406B86D93D}</Project>
       <Name>CsInjection.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DllTest\ScyllaTest_x64.Injectable.csproj">
+    <ProjectReference Include="..\Injectables\ScyllaTest_x64.Injectable\ScyllaTest_x64.Injectable.csproj">
       <Project>{88a0da5c-2321-48a1-811b-58ccb94411c2}</Project>
       <Name>ScyllaTest_x64.Injectable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Injectables\WoW.Injectable\WoW.Injectable.csproj">
+      <Project>{94f31bc5-d64a-4327-a549-af4283050447}</Project>
+      <Name>WoW.Injectable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

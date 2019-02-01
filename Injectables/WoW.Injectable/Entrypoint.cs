@@ -1,12 +1,7 @@
 ﻿using CsInjection.Core.Utilities;
 using RGiesecke.DllExport;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DllTest
+namespace WoW.Injectable
 {
     public class Entrypoint
     {
@@ -14,7 +9,10 @@ namespace DllTest
         public static void Main()
         {
             ExceptionHandler.Initialize();
+
             Logger.Write("Injected");
+
+            //throw new NullReferenceException();
         }
     }
 }

@@ -10,6 +10,16 @@ namespace CsInjection.Core.Extensions
 {
     public static class ProcessExtension
     {
+        public static bool IsWin64Emulator(this System.Diagnostics.Process process)
+        {
+            if ((Environment.OSVersion.Version.Major > 5)
+                || ((Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor >= 1)))
+            {
+                return Kernel32.IsWow64Process(process.Handle, out bool retVal) && retVal;
+            }
+            return false; // not on 64-bit Windows Emulator
+        }
+
         public static void Attach(this System.Diagnostics.Process process)
         {
             // Reference Visual Studio core

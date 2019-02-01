@@ -1,9 +1,7 @@
 ﻿using CsInjection.Core.Utilities;
 using RGiesecke.DllExport;
-using System;
-using System.Windows.Forms;
 
-namespace WoWSharp
+namespace DllTest
 {
     public class Entrypoint
     {
@@ -11,10 +9,7 @@ namespace WoWSharp
         public static void Main()
         {
             ExceptionHandler.Initialize();
-
             Logger.Write("Injected");
-
-            //throw new NullReferenceException();
         }
     }
 }

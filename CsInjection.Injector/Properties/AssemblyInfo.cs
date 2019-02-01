@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Injector")]
+[assembly: AssemblyTitle("CsInjection.Injector")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Injector")]
+[assembly: AssemblyProduct("CsInjection.Injector")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("dbc39920-3a58-4d46-bea1-80bcc80542b4")]
+[assembly: Guid("2cf74c7e-5201-4f7f-8520-ba7f38d1b094")]
 
 // Version information for an assembly consists of the following four values:
 //

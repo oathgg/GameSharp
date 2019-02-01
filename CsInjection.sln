@@ -7,11 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.Core", "CsInjec
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Injectables", "Injectables", "{438E8400-F7E7-4D8B-AA55-24006E53D9C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoW.Injectable", "Games\WorldOfWarcraft\WoWSharp\WoW.Injectable.csproj", "{94F31BC5-D64A-4327-A549-AF4283050447}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AFB6985F-6644-40B8-A281-2FE3A0CB3665}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScyllaTest_x64.Injectable", "Test\DllTest\ScyllaTest_x64.Injectable.csproj", "{88A0DA5C-2321-48A1-811B-58CCB94411C2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TargetProcess", "TargetProcess", "{8164ED7B-2301-4474-9F02-4D5E25230B3B}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,6 +15,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TargetProcess", "TargetProc
 		Test\TargetProcess\ScyllaTest_x64.exe = Test\TargetProcess\ScyllaTest_x64.exe
 		Test\TargetProcess\ScyllaTest_x86.exe = Test\TargetProcess\ScyllaTest_x86.exe
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScyllaTest_x64.Injectable", "Injectables\ScyllaTest_x64.Injectable\ScyllaTest_x64.Injectable.csproj", "{88A0DA5C-2321-48A1-811B-58CCB94411C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoW.Injectable", "Injectables\WoW.Injectable\WoW.Injectable.csproj", "{94F31BC5-D64A-4327-A549-AF4283050447}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.Injector", "CsInjection.Injector\CsInjection.Injector.csproj", "{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,18 +44,6 @@ Global
 		{214B3D50-3F2A-485F-A523-3B406B86D93D}.Release|x64.Build.0 = Release|Any CPU
 		{214B3D50-3F2A-485F-A523-3B406B86D93D}.Release|x86.ActiveCfg = Release|Any CPU
 		{214B3D50-3F2A-485F-A523-3B406B86D93D}.Release|x86.Build.0 = Release|Any CPU
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|x64.ActiveCfg = Debug|x64
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|x64.Build.0 = Debug|x64
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|x86.Build.0 = Debug|Any CPU
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|x64.ActiveCfg = Release|Any CPU
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|x64.Build.0 = Release|Any CPU
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|x86.ActiveCfg = Release|Any CPU
-		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|x86.Build.0 = Release|Any CPU
 		{88A0DA5C-2321-48A1-811B-58CCB94411C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88A0DA5C-2321-48A1-811B-58CCB94411C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88A0DA5C-2321-48A1-811B-58CCB94411C2}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -66,14 +56,38 @@ Global
 		{88A0DA5C-2321-48A1-811B-58CCB94411C2}.Release|x64.Build.0 = Release|Any CPU
 		{88A0DA5C-2321-48A1-811B-58CCB94411C2}.Release|x86.ActiveCfg = Release|Any CPU
 		{88A0DA5C-2321-48A1-811B-58CCB94411C2}.Release|x86.Build.0 = Release|Any CPU
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|x64.ActiveCfg = Debug|x64
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|x64.Build.0 = Debug|x64
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Debug|x86.Build.0 = Debug|Any CPU
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|x64.ActiveCfg = Release|x64
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|x64.Build.0 = Release|x64
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|x86.ActiveCfg = Release|Any CPU
+		{94F31BC5-D64A-4327-A549-AF4283050447}.Release|x86.Build.0 = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|x64.Build.0 = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|x86.Build.0 = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x64.ActiveCfg = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x64.Build.0 = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x86.ActiveCfg = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{94F31BC5-D64A-4327-A549-AF4283050447} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
-		{88A0DA5C-2321-48A1-811B-58CCB94411C2} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
 		{8164ED7B-2301-4474-9F02-4D5E25230B3B} = {AFB6985F-6644-40B8-A281-2FE3A0CB3665}
+		{88A0DA5C-2321-48A1-811B-58CCB94411C2} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
+		{94F31BC5-D64A-4327-A549-AF4283050447} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D08A4915-36D7-4636-A195-69744BA601A1}
