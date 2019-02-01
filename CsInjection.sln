@@ -25,6 +25,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InjectorTest", "Test\Inject
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DllTest", "Test\DllTest\DllTest.csproj", "{88A0DA5C-2321-48A1-811B-58CCB94411C2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TargetProcess", "TargetProcess", "{8164ED7B-2301-4474-9F02-4D5E25230B3B}"
+	ProjectSection(SolutionItems) = preProject
+		Test\TargetProcess\Release.zip = Test\TargetProcess\Release.zip
+		Test\TargetProcess\ScyllaTest_x64.exe = Test\TargetProcess\ScyllaTest_x64.exe
+		Test\TargetProcess\ScyllaTest_x86.exe = Test\TargetProcess\ScyllaTest_x86.exe
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -142,6 +149,7 @@ Global
 		{94F31BC5-D64A-4327-A549-AF4283050447} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
 		{AF8FC131-6421-4FA8-8E06-4B21C214E4B8} = {AFB6985F-6644-40B8-A281-2FE3A0CB3665}
 		{88A0DA5C-2321-48A1-811B-58CCB94411C2} = {AFB6985F-6644-40B8-A281-2FE3A0CB3665}
+		{8164ED7B-2301-4474-9F02-4D5E25230B3B} = {AFB6985F-6644-40B8-A281-2FE3A0CB3665}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D08A4915-36D7-4636-A195-69744BA601A1}

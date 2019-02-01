@@ -17,7 +17,7 @@ namespace CsInjection.Injection.Injection
         protected override void Inject(string pathToDll, string entryPoint)
         {
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
-                throw new ArgumentException(string.Format($"Cannot access DLL: '{pathToDll}"));
+                throw new ArgumentException(string.Format($"Cannot access DLL: '{pathToDll}', did you include it as a reference?"));
 
             byte[] pathBytes = Encoding.ASCII.GetBytes(pathToDll);
 

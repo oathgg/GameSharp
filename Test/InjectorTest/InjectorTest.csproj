@@ -14,7 +14,7 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -48,6 +48,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CsInjection.Injection\CsInjection.Injection.csproj">
+      <Project>{350DD1BB-E2B1-43CC-B71C-0BAA961446F3}</Project>
+      <Name>CsInjection.Injection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DllTest\DllTest.csproj">
+      <Project>{88a0da5c-2321-48a1-811b-58ccb94411c2}</Project>
+      <Name>DllTest</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
