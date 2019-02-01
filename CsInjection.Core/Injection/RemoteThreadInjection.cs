@@ -1,10 +1,9 @@
-﻿using CsInjection.Core.Utilities;
-using CsInjection.Core.Native;
+﻿using CsInjection.Core.Native;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
+using CsInjection.Core.Extensions;
 
 namespace CsInjection.Core.Injection
 {
@@ -37,6 +36,9 @@ namespace CsInjection.Core.Injection
                 // Creates a remote thread in the process that will call the function loadlibrary which takes a memory pointer which contains the path to our dll.
                 IntPtr remoteThreadHandle = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, loadLibraryAddress, allocatedMemory, 0, IntPtr.Zero);
             }
+
+            // To hide our presence we randomize the PE headers of the DLL we have injected.
+            _process.RandomizePeHeader(pathToDll);
         }
 
         protected override void Execute(string pathToDll, string entryPoint)

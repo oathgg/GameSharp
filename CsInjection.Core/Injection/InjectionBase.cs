@@ -9,7 +9,14 @@ namespace CsInjection.Core.Injection
 {
     public abstract class InjectionBase : IInjection
     {
+        /// <summary>
+        ///     Process of to inject into.
+        /// </summary>
         protected Process _process;
+
+        /// <summary>
+        ///     List of all the DLLs which have been transfered.
+        /// </summary>
         List<string> _copiedDlls = new List<string>();
 
         public InjectionBase(Process process)
@@ -17,6 +24,11 @@ namespace CsInjection.Core.Injection
             _process = process ?? throw new NullReferenceException();
         }
 
+        /// <summary>
+        ///     Injects and executes the DLL through the specified injection method.
+        /// </summary>
+        /// <param name="pathToDll"></param>
+        /// <param name="entryPoint"></param>
         public void InjectAndExecute(string pathToDll, string entryPoint)
         {
             // Update all DLL files in WoW exe directory which we need to inject.
@@ -25,11 +37,10 @@ namespace CsInjection.Core.Injection
             // Creates a console for the output we want to write from the injected program.
             AllocConsole();
 
+            // Injects our DLL into the specified process.
             Inject(pathToDll, entryPoint);
 
-            // To hide our presence we randomize the PE headers of the DLL we have injected.
-            _process.RandomizePeHeader(pathToDll);
-
+            // Executes the entry point of the DLL.
             Execute(pathToDll, entryPoint);
         }
 
@@ -55,6 +66,10 @@ namespace CsInjection.Core.Injection
             }
         }
 
+        /// <summary>
+        ///     Updates all the DLLs which we require for the injection to succeed.
+        /// </summary>
+        /// <param name="pathToDll"></param>
         private void UpdateDlls(string pathToDll)
         {
             // Directory of our currently injecting DLL
@@ -88,6 +103,9 @@ namespace CsInjection.Core.Injection
             }
         }
 
+        /// <summary>
+        ///     Allocates a console window by using the native APIs.
+        /// </summary>
         private void AllocConsole()
         {
             // Gets the base address of the Kernel32.Dll file
@@ -106,6 +124,12 @@ namespace CsInjection.Core.Injection
         /// <param name="pathToDll"></param>
         /// <param name="entryPoint"></param>
         protected abstract void Inject(string pathToDll, string entryPoint);
+
+        /// <summary>
+        ///     Executes the specified entry point.
+        /// </summary>
+        /// <param name="pathToDll"></param>
+        /// <param name="entryPoint"></param>
         protected abstract void Execute(string pathToDll, string entryPoint);
     }
 }
