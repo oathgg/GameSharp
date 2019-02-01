@@ -14,7 +14,8 @@ namespace CsInjection.Injector
     {
         static void Main(string[] args)
         {
-            InjectDll("ScyllaTest_x64");
+            //InjectDll("ScyllaTest_x64");
+            InjectDll("ScyllaTest_x86");
         }
 
         static void InjectDll(string processName)

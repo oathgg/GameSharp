@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoW.Injectable", "Injectabl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.Injector", "CsInjection.Injector\CsInjection.Injector.csproj", "{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScyllaTest_x86.Injectable", "Injectables\ScyllaTest_x86.Injectable\ScyllaTest_x86.Injectable.csproj", "{90662F90-3F80-45C8-AFBA-7607B8FE73C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,18 @@ Global
 		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x64.Build.0 = Release|Any CPU
 		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x86.ActiveCfg = Release|Any CPU
 		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x86.Build.0 = Release|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Debug|x64.Build.0 = Debug|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Debug|x86.Build.0 = Debug|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Release|x64.ActiveCfg = Release|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Release|x64.Build.0 = Release|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +102,7 @@ Global
 		{8164ED7B-2301-4474-9F02-4D5E25230B3B} = {AFB6985F-6644-40B8-A281-2FE3A0CB3665}
 		{88A0DA5C-2321-48A1-811B-58CCB94411C2} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
 		{94F31BC5-D64A-4327-A549-AF4283050447} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
+		{90662F90-3F80-45C8-AFBA-7607B8FE73C6} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D08A4915-36D7-4636-A195-69744BA601A1}

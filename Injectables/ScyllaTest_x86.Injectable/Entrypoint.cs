@@ -1,7 +1,7 @@
 ﻿using CsInjection.Core.Utilities;
 using RGiesecke.DllExport;
 
-namespace ScyllaTest_x64.Injectable
+namespace ScyllaTest_x86.Injectable
 {
     public class Entrypoint
     {

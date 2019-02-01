@@ -1,16 +1,16 @@
 using CsInjection.Core.Native;
-using EnvDTE;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace CsInjection.Core.Extensions
 {
     public static class ProcessExtension
     {
-        public static bool IsWin64Emulator(this System.Diagnostics.Process process)
+        public static bool IsWin64Emulator(this Process process)
         {
             if ((Environment.OSVersion.Version.Major > 5)
                 || ((Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor >= 1)))
@@ -20,13 +20,13 @@ namespace CsInjection.Core.Extensions
             return false; // not on 64-bit Windows Emulator
         }
 
-        public static void Attach(this System.Diagnostics.Process process)
+        public static void Attach(this Process process)
         {
             // Reference Visual Studio core
-            DTE dte;
+            EnvDTE.DTE dte;
             try
             {
-                dte = (DTE)Marshal.GetActiveObject("VisualStudio.DTE.15.0");
+                dte = (EnvDTE.DTE)Marshal.GetActiveObject("VisualStudio.DTE.15.0");
             }
             catch (COMException)
             {
@@ -40,7 +40,7 @@ namespace CsInjection.Core.Extensions
             {
                 try
                 {
-                    Processes processes = dte.Debugger.LocalProcesses;
+                    EnvDTE.Processes processes = dte.Debugger.LocalProcesses;
                     foreach (EnvDTE80.Process2 proc in processes.Cast<EnvDTE80.Process2>().Where(proc => proc.Name.IndexOf(process.ProcessName) != -1))
                     {
                         // Get the debug engine we want to use.
@@ -57,21 +57,31 @@ namespace CsInjection.Core.Extensions
             }
         }
 
-        public static void RandomizePeHeader (this System.Diagnostics.Process process, string dllPath)
+        public static ProcessModule GetProcessModule(this Process process, string moduleName)
         {
-            // Get the name of the dll
-            string dllName = Path.GetFileName(dllPath);
-
-            // Get an instance of the dll in the process
-            ProcessModule module;
+            int retryCount = 0;
+            ProcessModule module = null;
             do
             {
                 process.Refresh();
 
                 // Get an instance of the dll in the process
                 module = process.Modules.Cast<ProcessModule>()
-                    .SingleOrDefault(m => string.Equals(m.ModuleName, dllName, StringComparison.OrdinalIgnoreCase));
-            } while (module is null);
+                    .SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase));
+
+                Thread.Sleep(1000);
+            } while (++retryCount < 5);
+
+            return module;
+        }
+
+        public static void RandomizePeHeader (this Process process, string dllPath)
+        {
+            // Get the name of the dll
+            string dllName = Path.GetFileName(dllPath);
+
+            // Get an instance of the dll in the process
+            ProcessModule module = process.GetProcessModule(dllPath);
 
             // Get the base address of the dll
             IntPtr dllBaseAddress = module.BaseAddress;
@@ -80,7 +90,7 @@ namespace CsInjection.Core.Extensions
             int memoryInformationSize = Marshal.SizeOf(typeof(Structs.MemoryBasicInformation));
 
             if (!Kernel32.VirtualQueryEx(process.Handle, dllBaseAddress, out var memoryInformation, memoryInformationSize))
-                throw new Exception("Failed to query the memory of the process");
+                throw new Exception("Failed to query the memory.");
 
             // Create a buffer to write over the header region with
             byte[] buffer = new byte[(int) memoryInformation.RegionSize];
@@ -89,44 +99,8 @@ namespace CsInjection.Core.Extensions
             new Random().NextBytes(buffer);
 
             // Write over the header region with the buffer
-            Kernel32.WriteProcessMemory(process.Handle, dllBaseAddress, buffer, (int) memoryInformation.RegionSize, out IntPtr ignored);
-        }
-
-        public static void ErasePeHeader(this System.Diagnostics.Process process, string dllPath)
-        {
-            // Get the id of the process
-            int processId = process.Id;
-
-            // Get the name of the dll
-            string dllName = Path.GetFileName(dllPath);
-
-            // Get an instance of the dll in the process
-            ProcessModule module;
-            do
-            {
-                process.Refresh();
-
-                // Get an instance of the dll in the process
-                module = process.Modules.Cast<ProcessModule>()
-                    .SingleOrDefault(m => string.Equals(m.ModuleName, dllName, StringComparison.OrdinalIgnoreCase));
-            } while (module is null);
-
-            // Get the base address of the dll
-            IntPtr dllBaseAddress = module.BaseAddress;
-
-            // Open a handle to the process
-            IntPtr processHandle = process.Handle;
-
-            // Get the information about the header region of the dll
-            int memoryInformationSize = Marshal.SizeOf(typeof(Structs.MemoryBasicInformation));
-            if (!Kernel32.VirtualQueryEx(processHandle, dllBaseAddress, out var memoryInformation, memoryInformationSize))
-                throw new Exception("Failed to query the memory of the process");
-
-            // Create a buffer to write over the header region with
-            byte[] buffer = new byte[(int)memoryInformation.RegionSize];
-
-            // Write over the header region with the buffer
-            Kernel32.WriteProcessMemory(processHandle, dllBaseAddress, buffer, (int)memoryInformation.RegionSize, out IntPtr ignored);
+            if (!Kernel32.WriteProcessMemory(process.Handle, dllBaseAddress, buffer, (int)memoryInformation.RegionSize, out IntPtr ignored))
+                throw new Exception("Cannot write to memory.");
         }
     }
 }

@@ -58,6 +58,10 @@
       <Project>{88a0da5c-2321-48a1-811b-58ccb94411c2}</Project>
       <Name>ScyllaTest_x64.Injectable</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Injectables\ScyllaTest_x86.Injectable\ScyllaTest_x86.Injectable.csproj">
+      <Project>{90662f90-3f80-45c8-afba-7607b8fe73c6}</Project>
+      <Name>ScyllaTest_x86.Injectable</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Injectables\WoW.Injectable\WoW.Injectable.csproj">
       <Project>{94f31bc5-d64a-4327-a549-af4283050447}</Project>
       <Name>WoW.Injectable</Name>

@@ -260,3 +260,8 @@ paket-files/
 __pycache__/
 *.pyc
 /Output
+/Test/TargetProcess/WoW.Injectable.dll
+/Test/TargetProcess/ScyllaTest_x86.Injectable.dll
+/Test/TargetProcess/ScyllaTest_x64.Injectable.dll
+/Test/TargetProcess/RGiesecke.DllExport.Metadata.dll
+/Test/TargetProcess/CsInjection.Core.dll
