@@ -38,6 +38,10 @@ namespace CsInjection.Core.Injection
         /// </summary>
         public void AttachToProcess()
         {
+            // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
+            if (Debugger.IsAttached)
+                _process.Attach();
+
             string curDir = Environment.CurrentDirectory;
 
             string architecture = _process.IsWow64() ? "x32" : "x64";
@@ -46,12 +50,8 @@ namespace CsInjection.Core.Injection
 
             if (File.Exists(hookLibraryDll) && File.Exists(InjectorCliExe))
             {
-                Process.Start(InjectorCliExe, $"{_process.Id} {hookLibraryDll} [nowait]");
+                Process.Start(InjectorCliExe, $"pid:{_process.Id} {hookLibraryDll} [nowait]");
             }
-
-            // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
-            if (Debugger.IsAttached)
-                _process.Attach();
         }
 
         private void UpdateDlls(string pathToDll)
@@ -63,7 +63,7 @@ namespace CsInjection.Core.Injection
             string processPath = Path.GetDirectoryName(_process.MainModule.FileName);
 
             // Copy all DLLs which our injecting DLL might use which are in the same folder.
-            foreach (string filePath in Directory.GetFiles(Path.GetDirectoryName(pathToDll), "*.dll"))
+            foreach (string filePath in Directory.GetFiles(Path.GetDirectoryName(pathToDll), "CsInjection.Core.dll"))
             {
                 string destination = Path.Combine(processPath, Path.GetFileName(filePath));
                 File.Copy(filePath, destination, overwrite: true);
