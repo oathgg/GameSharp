@@ -89,7 +89,7 @@ namespace CsInjection.Core.Injection
         }
 
         /// <summary>
-        ///     DLL needs to be the same platform as the game (e.g. x64 or x86).
+        ///     DLL needs to be the same platform as the target process (e.g. x64 or x86).
         /// </summary>
         /// <param name="pathToDll"></param>
         /// <param name="entryPoint"></param>
