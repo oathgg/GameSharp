@@ -22,11 +22,6 @@ namespace CsInjection.Injector
             string dllPath = Path.Combine(Environment.CurrentDirectory, $"{processName}.Injectable.dll");
             Process process = Process.GetProcessesByName(processName).FirstOrDefault();
 
-            if (process == null)
-            {
-                throw new NullReferenceException();
-            }
-
             IInjection injector = new RemoteThreadInjection(process);
 
             injector.InjectAndExecute(dllPath, "Main");
