@@ -1,5 +1,6 @@
 using CsInjection.Core.Native;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -90,7 +91,7 @@ namespace CsInjection.Core.Extensions
             int memoryInformationSize = Marshal.SizeOf(typeof(Structs.MemoryBasicInformation));
 
             if (!Kernel32.VirtualQueryEx(process.Handle, dllBaseAddress, out Structs.MemoryBasicInformation memoryInformation, memoryInformationSize))
-                throw new Exception("Failed to query the memory.");
+                throw new Win32Exception(Marshal.GetLastWin32Error());
 
             // Create a buffer to write over the header region with
             byte[] buffer = new byte[(int) memoryInformation.RegionSize];
@@ -100,7 +101,7 @@ namespace CsInjection.Core.Extensions
 
             // Write over the header region with the buffer
             if (!Kernel32.WriteProcessMemory(process.Handle, dllBaseAddress, buffer, (int)memoryInformation.RegionSize, out IntPtr ignored))
-                throw new Exception("Cannot write to memory.");
+                throw new Win32Exception(Marshal.GetLastWin32Error());
         }
     }
 }

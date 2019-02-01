@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using CsInjection.Core.Extensions;
+using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 namespace CsInjection.Core.Injection
 {
@@ -16,7 +18,7 @@ namespace CsInjection.Core.Injection
         protected override void Inject(string pathToDll, string entryPoint)
         {
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
-                throw new ArgumentException(string.Format($"Cannot access DLL: '{pathToDll}', did you include it as a reference?"));
+                throw new Win32Exception(Marshal.GetLastWin32Error());
 
             byte[] pathBytes = Encoding.ASCII.GetBytes(pathToDll);
 
@@ -51,7 +53,7 @@ namespace CsInjection.Core.Injection
 
             // Validation
             if (entryPointAddress == IntPtr.Zero)
-                throw new Exception($"No entry point named '{entryPoint}' found within DLL '{pathToDll}'.");
+                throw new Win32Exception(Marshal.GetLastWin32Error());
 
             // Invoke the entry point in the remote process
             IntPtr modulePath = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);
