@@ -9,10 +9,7 @@ namespace WoW.Injectable
         public static void Main()
         {
             ExceptionHandler.Initialize();
-
             Logger.Write("Injected");
-
-            //throw new NullReferenceException();
         }
     }
 }

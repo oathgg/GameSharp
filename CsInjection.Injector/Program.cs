@@ -1,12 +1,8 @@
-﻿using CsInjection.Core.Extensions;
-using CsInjection.Core.Injection;
+﻿using CsInjection.Core.Injection;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsInjection.Injector
 {
@@ -14,8 +10,8 @@ namespace CsInjection.Injector
     {
         static void Main(string[] args)
         {
-            InjectDll("ScyllaTest_x64");
-            //InjectDll("ScyllaTest_x86");
+            InjectDll("wow");
+            //InjectDll("ScyllaTest_x64");
         }
 
         static void InjectDll(string processName)
@@ -26,7 +22,8 @@ namespace CsInjection.Injector
             IInjection injector = new RemoteThreadInjection(process);
 
             injector.InjectAndExecute(dllPath, "Main");
-            injector.AttachToProcess();
+
+            //injector.AttachToProcess();
         }
     }
 }

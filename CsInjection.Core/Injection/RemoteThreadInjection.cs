@@ -43,10 +43,16 @@ namespace CsInjection.Core.Injection
         {
             // Dynamically load the DLL into our own process.
             IntPtr myModule = Kernel32.LoadLibraryEx(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
+
             // Get the address of our entry point.
-            IntPtr loadLibraryAnsiPtr = Kernel32.GetProcAddress(myModule, entryPoint);
+            IntPtr entryPointAddress = Kernel32.GetProcAddress(myModule, entryPoint);
+
+            // Validation
+            if (entryPointAddress == IntPtr.Zero)
+                throw new Exception($"No entry point named '{entryPoint}' found within DLL '{pathToDll}'.");
+
             // Invoke the entry point in the remote process
-            IntPtr modulePath = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, loadLibraryAnsiPtr, IntPtr.Zero, 0, IntPtr.Zero);
+            IntPtr modulePath = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
     }
 }
