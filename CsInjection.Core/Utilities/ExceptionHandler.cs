@@ -1,5 +1,4 @@
-﻿using CsInjection.Core.Helpers;
-using System;
+﻿using System;
 using System.Diagnostics;
 
 namespace CsInjection.Core.Utilities

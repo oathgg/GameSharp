@@ -1,4 +1,4 @@
-﻿using CsInjection.Core.Helpers;
+﻿using CsInjection.Core.Extensions;
 using System;
 using System.Runtime.InteropServices;
 

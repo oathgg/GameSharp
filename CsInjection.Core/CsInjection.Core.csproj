@@ -67,11 +67,11 @@
     <Compile Include="Native\Kernel32.cs" />
     <Compile Include="Native\Structs.cs" />
     <Compile Include="Utilities\Logger.cs" />
-    <Compile Include="Helpers\ThreadContextHelper.cs" />
+    <Compile Include="Extensions\ProcessThreadExtension.cs" />
     <Compile Include="Utilities\Memory.cs" />
     <Compile Include="Utilities\BytePatcher.cs" />
     <Compile Include="Utilities\Detour.cs" />
-    <Compile Include="Extensions\ArrayExtension.cs" />
+    <Compile Include="Extensions\ByteArrayExtension.cs" />
     <Compile Include="Hooks\HookBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExceptionHandler.cs" />

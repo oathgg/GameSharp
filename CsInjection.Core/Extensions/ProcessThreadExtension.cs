@@ -4,18 +4,15 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using CsInjection.Core.Native;
 
-namespace CsInjection.Core.Helpers
+namespace CsInjection.Core.Extensions
 {
-    public class ThreadContextHelper
+    public static class ProcessThreadExtension
     {
-        public Structs.Context GetThreadContext()
+        public static Structs.Context GetThreadContext(this ProcessThread thread)
         {
-            // Get the first thread id.
-            var curThread = Process.GetCurrentProcess().Threads[0]; 
-
             Structs.Context Context = new Structs.Context();
             Context.ContextFlags = (uint)Enums.ContextFlags.CONTEXT_CONTROL;
-            IntPtr hThread = Kernel32.OpenThread(Enums.ThreadAccessFlags.GET_CONTEXT, false, (uint)curThread.Id);
+            IntPtr hThread = Kernel32.OpenThread(Enums.ThreadAccessFlags.GET_CONTEXT, false, (uint)thread.Id);
 
             if (hThread == IntPtr.Zero)
                 throw new Win32Exception(Marshal.GetLastWin32Error());

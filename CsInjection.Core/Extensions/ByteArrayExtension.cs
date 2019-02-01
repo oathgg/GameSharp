@@ -1,8 +1,8 @@
 using System;
 
-namespace CsInjection.Core.Helpers
+namespace CsInjection.Core.Extensions
 {
-    public static class ArrayExtension
+    public static class ByteArrayExtension
     {
         /// <summary>
         ///     Casts the data into the specified object.
