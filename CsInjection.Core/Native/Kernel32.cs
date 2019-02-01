@@ -1,10 +1,9 @@
-using Microsoft.Win32.SafeHandles;
 using System;
 using System.Runtime.InteropServices;
-using static CsInjection.Injection.Native.Enums;
-using static CsInjection.Injection.Native.Structs;
+using static CsInjection.Core.Native.Enums;
+using static CsInjection.Core.Native.Structs;
 
-namespace CsInjection.Injection.Native
+namespace CsInjection.Core.Native
 {
     public static class Kernel32
     {

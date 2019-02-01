@@ -50,13 +50,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CsInjection.Injection\CsInjection.Injection.csproj">
-      <Project>{350DD1BB-E2B1-43CC-B71C-0BAA961446F3}</Project>
-      <Name>CsInjection.Injection</Name>
+    <ProjectReference Include="..\..\CsInjection.Core\CsInjection.Core.csproj">
+      <Project>{214B3D50-3F2A-485F-A523-3B406B86D93D}</Project>
+      <Name>CsInjection.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DllTest\DllTest.csproj">
+    <ProjectReference Include="..\DllTest\ScyllaTest_x64.Injectable.csproj">
       <Project>{88a0da5c-2321-48a1-811b-58ccb94411c2}</Project>
-      <Name>DllTest</Name>
+      <Name>ScyllaTest_x64.Injectable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

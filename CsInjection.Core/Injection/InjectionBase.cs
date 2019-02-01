@@ -1,10 +1,10 @@
-﻿using CsInjection.Injection.Extensions;
-using CsInjection.Injection.Native;
+﻿using CsInjection.Core.Extensions;
+using CsInjection.Core.Native;
 using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace CsInjection.Injection.Injection
+namespace CsInjection.Core.Injection
 {
     public abstract class InjectionBase : IInjection
     {

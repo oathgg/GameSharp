@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CsInjection.Injection.Native
+namespace CsInjection.Core.Native
 {
     public class Enums
     {

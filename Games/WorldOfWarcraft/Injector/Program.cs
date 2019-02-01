@@ -1,4 +1,4 @@
-﻿using CsInjection.Injection.Injection;
+﻿using CsInjection.Core.Injection;
 using System;
 using System.Diagnostics;
 using System.IO;

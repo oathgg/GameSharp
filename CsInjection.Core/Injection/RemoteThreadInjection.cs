@@ -1,12 +1,12 @@
 ﻿using CsInjection.Core.Utilities;
-using CsInjection.Injection.Native;
+using CsInjection.Core.Native;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace CsInjection.Injection.Injection
+namespace CsInjection.Core.Injection
 {
     public class RemoteThreadInjection : InjectionBase
     {

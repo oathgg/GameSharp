@@ -1,13 +1,9 @@
-﻿using CsInjection.Injection.Injection;
+﻿using CsInjection.Core.Injection;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace InjectorTest
+namespace ScyllaTest_x64.Injectable
 {
     class Program
     {
@@ -20,6 +16,7 @@ namespace InjectorTest
             IInjection injector = new RemoteThreadInjection(targetProcess);
 
             injector.InjectAndExecute(dll, dllEntryPoint);
+            injector.AttachToProcess();
         }
     }
 }
