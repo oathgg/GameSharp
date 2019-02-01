@@ -10,7 +10,7 @@ namespace CsInjection.Core.Extensions
 {
     public static class ProcessExtension
     {
-        public static bool IsWin64Emulator(this Process process)
+        public static bool IsWow64(this Process process)
         {
             if ((Environment.OSVersion.Version.Major > 5)
                 || ((Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor >= 1)))
@@ -81,7 +81,7 @@ namespace CsInjection.Core.Extensions
             string dllName = Path.GetFileName(dllPath);
 
             // Get an instance of the dll in the process
-            ProcessModule module = process.GetProcessModule(dllPath);
+            ProcessModule module = process.GetProcessModule(Path.GetFileName(dllPath));
 
             // Get the base address of the dll
             IntPtr dllBaseAddress = module.BaseAddress;
@@ -89,7 +89,7 @@ namespace CsInjection.Core.Extensions
             // Get the information about the header region of the dll
             int memoryInformationSize = Marshal.SizeOf(typeof(Structs.MemoryBasicInformation));
 
-            if (!Kernel32.VirtualQueryEx(process.Handle, dllBaseAddress, out var memoryInformation, memoryInformationSize))
+            if (!Kernel32.VirtualQueryEx(process.Handle, dllBaseAddress, out Structs.MemoryBasicInformation memoryInformation, memoryInformationSize))
                 throw new Exception("Failed to query the memory.");
 
             // Create a buffer to write over the header region with

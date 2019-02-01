@@ -38,6 +38,17 @@ namespace CsInjection.Core.Injection
         /// </summary>
         public void AttachToProcess()
         {
+            string curDir = Environment.CurrentDirectory;
+
+            string architecture = _process.IsWow64() ? "x32" : "x64";
+            string hookLibraryDll = Path.Combine(curDir, $@"..\..\..\ThirdParty\HookLibrary{architecture}.dll");
+            string InjectorCliExe = Path.Combine(curDir, $@"..\..\..\ThirdParty\InjectorCLI{architecture}.exe");
+
+            if (File.Exists(hookLibraryDll) && File.Exists(InjectorCliExe))
+            {
+                Process.Start(InjectorCliExe, $"{_process.Id} {hookLibraryDll} [nowait]");
+            }
+
             // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
             if (Debugger.IsAttached)
                 _process.Attach();
