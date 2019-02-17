@@ -11,8 +11,10 @@ namespace GameSharp.Tests
         [TestMethod]
         public void FindByteAddressTest()
         {
+            int maxBytes = 1024;
+
             // Create a byte array we wish to scan.
-            byte[] bytesToScan = new byte[1024];
+            byte[] bytesToScan = new byte[maxBytes];
 
             // Fill it with random bytes.
             new Random().NextBytes(bytesToScan);
@@ -21,7 +23,7 @@ namespace GameSharp.Tests
             byte[] helloWorldByte = new byte[] { 0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x57, 0x6F, 0x72, 0x6C, 0x64 };
 
             // Pass the Byte string into a random spot of the byte array object.
-            int rndSpot = new Random().Next(0, 1024);
+            int rndSpot = new Random().Next(0, maxBytes);
             for (int i = 0; i < helloWorldByte.Length; i++)
                 bytesToScan[rndSpot + i] = helloWorldByte[i];
 
