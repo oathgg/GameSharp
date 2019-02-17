@@ -43,7 +43,7 @@ namespace CsInjection.Injector
         static void Main(string[] args)
         {
             string pathToDll = Path.Combine(Environment.CurrentDirectory, "Banished.Injectable.dll");
-            InjectDll("Application-steam-x64", "Banished.Injectable.dll", "Main");
+            InjectDll("Application-steam-x64", pathToDll, "Main");
         }
 
         static void InjectDll(string processName, string pathToDll, string dllEntryPoint)
