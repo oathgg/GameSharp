@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp", "GameSharp\GameSharp.csproj", "{214B3D50-3F2A-485F-A523-3B406B86D93D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Tests", "GameSharp.Tests\GameSharp.Tests.csproj", "{3EAB02B6-8F57-49DC-9490-46D8BFEAA568}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{214B3D50-3F2A-485F-A523-3B406B86D93D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214B3D50-3F2A-485F-A523-3B406B86D93D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214B3D50-3F2A-485F-A523-3B406B86D93D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214B3D50-3F2A-485F-A523-3B406B86D93D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EAB02B6-8F57-49DC-9490-46D8BFEAA568}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EAB02B6-8F57-49DC-9490-46D8BFEAA568}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EAB02B6-8F57-49DC-9490-46D8BFEAA568}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EAB02B6-8F57-49DC-9490-46D8BFEAA568}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

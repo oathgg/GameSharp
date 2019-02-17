@@ -58,7 +58,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CsInjection\GameSharp.csproj">
+    <ProjectReference Include="..\GameSharp\GameSharp.csproj">
       <Project>{214B3D50-3F2A-485F-A523-3B406B86D93D}</Project>
       <Name>GameSharp</Name>
     </ProjectReference>
