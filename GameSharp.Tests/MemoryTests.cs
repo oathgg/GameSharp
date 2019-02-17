@@ -33,7 +33,7 @@ namespace GameSharp.Tests
         }
 
         [TestMethod]
-        public void ReadStruct()
+        public void ReadStructTest()
         {
             // Allocate memory
 

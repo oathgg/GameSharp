@@ -15,7 +15,7 @@ namespace GameSharp.Utilities
         /// <summary>
         ///     The base address of the module.
         /// </summary>
-        private IntPtr _moduleBase { get; }
+        private IntPtr _moduleBase { get; } = new IntPtr();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SigScanner" /> class.
@@ -30,10 +30,9 @@ namespace GameSharp.Utilities
         public SigScanner(byte[] bytesToScan)
         {
             _bytes = bytesToScan;
-            _moduleBase = new IntPtr();
         }
 
-        public IntPtr FindByteAddress(byte[] array, int offset = 0)
+        private IntPtr FindByteAddress(byte[] array, int offset = 0)
         {
             for (int memByteOffset = 0; memByteOffset < _bytes.Length; memByteOffset++)
             {
@@ -63,22 +62,7 @@ namespace GameSharp.Utilities
         {
             byte[] arrPattern = ParsePatternString(pattern);
 
-            for (int memByteOffset = 0; memByteOffset < _bytes.Length; memByteOffset++)
-            {
-                if (_bytes[memByteOffset] != arrPattern[0])
-                    continue;
-
-                if (PatternCheck(ref memByteOffset, arrPattern))
-                {
-                    return _moduleBase
-                        // pattern index offset
-                        + memByteOffset
-                        // offset given by user
-                        + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber);
-                }
-            }
-
-            return IntPtr.Zero;
+            return FindByteAddress(arrPattern, offset);
         }
 
         /// <summary>

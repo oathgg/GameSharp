@@ -52,6 +52,7 @@
     <Compile Include="BytePatcherTests.cs" />
     <Compile Include="MemoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SigScannerTests.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

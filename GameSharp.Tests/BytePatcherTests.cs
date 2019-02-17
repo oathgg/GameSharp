@@ -9,7 +9,7 @@ namespace GameSharp.Tests
     public class BytePatcherTests
     {
         [TestMethod]
-        public void EnableDisable()
+        public void EnableDisableTest()
         {
             // Allocate memory.
             IntPtr ptrAllocatedMemory = Utils.GenerateRandomMemoryBlock();
