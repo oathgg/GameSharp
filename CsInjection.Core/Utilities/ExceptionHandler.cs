@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace CsInjection.Core.Utilities
+namespace CsInjection.Utilities
 {
     public static class ExceptionHandler
     {

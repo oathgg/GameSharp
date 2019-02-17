@@ -1,9 +1,9 @@
-﻿using CsInjection.Core.Extensions;
-using CsInjection.Core.Native;
+﻿using CsInjection.Extensions;
+using CsInjection.Native;
 using System;
 using System.Runtime.InteropServices;
 
-namespace CsInjection.Core.Utilities
+namespace CsInjection.Utilities
 {
     public class Memory
     {

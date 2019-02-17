@@ -1,9 +1,9 @@
-﻿using CsInjection.Core.Extensions;
+﻿using CsInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace CsInjection.Core.Utilities
+namespace CsInjection.Utilities
 {
     public class SigScanner
     {

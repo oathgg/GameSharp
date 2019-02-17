@@ -1,7 +1,7 @@
-﻿using CsInjection.Core.Utilities;
+﻿using CsInjection.Utilities;
 using System;
 
-namespace CsInjection.Core.Hooks
+namespace CsInjection.Hooks
 {
     /// <summary>
     ///     Extend from <see cref="HookBase"/> with a hook you want to use.

@@ -1,4 +1,4 @@
-using CsInjection.Core.Native;
+using CsInjection.Native;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace CsInjection.Core.Extensions
+namespace CsInjection.Extensions
 {
     public static class ProcessExtension
     {

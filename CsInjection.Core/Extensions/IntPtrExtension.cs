@@ -1,7 +1,7 @@
-﻿using CsInjection.Core.Utilities;
+﻿using CsInjection.Utilities;
 using System;
 
-namespace CsInjection.Core.Extensions
+namespace CsInjection.Extensions
 {
     public static class IntPtrExtension
     {

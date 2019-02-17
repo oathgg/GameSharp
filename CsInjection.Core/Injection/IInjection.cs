@@ -1,4 +1,4 @@
-﻿namespace CsInjection.Core.Injection
+﻿namespace CsInjection.Injection
 {
     public interface IInjection
     {

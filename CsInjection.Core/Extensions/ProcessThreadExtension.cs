@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using CsInjection.Core.Native;
+using CsInjection.Native;
 
-namespace CsInjection.Core.Extensions
+namespace CsInjection.Extensions
 {
     public static class ProcessThreadExtension
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace CsInjection.Core.Native
+namespace CsInjection.Native
 {
     public class Structs
     {

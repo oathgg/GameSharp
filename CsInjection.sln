@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.Core", "CsInjection.Core\CsInjection.Core.csproj", "{214B3D50-3F2A-485F-A523-3B406B86D93D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection", "CsInjection.Core\CsInjection.csproj", "{214B3D50-3F2A-485F-A523-3B406B86D93D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AFB6985F-6644-40B8-A281-2FE3A0CB3665}"
 EndProject
@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TargetProcess", "TargetProc
 		Test\TargetProcess\ScyllaTest_x64.exe = Test\TargetProcess\ScyllaTest_x64.exe
 		Test\TargetProcess\ScyllaTest_x86.exe = Test\TargetProcess\ScyllaTest_x86.exe
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banished.Injectable", "Injectables\Banished.Injectable\Banished.Injectable.csproj", "{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsInjection.Injector", "CsInjection.Injector\CsInjection.Injector.csproj", "{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +40,30 @@ Global
 		{214B3D50-3F2A-485F-A523-3B406B86D93D}.Release|x64.Build.0 = Release|Any CPU
 		{214B3D50-3F2A-485F-A523-3B406B86D93D}.Release|x86.ActiveCfg = Release|Any CPU
 		{214B3D50-3F2A-485F-A523-3B406B86D93D}.Release|x86.Build.0 = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|x64.Build.0 = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|x86.Build.0 = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|x64.ActiveCfg = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|x64.Build.0 = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|x86.ActiveCfg = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|x86.Build.0 = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|x64.Build.0 = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Debug|x86.Build.0 = Debug|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x64.ActiveCfg = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x64.Build.0 = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x86.ActiveCfg = Release|Any CPU
+		{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

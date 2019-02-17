@@ -1,9 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
-using static CsInjection.Core.Native.Enums;
-using static CsInjection.Core.Native.Structs;
+using static CsInjection.Native.Enums;
+using static CsInjection.Native.Structs;
 
-namespace CsInjection.Core.Native
+namespace CsInjection.Native
 {
     public static class Kernel32
     {

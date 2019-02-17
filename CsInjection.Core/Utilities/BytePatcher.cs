@@ -1,8 +1,8 @@
-﻿using CsInjection.Core.Extensions;
+﻿using CsInjection.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace CsInjection.Core.Utilities
+namespace CsInjection.Utilities
 {
     /// <summary>
     ///     Keeps track of all the bytes patched and keeps track of the original opcodes.

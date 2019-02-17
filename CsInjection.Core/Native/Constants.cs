@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CsInjection.Core.Native
+namespace CsInjection.Native
 {
     public class Constants
     {

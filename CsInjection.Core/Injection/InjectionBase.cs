@@ -1,11 +1,11 @@
-﻿using CsInjection.Core.Extensions;
-using CsInjection.Core.Native;
+﻿using CsInjection.Extensions;
+using CsInjection.Native;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace CsInjection.Core.Injection
+namespace CsInjection.Injection
 {
     public abstract class InjectionBase : IInjection
     {
@@ -74,7 +74,7 @@ namespace CsInjection.Core.Injection
             string processPath = Path.GetDirectoryName(_process.MainModule.FileName);
 
             // Copy all DLLs which our injecting DLL might use which are in the same folder.
-            foreach (string filePath in Directory.GetFiles(Path.GetDirectoryName(pathToDll), "CsInjection.Core.dll"))
+            foreach (string filePath in Directory.GetFiles(Path.GetDirectoryName(pathToDll), "CsInjection.dll"))
             {
                 string destination = Path.Combine(processPath, Path.GetFileName(filePath));
                 File.Copy(filePath, destination, overwrite: true);

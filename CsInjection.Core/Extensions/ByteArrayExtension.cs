@@ -1,6 +1,6 @@
 using System;
 
-namespace CsInjection.Core.Extensions
+namespace CsInjection.Extensions
 {
     public static class ByteArrayExtension
     {
