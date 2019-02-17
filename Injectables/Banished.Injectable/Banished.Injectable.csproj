@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2CF74C7E-5201-4F7F-8520-BA7F38D1B094}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>CsInjection.Injector</RootNamespace>
-    <AssemblyName>CsInjection.Injector</AssemblyName>
+    <ProjectGuid>{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Banished.Injectable</RootNamespace>
+    <AssemblyName>Banished.Injectable</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,9 +21,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,12 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RGiesecke.DllExport.Metadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8f52d83c1a22df51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\UnmanagedExports.1.2.7\lib\net\RGiesecke.DllExport.Metadata.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Security.Cryptography.Pkcs, Version=4.0.3.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Pkcs.4.5.1\lib\net461\System.Security.Cryptography.Pkcs.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,33 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Entrypoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CsInjection.Core\CsInjection.Core.csproj">
-      <Project>{214B3D50-3F2A-485F-A523-3B406B86D93D}</Project>
+    <ProjectReference Include="..\..\CsInjection.Core\CsInjection.Core.csproj">
+      <Project>{214b3d50-3f2a-485f-a523-3b406b86d93d}</Project>
       <Name>CsInjection.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Injectables\Banished.Injectable\Banished.Injectable.csproj">
-      <Project>{5390f32a-32e0-4eef-9022-fce0e0f5a547}</Project>
-      <Name>Banished.Injectable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Injectables\ScyllaTest_x64.Injectable\ScyllaTest_x64.Injectable.csproj">
-      <Project>{88a0da5c-2321-48a1-811b-58ccb94411c2}</Project>
-      <Name>ScyllaTest_x64.Injectable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Injectables\ScyllaTest_x86.Injectable\ScyllaTest_x86.Injectable.csproj">
-      <Project>{90662f90-3f80-45c8-afba-7607b8fe73c6}</Project>
-      <Name>ScyllaTest_x86.Injectable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Injectables\WoW.Injectable\WoW.Injectable.csproj">
-      <Project>{5379183d-6bf2-4219-8af6-925895c52e07}</Project>
-      <Name>WoW.Injectable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="../../packages/UnmanagedExports.1.2.7/tools/RGiesecke.DllExport.targets" Condition="Exists('../../packages/UnmanagedExports.1.2.7/tools/RGiesecke.DllExport.targets')" />
 </Project>

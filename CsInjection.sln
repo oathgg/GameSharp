@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScyllaTest_x86.Injectable",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WoW.Injectable", "Injectables\WoW.Injectable\WoW.Injectable.csproj", "{5379183D-6BF2-4219-8AF6-925895C52E07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banished.Injectable", "Injectables\Banished.Injectable\Banished.Injectable.csproj", "{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,18 @@ Global
 		{5379183D-6BF2-4219-8AF6-925895C52E07}.Release|x64.Build.0 = Release|Any CPU
 		{5379183D-6BF2-4219-8AF6-925895C52E07}.Release|x86.ActiveCfg = Release|Any CPU
 		{5379183D-6BF2-4219-8AF6-925895C52E07}.Release|x86.Build.0 = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|x64.Build.0 = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Debug|x86.Build.0 = Debug|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|x64.ActiveCfg = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|x64.Build.0 = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|x86.ActiveCfg = Release|Any CPU
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +117,7 @@ Global
 		{88A0DA5C-2321-48A1-811B-58CCB94411C2} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
 		{90662F90-3F80-45C8-AFBA-7607B8FE73C6} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
 		{5379183D-6BF2-4219-8AF6-925895C52E07} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
+		{5390F32A-32E0-4EEF-9022-FCE0E0F5A547} = {438E8400-F7E7-4D8B-AA55-24006E53D9C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D08A4915-36D7-4636-A195-69744BA601A1}

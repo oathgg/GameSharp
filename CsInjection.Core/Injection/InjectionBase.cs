@@ -33,12 +33,15 @@ namespace CsInjection.Core.Injection
         {
             // Update all DLL files in WoW exe directory which we need to inject.
             UpdateDlls(pathToDll);
+            
+            // Injects our DLL into the specified process.
+            Inject(pathToDll, entryPoint);
+
+            // To hide our presence we randomize the PE headers of the DLL we have injected.
+            //_process.RandomizePeHeader(pathToDll);
 
             // Creates a console for the output we want to write from the injected program.
             AllocConsole();
-
-            // Injects our DLL into the specified process.
-            Inject(pathToDll, entryPoint);
 
             // Executes the entry point of the DLL.
             Execute(pathToDll, entryPoint);

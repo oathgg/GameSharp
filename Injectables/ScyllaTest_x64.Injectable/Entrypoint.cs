@@ -9,7 +9,7 @@ namespace ScyllaTest_x64.Injectable
         public static void Main()
         {
             ExceptionHandler.Initialize();
-            Logger.Write("Injected");
+            Logger.Info("Injected");
         }
     }
 }

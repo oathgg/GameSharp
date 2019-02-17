@@ -10,20 +10,21 @@ namespace CsInjection.Injector
     {
         static void Main(string[] args)
         {
-            InjectDll("wow");
-            //InjectDll("ScyllaTest_x64");
+            InjectDll("Application-steam-x64", "Banished.Injectable.dll");
+            //InjectDll("wow", "wow.injectable.dll");
+            //InjectDll("ScyllaTest_x64", "ScyllaTest_x64.dll");
         }
 
-        static void InjectDll(string processName)
+        static void InjectDll(string processName, string dllName)
         {
-            string dllPath = Path.Combine(Environment.CurrentDirectory, $"{processName}.Injectable.dll");
+            string dllPath = Path.Combine(Environment.CurrentDirectory, dllName);
             Process process = Process.GetProcessesByName(processName).FirstOrDefault();
 
             IInjection injector = new RemoteThreadInjection(process);
 
             injector.InjectAndExecute(dllPath, "Main");
 
-            //injector.AttachToProcess();
+            injector.AttachToProcess();
         }
     }
 }
