@@ -35,8 +35,7 @@ namespace CsInjection.Utilities
             bytes.AddRange(BitConverter.GetBytes(_hook.ToInt32()));
             bytes.Add(0xC3);
 
-            _patcher = new BytePatcher(new IntPtr(_target.ToInt32()));
-            _patcher.Patch(bytes.ToArray());
+            _patcher = new BytePatcher(new IntPtr(_target.ToInt32()), bytes.ToArray());
         }
 
         /// <summary>

@@ -46,40 +46,16 @@ namespace CsInjection.Utilities
         ///     Overloaded method of the default BytePatcher
         /// </summary>
         /// <param name="addressToPatch">The address of the byte which we want to patch</param>
-        public BytePatcher(IntPtr addressToPatch)
+        public BytePatcher(IntPtr addressToPatch, byte[] newBytes)
         {
             _addressToPatch = addressToPatch;
+            _newBytes = newBytes;
             PatchList.Add(this);
         }
 
         #endregion Constructor
 
         #region Methods
-
-        #region Patch
-
-        /// <summary>
-        ///     Patches the bytes at the <see cref="MemoryAddress"/> provided in the constructor
-        ///     and activates the patch.
-        /// </summary>
-        /// <param name="newBytes"></param>
-        public void PatchAndEnable(byte[] newBytes)
-        {
-            Patch(newBytes);
-            Enable();
-        }
-
-        /// <summary>
-        ///     Patch by using new bytes in an array.
-        /// </summary>
-        /// <param name="newBytes">An array of bytes</param>
-        public void Patch(byte[] newBytes)
-        {
-            _originalBytes = _addressToPatch.Read<byte[]>(newBytes.Length);
-            _newBytes = newBytes;
-        }
-
-        #endregion Patch
 
         /// <summary>
         ///     Disables the patch by restoring the original opcodes.
@@ -100,6 +76,8 @@ namespace CsInjection.Utilities
         {
             if (!_isActive)
             {
+                _originalBytes = _addressToPatch.Read<byte[]>(_newBytes.Length);
+
                 _addressToPatch.Write(_newBytes);
                 _isActive = true;
             }

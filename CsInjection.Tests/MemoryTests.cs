@@ -36,8 +36,14 @@ namespace CsInjection.Tests
         public void ReadStruct()
         {
             // Allocate memory
+
+
             // Write a structure to the memory
+            
+            
             // Read the structure
+            
+            
             // Test the structure
         }
 
