@@ -30,9 +30,13 @@ namespace GameSharp.Utilities
             _hookDelegate = hook;
             _hook = Marshal.GetFunctionPointerForDelegate(hook);
 
-            // Setup the detour bytes
-            var bytes = new List<byte> { 0x68 };
+            // PUSH opcode http://ref.x86asm.net/coder32.html#x68
+            List<byte> bytes = new List<byte> { 0x68 };
+
+            // Our hoot in bytes.
             bytes.AddRange(BitConverter.GetBytes(_hook.ToInt32()));
+
+            // RETN opcode http://ref.x86asm.net/coder32.html#xC3
             bytes.Add(0xC3);
 
             _patcher = new BytePatcher(new IntPtr(_target.ToInt32()), bytes.ToArray());
