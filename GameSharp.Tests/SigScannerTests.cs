@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using GameSharp.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
