@@ -42,7 +42,7 @@ namespace CsInjection.Core.Injection
             Inject(pathToDll, entryPoint);
 
             // To hide our presence we randomize the PE headers of the DLL we have injected.
-            _process.RandomizePeHeader(pathToDll);
+            //FIX: _process.RandomizePeHeader(pathToDll);
 
             // Creates a console for the output we want to write from the injected program.
             AllocConsole();
