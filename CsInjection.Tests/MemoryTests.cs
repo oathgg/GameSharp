@@ -10,7 +10,7 @@ namespace CsInjection.Tests
     public class MemoryTests
     {
         [TestMethod]
-        public void Write()
+        public void ReadWriteTest()
         {
             // Allocate memory
             IntPtr allocatedMemory = Marshal.AllocHGlobal(1024);
@@ -33,14 +33,12 @@ namespace CsInjection.Tests
         }
 
         [TestMethod]
-        public void Read()
-        {
-        }
-
-        [TestMethod]
         public void ReadStruct()
         {
-
+            // Allocate memory
+            // Write a structure to the memory
+            // Read the structure
+            // Test the structure
         }
 
         struct Test

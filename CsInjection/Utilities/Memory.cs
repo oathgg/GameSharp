@@ -19,15 +19,12 @@ namespace CsInjection.Utilities
             Kernel32.VirtualProtect(destination, nBytes.Length, old, out Enums.Protection x);
         }
 
-        public static T Read<T>(IntPtr memoryAddress, Type t) where T : struct
+        public static T Read<T>(IntPtr memoryAddress) where T : struct
         {
             return Marshal.PtrToStructure<T>(memoryAddress);
         }
 
-        public static T Read<T>(IntPtr memoryAddress, int size)
-        {
-            return Read<T>(memoryAddress, 0, size);
-        }
+        public static T Read<T>(IntPtr memoryAddress, int size) => Read<T>(memoryAddress, 0, size);
 
         public static T Read<T>(IntPtr memoryAddress, int offset, int size)
         {
