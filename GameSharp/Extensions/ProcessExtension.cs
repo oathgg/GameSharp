@@ -31,14 +31,16 @@ namespace GameSharp.Extensions
             }
             catch (COMException)
             {
-                Debug.WriteLine(string.Format(@"Visual studio not found."));
+                Debug.WriteLine("Visual studio v2017 not found.");
                 return;
             }
 
             // Try loop - Visual Studio may not respond the first time.
             int tryCount = 5;
-            while (tryCount-- > 0)
+            do
             {
+                Thread.Sleep(5000);
+
                 try
                 {
                     EnvDTE.Processes processes = dte.Debugger.LocalProcesses;
@@ -53,14 +55,14 @@ namespace GameSharp.Extensions
                 }
                 catch
                 {
-                    Thread.Sleep(1000);
+                    // Swallow
                 }
-            }
+            } while (tryCount-- > 0);
         }
 
         public static ProcessModule GetProcessModule(this Process process, string moduleName)
         {
-            int retryCount = 0;
+            int retryCount = 5;
             ProcessModule module = null;
             do
             {
@@ -71,7 +73,7 @@ namespace GameSharp.Extensions
                     .SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase));
 
                 Thread.Sleep(1000);
-            } while (++retryCount < 5);
+            } while (retryCount-- > 0);
 
             return module;
         }
