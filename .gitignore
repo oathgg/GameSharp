@@ -265,3 +265,7 @@ __pycache__/
 /Test/TargetProcess/ScyllaTest_x64.Injectable.dll
 /Test/TargetProcess/RGiesecke.DllExport.Metadata.dll
 /Test/TargetProcess/CsInjection.Core.dll
+
+# Personal
+/Injectables
+/CsInjection.Injector
