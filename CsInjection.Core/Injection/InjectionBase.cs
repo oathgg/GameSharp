@@ -34,11 +34,15 @@ namespace CsInjection.Core.Injection
             // Update all DLL files in WoW exe directory which we need to inject.
             UpdateDlls(pathToDll);
             
+            //
+            // TODO: Pause all threads before injecting in case of anti-cheat.
+            //
+
             // Injects our DLL into the specified process.
             Inject(pathToDll, entryPoint);
 
             // To hide our presence we randomize the PE headers of the DLL we have injected.
-            //_process.RandomizePeHeader(pathToDll);
+            _process.RandomizePeHeader(pathToDll);
 
             // Creates a console for the output we want to write from the injected program.
             AllocConsole();
@@ -55,18 +59,6 @@ namespace CsInjection.Core.Injection
             // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
             if (Debugger.IsAttached)
                 _process.Attach();
-
-            // Hides our debugger
-            string architecture = _process.IsWow64() ? "x32" : "x64";
-
-            string curDir = Environment.CurrentDirectory;
-            string hookLibraryDll = Path.Combine(curDir, $@"..\..\..\ThirdParty\HookLibrary{architecture}.dll");
-            string InjectorCliExe = Path.Combine(curDir, $@"..\..\..\ThirdParty\InjectorCLI{architecture}.exe");
-
-            if (File.Exists(hookLibraryDll) && File.Exists(InjectorCliExe))
-            {
-                Process.Start(InjectorCliExe, $"pid:{_process.Id} {hookLibraryDll}");
-            }
         }
 
         /// <summary>
