@@ -18,6 +18,26 @@ namespace GameSharp.Utilities
         private readonly Delegate _hookDelegate;
 
         /// <summary>
+        ///     Gets the pointer to be hooked/being hooked.
+        /// </summary>
+        private IntPtr _hook { get; }
+
+        /// <summary>
+        ///     Contains the data of our patch
+        /// </summary>
+        private BytePatcher _patcher { get; }
+
+        /// <summary>
+        ///     Gets the pointer of the target function.
+        /// </summary>
+        private IntPtr _target { get; }
+
+        /// <summary>
+        ///     Gets the targeted delegate instance.
+        /// </summary>
+        private Delegate _targetDelegate { get; }
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="Detour" /> class.
         /// </summary>
         /// <param name="target">The target delegate we want to detour.</param>
@@ -41,26 +61,6 @@ namespace GameSharp.Utilities
 
             _patcher = new BytePatcher(new IntPtr(_target.ToInt32()), bytes.ToArray());
         }
-
-        /// <summary>
-        ///     Gets the pointer to be hooked/being hooked.
-        /// </summary>
-        private IntPtr _hook { get; }
-
-        /// <summary>
-        ///     Contains the data of our patch
-        /// </summary>
-        private BytePatcher _patcher { get; }
-
-        /// <summary>
-        ///     Gets the pointer of the target function.
-        /// </summary>
-        private IntPtr _target { get; }
-
-        /// <summary>
-        ///     Gets the targeted delegate instance.
-        /// </summary>
-        private Delegate _targetDelegate { get; }
 
         /// <summary>
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. In this
