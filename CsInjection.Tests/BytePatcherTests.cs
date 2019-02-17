@@ -17,8 +17,10 @@ namespace CsInjection.Tests
             byte[] originalBytes = Memory.Read<byte[]>(ptrAllocatedMemory, 3);
             byte[] newBytes = new byte[] { 1, 2, 3 };
 
-            // Change a byte by enabling the patch.
+            // Create the bytepatcher object.
             BytePatcher bp = new BytePatcher(ptrAllocatedMemory, newBytes);
+
+            // Change bytes by enabling the patch.
             bp.Enable();
 
             // Validate if the byte has been changed.
