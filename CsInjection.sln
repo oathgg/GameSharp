@@ -3,14 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AFB6985F-6644-40B8-A281-2FE3A0CB3665}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TargetProcess", "TargetProcess", "{8164ED7B-2301-4474-9F02-4D5E25230B3B}"
-	ProjectSection(SolutionItems) = preProject
-		Test\TargetProcess\Release.zip = Test\TargetProcess\Release.zip
-		Test\TargetProcess\ScyllaTest_x64.exe = Test\TargetProcess\ScyllaTest_x64.exe
-		Test\TargetProcess\ScyllaTest_x86.exe = Test\TargetProcess\ScyllaTest_x86.exe
-	EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AFB6985F-6644-40B8-A281-2FE3A0CB3665}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banished.Injectable", "Injectables\Banished.Injectable\Banished.Injectable.csproj", "{5390F32A-32E0-4EEF-9022-FCE0E0F5A547}"
 EndProject
@@ -67,9 +60,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{8164ED7B-2301-4474-9F02-4D5E25230B3B} = {AFB6985F-6644-40B8-A281-2FE3A0CB3665}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D08A4915-36D7-4636-A195-69744BA601A1}
