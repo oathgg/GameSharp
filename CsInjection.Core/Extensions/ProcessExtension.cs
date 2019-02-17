@@ -76,6 +76,11 @@ namespace CsInjection.Core.Extensions
             return module;
         }
 
+        /// <summary>
+        ///     https://github.com/Akaion/Bleak/blob/master/Bleak/Extensions/RandomiseHeaders.cs
+        /// </summary>
+        /// <param name="process"></param>
+        /// <param name="dllPath"></param>
         public static void RandomizePeHeader (this Process process, string dllPath)
         {
             // Get the name of the dll
