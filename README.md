@@ -36,7 +36,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace Injector
+namespace CsInjection.Injector
 {
     class Program
     {
@@ -48,12 +48,16 @@ namespace Injector
 
         static void InjectDll(string processName, string pathToDll, string dllEntryPoint)
         {
+            // The process we are injecting into.
             Process process = Process.GetProcessesByName(processName).FirstOrDefault();
 
+            // A simple RemoteThreadInjector.
             IInjection injector = new RemoteThreadInjection(process);
 
+            // Inject the DLL and executes the entrypoint.
             injector.InjectAndExecute(pathToDll, dllEntryPoint);
 
+            // Attaches to the current process.
             injector.AttachToProcess();
         }
     }
