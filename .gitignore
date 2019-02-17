@@ -267,5 +267,4 @@ __pycache__/
 /Test/TargetProcess/CsInjection.Core.dll
 
 # Personal
-/Injectables
-/CsInjection.Injector
+/Personal
