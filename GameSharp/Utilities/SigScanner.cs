@@ -42,7 +42,7 @@ namespace GameSharp.Utilities
                 if (PatternCheck(ref memByteOffset, array))
                 {
                     return _moduleBase
-                        // pattern index offset
+                        // offset in byte array
                         + memByteOffset
                         // offset given by user
                         + int.Parse(offset.ToString("X"), System.Globalization.NumberStyles.HexNumber);
