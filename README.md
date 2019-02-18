@@ -1,4 +1,4 @@
-# CsInjection
+# GameSharp
 C# Injection, inject a managed dll into a native application.
 
 Create a 'Class Library' project and reference the nuget package UnmanagedExports.
