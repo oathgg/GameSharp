@@ -30,13 +30,13 @@ You can then inject the managed DLL into a native process with your favorite Inj
 After injecting the DLL you can execute the entry point.
 
 ```csharp
-using CsInjection.Core.Injection;
+using GameSharp.Injection;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace CsInjection.Injector
+namespace Injector
 {
     class Program
     {
