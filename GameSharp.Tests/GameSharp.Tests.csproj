@@ -49,7 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ByteArrayExtensionTests.cs" />
+    <Compile Include="ArrayExtensionTests.cs" />
     <Compile Include="BytePatcherTests.cs" />
     <Compile Include="InjectionTests.cs" />
     <Compile Include="MemoryTests.cs" />

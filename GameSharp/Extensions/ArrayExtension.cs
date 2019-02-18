@@ -2,7 +2,7 @@ using System;
 
 namespace GameSharp.Extensions
 {
-    public static class ByteArrayExtension
+    public static class ArrayExtension
     {
         /// <summary>
         ///     Casts the data into the specified object.

@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GameSharp.Tests
 {
     [TestClass]
-    public class ByteArrayExtensionTests
+    public class ArrayExtensionTests
     {
         [TestMethod]
         public void CastTest()
