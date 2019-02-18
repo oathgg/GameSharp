@@ -1,5 +1,5 @@
 # GameSharp
-C# Injection, inject a managed dll into a native application.
+Change a native (unmanaged) game application into a managed application.
 
 Create a 'Class Library' project and reference the nuget package UnmanagedExports.
 https://www.nuget.org/packages/UnmanagedExports/1.2.7
