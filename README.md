@@ -7,7 +7,7 @@ https://www.nuget.org/packages/UnmanagedExports/1.2.7
 Make sure you select an architecture which is the same as the process you're injecting to.
 UnmanagedExports does not support 'AnyCPU'.
 
-Create a new Entrypoint for your DLL.
+Create an Entrypoint for your DLL.
 
 ```csharp
 using RGiesecke.DllExport;
