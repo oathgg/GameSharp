@@ -16,7 +16,6 @@ namespace GameSharp.Tests
             
             IInjection injection = new RemoteThreadInjection(process);
             injection.InjectAndExecute(Environment.CurrentDirectory + "\\..\\..\\Dll\\TestDll_x86.dll", "Main");
-            injection.AttachToProcess();
 
             Assert.IsNotNull(process.Id);
 
