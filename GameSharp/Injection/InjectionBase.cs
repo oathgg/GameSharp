@@ -54,12 +54,13 @@ namespace GameSharp.Injection
         }
 
         /// <summary>
-        ///     Suspends all active threads
+        ///     Suspends or resumes all active threads
         /// </summary>
         private void SuspendThreads(bool suspend)
         {
             foreach (ProcessThread pT in _process.Threads)
             {
+                // Get the handle of the current thread.
                 IntPtr tHandle = Kernel32.OpenThread(Enums.ThreadAccessFlags.SUSPEND_RESUME, false, (uint)pT.Id);
 
                 if (tHandle != IntPtr.Zero)
@@ -72,9 +73,10 @@ namespace GameSharp.Injection
                     {
                         Kernel32.ResumeThread(tHandle);
                     }
-                }
 
-                Kernel32.CloseHandle(tHandle);
+                    // Close the handle; https://docs.microsoft.com/nl-nl/windows/desktop/api/processthreadsapi/nf-processthreadsapi-openthread
+                    Kernel32.CloseHandle(tHandle);
+                }
             }
         }
 
