@@ -10,7 +10,7 @@ namespace GameSharp.Tests
     public class MemoryTests
     {
         // Allocate unmanaged memory. 
-        byte[] byteArray = new byte[] { 0x53, 0x61, 0x6e, 0x64, 0x53, 0x61, 0x6e, 0x64, 0x65, 0x72 };
+        byte[] byteArray = Utils.GenerateByteArray(1024);
 
         [TestMethod]
         public void ReadWriteTest()

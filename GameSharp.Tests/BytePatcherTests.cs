@@ -11,9 +11,11 @@ namespace GameSharp.Tests
         [TestMethod]
         public void EnableDisableTest()
         {
+            byte[] byteArray = Utils.GenerateByteArray(1024);
+
             // Allocate memory.
-            IntPtr ptrAllocatedMemory = Utils.GenerateRandomMemoryBlock();
-            
+            IntPtr ptrAllocatedMemory = Marshal.AllocHGlobal(byteArray.Length);
+
             byte[] originalBytes = Memory.Read<byte[]>(ptrAllocatedMemory, 3);
             byte[] newBytes = new byte[] { 1, 2, 3 };
 

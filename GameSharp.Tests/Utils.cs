@@ -10,14 +10,12 @@ namespace GameSharp.Tests
 {
     public static class Utils
     {
-        public static IntPtr GenerateRandomMemoryBlock()
+        public static byte[] GenerateByteArray(int size = 10)
         {
-            IntPtr ptrAllocatedMemory = Marshal.AllocHGlobal(1024);
-            byte[] rndBytes = new byte[1024];
-            new Random().NextBytes(rndBytes);
-            Memory.Write(ptrAllocatedMemory, rndBytes);
-
-            return ptrAllocatedMemory;
+            Random rnd = new Random();
+            byte[] array = new byte[size];
+            rnd.NextBytes(array);
+            return array;
         }
     }
 }
