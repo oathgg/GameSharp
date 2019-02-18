@@ -2,8 +2,10 @@
 using GameSharp.Native;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace GameSharp.Injection
@@ -76,6 +78,10 @@ namespace GameSharp.Injection
 
                     // Close the handle; https://docs.microsoft.com/nl-nl/windows/desktop/api/processthreadsapi/nf-processthreadsapi-openthread
                     Kernel32.CloseHandle(tHandle);
+                }
+                else
+                {
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
                 }
             }
         }

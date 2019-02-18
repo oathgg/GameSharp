@@ -13,13 +13,20 @@ namespace GameSharp.Tests
         public void RemoteThreadInjectionTest()
         {
             Process process = Process.Start("notepad");
-            
-            IInjection injection = new RemoteThreadInjection(process);
-            injection.InjectAndExecute(Environment.CurrentDirectory + "\\..\\..\\Dll\\TestDll_x86.dll", "Main");
+            try
+            {
+                Thread.Sleep(1000);
 
-            Assert.IsNotNull(process.Id);
+                IInjection injection = new RemoteThreadInjection(process);
+                injection.InjectAndExecute(Environment.CurrentDirectory + "\\..\\..\\Dll\\TestDll_x86.dll", "Main");
 
-            process.Kill();
+                Assert.IsNotNull(process.Id);
+            }
+            finally
+            {
+                if (process != null)
+                    process.Kill();
+            }
         }
     }
 }
