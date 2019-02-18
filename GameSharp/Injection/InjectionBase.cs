@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace GameSharp.Injection
 {
@@ -33,10 +34,9 @@ namespace GameSharp.Injection
         {
             // Update all DLL files in WoW exe directory which we need to inject.
             UpdateDlls(pathToDll);
-            
-            //
-            // TODO: Pause all threads before injecting in case of anti-cheat.
-            //
+
+            // Pause all threads before injecting in case of anti-cheat.
+            SuspendThreads(true);
 
             // Injects our DLL into the specified process.
             Inject(pathToDll);
@@ -49,6 +49,33 @@ namespace GameSharp.Injection
 
             // Executes the entry point of the DLL.
             Execute(pathToDll, entryPoint);
+
+            SuspendThreads(false);
+        }
+
+        /// <summary>
+        ///     Suspends all active threads
+        /// </summary>
+        private void SuspendThreads(bool suspend)
+        {
+            foreach (ProcessThread pT in _process.Threads)
+            {
+                IntPtr tHandle = Kernel32.OpenThread(Enums.ThreadAccessFlags.SUSPEND_RESUME, false, (uint)pT.Id);
+
+                if (tHandle != IntPtr.Zero)
+                {
+                    if (suspend)
+                    {
+                        Kernel32.SuspendThread(tHandle);
+                    }
+                    else
+                    {
+                        Kernel32.ResumeThread(tHandle);
+                    }
+                }
+
+                Kernel32.CloseHandle(tHandle);
+            }
         }
 
         /// <summary>
