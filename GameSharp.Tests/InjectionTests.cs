@@ -12,12 +12,11 @@ namespace GameSharp.Tests
         [TestMethod]
         public void RemoteThreadInjectionTest()
         {
-            Process process = Process.Start("notepad++");
-
-            Thread.Sleep(1000);
-
+            Process process = Process.Start("notepad");
+            
             IInjection injection = new RemoteThreadInjection(process);
             injection.InjectAndExecute(Environment.CurrentDirectory + "\\..\\..\\Dll\\TestDll_x86.dll", "Main");
+            injection.AttachToProcess();
 
             Assert.IsNotNull(process.Id);
 

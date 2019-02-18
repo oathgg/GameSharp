@@ -39,7 +39,7 @@ namespace GameSharp.Extensions
             int tryCount = 5;
             do
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
 
                 try
                 {
@@ -72,7 +72,7 @@ namespace GameSharp.Extensions
                 module = process.Modules.Cast<ProcessModule>()
                     .SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase));
 
-                Thread.Sleep(3000);
+                Thread.Sleep(1000);
             } while (retryCount-- > 0);
 
             return module;
