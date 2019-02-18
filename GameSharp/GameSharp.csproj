@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -68,7 +69,6 @@
     <Compile Include="Native\Structs.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Extensions\ProcessThreadExtension.cs" />
-    <Compile Include="Utilities\Memory.cs" />
     <Compile Include="Utilities\BytePatcher.cs" />
     <Compile Include="Utilities\Detour.cs" />
     <Compile Include="Extensions\ArrayExtension.cs" />

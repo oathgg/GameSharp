@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using GameSharp.Extensions;
 using GameSharp.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,7 +17,7 @@ namespace GameSharp.Tests
             // Allocate memory.
             IntPtr ptrAllocatedMemory = Marshal.AllocHGlobal(byteArray.Length);
 
-            byte[] originalBytes = Memory.Read<byte[]>(ptrAllocatedMemory, 3);
+            byte[] originalBytes = ptrAllocatedMemory.Read<byte[]>(3);
             byte[] newBytes = new byte[] { 1, 2, 3 };
 
             // Create the bytepatcher object.
@@ -27,14 +28,14 @@ namespace GameSharp.Tests
 
             // Validate if the byte has been changed.
             for (int i = 0; i < originalBytes.Length; i++)
-                Assert.AreEqual(Memory.Read<byte[]>(ptrAllocatedMemory, 3)[i], newBytes[i]);
+                Assert.AreEqual(ptrAllocatedMemory.Read<byte[]>(3)[i], newBytes[i]);
 
             // Disable the patch.
             bp.Disable();
 
             // Validate if the old byte is there.
             for (int i = 0; i < originalBytes.Length; i++)
-                Assert.AreEqual(Memory.Read<byte[]>(ptrAllocatedMemory, 3)[i], originalBytes[i]);
+                Assert.AreEqual(ptrAllocatedMemory.Read<byte[]>(3)[i], originalBytes[i]);
         }
     }
 }
