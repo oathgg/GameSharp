@@ -1,13 +1,14 @@
-# CsInjection
-C# Injection, inject a managed dll into a native application.
+# GameSharp
+Change a native (unmanaged) game application into a managed application.
 
-Create a Class Library project and reference the nuget package UnmanagedExports.
+Create a 'Class Library' project and reference the nuget package UnmanagedExports.
 https://www.nuget.org/packages/UnmanagedExports/1.2.7
 
-Make sure you select an architecture which is the same as the process you're injecting to.
-UnmanagedExports does not support 'AnyCPU'.
+Make sure you select an architecture which is the same as the process you're injecting in to.
 
-Create a new Entrypoint for your DLL.
+<b>TIP:</b> UnmanagedExports does not support 'AnyCPU'.
+
+Create an Entrypoint for your DLL.
 
 ```csharp
 using RGiesecke.DllExport;
@@ -30,13 +31,13 @@ You can then inject the managed DLL into a native process with your favorite Inj
 After injecting the DLL you can execute the entry point.
 
 ```csharp
-using CsInjection.Core.Injection;
+using GameSharp.Injection;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace CsInjection.Injector
+namespace Injector
 {
     class Program
     {
