@@ -5,7 +5,7 @@ Create a 'Class Library' project and reference the nuget package UnmanagedExport
 https://www.nuget.org/packages/UnmanagedExports/1.2.7
 
 Make sure you select an architecture which is the same as the process you're injecting in to.
-<b>TIP:<b> UnmanagedExports does not support 'AnyCPU'.
+<b>TIP:</b> UnmanagedExports does not support 'AnyCPU'.
 
 Create an Entrypoint for your DLL.
 
