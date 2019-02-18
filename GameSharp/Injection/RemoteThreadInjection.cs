@@ -15,7 +15,7 @@ namespace GameSharp.Injection
         {
         }
 
-        protected override void Inject(string pathToDll, string entryPoint)
+        protected override void Inject(string pathToDll)
         {
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -27,7 +27,7 @@ namespace GameSharp.Injection
                 Enums.AllocationType.Reserve | Enums.AllocationType.Commit, Enums.MemoryProtection.ExecuteReadWrite);
 
             // Write the path to our dll in the newly allocated memory section of the process.
-            if (Kernel32.WriteProcessMemory(_process.Handle, allocatedMemory, pathBytes, pathBytes.Length, out IntPtr a))
+            if (Kernel32.WriteProcessMemory(_process.SafeHandle, allocatedMemory, pathBytes, pathBytes.Length, out IntPtr a))
             {
                 // Gets the base address of the Kernel32.Dll file
                 IntPtr kernel32Module = Kernel32.GetModuleHandle(Constants.KERNEL32_DLL);

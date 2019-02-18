@@ -39,10 +39,10 @@ namespace GameSharp.Injection
             //
 
             // Injects our DLL into the specified process.
-            Inject(pathToDll, entryPoint);
+            Inject(pathToDll);
 
             // To hide our presence we randomize the PE headers of the DLL we have injected.
-            //FIX: _process.RandomizePeHeader(pathToDll);
+            _process.RandomizePeHeader(pathToDll);
 
             // Creates a console for the output we want to write from the injected program.
             AllocConsole();
@@ -118,7 +118,7 @@ namespace GameSharp.Injection
         /// </summary>
         /// <param name="pathToDll"></param>
         /// <param name="entryPoint"></param>
-        protected abstract void Inject(string pathToDll, string entryPoint);
+        protected abstract void Inject(string pathToDll);
 
         /// <summary>
         ///     Executes the specified entry point.

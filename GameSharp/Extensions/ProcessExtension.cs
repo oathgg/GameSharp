@@ -72,7 +72,7 @@ namespace GameSharp.Extensions
                 module = process.Modules.Cast<ProcessModule>()
                     .SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase));
 
-                Thread.Sleep(1000);
+                Thread.Sleep(3000);
             } while (retryCount-- > 0);
 
             return module;
@@ -89,7 +89,7 @@ namespace GameSharp.Extensions
             string dllName = Path.GetFileName(dllPath);
 
             // Get an instance of the dll in the process
-            ProcessModule module = process.GetProcessModule(Path.GetFileName(dllPath));
+            ProcessModule module = process.GetProcessModule(dllName);
 
             // Get the base address of the dll
             IntPtr dllBaseAddress = module.BaseAddress;
@@ -107,8 +107,14 @@ namespace GameSharp.Extensions
             new Random().NextBytes(buffer);
 
             // Write over the header region with the buffer
-            if (!Kernel32.WriteProcessMemory(process.Handle, dllBaseAddress, buffer, (int)memoryInformation.RegionSize, out IntPtr ignored))
+            try
+            {
+                Kernel32.WriteProcessMemory(process.SafeHandle, dllBaseAddress, buffer, (int)memoryInformation.RegionSize, out IntPtr ignored);
+            }
+            catch (Exception)
+            {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
         }
     }
 }
