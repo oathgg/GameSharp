@@ -1,9 +1,15 @@
 using System;
+using System.Text;
 
 namespace GameSharp.Extensions
 {
     public static class ArrayExtension
     {
+        public static string CastString(this byte[] data, Encoding encoding)
+        {
+            return encoding.GetString(data);
+        }
+
         /// <summary>
         ///     Casts the data into the specified object.
         /// </summary>
@@ -57,8 +63,7 @@ namespace GameSharp.Extensions
                     break;
 
                 case TypeCode.String:
-                    val = System.Text.Encoding.UTF8.GetString(data);
-                    break;
+                    throw new NotImplementedException();
             }
 
             return (T)val;
