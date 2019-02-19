@@ -1,4 +1,5 @@
-﻿using GameSharp.Utilities;
+﻿using GameSharp.Native;
+using GameSharp.Utilities;
 using System;
 using System.Runtime.InteropServices;
 
@@ -21,7 +22,13 @@ namespace GameSharp.Extensions
 
         public static void Write(this IntPtr addr, byte[] data)
         {
+            // Update the memory section so we can write to it if not writeable.
+            Kernel32.VirtualProtect(addr, data.Length, Enums.Protection.PAGE_EXECUTE_READWRITE, out Enums.Protection old);
+
             Marshal.Copy(data, 0, addr, data.Length);
+
+            // Restore the page execution permissions.
+            Kernel32.VirtualProtect(addr, data.Length, old, out Enums.Protection x);
         }
 
         public static void Write<T>(this IntPtr addr, T data)
