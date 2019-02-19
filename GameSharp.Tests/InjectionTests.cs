@@ -18,7 +18,7 @@ namespace GameSharp.Tests
                 Thread.Sleep(1000);
 
                 IInjection injection = new RemoteThreadInjection(process);
-                injection.InjectAndExecute(Environment.CurrentDirectory + "\\..\\..\\Dll\\TestDll_x86.dll", "Main");
+                injection.InjectAndExecute(Environment.CurrentDirectory + "\\..\\..\\Dll\\TestDll_x86.dll", "Main", false);
 
                 Assert.IsNotNull(process.Id);
             }

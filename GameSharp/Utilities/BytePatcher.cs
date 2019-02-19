@@ -50,6 +50,7 @@ namespace GameSharp.Utilities
         {
             _addressToPatch = addressToPatch;
             _newBytes = newBytes;
+            _originalBytes = _addressToPatch.Read<byte[]>(_newBytes.Length);
             PatchList.Add(this);
         }
 
@@ -76,8 +77,6 @@ namespace GameSharp.Utilities
         {
             if (!_isActive)
             {
-                _originalBytes = _addressToPatch.Read<byte[]>(_newBytes.Length);
-
                 _addressToPatch.Write(_newBytes);
                 _isActive = true;
             }
