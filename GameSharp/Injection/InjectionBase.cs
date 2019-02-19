@@ -32,7 +32,7 @@ namespace GameSharp.Injection
         /// </summary>
         /// <param name="pathToDll"></param>
         /// <param name="entryPoint"></param>
-        public void InjectAndExecute(string pathToDll, string entryPoint)
+        public void InjectAndExecute(string pathToDll, string entryPoint, bool attach)
         {
             // Update all DLL files in WoW exe directory which we need to inject.
             UpdateDlls(pathToDll);
@@ -48,6 +48,10 @@ namespace GameSharp.Injection
 
             // Creates a console for the output we want to write from the injected program.
             AllocConsole();
+
+            // Attach to the remote process if wanted.
+            if (attach)
+                AttachToProcess();
 
             // Executes the entry point of the DLL.
             Execute(pathToDll, entryPoint);
@@ -89,7 +93,7 @@ namespace GameSharp.Injection
         /// <summary>
         ///     Attaches the debugger to the process, we need to hide our presence here.
         /// </summary>
-        public void AttachToProcess()
+        private void AttachToProcess()
         {
             // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
             if (Debugger.IsAttached)
