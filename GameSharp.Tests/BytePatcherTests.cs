@@ -27,15 +27,17 @@ namespace GameSharp.Tests
             bp.Enable();
 
             // Validate if the byte has been changed.
+            byte[] retrievedBytes = ptrAllocatedMemory.Read<byte[]>(3);
             for (int i = 0; i < originalBytes.Length; i++)
-                Assert.AreEqual(ptrAllocatedMemory.Read<byte[]>(3)[i], newBytes[i]);
+                Assert.AreEqual(retrievedBytes[i], newBytes[i]);
 
             // Disable the patch.
             bp.Disable();
 
             // Validate if the old byte is there.
+            retrievedBytes = ptrAllocatedMemory.Read<byte[]>(3);
             for (int i = 0; i < originalBytes.Length; i++)
-                Assert.AreEqual(ptrAllocatedMemory.Read<byte[]>(3)[i], originalBytes[i]);
+                Assert.AreEqual(retrievedBytes[i], originalBytes[i]);
         }
     }
 }
