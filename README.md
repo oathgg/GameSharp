@@ -56,10 +56,7 @@ namespace Injector
             IInjection injector = new RemoteThreadInjection(process);
 
             // Inject the DLL and executes the entrypoint.
-            injector.InjectAndExecute(pathToDll, dllEntryPoint);
-
-            // Attaches to the current process.
-            injector.AttachToProcess();
+            injector.InjectAndExecute(pathToDll, dllEntryPoint, true);
         }
     }
 }
