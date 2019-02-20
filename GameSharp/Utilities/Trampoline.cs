@@ -1,6 +1,7 @@
 ﻿using GameSharp.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Utilities
@@ -12,7 +13,6 @@ namespace GameSharp.Utilities
         byte[] _originalOpCodes { get; set; }
         byte[] _newOpCodes { get; set; }
         bool _isActive { get; set; }
-        bool _is32Bit { get; } = IntPtr.Size == 4 ? true : false;
         
         /// <summary>
         ///     Creates a trampoline which we can place any where in the code to run some of our injected Assembly.
@@ -22,7 +22,7 @@ namespace GameSharp.Utilities
         public Trampoline(IntPtr addr, byte[] opCodes)
         {
             _addr = addr;
-            _originalOpCodes = addr.Read<byte[]>(_is32Bit ? 5 : 9);
+            _originalOpCodes = addr.Read<byte[]>(5);
             _newOpCodes = opCodes;
         }
 
@@ -31,15 +31,17 @@ namespace GameSharp.Utilities
         /// </summary>
         /// <param name="addressToJumpTo"></param>
         /// <returns></returns>
-        public byte[] CreateJump(IntPtr addressToJumpTo)
+        public byte[] CreateJump(IntPtr comingFromAddress, IntPtr addressToJumpTo)
         {
             List<byte> jump = new List<byte>();
 
             // JUMP opcode
-            jump.Add(0xE9); 
+            jump.Add(0xE9);
 
             // Address to jump to
-            jump.AddRange(BitConverter.GetBytes(_is32Bit ? addressToJumpTo.ToInt32() : addressToJumpTo.ToInt64()));
+            byte[] jumpAddressToBytes = BitConverter.GetBytes(addressToJumpTo.ToInt32() - comingFromAddress.ToInt32());
+
+            jump.AddRange(jumpAddressToBytes);
 
             return jump.ToArray();
         }
@@ -54,16 +56,16 @@ namespace GameSharp.Utilities
         {
             if (!_isActive)
             {
-                _newMem = Marshal.AllocHGlobal(_originalOpCodes.Length + _newOpCodes.Length + (_is32Bit ? 5 : 9));
+                _newMem = Marshal.AllocHGlobal(_originalOpCodes.Length + _newOpCodes.Length + 5);
 
                 List<byte> trampoline = new List<byte>();
                 trampoline.AddRange(_newOpCodes);
                 trampoline.AddRange(_originalOpCodes);
-                trampoline.AddRange(CreateJump(_addr));
+                trampoline.AddRange(CreateJump(_newMem, _addr - 0x10));
                 _newMem.Write(trampoline.ToArray());
 
                 List<byte> trampJump = new List<byte>();
-                trampJump.AddRange(CreateJump(_newMem));
+                trampJump.AddRange(CreateJump(_addr, _newMem));
                 _addr.Write(trampJump.ToArray());
 
                 _isActive = true;
