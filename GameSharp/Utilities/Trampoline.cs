@@ -39,7 +39,11 @@ namespace GameSharp.Utilities
             jump.Add(0xE9);
 
             // Address to jump to
-            byte[] jumpAddressToBytes = BitConverter.GetBytes(addressToJumpTo.ToInt32() - comingFromAddress.ToInt32());
+            int value = addressToJumpTo.ToInt32() > comingFromAddress.ToInt32()
+                ? addressToJumpTo.ToInt32() - comingFromAddress.ToInt32() // Jumping ahead
+                : (comingFromAddress.ToInt32() - addressToJumpTo.ToInt32()) * -1; // Jumping back
+
+            byte[] jumpAddressToBytes = BitConverter.GetBytes(value);
 
             jump.AddRange(jumpAddressToBytes);
 
@@ -61,7 +65,7 @@ namespace GameSharp.Utilities
                 List<byte> trampoline = new List<byte>();
                 trampoline.AddRange(_newOpCodes);
                 trampoline.AddRange(_originalOpCodes);
-                trampoline.AddRange(CreateJump(_newMem, _addr - 0x10));
+                trampoline.AddRange(CreateJump(_newMem, _addr + 5));
                 _newMem.Write(trampoline.ToArray());
 
                 List<byte> trampJump = new List<byte>();
