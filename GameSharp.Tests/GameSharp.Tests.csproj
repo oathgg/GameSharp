@@ -54,6 +54,7 @@
     <Compile Include="InjectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SigScannerTests.cs" />
+    <Compile Include="TrampolineTests.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

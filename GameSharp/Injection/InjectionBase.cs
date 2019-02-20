@@ -35,7 +35,7 @@ namespace GameSharp.Injection
         public void InjectAndExecute(string pathToDll, string entryPoint, bool attach)
         {
             // Update all DLL files in WoW exe directory which we need to inject.
-            UpdateDlls(pathToDll);
+            UpdateFiles(pathToDll);
 
             // Pause all threads before injecting in case of anti-cheat.
             SuspendThreads(true);
@@ -104,7 +104,7 @@ namespace GameSharp.Injection
         ///     Updates all the DLLs which we require for the injection to succeed.
         /// </summary>
         /// <param name="pathToDll"></param>
-        private void UpdateDlls(string pathToDll)
+        private void UpdateFiles(string pathToDll)
         {
             // Directory of our currently injecting DLL
             string coreDllPath = Path.GetDirectoryName(pathToDll);
@@ -113,28 +113,16 @@ namespace GameSharp.Injection
             string processPath = Path.GetDirectoryName(_process.MainModule.FileName);
 
             // Copy all DLLs which our injecting DLL might use which are in the same folder.
-            foreach (string filePath in Directory.GetFiles(Path.GetDirectoryName(pathToDll), "GameSharp.dll"))
-            {
-                string destination = Path.Combine(processPath, Path.GetFileName(filePath));
-                File.Copy(filePath, destination, overwrite: true);
-                _copiedDlls.Add(destination);
-            }
-
-            // Once the process exits we want to cleanup any lingering DLLs
-            _process.Exited += CleanUpDlls;
+            CopyFile(pathToDll, "GameSharp.dll", processPath);
         }
 
-        /// <summary>
-        ///     Gets triggered once the process exits and removes all copied Dlls
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CleanUpDlls(object sender, EventArgs e)
+        private void CopyFile(string pathToDll, string dllName, string destination)
         {
-            foreach (string copiedDll in _copiedDlls)
-            {
-                File.Delete(copiedDll);
-            }
+            string source = Path.Combine(Path.GetDirectoryName(pathToDll), dllName);
+            string destinationFullName = Path.Combine(destination, dllName);
+
+            File.Copy(source, destinationFullName, true);
+
         }
 
         /// <summary>
