@@ -43,7 +43,7 @@ namespace GameSharp.Utilities
             jump.Add(0xE9);
 
             // Address offset.
-            byte[] relativeJumpAddressBytes = GetRelativeAddress(from.ToInt32(), to.ToInt32()); // BitConverter.GetBytes(to.ToInt32());
+            byte[] relativeJumpAddressBytes = GetRelativeAddress(from.ToInt32(), to.ToInt32());
             jump.AddRange(relativeJumpAddressBytes);
 
             return jump.ToArray();
