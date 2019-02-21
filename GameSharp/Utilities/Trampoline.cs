@@ -8,24 +8,22 @@ namespace GameSharp.Utilities
 {
     public class Trampoline : IDisposable
     {
-        IntPtr _addr { get; set; }
-        IntPtr _newMem { get; set; }
+        IntPtr _from { get; set; }
         byte[] _originalOpCodes { get; set; }
         byte[] _newOpCodes { get; set; }
-
+        IntPtr _newMem { get; set; }
         int _totalBytes { get; set; }
-
         bool _isActive { get; set; }
         
         /// <summary>
         ///     Creates a trampoline which we can place any where in the code to run some of our injected Assembly.
         /// </summary>
-        /// <param name="addr"></param>
+        /// <param name="from"></param>
         /// <param name="opCodes"></param>
-        public Trampoline(IntPtr addr, byte[] opCodes)
+        public Trampoline(IntPtr from, byte[] opCodes)
         {
-            _addr = addr;
-            _originalOpCodes = addr.Read<byte[]>(5);
+            _from = from;
+            _originalOpCodes = from.Read<byte[]>(5);
             _newOpCodes = opCodes;
             _totalBytes = _originalOpCodes.Length + _newOpCodes.Length + 5;
         }
@@ -89,34 +87,46 @@ namespace GameSharp.Utilities
         {
             if (!_isActive)
             {
-                _newMem = Marshal.AllocHGlobal(_totalBytes);
-
-                List<byte> trampoline = new List<byte>();
-                trampoline.AddRange(_newOpCodes);
-                trampoline.AddRange(_originalOpCodes);
-
-                // Calculate our old func to jump to.
-                IntPtr oldFunc = _addr - _totalBytes + 5;
-
-                // Add an extra byte to the oldFunc ptr.
-                if (_newMem.ToInt32() > _addr.ToInt32())
-                    oldFunc += 1;
-
-                // Save the bytes with the needed jump and write the trampoline func to the program.
-                trampoline.AddRange(CreateJump(_newMem, oldFunc));
-                _newMem.Write(trampoline.ToArray());
-
-                // Calculate our newFuncAddress
-                IntPtr newMemFunc = _newMem - 4;
-
-                // Take a byte here.
-                if (_newMem.ToInt32() > _addr.ToInt32())
-                    newMemFunc -= 1;
-
-                _addr.Write(CreateJump(_addr, newMemFunc));
-
+                _newMem = CreateTrampoline();
+                CreateJumpToTrampoline(_newMem);
                 _isActive = true;
             }
+        }
+
+        private void CreateJumpToTrampoline(IntPtr newMemFunc)
+        {
+            // Remove the address bytes from the New memory func
+            newMemFunc -= 4;
+
+            // Remove the jump byte if the new memory is allocated ahead of the address we're coming from.
+            if (newMemFunc.ToInt32() > _from.ToInt32())
+                newMemFunc -= 1;
+
+            _from.Write(CreateJump(_from, newMemFunc));
+        }
+
+        private IntPtr CreateTrampoline()
+        {
+            IntPtr newMem = Marshal.AllocHGlobal(_totalBytes);
+
+            List<byte> trampoline = new List<byte>();
+            trampoline.AddRange(_newOpCodes);
+            trampoline.AddRange(_originalOpCodes);
+
+            // The old address minus the amount of extra bytes we added + the added bytes for the jump.
+            IntPtr oldFunc = _from - _totalBytes + 5;
+
+            // When the new memory if further ahead then we need to add an additional byte.
+            if (newMem.ToInt32() > _from.ToInt32())
+                oldFunc += 1;
+
+            // Creates a relative jump and adds it to the array.
+            trampoline.AddRange(CreateJump(newMem, oldFunc));
+
+            // Write the array to the memory.
+            newMem.Write(trampoline.ToArray());
+
+            return newMem;
         }
 
         /// <summary>
@@ -126,7 +136,7 @@ namespace GameSharp.Utilities
         {
             if (_isActive)
             {
-                _addr.Write(_originalOpCodes);
+                _from.Write(_originalOpCodes);
                 Marshal.FreeHGlobal(_newMem);
                 _isActive = false;
             }
