@@ -96,12 +96,23 @@ namespace GameSharp.Utilities
                 trampoline.AddRange(_originalOpCodes);
 
                 // Calculate our old func to jump to.
-                IntPtr oldFunc = _newMem.ToInt32() > _addr.ToInt32() ? _addr - _totalBytes + 6 : _addr - _totalBytes + 5;
+                IntPtr oldFunc = _addr - _totalBytes + 5;
+
+                // Add an extra byte to the oldFunc ptr.
+                if (_newMem.ToInt32() > _addr.ToInt32())
+                    oldFunc += 1;
+
+                // Save the bytes with the needed jump and write the trampoline func to the program.
                 trampoline.AddRange(CreateJump(_newMem, oldFunc));
                 _newMem.Write(trampoline.ToArray());
 
                 // Calculate our newFuncAddress
-                IntPtr newMemFunc = _newMem.ToInt32() > _addr.ToInt32() ? _newMem - 5 : _newMem - 4;
+                IntPtr newMemFunc = _newMem - 4;
+
+                // Take a byte here.
+                if (_newMem.ToInt32() > _addr.ToInt32())
+                    newMemFunc -= 1;
+
                 _addr.Write(CreateJump(_addr, newMemFunc));
 
                 _isActive = true;
