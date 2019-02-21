@@ -12,6 +12,9 @@ namespace GameSharp.Utilities
         IntPtr _newMem { get; set; }
         byte[] _originalOpCodes { get; set; }
         byte[] _newOpCodes { get; set; }
+
+        int _totalBytes { get; set; }
+
         bool _isActive { get; set; }
         
         /// <summary>
@@ -24,30 +27,56 @@ namespace GameSharp.Utilities
             _addr = addr;
             _originalOpCodes = addr.Read<byte[]>(5);
             _newOpCodes = opCodes;
+            _totalBytes = _originalOpCodes.Length + _newOpCodes.Length + 5;
         }
 
         /// <summary>
-        ///     Create a generic jump to a defined address
+        ///     Creates a CALL to a defined address
         /// </summary>
-        /// <param name="addressToJumpTo"></param>
+        /// <param name="to"></param>
         /// <returns></returns>
-        public byte[] CreateJump(IntPtr comingFromAddress, IntPtr addressToJumpTo)
+        private byte[] CreateJump(IntPtr from, IntPtr to)
         {
             List<byte> jump = new List<byte>();
 
-            // JUMP opcode
+            // JMP https://c9x.me/x86/html/file_module_x86_id_147.html
             jump.Add(0xE9);
 
-            // Address to jump to
-            int value = addressToJumpTo.ToInt32() > comingFromAddress.ToInt32()
-                ? addressToJumpTo.ToInt32() - comingFromAddress.ToInt32() // Jumping ahead
-                : (comingFromAddress.ToInt32() - addressToJumpTo.ToInt32()) * -1; // Jumping back
-
-            byte[] jumpAddressToBytes = BitConverter.GetBytes(value);
-
-            jump.AddRange(jumpAddressToBytes);
+            // Address offset.
+            byte[] relativeJumpAddressBytes = GetRelativeAddress(from.ToInt32(), to.ToInt32()); // BitConverter.GetBytes(to.ToInt32());
+            jump.AddRange(relativeJumpAddressBytes);
 
             return jump.ToArray();
+        }
+
+        /// <summary>
+        ///     We always think it will be a Jump Near instruction (E9).
+        ///     From > To then the jump back should substract the difference from the max val of an IntPtr (0xFFFFFFFF).
+        ///     To > From then we return the difference right away.
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        private byte[] GetRelativeAddress(int from, int to)
+        {
+            byte[] relativeAddressInBytes = new byte[4];
+
+            // Level it out so it's no longer a negative.
+            int difference = Math.Abs(from - to);
+
+            if (from > to)
+            {
+                // Jump back
+                uint returnAddress = uint.MaxValue - (uint) difference;
+                relativeAddressInBytes = BitConverter.GetBytes(returnAddress);
+            }
+            else
+            {
+                // Jump forward
+                relativeAddressInBytes = BitConverter.GetBytes(difference);
+            }
+
+            return relativeAddressInBytes;
         }
 
         /// <summary>
@@ -60,17 +89,20 @@ namespace GameSharp.Utilities
         {
             if (!_isActive)
             {
-                _newMem = Marshal.AllocHGlobal(_originalOpCodes.Length + _newOpCodes.Length + 5);
+                _newMem = Marshal.AllocHGlobal(_totalBytes);
 
                 List<byte> trampoline = new List<byte>();
                 trampoline.AddRange(_newOpCodes);
                 trampoline.AddRange(_originalOpCodes);
-                trampoline.AddRange(CreateJump(_newMem, _addr + 5));
+
+                // Calculate our old func to jump to.
+                IntPtr oldFunc = _newMem.ToInt32() > _addr.ToInt32() ? _addr - _totalBytes + 6 : _addr - _totalBytes + 5;
+                trampoline.AddRange(CreateJump(_newMem, oldFunc));
                 _newMem.Write(trampoline.ToArray());
 
-                List<byte> trampJump = new List<byte>();
-                trampJump.AddRange(CreateJump(_addr, _newMem));
-                _addr.Write(trampJump.ToArray());
+                // Calculate our newFuncAddress
+                IntPtr newMemFunc = _newMem.ToInt32() > _addr.ToInt32() ? _newMem - 5 : _newMem - 4;
+                _addr.Write(CreateJump(_addr, newMemFunc));
 
                 _isActive = true;
             }

@@ -25,33 +25,39 @@ namespace GameSharp.Tests
             Marshal.Copy(originalMemoryPtr, currentBytes, 0, currentBytes.Length);
         }
 
-        [TestMethod]
-        public void CreateJumpTest()
-        {
-            IntPtr originalLoc = Marshal.AllocHGlobal(1024);
-            IntPtr trampLoc = Marshal.AllocHGlobal(1024);
+        //[TestMethod]
+        //public void CreateJumpTest()
+        //{
+        //    IntPtr originalLoc = Marshal.AllocHGlobal(1024);
+        //    IntPtr trampLoc = Marshal.AllocHGlobal(1024);
 
-            Trampoline trampoline = new Trampoline(originalLoc, TrampolineFunction());
+        //    Trampoline trampoline = new Trampoline(originalLoc, TrampolineFunction());
 
-            // Distance from the originalLoc to the trampLoc.
-            byte[] jumpToTramp = trampoline.CreateJump(originalLoc, trampLoc);
-            IntPtr ptrToTramp = Marshal.AllocHGlobal(jumpToTramp.Length);
-            Marshal.Copy(jumpToTramp, 1, ptrToTramp, jumpToTramp.Length - 1);
-            var resultToTramp = ptrToTramp.Read<int>();
-            Assert.AreEqual((int)trampLoc - (int)originalLoc, resultToTramp);
+        //    // Distance from the originalLoc to the trampLoc.
+        //    byte[] jumpToTramp = trampoline.CreateJump(originalLoc, trampLoc);
+        //    IntPtr ptrToTramp = Marshal.AllocHGlobal(jumpToTramp.Length);
+        //    Marshal.Copy(jumpToTramp, 1, ptrToTramp, jumpToTramp.Length - 1);
+        //    var resultToTramp = ptrToTramp.Read<int>();
+        //    Assert.AreEqual((int)trampLoc - (int)originalLoc, resultToTramp);
 
-            // Distance from the trampLoc to the original loc plus the extra 5 bytes.
-            byte[] jumpToOrig = trampoline.CreateJump(trampLoc, originalLoc + 5);
-            IntPtr ptrToOrig = Marshal.AllocHGlobal(jumpToOrig.Length);
-            Marshal.Copy(jumpToOrig, 1, ptrToOrig, jumpToOrig.Length - 1);
-            var resultToOrig = ptrToOrig.Read<int>();
-            Assert.AreEqual((int)originalLoc - (int)trampLoc + 5, resultToOrig);
-        }
+        //    // Distance from the trampLoc to the original loc plus the extra 5 bytes.
+        //    byte[] jumpToOrig = trampoline.CreateJump(trampLoc, originalLoc + 5);
+        //    IntPtr ptrToOrig = Marshal.AllocHGlobal(jumpToOrig.Length);
+        //    Marshal.Copy(jumpToOrig, 1, ptrToOrig, jumpToOrig.Length - 1);
+        //    var resultToOrig = ptrToOrig.Read<int>();
+        //    Assert.AreEqual((int)originalLoc - (int)trampLoc + 5, resultToOrig);
+        //}
 
         public byte[] SimpleFunction()
         {
             return new byte[]
             {
+                0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, // NOPs
+                0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, // NOPs
+                //0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, // NOPs
+                //0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, // NOPs
+                //0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, // NOPs
+                //0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, // NOPs
                 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, // NOPs
                 0xC3 // RET
             };
@@ -61,7 +67,12 @@ namespace GameSharp.Tests
         {
             return new byte[]
             {
-                0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC // INT 3
+                0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, // INT 3
+                //0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, // INT 3
+                //0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, // INT 3
+                //0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, // INT 3
+                //0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, // INT 3
+                0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, // INT 3
             };
         }
     }
