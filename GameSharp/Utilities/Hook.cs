@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace GameSharp.Utilities
 {
-    public class Detour
+    public class Hook
     {
         /// <summary>
         ///     This var is not used within the detour itself. It is only here
@@ -20,7 +20,7 @@ namespace GameSharp.Utilities
         /// <summary>
         ///     Gets the pointer to be hooked/being hooked.
         /// </summary>
-        private IntPtr _hook { get; }
+        private IntPtr _hookPtr { get; }
 
         /// <summary>
         ///     Contains the data of our patch
@@ -30,7 +30,7 @@ namespace GameSharp.Utilities
         /// <summary>
         ///     Gets the pointer of the target function.
         /// </summary>
-        private IntPtr _target { get; }
+        private IntPtr _targetFuncPtr { get; }
 
         /// <summary>
         ///     Gets the targeted delegate instance.
@@ -38,33 +38,33 @@ namespace GameSharp.Utilities
         private Delegate _targetDelegate { get; }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Detour" /> class.
+        ///     Initializes a new instance of the <see cref="Hook" /> class.
         /// </summary>
         /// <param name="target">The target delegate we want to detour.</param>
         /// <param name="hook">The hook delegate where want it to go.</param>
-        public Detour(Delegate target, Delegate hook)
+        public Hook(Delegate target, Delegate hook)
         {
             _targetDelegate = target;
-            _target = Marshal.GetFunctionPointerForDelegate(target);
+            _targetFuncPtr = Marshal.GetFunctionPointerForDelegate(target);
 
             _hookDelegate = hook;
-            _hook = Marshal.GetFunctionPointerForDelegate(hook);
+            _hookPtr = Marshal.GetFunctionPointerForDelegate(hook);
 
             // PUSH opcode http://ref.x86asm.net/coder32.html#x68
             List<byte> bytes = new List<byte> { 0x68 };
 
             // Address of our hook.
-            bytes.AddRange(BitConverter.GetBytes(_hook.ToInt32()));
+            bytes.AddRange(BitConverter.GetBytes(_hookPtr.ToInt32()));
 
             // RETN opcode http://ref.x86asm.net/coder32.html#xC3
             bytes.Add(0xC3);
 
-            _patcher = new BytePatcher(new IntPtr(_target.ToInt32()), bytes.ToArray());
+            _patcher = new BytePatcher(new IntPtr(_targetFuncPtr.ToInt32()), bytes.ToArray());
         }
 
         /// <summary>
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. In this
-        ///     case, it will disable the <see cref="Detour" /> instance and suppress the finalizer.
+        ///     case, it will disable the <see cref="Hook" /> instance and suppress the finalizer.
         /// </summary>
         public void Dispose()
         {

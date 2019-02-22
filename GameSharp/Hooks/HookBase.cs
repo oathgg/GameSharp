@@ -8,7 +8,7 @@ namespace GameSharp.Hooks
     /// </summary>
     public abstract class HookBase
     {
-        private Detour Detour;
+        private Hook Detour;
 
         /// <summary>
         ///     Will be used to install the <c>Hook</c> and enable it.
@@ -16,7 +16,7 @@ namespace GameSharp.Hooks
         public void InstallHook()
         {
             if (Detour == null)
-                Detour = new Detour(GetHookDelegate(), GetDetourDelegate());
+                Detour = new Hook(GetHookDelegate(), GetDetourDelegate());
             Detour.Enable();
         }
 

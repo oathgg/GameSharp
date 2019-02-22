@@ -71,7 +71,7 @@
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Extensions\ProcessThreadExtension.cs" />
     <Compile Include="Utilities\BytePatcher.cs" />
-    <Compile Include="Utilities\Detour.cs" />
+    <Compile Include="Utilities\Hook.cs" />
     <Compile Include="Extensions\ArrayExtension.cs" />
     <Compile Include="Hooks\HookBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
