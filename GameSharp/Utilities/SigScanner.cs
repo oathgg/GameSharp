@@ -60,7 +60,7 @@ namespace GameSharp.Utilities
         /// <returns></returns>
         public IntPtr FindPattern(string pattern, int offset = 0)
         {
-            byte[] arrPattern = ParsePatternString(pattern);
+            byte[] arrPattern = ParsePatternString(pattern.Trim());
 
             return FindByteAddress(arrPattern, offset);
         }
