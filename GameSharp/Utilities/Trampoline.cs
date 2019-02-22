@@ -12,7 +12,6 @@ namespace GameSharp.Utilities
         byte[] _originalOpCodes { get; set; }
         byte[] _newOpCodes { get; set; }
         IntPtr _newMem { get; set; }
-        int _totalBytes { get; set; }
         bool _isActive { get; set; }
         
         /// <summary>
@@ -25,7 +24,6 @@ namespace GameSharp.Utilities
             _from = from;
             _originalOpCodes = from.Read<byte[]>(5);
             _newOpCodes = opCodes;
-            _totalBytes = _originalOpCodes.Length + _newOpCodes.Length + 5;
         }
 
         /// <summary>
@@ -41,7 +39,7 @@ namespace GameSharp.Utilities
             jump.Add(0xE9);
 
             // Address offset.
-            byte[] relativeJumpAddressBytes = GetRelativeAddress(from.ToInt32(), to.ToInt32());
+            byte[] relativeJumpAddressBytes = GetRelativeAddress(from, to);
             jump.AddRange(relativeJumpAddressBytes);
 
             return jump.ToArray();
@@ -55,26 +53,30 @@ namespace GameSharp.Utilities
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        private byte[] GetRelativeAddress(int from, int to)
+        private byte[] GetRelativeAddress(IntPtr from, IntPtr to)
         {
-            byte[] relativeAddressInBytes = new byte[4];
+            // Calculate the distance between the two memory addresses
+            long offsetDifference = IntPtr.Size == 4 
+                ? to.ToInt32() - from.ToInt32() 
+                : to.ToInt64() - from.ToInt64();
+
+            // If we jump back in memory then we have a negative jump.
+            bool negativeJump = offsetDifference < 0;
 
             // Level it out so it's no longer a negative.
-            int difference = Math.Abs(from - to);
+            offsetDifference = Math.Abs(offsetDifference);
 
-            if (from > to)
+            byte[] relativeAddressInBytes = new byte[4];
+            if (negativeJump)
             {
-                // Jump back
-                uint returnAddress = uint.MaxValue - (uint) difference;
+                uint returnAddress = uint.MaxValue - (uint) offsetDifference;
                 relativeAddressInBytes = BitConverter.GetBytes(returnAddress);
             }
             else
             {
-                // Jump forward
-                relativeAddressInBytes = BitConverter.GetBytes(difference);
+                relativeAddressInBytes = BitConverter.GetBytes(offsetDifference);
             }
-
-            return relativeAddressInBytes;
+            return relativeAddressInBytes.Take(4).ToArray();
         }
 
         /// <summary>
@@ -87,37 +89,41 @@ namespace GameSharp.Utilities
         {
             if (!_isActive)
             {
-                _newMem = CreateTrampoline();
-                CreateJumpToTrampoline(_newMem);
+                _newMem = CreateTrampolineFunc(_from);
+                CreateJumpToTrampoline(_from, _newMem);
                 _isActive = true;
             }
         }
 
-        private void CreateJumpToTrampoline(IntPtr newMemFunc)
+        private void CreateJumpToTrampoline(IntPtr from, IntPtr to)
         {
             // Remove the address bytes from the New memory func
-            newMemFunc -= 4;
+            to -= 4;
 
             // Remove the jump byte if the new memory is allocated ahead of the address we're coming from.
-            if (newMemFunc.ToInt32() > _from.ToInt32())
-                newMemFunc -= 1;
+            bool allocatedMemoryAhead = IntPtr.Size == 4 ? to.ToInt32() > from.ToInt32() : to.ToInt64() > from.ToInt64();
+            if (allocatedMemoryAhead)
+                to -= 1;
 
-            _from.Write(CreateJump(_from, newMemFunc));
+            from.Write(CreateJump(from, to));
         }
 
-        private IntPtr CreateTrampoline()
+        private IntPtr CreateTrampolineFunc(IntPtr from)
         {
-            IntPtr newMem = Marshal.AllocHGlobal(_totalBytes);
+            int totalBytes = _originalOpCodes.Length + _newOpCodes.Length + 5;
+
+            IntPtr newMem = Marshal.AllocHGlobal(totalBytes);
 
             List<byte> trampoline = new List<byte>();
             trampoline.AddRange(_newOpCodes);
             trampoline.AddRange(_originalOpCodes);
 
             // The old address minus the amount of extra bytes we added + the added bytes for the jump.
-            IntPtr oldFunc = _from - _totalBytes + 5;
+            IntPtr oldFunc = from - totalBytes + 5;
 
+            bool allocatedMemoryAhead = IntPtr.Size == 4 ? newMem.ToInt32() > from.ToInt32() : newMem.ToInt64() > from.ToInt64();
             // When the new memory if further ahead then we need to add an additional byte.
-            if (newMem.ToInt32() > _from.ToInt32())
+            if (allocatedMemoryAhead)
                 oldFunc += 1;
 
             // Creates a relative jump and adds it to the array.
