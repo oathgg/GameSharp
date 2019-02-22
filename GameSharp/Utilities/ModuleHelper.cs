@@ -45,8 +45,6 @@ namespace GameSharp.Utilities
             throw new Win32Exception($"Couldn't get the function address of {functionName}.");
         }
 
-
-
         /// <summary>
         ///     Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count.
         /// </summary>

@@ -1,5 +1,4 @@
 ﻿using GameSharp.Native;
-using GameSharp.Utilities;
 using System;
 using System.Runtime.InteropServices;
 
