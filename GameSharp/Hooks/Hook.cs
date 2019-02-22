@@ -1,109 +1,55 @@
-﻿// Part of the credits go to Lolp1 for giving the idea how to finish.
-// https://github.com/lolp1/Process.NET/blob/master/src/Process.NET/Applied/Detours/Detour.cs
-//
-
-using GameSharp.Utilities;
+﻿using GameSharp.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace GameSharp.Hooks
 {
-    public class Hook
+    /// <summary>
+    ///     Extend from <see cref="Hook"/> with a hook you want to use.
+    /// </summary>
+    public abstract class Hook
     {
-        /// <summary>
-        ///     This var is not used within the detour itself. It is only here
-        ///     to keep a reference, to avoid the GC from collecting the delegate instance!
-        /// </summary>
-        // ReSharper disable once NotAccessedField.Local
-        private readonly Delegate _hookDelegate;
+        private HookBase _hook;
 
         /// <summary>
-        ///     Gets the pointer to be hooked/being hooked.
+        ///     Will be used to install the <c>Hook</c> and enable it.
         /// </summary>
-        private IntPtr _hookPtr { get; }
-
-        /// <summary>
-        ///     Contains the data of our patch
-        /// </summary>
-        private BytePatcher _patcher { get; }
-
-        /// <summary>
-        ///     Gets the pointer of the target function.
-        /// </summary>
-        private IntPtr _targetFuncPtr { get; }
-
-        /// <summary>
-        ///     Gets the targeted delegate instance.
-        /// </summary>
-        private Delegate _targetDelegate { get; }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Hook" /> class.
-        /// </summary>
-        /// <param name="target">The target delegate we want to detour.</param>
-        /// <param name="hook">The hook delegate where want it to go.</param>
-        internal Hook(Delegate target, Delegate hook)
+        public void InstallHook()
         {
-            _targetDelegate = target;
-            _targetFuncPtr = Marshal.GetFunctionPointerForDelegate(target);
-
-            _hookDelegate = hook;
-            _hookPtr = Marshal.GetFunctionPointerForDelegate(hook);
-
-            // PUSH opcode http://ref.x86asm.net/coder32.html#x68
-            List<byte> bytes = new List<byte> { 0x68 };
-
-            // Address of our hook.
-            bytes.AddRange(BitConverter.GetBytes(_hookPtr.ToInt32()));
-
-            // RETN opcode http://ref.x86asm.net/coder32.html#xC3
-            bytes.Add(0xC3);
-
-            _patcher = new BytePatcher(new IntPtr(_targetFuncPtr.ToInt32()), bytes.ToArray());
+            if (_hook == null)
+                _hook = new HookBase(GetHookDelegate(), GetDetourDelegate());
+            _hook.Enable();
         }
 
         /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. In this
-        ///     case, it will disable the <see cref="Hook" /> instance and suppress the finalizer.
+        ///     Will be used to uninstall the <c>Hook</c>.
         /// </summary>
-        public void Dispose()
+        public void UninstallHook()
         {
-            Disable();
-            GC.SuppressFinalize(this);
+            _hook.Disable();
         }
 
         /// <summary>
-        ///     Removes this Detour from memory. (Reverts the bytes back to their originals.)
-        /// </summary>
-        public void Disable()
-        {
-            _patcher.Disable();
-        }
-
-        /// <summary>
-        ///     Applies this Detour to memory. (Writes new bytes to memory)
+        ///     This should return an UnmanagedFunctionPointer delegate.
+        ///
+        ///     e.g. Marshal.GetDelegateForFunctionPointer<DELEGATE>(ADDRESS);
         /// </summary>
         /// <returns></returns>
-        public void Enable()
-        {
-            _patcher.Enable();
-        }
+        public abstract Delegate GetHookDelegate();
 
         /// <summary>
-        ///     Calls the original function, and returns a return value.
+        ///     This should return the delegate to the hook with the function where it needs to go.
+        ///
+        ///     e.g. return new OnAfkDelegate(DetourMethod);
         /// </summary>
-        /// <param name="args">
-        ///     The arguments to pass. If it is a 'void' argument list,
-        ///     you MUST pass 'null'.
-        /// </param>
-        /// <returns>An object containing the original functions return value.</returns>
-        public object CallOriginal(params object[] args)
+        public abstract Delegate GetDetourDelegate();
+
+        /// <summary>
+        ///     Call the original function, parameters are taken right to left.
+        /// </summary>
+        /// <param name="parms"></param>
+        protected void CallOriginal(params object[] parms)
         {
-            Disable();
-            var ret = _targetDelegate.DynamicInvoke(args);
-            Enable();
-            return ret;
+            _hook.CallOriginal(parms);
         }
     }
 }
