@@ -1,5 +1,6 @@
 ﻿using GameSharp.Native;
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Extensions
@@ -16,6 +17,40 @@ namespace GameSharp.Extensions
         {
             var vftable = intPtr.Read<IntPtr>();
             return (vftable + functionIndex * IntPtr.Size).Read<IntPtr>();
+        }
+
+        /// <summary>
+        ///     We always think it will be a Jump Near instruction (E9).
+        ///     From > To then the jump back should substract the difference from the max val of an IntPtr (0xFFFFFFFF).
+        ///     To > From then we return the difference right away.
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        public static byte[] GetRelativeAddress(this IntPtr from, IntPtr to)
+        {
+            // Calculate the distance between the two memory addresses
+            long offsetDifference = IntPtr.Size == 4
+                ? to.ToInt32() - from.ToInt32()
+                : to.ToInt64() - from.ToInt64();
+
+            // If we jump back in memory then we have a negative jump.
+            bool negativeJump = offsetDifference < 0;
+
+            // Level it out so it's no longer a negative.
+            offsetDifference = Math.Abs(offsetDifference);
+
+            byte[] relativeAddressInBytes = new byte[4];
+            if (negativeJump)
+            {
+                uint returnAddress = uint.MaxValue - (uint)offsetDifference;
+                relativeAddressInBytes = BitConverter.GetBytes(returnAddress);
+            }
+            else
+            {
+                relativeAddressInBytes = BitConverter.GetBytes(offsetDifference);
+            }
+            return relativeAddressInBytes.Take(4).ToArray();
         }
 
         /// <summary>

@@ -13,17 +13,19 @@ namespace GameSharp.Utilities
         byte[] _newOpCodes { get; set; }
         IntPtr _newMem { get; set; }
         bool _isActive { get; set; }
+        bool _executeOriginal { get; set; }
         
         /// <summary>
         ///     Creates a trampoline which we can place any where in the code to run some of our injected Assembly.
         /// </summary>
         /// <param name="from"></param>
         /// <param name="opCodes"></param>
-        public Trampoline(IntPtr from, byte[] opCodes)
+        public Trampoline(IntPtr from, byte[] opCodes, bool executeOriginal = true)
         {
             _from = from;
             _originalOpCodes = from.Read<byte[]>(5);
             _newOpCodes = opCodes;
+            _executeOriginal = executeOriginal;
         }
 
         /// <summary>
@@ -33,50 +35,62 @@ namespace GameSharp.Utilities
         /// <returns></returns>
         private byte[] CreateJump(IntPtr from, IntPtr to)
         {
+            return IntPtr.Size == 4 ? CreateJump_x86(from, to) : CreateJump_x64v2(from, to);
+        }
+
+        private byte[] CreateJump_x86(IntPtr from, IntPtr to)
+        {
             List<byte> jump = new List<byte>();
 
             // JMP https://c9x.me/x86/html/file_module_x86_id_147.html
             jump.Add(0xE9);
 
             // Address offset.
-            byte[] relativeJumpAddressBytes = GetRelativeAddress(from, to);
+            byte[] relativeJumpAddressBytes = from.GetRelativeAddress(to);
             jump.AddRange(relativeJumpAddressBytes);
 
             return jump.ToArray();
         }
 
         /// <summary>
-        ///     We always think it will be a Jump Near instruction (E9).
-        ///     From > To then the jump back should substract the difference from the max val of an IntPtr (0xFFFFFFFF).
-        ///     To > From then we return the difference right away.
+        ///     Creates a trampoline function by using a call PTR
+        ///     
+        ///     0xFF25DEADBEEF JMP [DEADBEF4] ([RIP+DEADBEEF]) -- 6 bytes total
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        private byte[] GetRelativeAddress(IntPtr from, IntPtr to)
+        private byte[] CreateJump_x64v1(IntPtr from, IntPtr to)
         {
-            // Calculate the distance between the two memory addresses
-            long offsetDifference = IntPtr.Size == 4 
-                ? to.ToInt32() - from.ToInt32() 
-                : to.ToInt64() - from.ToInt64();
+            if (to.ToInt64() > uint.MaxValue)
+                return CreateJump_x64v2(from, to);
 
-            // If we jump back in memory then we have a negative jump.
-            bool negativeJump = offsetDifference < 0;
+            List<byte> trampoline = new List<byte> { 0xFF, 0x25 };
+            byte[] relativeJumpAddressBytes = BitConverter.GetBytes(to.ToInt64());
+            trampoline.AddRange(relativeJumpAddressBytes);
 
-            // Level it out so it's no longer a negative.
-            offsetDifference = Math.Abs(offsetDifference);
+            return trampoline.ToArray();
+        }
 
-            byte[] relativeAddressInBytes = new byte[4];
-            if (negativeJump)
-            {
-                uint returnAddress = uint.MaxValue - (uint) offsetDifference;
-                relativeAddressInBytes = BitConverter.GetBytes(returnAddress);
-            }
-            else
-            {
-                relativeAddressInBytes = BitConverter.GetBytes(offsetDifference);
-            }
-            return relativeAddressInBytes.Take(4).ToArray();
+        /// <summary>
+        ///     Creates a trampoline function by using a call PTR
+        ///     
+        ///     push rax                            ; Save current value
+        ///     movabs rax, 0xCCCCCCCCCCCCCCCC      ; Move memory address into RAX/EAX register
+        ///     xchg rax, [rsp]                     ; Exchange the addresses loaded into these registers
+        ///     ret                                 ; Return from the function to the trampoline
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        private byte[] CreateJump_x64v2(IntPtr from, IntPtr to)
+        {
+            List<byte> trampoline = new List<byte> { 0x50, 0x48, 0xB8 };
+            byte[] relativeJumpAddressBytes = from.GetRelativeAddress(to);
+            trampoline.AddRange(relativeJumpAddressBytes);
+            trampoline.AddRange(new byte[] { 0x48, 0x87, 0x04, 0x24, 0xC3 });
+
+            return trampoline.ToArray();
         }
 
         /// <summary>
@@ -92,6 +106,9 @@ namespace GameSharp.Utilities
                 _newMem = CreateTrampolineFunc(_from);
                 CreateJumpToTrampoline(_from, _newMem);
                 _isActive = true;
+
+                Logger.Info(_from.ToString("X"));
+                Logger.Info(_newMem.ToString("X"));
             }
         }
 
@@ -110,13 +127,19 @@ namespace GameSharp.Utilities
 
         private IntPtr CreateTrampolineFunc(IntPtr from)
         {
+            // Total amount of bytes the trampoline requires, originalcode, the new code + the 5 bytes for the jmp back.
             int totalBytes = _originalOpCodes.Length + _newOpCodes.Length + 5;
 
+            // Allocate space in the process for our trampoline
             IntPtr newMem = Marshal.AllocHGlobal(totalBytes);
 
+            // Create our trampoline func
             List<byte> trampoline = new List<byte>();
             trampoline.AddRange(_newOpCodes);
-            trampoline.AddRange(_originalOpCodes);
+
+            // Add the original code to the detour.
+            if (_executeOriginal)
+                trampoline.AddRange(_originalOpCodes);
 
             // The old address minus the amount of extra bytes we added + the added bytes for the jump.
             IntPtr oldFunc = from - totalBytes + 5;

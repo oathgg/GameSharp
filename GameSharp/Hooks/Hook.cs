@@ -43,7 +43,7 @@ namespace GameSharp.Hooks
         /// </summary>
         /// <param name="target">The target delegate we want to detour.</param>
         /// <param name="hook">The hook delegate where want it to go.</param>
-        public Hook(Delegate target, Delegate hook)
+        internal Hook(Delegate target, Delegate hook)
         {
             _targetDelegate = target;
             _targetFuncPtr = Marshal.GetFunctionPointerForDelegate(target);
