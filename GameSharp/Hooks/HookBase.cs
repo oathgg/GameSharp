@@ -4,20 +4,20 @@ using System;
 namespace GameSharp.Hooks
 {
     /// <summary>
-    ///     Extend from <see cref="HookBase"/> with a hook you want to use.
+    ///     Extend from <see cref="HookHelper"/> with a hook you want to use.
     /// </summary>
-    public abstract class HookBase
+    public abstract class HookHelper
     {
-        private Hook Detour;
+        private Hook _hook;
 
         /// <summary>
         ///     Will be used to install the <c>Hook</c> and enable it.
         /// </summary>
         public void InstallHook()
         {
-            if (Detour == null)
-                Detour = new Hook(GetHookDelegate(), GetDetourDelegate());
-            Detour.Enable();
+            if (_hook == null)
+                _hook = new Hook(GetHookDelegate(), GetDetourDelegate());
+            _hook.Enable();
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace GameSharp.Hooks
         /// </summary>
         public void UninstallHook()
         {
-            Detour.Disable();
+            _hook.Disable();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace GameSharp.Hooks
         /// <param name="parms"></param>
         protected void CallOriginal(params object[] parms)
         {
-            Detour.CallOriginal(parms);
+            _hook.CallOriginal(parms);
         }
     }
 }

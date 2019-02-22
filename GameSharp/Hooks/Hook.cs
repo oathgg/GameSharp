@@ -2,11 +2,12 @@
 // https://github.com/lolp1/Process.NET/blob/master/src/Process.NET/Applied/Detours/Detour.cs
 //
 
+using GameSharp.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace GameSharp.Utilities
+namespace GameSharp.Hooks
 {
     public class Hook
     {
