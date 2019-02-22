@@ -35,7 +35,7 @@ namespace GameSharp.Utilities
         /// <returns></returns>
         private byte[] CreateJump(IntPtr from, IntPtr to)
         {
-            return IntPtr.Size == 4 ? CreateJump_x86(from, to) : CreateJump_x64v2(from, to);
+            return IntPtr.Size == 4 ? CreateJump_x86(from, to) : CreateJump_x64v1(from, to);
         }
 
         private byte[] CreateJump_x86(IntPtr from, IntPtr to)
@@ -86,7 +86,7 @@ namespace GameSharp.Utilities
         private byte[] CreateJump_x64v2(IntPtr from, IntPtr to)
         {
             List<byte> trampoline = new List<byte> { 0x50, 0x48, 0xB8 };
-            byte[] relativeJumpAddressBytes = from.GetRelativeAddress(to);
+            byte[] relativeJumpAddressBytes = BitConverter.GetBytes(to.ToInt64() + 4);
             trampoline.AddRange(relativeJumpAddressBytes);
             trampoline.AddRange(new byte[] { 0x48, 0x87, 0x04, 0x24, 0xC3 });
 
