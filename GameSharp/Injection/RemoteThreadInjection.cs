@@ -43,7 +43,7 @@ namespace GameSharp.Injection
         protected override void Execute(string pathToDll, string entryPoint)
         {
             // Dynamically load the DLL into our own process.
-            IntPtr myModule = Kernel32.LoadLibraryEx(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
+            IntPtr myModule = Kernel32.LoadLibrary(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
 
             // Get the address of our entry point.
             IntPtr entryPointAddress = Kernel32.GetProcAddress(myModule, entryPoint);

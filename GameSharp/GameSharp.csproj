@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Extensions\IntPtrExtension.cs" />
     <Compile Include="Extensions\ProcessExtension.cs" />
+    <Compile Include="Extensions\ProcessModuleExtension.cs" />
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Hooks\HookBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExceptionHandler.cs" />
+    <Compile Include="Utilities\ModuleHelper.cs" />
     <Compile Include="Utilities\SigScanner.cs" />
     <Compile Include="Utilities\Trampoline.cs" />
   </ItemGroup>
