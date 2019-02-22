@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace GameSharp.Hooks
 {
-    internal class HookBase
+    public class HookBase
     {
         /// <summary>
         ///     This var is not used within the detour itself. It is only here
@@ -54,13 +54,13 @@ namespace GameSharp.Hooks
             // PUSH opcode http://ref.x86asm.net/coder32.html#x68
             List<byte> bytes = new List<byte> { 0x68 };
 
-            // Address of our hook.
-            bytes.AddRange(BitConverter.GetBytes(_hookPtr.ToInt32()));
+            // Push our hook address onto the stack
+            bytes.AddRange(BitConverter.GetBytes(IntPtr.Size == 4 ? _hookPtr.ToInt32() : _hookPtr.ToInt64()));
 
             // RETN opcode http://ref.x86asm.net/coder32.html#xC3
             bytes.Add(0xC3);
 
-            _patcher = new BytePatcher(new IntPtr(_targetFuncPtr.ToInt32()), bytes.ToArray());
+            _patcher = new BytePatcher(new IntPtr(IntPtr.Size == 4 ? _targetFuncPtr.ToInt32() : _targetFuncPtr.ToInt64()), bytes.ToArray());
         }
 
         /// <summary>
@@ -98,12 +98,12 @@ namespace GameSharp.Hooks
         ///     you MUST pass 'null'.
         /// </param>
         /// <returns>An object containing the original functions return value.</returns>
-        public object CallOriginal(params object[] args)
+        public T CallOriginal<T>(params object[] args)
         {
             Disable();
-            var ret = _targetDelegate.DynamicInvoke(args);
+            object ret = _targetDelegate.DynamicInvoke(args);
             Enable();
-            return ret;
+            return (T) ret;
         }
     }
 }

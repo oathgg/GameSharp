@@ -8,24 +8,21 @@ namespace GameSharp.Hooks
     /// </summary>
     public abstract class Hook
     {
-        private HookBase _hook;
+        private HookBase _hookBase { get; set; }
 
-        /// <summary>
-        ///     Will be used to install the <c>Hook</c> and enable it.
-        /// </summary>
-        public void InstallHook()
+        public Hook()
         {
-            if (_hook == null)
-                _hook = new HookBase(GetHookDelegate(), GetDetourDelegate());
-            _hook.Enable();
+            _hookBase = new HookBase(GetHookDelegate(), GetDetourDelegate());
         }
 
-        /// <summary>
-        ///     Will be used to uninstall the <c>Hook</c>.
-        /// </summary>
-        public void UninstallHook()
+        public void Enable()
         {
-            _hook.Disable();
+            _hookBase.Enable();
+        }
+
+        public void Disable()
+        {
+            _hookBase.Disable();
         }
 
         /// <summary>
@@ -42,14 +39,5 @@ namespace GameSharp.Hooks
         ///     e.g. return new OnAfkDelegate(DetourMethod);
         /// </summary>
         public abstract Delegate GetDetourDelegate();
-
-        /// <summary>
-        ///     Call the original function, parameters are taken right to left.
-        /// </summary>
-        /// <param name="parms"></param>
-        protected void CallOriginal(params object[] parms)
-        {
-            _hook.CallOriginal(parms);
-        }
     }
 }
