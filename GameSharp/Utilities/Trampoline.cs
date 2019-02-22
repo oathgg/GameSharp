@@ -122,7 +122,7 @@ namespace GameSharp.Utilities
             IntPtr oldFunc = from - totalBytes + 5;
 
             bool allocatedMemoryAhead = IntPtr.Size == 4 ? newMem.ToInt32() > from.ToInt32() : newMem.ToInt64() > from.ToInt64();
-            // When the new memory if further ahead then we need to add an additional byte.
+            // When the new memory is further ahead then we need to add an additional byte.
             if (allocatedMemoryAhead)
                 oldFunc += 1;
 
