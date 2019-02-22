@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace GameSharp.Utilities
 {
-    public class SigScanner
+    public class PatternScanner
     {
         /// <summary>
         ///     Contains all the bytes of the specified module.
@@ -18,16 +18,16 @@ namespace GameSharp.Utilities
         private IntPtr _moduleBase { get; } = new IntPtr();
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SigScanner" /> class.
+        ///     Initializes a new instance of the <see cref="PatternScanner" /> class.
         /// </summary>
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
-        public SigScanner(ProcessModule module)
+        public PatternScanner(ProcessModule module)
         {
             _moduleBase = module.BaseAddress;
             _bytes = _moduleBase.Read<byte[]>(module.ModuleMemorySize);
         }
 
-        public SigScanner(byte[] bytesToScan)
+        public PatternScanner(byte[] bytesToScan)
         {
             _bytes = bytesToScan;
         }

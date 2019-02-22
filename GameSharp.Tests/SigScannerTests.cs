@@ -19,7 +19,7 @@ namespace GameSharp.Tests
                 byteArray[rndMemLocation + i] = pattern[i];
             }
 
-            SigScanner sigScanner = new SigScanner(byteArray);
+            PatternScanner sigScanner = new PatternScanner(byteArray);
             IntPtr result = sigScanner.FindPattern("48 65 6c 6c 6f ? 77 6f 72 6c 64");
             Assert.AreEqual(rndMemLocation, result.ToInt32());
         }
