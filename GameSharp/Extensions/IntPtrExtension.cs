@@ -9,6 +9,7 @@ namespace GameSharp.Extensions
     {
         /// <summary>
         /// Gets an address from a vtable index. Since it uses index * IntPtr, it should work for both x64 and x32. 
+        /// https://github.com/lolp1/Process.NET/blob/fbe6fd3f865dc0e2e2f62bb5dfc41a423952aebc/src/Process.NET/Extensions/UnsafeMemoryExtensions.cs#LC18
         /// </summary>
         /// <param name="intPtr">The int PTR.</param>
         /// <param name="functionIndex">Index of the function.</param>
@@ -20,9 +21,7 @@ namespace GameSharp.Extensions
         }
 
         /// <summary>
-        ///     We always think it will be a Jump Near instruction (E9).
-        ///     From > To then the jump back should substract the difference from the max val of an IntPtr (0xFFFFFFFF).
-        ///     To > From then we return the difference right away.
+
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
@@ -55,6 +54,7 @@ namespace GameSharp.Extensions
 
         /// <summary>
         ///     Converts an unmanaged function pointer to the given delegate type.
+        ///     https://github.com/lolp1/Process.NET/blob/fbe6fd3f865dc0e2e2f62bb5dfc41a423952aebc/src/Process.NET/Extensions/UnsafeMemoryExtensions.cs#LC43
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
         /// <param name="addr">Where address of the function.</param>

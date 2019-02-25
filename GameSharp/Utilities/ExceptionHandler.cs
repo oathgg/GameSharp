@@ -7,6 +7,7 @@ namespace GameSharp.Utilities
     {
         public static void Initialize()
         {
+            // Set the System.Diagnostics.Process.Exited event to be raised when the process terminates.
             Process.GetCurrentProcess().EnableRaisingEvents = true;
 
             // We call our friendly ExceptionHandler method whenever an 
