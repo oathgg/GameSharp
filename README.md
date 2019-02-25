@@ -1,4 +1,7 @@
 # GameSharp
+For the record; there are a many libraries which are better than mine available for free on GitHub.
+I'm just creating this codebase for myself to get a better understanding of architectures.
+
 Change a native (unmanaged) game application into a managed application.
 
 Create a 'Class Library' project and reference the nuget package UnmanagedExports.
