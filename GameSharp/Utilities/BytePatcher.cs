@@ -9,14 +9,14 @@ namespace GameSharp.Utilities
     ///     If we want to get rid of all the patches we can call the public static method DisposePatches.
     ///     Otherwise call a Dispose which will deactivate the patch by restoring the original opcodes and then disposes the object.
     /// </summary>
-    public class BytePatcher : IDisposable
+    public class Patch : IDisposable
     {
         #region Properties
 
         /// <summary>
         ///     List of all our current patches, either active or inactive.
         /// </summary>
-        public static List<BytePatcher> PatchList = new List<BytePatcher>();
+        public static List<Patch> PatchList = new List<Patch>();
 
         /// <summary>
         ///     Address in memory which we are going to patch.
@@ -46,7 +46,7 @@ namespace GameSharp.Utilities
         ///     Overloaded method of the default BytePatcher
         /// </summary>
         /// <param name="addressToPatch">The address of the byte which we want to patch</param>
-        public BytePatcher(IntPtr addressToPatch, byte[] newBytes)
+        public Patch(IntPtr addressToPatch, byte[] newBytes)
         {
             _addressToPatch = addressToPatch;
             _newBytes = newBytes;

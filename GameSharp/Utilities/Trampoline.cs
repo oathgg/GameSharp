@@ -29,71 +29,6 @@ namespace GameSharp.Utilities
         }
 
         /// <summary>
-        ///     Creates a CALL to a defined address
-        /// </summary>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        private byte[] CreateJump(IntPtr from, IntPtr to)
-        {
-            return IntPtr.Size == 4 ? CreateJump_x86(from, to) : CreateJump_x64v1(from, to);
-        }
-
-        private byte[] CreateJump_x86(IntPtr from, IntPtr to)
-        {
-            List<byte> jump = new List<byte>();
-
-            // JMP https://c9x.me/x86/html/file_module_x86_id_147.html
-            jump.Add(0xE9);
-
-            // Address offset.
-            byte[] relativeJumpAddressBytes = from.GetRelativeAddress(to);
-            jump.AddRange(relativeJumpAddressBytes);
-
-            return jump.ToArray();
-        }
-
-        /// <summary>
-        ///     Creates a trampoline function by using a call PTR
-        ///     
-        ///     0xFF25DEADBEEF JMP [DEADBEF4] ([RIP+DEADBEEF]) -- 6 bytes total
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        private byte[] CreateJump_x64v1(IntPtr from, IntPtr to)
-        {
-            if (to.ToInt64() > uint.MaxValue)
-                return CreateJump_x64v2(from, to);
-
-            List<byte> trampoline = new List<byte> { 0xFF, 0x25 };
-            byte[] relativeJumpAddressBytes = BitConverter.GetBytes(to.ToInt64());
-            trampoline.AddRange(relativeJumpAddressBytes);
-
-            return trampoline.ToArray();
-        }
-
-        /// <summary>
-        ///     Creates a trampoline function by using a call PTR
-        ///     
-        ///     push rax                            ; Save current value
-        ///     movabs rax, 0xCCCCCCCCCCCCCCCC      ; Move memory address into RAX/EAX register
-        ///     xchg rax, [rsp]                     ; Exchange the addresses loaded into these registers
-        ///     ret                                 ; Return from the function to the trampoline
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        private byte[] CreateJump_x64v2(IntPtr from, IntPtr to)
-        {
-            List<byte> trampoline = new List<byte> { 0x50, 0x48, 0xB8 };
-            byte[] relativeJumpAddressBytes = BitConverter.GetBytes(to.ToInt64() + 4);
-            trampoline.AddRange(relativeJumpAddressBytes);
-            trampoline.AddRange(new byte[] { 0x48, 0x87, 0x04, 0x24, 0xC3 });
-
-            return trampoline.ToArray();
-        }
-
-        /// <summary>
         ///     Allocates a new memory region where we can write the trampoline to.
         ///     Adds the new opcodes the user wishes to apply.
         ///     Adds the previous opcodes the original code had.
@@ -106,23 +41,20 @@ namespace GameSharp.Utilities
                 _newMem = CreateTrampolineFunc(_from);
                 CreateJumpToTrampoline(_from, _newMem);
                 _isActive = true;
-
-                Logger.Info(_from.ToString("X"));
-                Logger.Info(_newMem.ToString("X"));
             }
         }
 
-        private void CreateJumpToTrampoline(IntPtr from, IntPtr to)
+        /// <summary>
+        ///     Restore the previous bytes and releases the allocated memory
+        /// </summary>
+        public void Disable()
         {
-            // Remove the address bytes from the New memory func
-            to -= 4;
-
-            // Remove the jump byte if the new memory is allocated ahead of the address we're coming from.
-            bool allocatedMemoryAhead = IntPtr.Size == 4 ? to.ToInt32() > from.ToInt32() : to.ToInt64() > from.ToInt64();
-            if (allocatedMemoryAhead)
-                to -= 1;
-
-            from.Write(CreateJump(from, to));
+            if (_isActive)
+            {
+                _from.Write(_originalOpCodes);
+                Marshal.FreeHGlobal(_newMem);
+                _isActive = false;
+            }
         }
 
         private IntPtr CreateTrampolineFunc(IntPtr from)
@@ -158,17 +90,82 @@ namespace GameSharp.Utilities
             return newMem;
         }
 
-        /// <summary>
-        ///     Restore the previous bytes and releases the allocated memory
-        /// </summary>
-        public void Disable()
+        private void CreateJumpToTrampoline(IntPtr from, IntPtr to)
         {
-            if (_isActive)
-            {
-                _from.Write(_originalOpCodes);
-                Marshal.FreeHGlobal(_newMem);
-                _isActive = false;
-            }
+            // Remove the address bytes from the New memory func
+            to -= 4;
+
+            // Remove the jump byte if the new memory is allocated ahead of the address we're coming from.
+            bool allocatedMemoryAhead = IntPtr.Size == 4 ? to.ToInt32() > from.ToInt32() : to.ToInt64() > from.ToInt64();
+            if (allocatedMemoryAhead)
+                to -= 1;
+
+            from.Write(CreateJump(from, to));
+        }
+
+        /// <summary>
+        ///     Creates a CALL to a defined address based on the architecture of the program.
+        /// </summary>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        private byte[] CreateJump(IntPtr from, IntPtr to)
+        {
+            return IntPtr.Size == 4 ? CreateJump_x86(from, to) : CreateJump_x64v1(from, to);
+        }
+
+        /// <summary>
+        ///     JMP 0xCCCCCCCC          ; Jump to the relative address of the current EIP.
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        private byte[] CreateJump_x86(IntPtr from, IntPtr to)
+        {
+            List<byte> jump = new List<byte> { 0xE9 };
+            byte[] relativeJumpAddressBytes = from.GetRelativeAddress(to);
+            jump.AddRange(relativeJumpAddressBytes);
+
+            return jump.ToArray();
+        }
+
+        /// <summary>
+        ///     Creates a trampoline function by using a call PTR
+        ///     
+        ///     0xFF25DEADBEEF JMP [DEADBEF4] ([RIP+DEADBEEF]) -- 6 bytes total
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        private byte[] CreateJump_x64v1(IntPtr from, IntPtr to)
+        {
+            // TODO: Check if it stays withing 2GB of the from address, if so we can do 0xFF, 0x25 call.
+            if (to.ToInt64() > 0)
+                return CreateJump_x64v2(from, to);
+
+            List<byte> trampoline = new List<byte> { 0xFF, 0x25 };
+            byte[] relativeJumpAddressBytes = BitConverter.GetBytes(to.ToInt64());
+            trampoline.AddRange(relativeJumpAddressBytes);
+
+            return trampoline.ToArray();
+        }
+
+        /// <summary>
+        ///     push rax                            ; Save current value of RAX register
+        ///     movabs rax, 0xCCCCCCCCCCCCCCCC      ; Move memory address of our Trampoline func into RAX register
+        ///     xchg qword ptr ss:[rsp], rax        ; Switch the stack with the RAX value
+        ///     ret                                 ; Return to the address which is in the top of the stack.
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        private byte[] CreateJump_x64v2(IntPtr from, IntPtr to)
+        {
+            List<byte> trampoline = new List<byte> { 0x50, 0x48, 0xB8 };
+            byte[] relativeJumpAddressBytes = BitConverter.GetBytes(to.ToInt64() + 4);
+            trampoline.AddRange(relativeJumpAddressBytes);
+            trampoline.AddRange(new byte[] { 0x48, 0x87, 0x04, 0x24, 0xC3 });
+
+            return trampoline.ToArray();
         }
 
         /// <summary>

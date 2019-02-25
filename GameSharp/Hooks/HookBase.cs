@@ -26,7 +26,7 @@ namespace GameSharp.Hooks
         /// <summary>
         ///     Contains the data of our patch
         /// </summary>
-        private BytePatcher _patcher { get; }
+        private Patch _patcher { get; }
 
         /// <summary>
         ///     Gets the pointer of the target function.
@@ -60,7 +60,7 @@ namespace GameSharp.Hooks
             // RETN opcode http://ref.x86asm.net/coder32.html#xC3
             bytes.Add(0xC3);
 
-            _patcher = new BytePatcher(new IntPtr(IntPtr.Size == 4 ? _targetFuncPtr.ToInt32() : _targetFuncPtr.ToInt64()), bytes.ToArray());
+            _patcher = new Patch(new IntPtr(IntPtr.Size == 4 ? _targetFuncPtr.ToInt32() : _targetFuncPtr.ToInt64()), bytes.ToArray());
         }
 
         /// <summary>

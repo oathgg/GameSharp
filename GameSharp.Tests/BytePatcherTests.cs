@@ -21,7 +21,7 @@ namespace GameSharp.Tests
             byte[] newBytes = new byte[] { 1, 2, 3 };
 
             // Create the bytepatcher object.
-            BytePatcher bp = new BytePatcher(ptrAllocatedMemory, newBytes);
+            Patch bp = new Patch(ptrAllocatedMemory, newBytes);
 
             // Change bytes by enabling the patch.
             bp.Enable();
