@@ -78,7 +78,7 @@
     <Compile Include="Utilities\ExceptionHandler.cs" />
     <Compile Include="Utilities\ModuleHelper.cs" />
     <Compile Include="Utilities\PatternScanner.cs" />
-    <Compile Include="Utilities\Trampoline.cs" />
+    <Compile Include="Utilities\Detour.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

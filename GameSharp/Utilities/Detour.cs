@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace GameSharp.Utilities
 {
-    public class Trampoline : IDisposable
+    public class Detour : IDisposable
     {
         IntPtr _from { get; set; }
         byte[] _originalOpCodes { get; set; }
@@ -20,7 +20,7 @@ namespace GameSharp.Utilities
         /// </summary>
         /// <param name="from"></param>
         /// <param name="opCodes"></param>
-        public Trampoline(IntPtr from, byte[] opCodes, bool executeOriginal = true)
+        public Detour(IntPtr from, byte[] opCodes, bool executeOriginal = true)
         {
             _from = from;
             _originalOpCodes = from.Read<byte[]>(5);

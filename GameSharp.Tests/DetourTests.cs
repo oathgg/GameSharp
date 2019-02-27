@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GameSharp.Tests
 {
     [TestClass]
-    public class TrampolineTests
+    public class DetourTests
     {
         [TestMethod]
         public void CreateTrampolineTest()
@@ -18,7 +18,7 @@ namespace GameSharp.Tests
             Marshal.Copy(simpleFuncBytes, 0, originalMemoryPtr, simpleFuncBytes.Length);
 
             byte[] trampFuncBytes = TrampolineFunction();
-            Trampoline trampoline = new Trampoline(originalMemoryPtr, trampFuncBytes);
+            Detour trampoline = new Detour(originalMemoryPtr, trampFuncBytes);
             trampoline.Enable();
 
             byte[] currentBytes = new byte[simpleFuncBytes.Length];
