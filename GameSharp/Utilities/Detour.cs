@@ -23,7 +23,6 @@ namespace GameSharp.Utilities
         public Detour(IntPtr from, byte[] opCodes, bool executeOriginal = true)
         {
             _from = from;
-            _originalOpCodes = from.Read<byte[]>(5);
             _newOpCodes = opCodes;
             _executeOriginal = executeOriginal;
         }
@@ -38,8 +37,8 @@ namespace GameSharp.Utilities
         {
             if (!_isActive)
             {
-                _newMem = CreateTrampolineFunc(_from);
-                CreateJumpToTrampoline(_from, _newMem);
+                _newMem = CreateDetour(_from);
+                CreateJumpToDetour(_from, _newMem);
                 _isActive = true;
             }
         }
@@ -57,7 +56,7 @@ namespace GameSharp.Utilities
             }
         }
 
-        private IntPtr CreateTrampolineFunc(IntPtr from)
+        private IntPtr CreateDetour(IntPtr from)
         {
             // Total amount of bytes the trampoline requires, originalcode, the new code + the 5 bytes for the jmp back.
             int totalBytes = _originalOpCodes.Length + _newOpCodes.Length + 5;
@@ -90,8 +89,11 @@ namespace GameSharp.Utilities
             return codeCavePtr;
         }
 
-        private void CreateJumpToTrampoline(IntPtr from, IntPtr to)
+        private void CreateJumpToDetour(IntPtr from, IntPtr to)
         {
+            // TODO: Change to architecture
+            _originalOpCodes = from.Read<byte[]>(5);
+
             // Remove the address bytes from the New memory func
             to -= 4;
 
