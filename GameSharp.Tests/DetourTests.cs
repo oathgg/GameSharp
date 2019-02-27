@@ -18,8 +18,8 @@ namespace GameSharp.Tests
             Marshal.Copy(simpleFuncBytes, 0, originalMemoryPtr, simpleFuncBytes.Length);
 
             byte[] trampFuncBytes = TrampolineFunction();
-            Detour trampoline = new Detour(originalMemoryPtr, trampFuncBytes);
-            trampoline.Enable();
+            Detour detour = new Detour(originalMemoryPtr, trampFuncBytes);
+            detour.Enable();
 
             byte[] currentBytes = new byte[simpleFuncBytes.Length];
             Marshal.Copy(originalMemoryPtr, currentBytes, 0, currentBytes.Length);
