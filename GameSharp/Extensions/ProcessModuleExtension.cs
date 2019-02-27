@@ -1,6 +1,7 @@
 ﻿using GameSharp.Utilities;
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace GameSharp.Extensions
 {
@@ -26,5 +27,29 @@ namespace GameSharp.Extensions
             ModuleHelper.FreeLibrary(module.ModuleName);
         }
 
+        /// <summary>
+        ///     Wrapper for the PatternScanner.FindPattern utility.
+        /// </summary>
+        /// <param name="module"></param>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        public static IntPtr FindPattern(this ProcessModule module, string pattern, int offset = 0)
+        {
+            return new PatternScanner(module).FindPattern(pattern, offset);
+        }
+
+        /// <summary>
+        ///     Wrapper for the PatternScanner.FindPattern but after finding the pattern it will read the value for you.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="module"></param>
+        /// <param name="pattern"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
+        public static T FindPattern<T>(this ProcessModule module, string pattern, int offset = 0)
+        {
+            IntPtr ptr = module.FindPattern(pattern, offset);
+            return ptr.Read<T>(Marshal.SizeOf<T>());
+        }
     }
 }

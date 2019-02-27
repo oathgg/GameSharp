@@ -1,4 +1,5 @@
 ﻿using GameSharp.Native;
+using GameSharp.Utilities;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -18,6 +19,18 @@ namespace GameSharp.Extensions
         {
             var vftable = intPtr.Read<IntPtr>();
             return (vftable + functionIndex * IntPtr.Size).Read<IntPtr>();
+        }
+
+        public static Patch Patch(this IntPtr ptr, byte[] patch)
+        {
+            // Creates a managed patch object
+            Patch bp = new Patch(ptr, patch);
+
+            // Enables the patch
+            bp.Enable();
+
+            // Return the object.
+            return bp;
         }
 
         /// <summary>
