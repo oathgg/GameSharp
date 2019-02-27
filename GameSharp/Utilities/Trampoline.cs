@@ -63,31 +63,31 @@ namespace GameSharp.Utilities
             int totalBytes = _originalOpCodes.Length + _newOpCodes.Length + 5;
 
             // Allocate space in the process for our trampoline
-            IntPtr newMem = Marshal.AllocHGlobal(totalBytes);
+            IntPtr codeCavePtr = Marshal.AllocHGlobal(totalBytes);
 
-            // Create our trampoline func
-            List<byte> trampoline = new List<byte>();
-            trampoline.AddRange(_newOpCodes);
+            // Create our trampoline func in the newly assigned codecave
+            List<byte> codeCaveBytes = new List<byte>();
+            codeCaveBytes.AddRange(_newOpCodes);
 
             // Add the original code to the detour.
             if (_executeOriginal)
-                trampoline.AddRange(_originalOpCodes);
+                codeCaveBytes.AddRange(_originalOpCodes);
 
             // The old address minus the amount of extra bytes we added + the added bytes for the jump.
             IntPtr oldFunc = from - totalBytes + 5;
 
-            bool allocatedMemoryAhead = IntPtr.Size == 4 ? newMem.ToInt32() > from.ToInt32() : newMem.ToInt64() > from.ToInt64();
+            bool allocatedMemoryAhead = IntPtr.Size == 4 ? codeCavePtr.ToInt32() > from.ToInt32() : codeCavePtr.ToInt64() > from.ToInt64();
             // When the new memory is further ahead then we need to add an additional byte.
             if (allocatedMemoryAhead)
                 oldFunc += 1;
 
             // Creates a relative jump and adds it to the array.
-            trampoline.AddRange(CreateJump(newMem, oldFunc));
+            codeCaveBytes.AddRange(CreateJump(codeCavePtr, oldFunc));
 
             // Write the array to the memory.
-            newMem.Write(trampoline.ToArray());
+            codeCavePtr.Write(codeCaveBytes.ToArray());
 
-            return newMem;
+            return codeCavePtr;
         }
 
         private void CreateJumpToTrampoline(IntPtr from, IntPtr to)
@@ -139,7 +139,7 @@ namespace GameSharp.Utilities
         private byte[] CreateJump_x64v1(IntPtr from, IntPtr to)
         {
             // TODO: Check if it stays withing 2GB of the from address, if so we can do 0xFF, 0x25 call.
-            if (to.ToInt64() > 0)
+            if (IsAbsJump(from, to))
                 return CreateJump_x64v2(from, to);
 
             List<byte> trampoline = new List<byte> { 0xFF, 0x25 };
@@ -147,6 +147,11 @@ namespace GameSharp.Utilities
             trampoline.AddRange(relativeJumpAddressBytes);
 
             return trampoline.ToArray();
+        }
+
+        private bool IsAbsJump(IntPtr from, IntPtr to)
+        {
+            return Math.Abs(from.ToInt64() - to.ToInt64()) >= long.MaxValue;
         }
 
         /// <summary>
