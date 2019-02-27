@@ -73,16 +73,16 @@ namespace GameSharp.Utilities
             if (_executeOriginal)
                 codeCaveBytes.AddRange(_originalOpCodes);
 
-            // The old address minus the amount of extra bytes we added + the added bytes for the jump.
-            IntPtr oldFunc = from - totalBytes + 5;
+            // The old address minus the amount of extra bytes we added to the memory
+            IntPtr startOfOldFunc = from - totalBytes;
 
             bool allocatedMemoryAhead = IntPtr.Size == 4 ? codeCavePtr.ToInt32() > from.ToInt32() : codeCavePtr.ToInt64() > from.ToInt64();
             // When the new memory is further ahead then we need to add an additional byte.
             if (allocatedMemoryAhead)
-                oldFunc += 1;
+                startOfOldFunc += 1;
 
-            // Creates a relative jump and adds it to the array.
-            codeCaveBytes.AddRange(CreateJump(codeCavePtr, oldFunc));
+            // Creates a relative jump to the old function + extra offset and adds it to the array.
+            codeCaveBytes.AddRange(CreateJump(codeCavePtr, startOfOldFunc + 5));
 
             // Write the array to the memory.
             codeCavePtr.Write(codeCaveBytes.ToArray());
