@@ -4,7 +4,7 @@ using System;
 namespace GameSharp.Hooks
 {
     /// <summary>
-    ///     Extend from <see cref="Hook"/> with a hook you want to use.
+    ///     This is a simple HookBase wrapper, extend from this class.
     /// </summary>
     public abstract class Hook
     {
