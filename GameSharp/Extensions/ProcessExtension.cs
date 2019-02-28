@@ -116,5 +116,29 @@ namespace GameSharp.Extensions
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
         }
+
+        /// <summary>
+        ///     Loads the specified module into the address space of the calling process.
+        /// </summary>
+        /// <param name="libraryPath">
+        ///     The name of the module. This can be either a library module (a .dll file) or an executable
+        ///     module (an .exe file).
+        /// </param>
+        /// <returns>A <see cref="ProcessModule" /> corresponding to the loaded library.</returns>
+        public static ProcessModule LoadLibrary(this Process process, string libraryPath)
+        {
+            // Check whether the file exists
+            if (!File.Exists(libraryPath))
+                throw new FileNotFoundException(
+                    $"Couldn't load the library {libraryPath} because the file doesn't exist.");
+
+            // Load the library
+            if (Kernel32.LoadLibrary(libraryPath) == IntPtr.Zero)
+                throw new Win32Exception($"Couldn't load the library {libraryPath}.");
+
+            // Enumerate the loaded modules and return the one newly added
+            return process.Modules.Cast<ProcessModule>()
+                .First(m => m.FileName == libraryPath);
+        }
     }
 }
