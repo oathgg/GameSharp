@@ -50,6 +50,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyTests.cs" />
     <Compile Include="ExtensionsTests.cs" />
     <Compile Include="BytePatcherTests.cs" />
     <Compile Include="InjectionTests.cs" />
