@@ -22,7 +22,7 @@ namespace GameSharp.Injection
 
             byte[] pathBytes = Encoding.ASCII.GetBytes(pathToDll);
 
-            // Allocates memory the size of our path to our dll in bytes in the remote process.
+            // Allocates memory the size of the path to our dll in bytes in the remote process.
             IntPtr allocatedMemory = Kernel32.VirtualAllocEx(_process.Handle, IntPtr.Zero, (uint)pathBytes.Length,
                 Enums.AllocationType.Reserve | Enums.AllocationType.Commit, Enums.MemoryProtection.ExecuteReadWrite);
 
@@ -36,24 +36,21 @@ namespace GameSharp.Injection
                 IntPtr loadLibraryAddress = Kernel32.GetProcAddress(kernel32Module, Constants.LOAD_LIBRARY_PROC);
 
                 // Creates a remote thread in the process that will call the function loadlibrary which takes a memory pointer which contains the path to our dll.
-                IntPtr remoteThreadHandle = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, loadLibraryAddress, allocatedMemory, 0, IntPtr.Zero);
+                Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, loadLibraryAddress, allocatedMemory, 0, IntPtr.Zero);
             }
         }
 
         protected override void Execute(string pathToDll, string entryPoint)
         {
-            // Dynamically load the DLL into our own process.
+            // Dynamically load the DLL into our own process to resolve the entrypoint offset.
             IntPtr myModule = Kernel32.LoadLibrary(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
 
-            // Get the address of our entry point.
             IntPtr entryPointAddress = Kernel32.GetProcAddress(myModule, entryPoint);
-
-            // Validation
             if (entryPointAddress == IntPtr.Zero)
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             // Invoke the entry point in the remote process
-            IntPtr modulePath = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);
+            Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
     }
 }
