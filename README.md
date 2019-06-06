@@ -1,15 +1,17 @@
 # GameSharp
-For the record; there are a many libraries which are better than mine available for free on GitHub.
-I'm just creating this codebase for myself to get a better understanding of architectures.
+*For the record; there are a many libraries which are better than mine available for free on GitHub.
+I'm just creating this codebase for myself to get a better understanding of architectures.*
 
-Change a native (unmanaged) game application into a managed application.
+This library changes a native (unmanaged) game application into a managed application.
+
+### How to
 
 Create a 'Class Library' project and reference the nuget package UnmanagedExports.
 https://www.nuget.org/packages/UnmanagedExports/1.2.7
 
 Make sure you select an architecture which is the same as the process you're injecting in to.
 
-<b>TIP:</b> UnmanagedExports does not support 'AnyCPU'.
+> TIP: UnmanagedExports does not support 'AnyCPU'.
 
 Create an Entrypoint for your DLL.
 
@@ -46,7 +48,7 @@ namespace Injector
     {
         static void Main(string[] args)
         {
-            string pathToDll = Path.Combine(Environment.CurrentDirectory, "Banished.Injectable.dll");
+            string pathToDll = Path.Combine(Environment.CurrentDirectory, "Banished.Injectable.dll"); 
             InjectDll("Application-steam-x64", pathToDll, "Main");
         }
 
