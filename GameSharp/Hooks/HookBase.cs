@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace GameSharp.Hooks
 {
-    public class HookBase
+    internal class HookBase
     {
         /// <summary>
         ///     This var is not used within the detour itself. It is only here
@@ -43,7 +43,7 @@ namespace GameSharp.Hooks
         /// </summary>
         /// <param name="target">The target delegate we want to detour.</param>
         /// <param name="hook">The hook delegate where want it to go.</param>
-        public HookBase(Delegate target, Delegate hook)
+        internal HookBase(Delegate target, Delegate hook)
         {
             _targetDelegate = target;
             _targetFuncPtr = Marshal.GetFunctionPointerForDelegate(target);
@@ -67,7 +67,7 @@ namespace GameSharp.Hooks
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. In this
         ///     case, it will disable the <see cref="HookBase" /> instance and suppress the finalizer.
         /// </summary>
-        public void Dispose()
+        internal void Dispose()
         {
             Disable();
             GC.SuppressFinalize(this);
@@ -76,7 +76,7 @@ namespace GameSharp.Hooks
         /// <summary>
         ///     Removes this Detour from memory. (Reverts the bytes back to their originals.)
         /// </summary>
-        public void Disable()
+        internal void Disable()
         {
             _patcher.Disable();
         }
@@ -85,7 +85,7 @@ namespace GameSharp.Hooks
         ///     Applies this Detour to memory. (Writes new bytes to memory)
         /// </summary>
         /// <returns></returns>
-        public void Enable()
+        internal void Enable()
         {
             _patcher.Enable();
         }
@@ -98,7 +98,7 @@ namespace GameSharp.Hooks
         ///     you MUST pass 'null'.
         /// </param>
         /// <returns>An object containing the original functions return value.</returns>
-        public T CallOriginal<T>(params object[] args)
+        internal T CallOriginal<T>(params object[] args)
         {
             Disable();
             object ret = _targetDelegate.DynamicInvoke(args);
