@@ -106,9 +106,6 @@ namespace GameSharp.Injection
         /// <param name="pathToDll"></param>
         private void UpdateFiles(string pathToDll)
         {
-            // Directory of our currently injecting DLL
-            string coreDllPath = Path.GetDirectoryName(pathToDll);
-
             // Full path to the process
             string processPath = Path.GetDirectoryName(_process.MainModule.FileName);
 
@@ -137,7 +134,7 @@ namespace GameSharp.Injection
             IntPtr allocConsoleAddress = Kernel32.GetProcAddress(kernel32Module, "AllocConsole");
 
             // Creates a remote thread in the process that will call the function AllocConsole,
-            IntPtr remoteThreadHandle = Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
+            Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
 
         /// <summary>
