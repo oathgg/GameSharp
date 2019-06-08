@@ -17,7 +17,7 @@ namespace GameSharp.Extensions
         /// <returns>IntPtr.</returns>
         public static IntPtr GetVtableIntPtr(this IntPtr intPtr, int functionIndex)
         {
-            var vftable = intPtr.Read<IntPtr>();
+            IntPtr vftable = intPtr.Read<IntPtr>();
             return (vftable + functionIndex * IntPtr.Size).Read<IntPtr>();
         }
 
@@ -32,8 +32,6 @@ namespace GameSharp.Extensions
             // Return the object.
             return bp;
         }
-
-        /// <summary>
 
         /// </summary>
         /// <param name="from"></param>
@@ -52,7 +50,7 @@ namespace GameSharp.Extensions
             // Level it out so it's no longer a negative.
             offsetDifference = Math.Abs(offsetDifference);
 
-            byte[] relativeAddressInBytes = new byte[4];
+            byte[] relativeAddressInBytes;
             if (negativeJump)
             {
                 uint returnAddress = uint.MaxValue - (uint)offsetDifference;
@@ -62,6 +60,7 @@ namespace GameSharp.Extensions
             {
                 relativeAddressInBytes = BitConverter.GetBytes(offsetDifference);
             }
+
             return relativeAddressInBytes.Take(4).ToArray();
         }
 
@@ -80,8 +79,8 @@ namespace GameSharp.Extensions
         public static T ToDelegate<T>(this IntPtr addr) where T : class
         {
             if (typeof(T).GetCustomAttributes(typeof(UnmanagedFunctionPointerAttribute), true).Length == 0)
-                throw new InvalidOperationException(
-                    "This operation can only convert to delegates adorned with the UnmanagedFunctionPointerAttribute");
+                throw new InvalidOperationException("This operation can only convert to delegates adorned with the UnmanagedFunctionPointerAttribute");
+
             return Marshal.GetDelegateForFunctionPointer(addr, typeof(T)) as T;
         }
 
@@ -93,8 +92,10 @@ namespace GameSharp.Extensions
         public static T Read<T>(this IntPtr addr, int size, int offset = 0)
         {
             byte[] destination = new byte[size];
+
             // Copy the memory to our own object
             Marshal.Copy(addr, destination, offset, destination.Length);
+
             return destination.Cast<T>();
         }
 
