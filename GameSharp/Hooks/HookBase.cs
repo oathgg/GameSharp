@@ -60,7 +60,7 @@ namespace GameSharp.Hooks
             // RETN opcode http://ref.x86asm.net/coder32.html#xC3
             bytes.Add(0xC3);
 
-            _patcher = new Patch(new IntPtr(IntPtr.Size == 4 ? _targetFuncPtr.ToInt32() : _targetFuncPtr.ToInt64()), bytes.ToArray());
+            _patcher = new Patch(_targetFuncPtr, bytes.ToArray());
         }
 
         /// <summary>
@@ -98,11 +98,14 @@ namespace GameSharp.Hooks
         ///     you MUST pass 'null'.
         /// </param>
         /// <returns>An object containing the original functions return value.</returns>
-        internal T CallOriginal<T>(params object[] args)
+        public T CallOriginal<T>(params object[] args)
         {
             Disable();
+
             object ret = _targetDelegate.DynamicInvoke(args);
+
             Enable();
+
             return (T) ret;
         }
     }

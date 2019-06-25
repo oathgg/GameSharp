@@ -1,6 +1,5 @@
 ﻿using GameSharp.Extensions;
 using System;
-using System.Collections.Generic;
 
 namespace GameSharp.Utilities
 {
@@ -12,11 +11,6 @@ namespace GameSharp.Utilities
     public class Patch : IDisposable
     {
         #region Properties
-
-        /// <summary>
-        ///     List of all our current patches, either active or inactive.
-        /// </summary>
-        public static List<Patch> PatchList = new List<Patch>();
 
         /// <summary>
         ///     Address in memory which we are going to patch.
@@ -48,10 +42,9 @@ namespace GameSharp.Utilities
         /// <param name="addressToPatch">The address of the byte which we want to patch</param>
         public Patch(IntPtr addressToPatch, byte[] newBytes)
         {
-            _addressToPatch = addressToPatch;
+            _addressToPatch = new IntPtr(IntPtr.Size == 4 ? addressToPatch.ToInt32() : addressToPatch.ToInt64());
             _newBytes = newBytes;
             _originalBytes = _addressToPatch.Read<byte[]>(_newBytes.Length);
-            PatchList.Add(this);
         }
 
         #endregion Constructor
@@ -94,22 +87,6 @@ namespace GameSharp.Utilities
         }
 
         #endregion Dispose (Implemented from IDisposable)
-
-        #region DisposePatches
-
-        /// <summary>
-        ///     Disposes all the patches
-        /// </summary>
-        public static void DisposePatches()
-        {
-            foreach (var patch in PatchList)
-            {
-                patch.Dispose();
-            }
-            PatchList.Clear();
-        }
-
-        #endregion DisposePatches
 
         #endregion Methods
     }
