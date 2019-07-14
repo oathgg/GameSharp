@@ -16,27 +16,27 @@ namespace GameSharp.Hooks
         ///     to keep a reference, to avoid the GC from collecting the delegate instance!
         /// </summary>
         // ReSharper disable once NotAccessedField.Local
-        private readonly Delegate _hookDelegate;
+        private readonly Delegate HookDelegate;
 
         /// <summary>
         ///     Gets the pointer to be hooked/being hooked.
         /// </summary>
-        private IntPtr _hookPtr { get; }
+        private IntPtr HookPtr { get; }
 
         /// <summary>
         ///     Contains the data of our patch
         /// </summary>
-        private Patch _patcher { get; }
+        private Patch Patcher { get; }
 
         /// <summary>
         ///     Gets the pointer of the target function.
         /// </summary>
-        private IntPtr _targetFuncPtr { get; }
+        private IntPtr TargetFuncPtr { get; }
 
         /// <summary>
         ///     Gets the targeted delegate instance.
         /// </summary>
-        private Delegate _targetDelegate { get; }
+        private Delegate TargetDelegate { get; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="HookBase" /> class.
@@ -45,22 +45,22 @@ namespace GameSharp.Hooks
         /// <param name="hook">The hook delegate where want it to go.</param>
         internal HookBase(Delegate target, Delegate hook)
         {
-            _targetDelegate = target;
-            _targetFuncPtr = Marshal.GetFunctionPointerForDelegate(target);
+            TargetDelegate = target;
+            TargetFuncPtr = Marshal.GetFunctionPointerForDelegate(target);
 
-            _hookDelegate = hook;
-            _hookPtr = Marshal.GetFunctionPointerForDelegate(hook);
+            HookDelegate = hook;
+            HookPtr = Marshal.GetFunctionPointerForDelegate(hook);
 
             // PUSH opcode http://ref.x86asm.net/coder32.html#x68
             List<byte> bytes = new List<byte> { 0x68 };
 
             // Push our hook address onto the stack
-            bytes.AddRange(BitConverter.GetBytes(IntPtr.Size == 4 ? _hookPtr.ToInt32() : _hookPtr.ToInt64()));
+            bytes.AddRange(BitConverter.GetBytes(IntPtr.Size == 4 ? HookPtr.ToInt32() : HookPtr.ToInt64()));
 
             // RETN opcode http://ref.x86asm.net/coder32.html#xC3
             bytes.Add(0xC3);
 
-            _patcher = new Patch(_targetFuncPtr, bytes.ToArray());
+            Patcher = new Patch(TargetFuncPtr, bytes.ToArray());
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace GameSharp.Hooks
         /// </summary>
         internal void Disable()
         {
-            _patcher.Disable();
+            Patcher.Disable();
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace GameSharp.Hooks
         /// <returns></returns>
         internal void Enable()
         {
-            _patcher.Enable();
+            Patcher.Enable();
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace GameSharp.Hooks
         {
             Disable();
 
-            object ret = _targetDelegate.DynamicInvoke(args);
+            object ret = TargetDelegate.DynamicInvoke(args);
 
             Enable();
 
