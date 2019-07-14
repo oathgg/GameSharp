@@ -1,11 +1,8 @@
 ﻿using GameSharp.Injection;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameSharp.Notepadpp.Injector
 {
@@ -15,6 +12,11 @@ namespace GameSharp.Notepadpp.Injector
         {
             // The process we are injecting into.
             Process process = Process.GetProcessesByName("notepad++").FirstOrDefault();
+
+            if (process == null)
+            {
+                throw new Exception("Process not found.");
+            }
 
             // A simple RemoteThreadInjector.
             IInjection injector = new RemoteThreadInjection(process);

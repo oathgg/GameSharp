@@ -11,7 +11,7 @@ namespace GameSharp.Notepadpp.dll
 {
     public class HookMessageBoxW : Hooks.Hook
     {
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, SetLastError = true)]
         private delegate int HookMessageBoxWDelegate(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)]string text, [MarshalAs(UnmanagedType.LPWStr)]string caption, uint type);
 
         private int DetourMethod(IntPtr hWnd, string text, string caption, uint type)

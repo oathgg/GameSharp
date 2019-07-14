@@ -14,16 +14,11 @@ namespace GameSharp.Notepadpp.dll
         [DllExport]
         public static void Main()
         {
-            Console.WriteLine("I have been injected!");
+            Logger.Info("I have been injected!");
 
-            HookMessageBoxW();
-            //PatchMessageBoxW();
-        }
-
-        private static void HookMessageBoxW()
-        {
-            HookMessageBoxW messageBoxW = new HookMessageBoxW();
-            messageBoxW.Enable();
+            new CallMessageBoxW().Run();
+            //new HookMessageBoxW().Enable();
+            PatchMessageBoxW();
         }
 
         private static void PatchMessageBoxW()
@@ -31,7 +26,7 @@ namespace GameSharp.Notepadpp.dll
             ProcessModule module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().Where(x => x.ModuleName.ToUpper() == "USER32.DLL").FirstOrDefault();
             Patch patch = new Patch(module.BaseAddress + 0x78290, new byte[] { 0xC3 });
             patch.Enable();
-            Console.WriteLine("MessageBoxW Patched!");
+            Logger.Info("MessageBoxW Patched!");
         }
     }
 }
