@@ -68,7 +68,6 @@
     <Compile Include="Native\Enums.cs" />
     <Compile Include="Native\Kernel32.cs" />
     <Compile Include="Native\Structs.cs" />
-    <Compile Include="Utilities\Assembly.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Extensions\ProcessThreadExtension.cs" />
     <Compile Include="Utilities\Patch.cs" />

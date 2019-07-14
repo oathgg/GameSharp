@@ -107,7 +107,7 @@ namespace GameSharp.Extensions
             Marshal.Copy(data, 0, addr, data.Length);
 
             // Restore the page execution permissions.
-            Kernel32.VirtualProtect(addr, data.Length, old, out Enums.Protection x);
+            Kernel32.VirtualProtect(addr, data.Length, old, out _);
         }
 
         public static void Write<T>(this IntPtr addr, T data)

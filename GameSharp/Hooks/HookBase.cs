@@ -98,7 +98,7 @@ namespace GameSharp.Hooks
         ///     you MUST pass 'null'.
         /// </param>
         /// <returns>An object containing the original functions return value.</returns>
-        public T CallOriginal<T>(params object[] args)
+        internal T CallOriginal<T>(params object[] args)
         {
             Disable();
 

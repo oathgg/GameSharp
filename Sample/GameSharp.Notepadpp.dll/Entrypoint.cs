@@ -16,18 +16,22 @@ namespace GameSharp.Notepadpp.dll
         {
             Console.WriteLine("I have been injected!");
 
-            PatchRtlFindClearBits();
+            HookMessageBoxW();
+            //PatchMessageBoxW();
         }
 
-        private static void PatchRtlFindClearBits()
+        private static void HookMessageBoxW()
         {
-            ProcessModule module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().Where(x => x.ModuleName.ToUpper() == "NTDLL.DLL").FirstOrDefault();
+            HookMessageBoxW messageBoxW = new HookMessageBoxW();
+            messageBoxW.Enable();
+        }
 
-            Patch patch = new Patch(module.BaseAddress + 0x1010, new byte[] { 0xC3 });
-
+        private static void PatchMessageBoxW()
+        {
+            ProcessModule module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().Where(x => x.ModuleName.ToUpper() == "USER32.DLL").FirstOrDefault();
+            Patch patch = new Patch(module.BaseAddress + 0x78290, new byte[] { 0xC3 });
             patch.Enable();
-
-            Console.WriteLine("RtlFindClearBits Patched!");
+            Console.WriteLine("MessageBoxW Patched!");
         }
     }
 }
