@@ -43,9 +43,10 @@ namespace GameSharp.Injection
         protected override void Execute(string pathToDll, string entryPoint)
         {
             // Dynamically load the DLL into our own process to resolve the entrypoint offset.
-            IntPtr myModule = Kernel32.LoadLibrary(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
+            IntPtr myModule = Kernel32.LoadLibraryExW(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
 
             IntPtr entryPointAddress = Kernel32.GetProcAddress(myModule, entryPoint);
+
             if (entryPointAddress == IntPtr.Zero)
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 

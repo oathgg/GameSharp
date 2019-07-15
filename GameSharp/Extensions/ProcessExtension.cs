@@ -27,6 +27,7 @@ namespace GameSharp.Extensions
             EnvDTE.DTE dte;
             try
             {
+                // Visual studio 2019
                 dte = (EnvDTE.DTE)Marshal.GetActiveObject("VisualStudio.DTE.16.0");
             }
             catch (COMException)

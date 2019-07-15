@@ -37,10 +37,10 @@ namespace GameSharp.Native
         internal static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
 
         [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern IntPtr LoadLibrary(string lpFileName);
+        internal static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)]string lpFileName);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern IntPtr LoadLibrary(string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
+        [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
+        internal static extern IntPtr LoadLibraryExW([MarshalAs(UnmanagedType.LPWStr)]string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

@@ -8,21 +8,26 @@ namespace GameSharp.Hooks
     /// </summary>
     public abstract class Hook
     {
-        private HookBase _hookBase { get; set; }
+        private HookBase HookBase { get; set; }
 
         public Hook()
         {
-            _hookBase = new HookBase(GetHookDelegate(), GetDetourDelegate());
+            HookBase = new HookBase(GetHookDelegate(), GetDetourDelegate());
         }
 
         public void Enable()
         {
-            _hookBase.Enable();
+            HookBase.Enable();
         }
 
         public void Disable()
         {
-            _hookBase.Disable();
+            HookBase.Disable();
+        }
+
+        public T CallOriginal<T>(params object[] args)
+        {
+            return HookBase.CallOriginal<T>(args);
         }
 
         /// <summary>
