@@ -2,6 +2,7 @@
 // https://github.com/lolp1/Process.NET/blob/master/src/Process.NET/Applied/Detours/Detour.cs
 //
 
+using GameSharp.Extensions;
 using GameSharp.Utilities;
 using System;
 using System.Collections.Generic;
@@ -45,10 +46,10 @@ namespace GameSharp.Hooks
         public Hook()
         { 
             TargetDelegate = GetHookDelegate();
-            TargetFuncPtr = Marshal.GetFunctionPointerForDelegate(TargetDelegate);
+            TargetFuncPtr = TargetDelegate.ToFunctionPtr();
 
             HookDelegate = GetDetourDelegate();
-            HookPtr = Marshal.GetFunctionPointerForDelegate(HookDelegate);
+            HookPtr = HookDelegate.ToFunctionPtr();
 
             // PUSH opcode http://ref.x86asm.net/coder32.html#x68
             List<byte> bytes = new List<byte> { 0x68 };

@@ -61,6 +61,7 @@
     <Compile Include="Extensions\IntPtrExtension.cs" />
     <Compile Include="Extensions\ProcessExtension.cs" />
     <Compile Include="Extensions\ProcessModuleExtension.cs" />
+    <Compile Include="Extensions\UnsafeMemoryExtension.cs" />
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />

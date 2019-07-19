@@ -42,7 +42,7 @@ namespace GameSharp.Utilities
         /// <param name="addressToPatch">The address of the byte which we want to patch</param>
         public Patch(IntPtr addressToPatch, byte[] newBytes)
         {
-            _addressToPatch = new IntPtr(IntPtr.Size == 4 ? addressToPatch.ToInt32() : addressToPatch.ToInt64());
+            _addressToPatch = IntPtr.Size == 4 ? new IntPtr(addressToPatch.ToInt32()) : new IntPtr(addressToPatch.ToInt64());
             _newBytes = newBytes;
             _originalBytes = _addressToPatch.Read<byte[]>(_newBytes.Length);
         }
