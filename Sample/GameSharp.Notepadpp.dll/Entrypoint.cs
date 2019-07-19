@@ -16,9 +16,16 @@ namespace GameSharp.Notepadpp.dll
         {
             Logger.Info("I have been injected!");
 
-            new CallMessageBoxW().Run();
-            //new HookMessageBoxW().Enable();
-            PatchMessageBoxW();
+            //new CallMessageBoxW().Run();
+            HookMessageBox();
+            //PatchMessageBoxW();
+        }
+
+        private static void HookMessageBox()
+        {
+            new HookMessageBoxW().Enable();
+
+            Logger.Info("MessageBoxW Hooked!");
         }
 
         private static void PatchMessageBoxW()
