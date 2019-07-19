@@ -54,16 +54,7 @@ namespace GameSharp.Hooks
             List<byte> bytes = new List<byte> { 0x68 };
 
             // Push our hook address onto the stack
-            byte[] hookPtrAddress = BitConverter.GetBytes(IntPtr.Size == 4 ? HookPtr.ToInt32() : HookPtr.ToInt64());
-
-            if (IntPtr.Size == 4)
-            {
-                // NOP last 4 bytes
-                for (int i = 4; i < hookPtrAddress.Length; i++)
-                {
-                    hookPtrAddress[i] = 0x90;
-                }
-            }
+            byte[] hookPtrAddress = IntPtr.Size == 4 ? BitConverter.GetBytes(HookPtr.ToInt32()) : BitConverter.GetBytes(HookPtr.ToInt64());
 
             bytes.AddRange(hookPtrAddress);
 
