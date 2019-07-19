@@ -92,6 +92,9 @@ namespace GameSharp.Hooks
         }
 
         /// <summary>
+        ///     Source code found on
+        ///     https://github.com/lolp1/Process.NET/blob/master/src/Process.NET/Applied/Detours/Detour.cs#L215
+        ///     
         ///     Calls the original function, and returns a return value.
         /// </summary>
         /// <param name="args">
