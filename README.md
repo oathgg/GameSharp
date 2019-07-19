@@ -95,3 +95,8 @@ namespace GameSharp.Notepadpp.Injector
     }
 }
 ```
+
+### Add your own injection method
+
+You always want to extend your injection method from the `GameSharp.Injection.InjectionBase` class.
+You can add your own injection methods by overriding the `Inject` and `Execute` method.
