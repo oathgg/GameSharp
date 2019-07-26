@@ -1,4 +1,5 @@
-﻿using GameSharp.Utilities;
+﻿using GameSharp.Extensions;
+using GameSharp.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,7 +34,7 @@ namespace GameSharp.Notepadpp.dll
 
         public override Delegate GetHookDelegate()
         {
-            ProcessModule module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().Where(x => x.ModuleName.ToUpper() == "USER32.DLL").FirstOrDefault();
+            ProcessModule module = Process.GetCurrentProcess().GetProcessModule("USER32.DLL");
 
             return Marshal.GetDelegateForFunctionPointer<HookMessageBoxWDelegate>(module.BaseAddress + 0x78290);
         }

@@ -25,7 +25,7 @@ namespace GameSharp.Native
         internal static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern bool WriteProcessMemory(SafeProcessHandle hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int nSize, out IntPtr lpNumberOfBytesWritten);
+        internal static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int nSize, out IntPtr lpNumberOfBytesWritten);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         internal static extern IntPtr GetModuleHandle(string lpModuleName);

@@ -20,7 +20,7 @@ namespace GameSharp.Extensions
         /// <returns>IntPtr.</returns>
         public static IntPtr GetVtableIntPtr(this IntPtr intPtr, int functionIndex)
         {
-            var vftable = intPtr.Read<IntPtr>();
+            IntPtr vftable = intPtr.Read<IntPtr>();
             return (vftable + functionIndex * IntPtr.Size).Read<IntPtr>();
         }
 

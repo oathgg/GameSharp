@@ -15,10 +15,7 @@ namespace GameSharp.Extensions
         /// <param name="module"></param>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        public static IntPtr FindPattern(this ProcessModule module, string pattern, int offset = 0)
-        {
-            return new PatternScanner(module).FindPattern(pattern, offset);
-        }
+        public static IntPtr FindPattern(this ProcessModule module, string pattern, int offset = 0) => new PatternScanner(module).FindPattern(pattern, offset);
 
         /// <summary>
         ///     Wrapper for the PatternScanner.FindPattern but after finding the pattern it will read the value for you.
@@ -43,7 +40,7 @@ namespace GameSharp.Extensions
         public static IntPtr GetProcAddress(this ProcessModule module, string functionName)
         {
             // Get the function address
-            var ret = Kernel32.GetProcAddress(module.BaseAddress, functionName);
+            IntPtr ret = Kernel32.GetProcAddress(module.BaseAddress, functionName);
 
             // Check whether the function was found
             if (ret != IntPtr.Zero)

@@ -18,28 +18,19 @@ namespace GameSharp.Hooks
         /// </summary>
         private readonly Delegate HookDelegate;
 
-        /// <summary>
-        ///     Gets the pointer to be hooked/being hooked.
-        /// </summary>
         private IntPtr HookPtr { get; }
 
-        /// <summary>
-        ///     Contains the data of our patch
-        /// </summary>
         private Patch Patch { get; }
 
-        /// <summary>
-        ///     Gets the pointer of the target function.
-        /// </summary>
         private IntPtr TargetFuncPtr { get; }
 
-        /// <summary>
-        ///     Gets the targeted delegate instance.
-        /// </summary>
         private Delegate TargetDelegate { get; }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="HookBase" /> class.
+        ///     Initializes a new instance of the <see cref="Hook" /> class.
+        ///     
+        ///     A hook can be used to create a detour from an original function into your own function.
+        ///     You can then proceed to call the original function by using the method <see cref="CallOriginal" />.
         /// </summary>
         /// <param name="target">The target delegate we want to detour.</param>
         /// <param name="hook">The hook delegate where want it to go.</param>
@@ -64,19 +55,10 @@ namespace GameSharp.Hooks
 
             Patch = new Patch(TargetFuncPtr, bytes.ToArray());
         }
+        
 
         /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. In this
-        ///     case, it will disable the <see cref="HookBase" /> instance and suppress the finalizer.
-        /// </summary>
-        public void Dispose()
-        {
-            Disable();
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///     Removes this Detour from memory. (Reverts the bytes back to their originals.)
+        ///     Reverts the bytes back to their original value.
         /// </summary>
         public void Disable()
         {
@@ -84,7 +66,7 @@ namespace GameSharp.Hooks
         }
 
         /// <summary>
-        ///     Applies this Detour to memory. (Writes new bytes to memory)
+        ///     Writes the bytes we have created for our hook to the process memory.
         /// </summary>
         /// <returns></returns>
         public void Enable()
@@ -99,8 +81,7 @@ namespace GameSharp.Hooks
         ///     Calls the original function, and returns a return value.
         /// </summary>
         /// <param name="args">
-        ///     The arguments to pass. If it is a 'void' argument list,
-        ///     you MUST pass 'null'.
+        ///     The arguments to pass. You MUST pass 'null' if it is a 'void' argument list.
         /// </param>
         /// <returns>An object containing the original functions return value.</returns>
         public T CallOriginal<T>(params object[] args)
@@ -128,5 +109,15 @@ namespace GameSharp.Hooks
         ///     e.g. return new OnAfkDelegate(DetourMethod);
         /// </summary>
         public abstract Delegate GetDetourDelegate();
+
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. In this
+        ///     case, it will disable the <see cref="Hook" /> instance and suppress the finalizer.
+        /// </summary>
+        public void Dispose()
+        {
+            Disable();
+            GC.SuppressFinalize(this);
+        }
     }
 }

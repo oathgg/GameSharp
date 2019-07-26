@@ -1,5 +1,6 @@
 ﻿using GameSharp.Extensions;
 using GameSharp.Native;
+using GameSharp.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,15 +13,7 @@ namespace GameSharp.Injection
 {
     public abstract class InjectionBase : IInjection
     {
-        /// <summary>
-        ///     Process of to inject into.
-        /// </summary>
         protected Process _process;
-
-        /// <summary>
-        ///     List of all the DLLs which have been transfered.
-        /// </summary>
-        List<string> _copiedDlls = new List<string>();
 
         public InjectionBase(Process process)
         {
@@ -28,40 +21,37 @@ namespace GameSharp.Injection
         }
 
         /// <summary>
-        ///     Injects and executes the DLL through the specified injection method.
+        ///     Injects and executes the DLL through the IInjection injection method.
         /// </summary>
         /// <param name="pathToDll"></param>
         /// <param name="entryPoint"></param>
         public void InjectAndExecute(string pathToDll, string entryPoint, bool attach)
         {
-            // Update all DLL files in WoW exe directory which we need to inject.
+            // Update all DLL files in the exe directory which we need to inject or resolve references to.
             UpdateFiles(pathToDll);
 
             // Pause all threads before injecting in case of anti-cheat.
             SuspendThreads(true);
 
-            // Injects our DLL into the specified process.
+            Logger.Info($"Injecting DLL '{pathToDll}'.");
             Inject(pathToDll);
 
-            // To hide our presence we randomize the PE headers of the DLL we have injected.
-            //_process.RandomizePeHeader(pathToDll);
-
-            // Creates a console for the output we want to write from the injected program.
-            AllocConsole();
+            // Possible anti-cheat detterence
+            string moduleName = Path.GetFileName(pathToDll);
+            _process.RandomizePeHeader(moduleName);
 
             // Attach to the remote process if wanted.
             if (attach)
                 AttachToProcess();
 
-            // Executes the entry point of the DLL.
+            Logger.Info($"Creating a console for output from our injected DLL.");
+            AllocConsole();
+
             Execute(pathToDll, entryPoint);
 
             SuspendThreads(false);
         }
 
-        /// <summary>
-        ///     Suspends or resumes all active threads
-        /// </summary>
         private void SuspendThreads(bool suspend)
         {
             foreach (ProcessThread pT in _process.Threads)
@@ -96,6 +86,7 @@ namespace GameSharp.Injection
         private void AttachToProcess()
         {
             // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
+            Logger.Info($"Attaching our debugger to the remote process.");
             if (Debugger.IsAttached)
                 _process.Attach();
         }
@@ -119,7 +110,6 @@ namespace GameSharp.Injection
             string destinationFullName = Path.Combine(destination, dllName);
 
             File.Copy(source, destinationFullName, true);
-
         }
 
         /// <summary>
@@ -145,7 +135,7 @@ namespace GameSharp.Injection
         protected abstract void Inject(string pathToDll);
 
         /// <summary>
-        ///     Executes the specified entry point.
+        ///     Execution after the DLL has been injected.
         /// </summary>
         /// <param name="pathToDll"></param>
         /// <param name="entryPoint"></param>

@@ -74,7 +74,7 @@ namespace GameSharp.Utilities
         {
             List<byte> patternbytes = new List<byte>();
 
-            foreach (var curByte in pattern.Split(' '))
+            foreach (string curByte in pattern.Split(' '))
             {
                 // when we have a ? it's a variable, otherwise convert it to a byte.
                 patternbytes.Add(curByte == "?" ? (byte)0x0 : Convert.ToByte(curByte, 16));

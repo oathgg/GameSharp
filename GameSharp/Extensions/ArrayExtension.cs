@@ -5,29 +5,35 @@ namespace GameSharp.Extensions
 {
     public static class ArrayExtension
     {
-        public static string CastString(this byte[] data, Encoding encoding)
+        public static string CastToString(this byte[] data, Encoding encoding)
         {
             return encoding.GetString(data);
         }
 
         /// <summary>
-        ///     Casts the data into the specified object.
+        ///     Converts the input byte(s) into the castable object by using the BitConverter class.
+        ///     For a string you'll need to use the <c>CastToString</c> method.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data"></param>
+        /// <typeparam name="T">Object type you want the byte(s) to be converted to, eg. int, boolean</typeparam>
+        /// <param name="data">Byte(s) you want to convert</param>
         /// <returns></returns>
-        public static T Cast<T>(this byte[] data)
+        public static T CastTo<T>(this byte[] data)
         {
             object val = default(T);
+
             Type realType = typeof(T);
             TypeCode typeCode = Type.GetTypeCode(realType);
 
-            // Additional type checking
+            // As we don't understand IntPtr in unmanaged code we do a check and set it to the appropriate type we DO understand.
             if (typeof(T) == typeof(IntPtr))
-                typeCode = TypeCode.Int32;
+                typeCode = IntPtr.Size == 4 ? TypeCode.Int32 : TypeCode.Int64;
+
+            // When we want to cast it to type byte array then we can just return the array.
             if (typeof(T) == typeof(byte[]))
                 typeCode = TypeCode.Byte;
 
+            // Most of these types can be converted to an int, see the BP of microsoft:
+            // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/how-to-convert-a-byte-array-to-an-int
             switch (typeCode)
             {
                 case TypeCode.Int32:
@@ -63,7 +69,7 @@ namespace GameSharp.Extensions
                     break;
 
                 case TypeCode.String:
-                    throw new NotImplementedException();
+                    throw new NotSupportedException("Please use the CastToString(Encoding) function.");
             }
 
             return (T)val;

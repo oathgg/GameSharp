@@ -1,4 +1,5 @@
-﻿using GameSharp.Utilities;
+﻿using GameSharp.Extensions;
+using GameSharp.Utilities;
 using RGiesecke.DllExport;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace GameSharp.Notepadpp.dll
 
         private static void PatchMessageBoxW()
         {
-            ProcessModule module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().Where(x => x.ModuleName.ToUpper() == "USER32.DLL").FirstOrDefault();
+            ProcessModule module = Process.GetCurrentProcess().GetProcessModule("USER32.DLL");
             Patch patch = new Patch(module.BaseAddress + 0x78290, new byte[] { 0xC3 });
             patch.Enable();
             Logger.Info("MessageBoxW Patched!");

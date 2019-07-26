@@ -21,18 +21,6 @@ namespace GameSharp.Extensions
             return (vftable + functionIndex * IntPtr.Size).Read<IntPtr>();
         }
 
-        public static Patch Patch(this IntPtr ptr, byte[] patch)
-        {
-            // Creates a managed patch object
-            Patch bp = new Patch(ptr, patch);
-
-            // Enables the patch
-            bp.Enable();
-
-            // Return the object.
-            return bp;
-        }
-
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
@@ -86,7 +74,8 @@ namespace GameSharp.Extensions
 
         public static T Read<T>(this IntPtr memoryAddress) where T : struct
         {
-            return Marshal.PtrToStructure<T>(memoryAddress);
+            T result = Marshal.PtrToStructure<T>(memoryAddress);
+            return result;
         }
 
         public static T Read<T>(this IntPtr addr, int size, int offset = 0)
@@ -96,7 +85,7 @@ namespace GameSharp.Extensions
             // Copy the memory to our own object
             Marshal.Copy(addr, destination, offset, destination.Length);
 
-            return destination.Cast<T>();
+            return destination.CastTo<T>();
         }
 
         public static void Write(this IntPtr addr, byte[] data)

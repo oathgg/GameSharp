@@ -23,13 +23,9 @@ namespace GameSharp.Utilities
                 Debugger.Break();
         }
 
-        /// <summary>
-        ///     Simple wrapper.
-        /// </summary>
-        /// <param name="exception"></param>
         private static void BeautifyException(object exception)
         {
-            // Safe cast it as an exception
+            // Safe cast it as an exception otherwise we might cause a crash in our crash.
             if (exception is Exception)
                 BeautifyException(exception as Exception);
         }

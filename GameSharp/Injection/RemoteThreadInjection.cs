@@ -27,7 +27,7 @@ namespace GameSharp.Injection
                 Enums.AllocationType.Reserve | Enums.AllocationType.Commit, Enums.MemoryProtection.ExecuteReadWrite);
 
             // Write the path to our dll in the newly allocated memory section of the process.
-            if (Kernel32.WriteProcessMemory(_process.SafeHandle, allocatedMemory, pathBytes, pathBytes.Length, out IntPtr a))
+            if (Kernel32.WriteProcessMemory(_process.Handle, allocatedMemory, pathBytes, pathBytes.Length, out IntPtr a))
             {
                 // Gets the base address of the Kernel32.Dll file
                 IntPtr kernel32Module = Kernel32.GetModuleHandle(Constants.KERNEL32_DLL);
@@ -42,13 +42,12 @@ namespace GameSharp.Injection
 
         protected override void Execute(string pathToDll, string entryPoint)
         {
-            // Dynamically load the DLL into our own process to resolve the entrypoint offset.
-            IntPtr myModule = Kernel32.LoadLibraryExW(pathToDll, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences);
-
-            IntPtr entryPointAddress = Kernel32.GetProcAddress(myModule, entryPoint);
+            Process myProcess = Process.GetCurrentProcess();
+            ProcessModule module = myProcess.LoadLibrary(pathToDll, false);
+            IntPtr entryPointAddress = module.GetProcAddress(entryPoint);
 
             if (entryPointAddress == IntPtr.Zero)
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                throw new Win32Exception($"Couldn't find the entry point, system returned error code: {Marshal.GetLastWin32Error()}");
 
             // Invoke the entry point in the remote process
             Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);

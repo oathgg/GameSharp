@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameSharp.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace GameSharp.Notepadpp.dll
 
         public void Run()
         {
-            ProcessModule module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().Where(x => x.ModuleName.ToUpper() == "USER32.DLL").FirstOrDefault();
+            ProcessModule module = Process.GetCurrentProcess().GetProcessModule("USER32.DLL");
 
             HookMessageBoxWDelegate function = Marshal.GetDelegateForFunctionPointer<HookMessageBoxWDelegate>(module.BaseAddress + 0x78290);
 

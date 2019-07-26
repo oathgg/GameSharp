@@ -10,36 +10,15 @@ namespace GameSharp.Utilities
     /// </summary>
     public class Patch : IDisposable
     {
-        #region Properties
-
-        /// <summary>
-        ///     Address in memory which we are going to patch.
-        /// </summary>
         private IntPtr _addressToPatch { get; }
-
-        /// <summary>
-        ///     The original opcodes which belonged to this patch.
-        /// </summary>
         private byte[] _originalBytes { get; set; }
-
-        /// <summary>
-        ///     State of our current patch.
-        /// </summary>
         private bool _isActive { get; set; } = false;
-
-        /// <summary>
-        ///     New bytes which will be used to patch.
-        /// </summary>
         private byte[] _newBytes { get; set; }
 
-        #endregion Properties
-
-        #region Constructor
-
         /// <summary>
-        ///     Overloaded method of the default BytePatcher
+        ///     A patch can be used to change byte(s) starting at the defined address.
         /// </summary>
-        /// <param name="addressToPatch">The address of the byte which we want to patch</param>
+        /// <param name="addressToPatch">The address of the byte where we want our patch to start.</param>
         public Patch(IntPtr addressToPatch, byte[] newBytes)
         {
             _addressToPatch = IntPtr.Size == 4 ? new IntPtr(addressToPatch.ToInt32()) : new IntPtr(addressToPatch.ToInt64());
@@ -47,13 +26,6 @@ namespace GameSharp.Utilities
             _originalBytes = _addressToPatch.Read<byte[]>(_newBytes.Length);
         }
 
-        #endregion Constructor
-
-        #region Methods
-
-        /// <summary>
-        ///     Disables the patch by restoring the original opcodes.
-        /// </summary>
         public void Disable()
         {
             if (_isActive)
@@ -63,9 +35,6 @@ namespace GameSharp.Utilities
             }
         }
 
-        /// <summary>
-        ///     Enables the patch by using the provided new bytes
-        /// </summary>
         public void Enable()
         {
             if (!_isActive)
@@ -75,19 +44,10 @@ namespace GameSharp.Utilities
             }
         }
 
-        #region Dispose (Implemented from IDisposable)
-
-        /// <summary>
-        ///     Disables the patch and disposes of the object
-        /// </summary>
         public void Dispose()
         {
             Disable();
             GC.SuppressFinalize(this);
         }
-
-        #endregion Dispose (Implemented from IDisposable)
-
-        #endregion Methods
     }
 }

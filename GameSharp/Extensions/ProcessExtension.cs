@@ -1,4 +1,5 @@
 using GameSharp.Native;
+using GameSharp.Utilities;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,19 +12,8 @@ namespace GameSharp.Extensions
 {
     public static class ProcessExtension
     {
-        public static bool IsWow64(this Process process)
-        {
-            if ((Environment.OSVersion.Version.Major > 5)
-                || ((Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor >= 1)))
-            {
-                return Kernel32.IsWow64Process(process.Handle, out bool retVal) && retVal;
-            }
-            return false; // not on 64-bit Windows Emulator
-        }
-
         public static void Attach(this Process process)
         {
-            // Reference Visual Studio core
             EnvDTE.DTE dte;
             try
             {
@@ -32,7 +22,7 @@ namespace GameSharp.Extensions
             }
             catch (COMException)
             {
-                Debug.WriteLine("Visual studio v2017 not found.");
+                Debug.WriteLine("Visual studio v2019 not found.");
                 return;
             }
 
@@ -47,17 +37,13 @@ namespace GameSharp.Extensions
                     EnvDTE.Processes processes = dte.Debugger.LocalProcesses;
                     foreach (EnvDTE80.Process2 proc in processes.Cast<EnvDTE80.Process2>().Where(proc => proc.Name.IndexOf(process.ProcessName) != -1))
                     {
-                        // Get the debug engine we want to use.
                         EnvDTE80.Engine debugEngine = proc.Transport.Engines.Item("Managed (v4.6, v4.5, v4.0)");
                         proc.Attach2(debugEngine);
                         break;
                     }
                     break;
                 }
-                catch
-                {
-                    // Swallow
-                }
+                catch {}
             } while (tryCount-- > 0);
         }
 
@@ -67,55 +53,18 @@ namespace GameSharp.Extensions
             ProcessModule module = null;
             do
             {
+                // We do a refresh in case something has changed in the process, for example a DLL has been injected.
                 process.Refresh();
 
-                // Get an instance of the dll in the process
-                module = process.Modules.Cast<ProcessModule>()
-                    .SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase));
+                module = process.Modules.Cast<ProcessModule>().SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase));
 
-                Thread.Sleep(1000);
+                if (module != null)
+                    break;
+
+                Thread.Sleep(3000);
             } while (retryCount-- > 0);
 
             return module;
-        }
-
-        /// <summary>
-        ///     https://github.com/Akaion/Bleak/blob/master/Bleak/Extensions/RandomiseHeaders.cs
-        /// </summary>
-        /// <param name="process"></param>
-        /// <param name="dllPath"></param>
-        public static void RandomizePeHeader (this Process process, string dllPath)
-        {
-            // Get the name of the dll
-            string dllName = Path.GetFileName(dllPath);
-
-            // Get an instance of the dll in the process
-            ProcessModule module = process.GetProcessModule(dllName);
-
-            // Get the base address of the dll
-            IntPtr dllBaseAddress = module.BaseAddress;
-
-            // Get the information about the header region of the dll
-            int memoryInformationSize = Marshal.SizeOf(typeof(Structs.MemoryBasicInformation));
-
-            if (!Kernel32.VirtualQueryEx(process.Handle, dllBaseAddress, out Structs.MemoryBasicInformation memoryInformation, memoryInformationSize))
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-
-            // Create a buffer to write over the header region with
-            byte[] buffer = new byte[(int) memoryInformation.RegionSize];
-
-            // Fill the buffer with random bytes
-            new Random().NextBytes(buffer);
-
-            // Write over the header region with the buffer
-            try
-            {
-                Kernel32.WriteProcessMemory(process.SafeHandle, dllBaseAddress, buffer, (int)memoryInformation.RegionSize, out IntPtr ignored);
-            }
-            catch (Exception)
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
         }
 
         /// <summary>
@@ -126,20 +75,43 @@ namespace GameSharp.Extensions
         ///     module (an .exe file).
         /// </param>
         /// <returns>A <see cref="ProcessModule" /> corresponding to the loaded library.</returns>
-        public static ProcessModule LoadLibrary(this Process process, string libraryPath)
+        public static ProcessModule LoadLibrary(this Process process, string libraryPath, bool resolveReferences = true)
         {
             // Check whether the file exists
             if (!File.Exists(libraryPath))
-                throw new FileNotFoundException(
-                    $"Couldn't load the library {libraryPath} because the file doesn't exist.");
+                throw new FileNotFoundException($"Couldn't load the library {libraryPath} because the file doesn't exist.");
 
-            // Load the library
-            if (Kernel32.LoadLibrary(libraryPath) == IntPtr.Zero)
+            bool failed = resolveReferences
+                ? Kernel32.LoadLibrary(libraryPath) == IntPtr.Zero
+                : Kernel32.LoadLibraryExW(libraryPath, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences) == IntPtr.Zero;
+
+            if (failed)
                 throw new Win32Exception($"Couldn't load the library {libraryPath}.");
 
+            process.Refresh();
+
             // Enumerate the loaded modules and return the one newly added
-            return process.Modules.Cast<ProcessModule>()
-                .First(m => m.FileName == libraryPath);
+            return process.Modules.Cast<ProcessModule>().First(m => m.FileName == libraryPath);
+        }
+
+        /// <summary>
+        ///     https://github.com/Akaion/Bleak/blob/master/Bleak/Extensions/RandomiseHeaders.cs 
+        ///     I've made it compatible with my codebase, however this is where the idea came from.
+        ///     
+        ///     We cannot call the default extension methods, as these methods are only available once we are injected.
+        /// </summary>
+        /// <param name="process"></param>
+        /// <param name="dllPath"></param>
+        public static void RandomizePeHeader(this Process process, string moduleName)
+        {
+            Logger.Info($"Randomizing PE headers for {moduleName}.");
+
+            IntPtr dllBaseAddress = process.GetProcessModule(moduleName).BaseAddress;
+
+            Kernel32.VirtualQueryEx(process.Handle, dllBaseAddress, out Structs.MemoryBasicInformation memoryInformation, Marshal.SizeOf<Structs.MemoryBasicInformation>());
+            byte[] buffer = new byte[(int)memoryInformation.RegionSize];
+            new Random().NextBytes(buffer);
+            Kernel32.WriteProcessMemory(process.Handle, dllBaseAddress, buffer, (int)memoryInformation.RegionSize, out IntPtr _);
         }
     }
 }

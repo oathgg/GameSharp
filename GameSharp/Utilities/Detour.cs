@@ -8,15 +8,16 @@ namespace GameSharp.Utilities
 {
     public class Detour : IDisposable
     {
-        IntPtr _from { get; set; }
-        byte[] _originalOpCodes { get; set; }
-        byte[] _newOpCodes { get; set; }
-        IntPtr _newMem { get; set; }
-        bool _isActive { get; set; }
-        bool _executeOriginal { get; set; }
+        private IntPtr _from { get; set; }
+        private byte[] _originalOpCodes { get; set; }
+        private byte[] _newOpCodes { get; set; }
+        private IntPtr _newMem { get; set; }
+        private bool _isActive { get; set; }
+        private bool _executeOriginal { get; set; }
         
         /// <summary>
         ///     Creates a trampoline which we can place any where in the code to run some of our injected Assembly.
+        ///     This is not the same as a <see cref="Hooks.Hook"/> as a hook can only be placed at the start of a function.
         /// </summary>
         /// <param name="from"></param>
         /// <param name="opCodes"></param>
