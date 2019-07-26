@@ -55,7 +55,6 @@
     <Compile Include="InjectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SigScannerTests.cs" />
-    <Compile Include="DetourTests.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
