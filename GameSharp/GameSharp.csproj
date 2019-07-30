@@ -77,6 +77,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExceptionHandler.cs" />
     <Compile Include="Utilities\PatternScanner.cs" />
+    <Compile Include="Utilities\SafeFunctionCaller.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

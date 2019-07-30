@@ -64,7 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CallMessageBoxW.cs" />
+    <Compile Include="SafeCallMessageBoxW.cs" />
+    <Compile Include="UnsafeCallMessageBox.cs" />
     <Compile Include="Entrypoint.cs" />
     <Compile Include="HookMessageBoxW.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

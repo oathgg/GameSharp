@@ -1,6 +1,7 @@
 ﻿using GameSharp.Native;
 using GameSharp.Utilities;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -102,6 +103,19 @@ namespace GameSharp.Extensions
         public static void Write<T>(this IntPtr addr, T data)
         {
             Marshal.StructureToPtr(data, addr, false);
+        }
+
+        public static ProcessModule GetModuleWhichBelongsToAddress(this IntPtr address)
+        {
+            ProcessModuleCollection modules = Process.GetCurrentProcess().Modules;
+            foreach (ProcessModule module in modules)
+            {
+                if ((uint)address > (uint)module.BaseAddress && (uint)address < (uint)module.BaseAddress + module.ModuleMemorySize)
+                {
+                    return module;
+                }
+            }
+            return null;
         }
     }
 }

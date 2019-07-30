@@ -55,7 +55,7 @@ namespace GameSharp.Hooks
         private void InitializeAntiCheatHook()
         {
             byte[] bytes = GetHookBytes(HookPtr);
-            ProcessModule module = GetModuleWhichBelongsToAddress(TargetFuncPtr);
+            ProcessModule module = TargetFuncPtr.GetModuleWhichBelongsToAddress();
 
             if (module == null)
                 throw new NullReferenceException("Cannot find a module which belongs to the specified pointer.");
@@ -65,19 +65,6 @@ namespace GameSharp.Hooks
 
             byte[] retToCodeCave = GetHookBytes(CodeCavePatch.PatchAddress);
             HookPatch = new Patch(TargetFuncPtr, retToCodeCave);
-        }
-
-        private ProcessModule GetModuleWhichBelongsToAddress(IntPtr address)
-        {
-            ProcessModuleCollection modules = Process.GetCurrentProcess().Modules;
-            foreach (ProcessModule module in modules)
-            {
-                if ((uint) address > (uint)module.BaseAddress && (uint) address < (uint) module.BaseAddress + module.ModuleMemorySize)
-                {
-                    return module;
-                }
-            }
-            return null;
         }
 
         private byte[] GetHookBytes(IntPtr ptrToJumpTo)
