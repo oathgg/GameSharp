@@ -16,12 +16,6 @@ namespace GameSharp.Utilities
     {
         private Delegate SafeFunction { get; set; }
 
-        /// <summary>
-        ///     
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
         public T Call<T>(params object[] parameters)
         {
             if (SafeFunction == null)
