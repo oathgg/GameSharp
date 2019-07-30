@@ -20,7 +20,7 @@ namespace GameSharp.Injection
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
-            byte[] pathBytes = Encoding.ASCII.GetBytes(pathToDll);
+            byte[] pathBytes = Encoding.Unicode.GetBytes(pathToDll);
 
             // Allocates memory the size of the path to our dll in bytes in the remote process.
             IntPtr allocatedMemory = Kernel32.VirtualAllocEx(_process.Handle, IntPtr.Zero, (uint)pathBytes.Length,
