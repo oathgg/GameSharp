@@ -10,7 +10,7 @@ namespace GameSharp.Utilities
     ///     By extending from this class you're creating a somewhat safe way to call a function.
     ///     This class injects opcodes into the process where it can find a codecave.
     ///     The opcodes will become a jumptable between your malicious module and the code block of where the function resides.
-    ///     Bypasses the anti-cheat which is validating the return address of the calling function.
+    ///     This bypass is to prevent a possible anti-cheat method which validates the return address of a function to reside in it's own module code section.
     /// </summary>
     public abstract class SafeFunctionCaller
     {
