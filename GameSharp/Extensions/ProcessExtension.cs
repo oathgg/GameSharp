@@ -104,7 +104,7 @@ namespace GameSharp.Extensions
         /// <param name="dllPath"></param>
         public static void RandomizePeHeader(this Process process, string moduleName)
         {
-            Logger.Info($"Randomizing PE headers for {moduleName}.");
+            Logger.Info($"Randomizing PE header for {moduleName}.");
 
             IntPtr dllBaseAddress = process.GetProcessModule(moduleName).BaseAddress;
 
