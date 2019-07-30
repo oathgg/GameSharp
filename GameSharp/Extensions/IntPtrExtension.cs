@@ -72,9 +72,9 @@ namespace GameSharp.Extensions
             return Marshal.GetDelegateForFunctionPointer(addr, typeof(T)) as T;
         }
 
-        public static T Read<T>(this IntPtr memoryAddress) where T : struct
+        public static T Read<T>(this IntPtr memoryAddress, int offset = 0) where T : struct
         {
-            T result = Marshal.PtrToStructure<T>(memoryAddress);
+            T result = Marshal.PtrToStructure<T>(memoryAddress + offset);
             return result;
         }
 
