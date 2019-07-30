@@ -1,6 +1,7 @@
 ﻿using GameSharp.Native;
 using GameSharp.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -116,6 +117,22 @@ namespace GameSharp.Extensions
                 }
             }
             return null;
+        }
+
+        public static byte[] GetReturnToPtr(this IntPtr ptrToJumpTo)
+        {
+            // PUSH opcode http://ref.x86asm.net/coder32.html#x68
+            List<byte> bytes = new List<byte> { 0x68 };
+
+            // Push our hook address onto the stack
+            byte[] hookPtrAddress = IntPtr.Size == 4 ? BitConverter.GetBytes(ptrToJumpTo.ToInt32()) : BitConverter.GetBytes(ptrToJumpTo.ToInt64());
+
+            bytes.AddRange(hookPtrAddress);
+
+            // RETN opcode http://ref.x86asm.net/coder32.html#xC3
+            bytes.Add(0xC3);
+
+            return bytes.ToArray();
         }
     }
 }

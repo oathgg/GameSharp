@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace GameSharp.Utilities
 {
+    /// <summary>
+    ///     By extending from this class you're creating a somewhat safe way to call a function.
+    ///     This class injects opcodes into the process where it can find a codecave.
+    ///     The opcodes will become a jumptable between your malicious module and the code block of where the function resides.
+    ///     Bypasses the anti-cheat which is validating the return address of the calling function.
+    /// </summary>
     public abstract class SafeFunctionCaller
     {
         private static Delegate SafeFunction { get; set; }
@@ -25,14 +31,15 @@ namespace GameSharp.Utilities
             CachedCodeCaves.TryGetValue((uint)address, out uint cachedCodeCaveValue);
             Delegate safeFunction;
 
-            // If we don't have a code cave jump table yet we create one, otherwise cache it to improve performance.
+            // If we don't have a code cave jump address yet we create one, otherwise cache it to improve performance.
             if (cachedCodeCaveValue == 0)
             {
                 ProcessModule module = address.GetModuleWhichBelongsToAddress();
                 List<byte> bytes = new List<byte>();
-                bytes.AddRange(GetHookBytes(address));
+                bytes.AddRange(address.GetReturnToPtr());
                 IntPtr codeCave = module.FindCodeCaveInModule((uint) bytes.Count);
 
+                // TODO: Refactor since this is now a detection vector as we are now writing the JumpTable into the process.
                 codeCave.Write(bytes.ToArray());
                 CachedCodeCaves.Add((uint) address, (uint) codeCave);
 
@@ -49,21 +56,7 @@ namespace GameSharp.Utilities
             return ret;
         }
 
-        private byte[] GetHookBytes(IntPtr ptrToJumpTo)
-        {
-            // PUSH opcode http://ref.x86asm.net/coder32.html#x68
-            List<byte> bytes = new List<byte> { 0x68 };
-
-            // Push our hook address onto the stack
-            byte[] hookPtrAddress = IntPtr.Size == 4 ? BitConverter.GetBytes(ptrToJumpTo.ToInt32()) : BitConverter.GetBytes(ptrToJumpTo.ToInt64());
-
-            bytes.AddRange(hookPtrAddress);
-
-            // RETN opcode http://ref.x86asm.net/coder32.html#xC3
-            bytes.Add(0xC3);
-
-            return bytes.ToArray();
-        }
+        
 
         /// <summary>
         ///     This should return an UnmanagedFunctionPointer delegate.

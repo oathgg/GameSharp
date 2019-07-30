@@ -54,7 +54,7 @@ namespace GameSharp.Hooks
 
         private void InitializeAntiCheatHook()
         {
-            byte[] bytes = GetHookBytes(HookPtr);
+            byte[] bytes = HookPtr.GetReturnToPtr();
             ProcessModule module = TargetFuncPtr.GetModuleWhichBelongsToAddress();
 
             if (module == null)
@@ -63,24 +63,8 @@ namespace GameSharp.Hooks
             IntPtr codeCave = module.FindCodeCaveInModule((uint) bytes.Length);
             CodeCavePatch = new Patch(codeCave, bytes);
 
-            byte[] retToCodeCave = GetHookBytes(CodeCavePatch.PatchAddress);
+            byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr();
             HookPatch = new Patch(TargetFuncPtr, retToCodeCave);
-        }
-
-        private byte[] GetHookBytes(IntPtr ptrToJumpTo)
-        {
-            // PUSH opcode http://ref.x86asm.net/coder32.html#x68
-            List<byte> bytes = new List<byte> { 0x68 };
-
-            // Push our hook address onto the stack
-            byte[] hookPtrAddress = IntPtr.Size == 4 ? BitConverter.GetBytes(ptrToJumpTo.ToInt32()) : BitConverter.GetBytes(ptrToJumpTo.ToInt64());
-
-            bytes.AddRange(hookPtrAddress);
-
-            // RETN opcode http://ref.x86asm.net/coder32.html#xC3
-            bytes.Add(0xC3);
-
-            return bytes.ToArray();
         }
 
         /// <summary>
