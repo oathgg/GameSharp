@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameSharp.Utilities
 {
@@ -17,46 +14,40 @@ namespace GameSharp.Utilities
     /// </summary>
     public abstract class SafeFunctionCaller
     {
-        private static Delegate SafeFunction { get; set; }
+        private Delegate SafeFunction { get; set; }
 
         /// <summary>
-        ///     Contains the key: "Function address which we are calling" and the value "CodeCave of where we are calling the function from".
+        ///     
         /// </summary>
-        private static Dictionary<uint, uint> CachedCodeCaves = new Dictionary<uint, uint>();
-
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public T Call<T>(params object[] parameters)
         {
-            IntPtr address = ToCallDelegate().ToFunctionPtr();
-
-            CachedCodeCaves.TryGetValue((uint)address, out uint cachedCodeCaveValue);
-            Delegate safeFunction;
-
-            // If we don't have a code cave jump address yet we create one, otherwise cache it to improve performance.
-            if (cachedCodeCaveValue == 0)
+            if (SafeFunction == null)
             {
+                IntPtr address = ToCallDelegate().ToFunctionPtr();
+
                 ProcessModule module = address.GetModuleWhichBelongsToAddress();
+
                 List<byte> bytes = new List<byte>();
+
                 bytes.AddRange(address.GetReturnToPtr());
+
                 IntPtr codeCave = module.FindCodeCaveInModule((uint) bytes.Count);
 
-                // TODO: Refactor since this is now a detection vector as we are now writing the JumpTable into the process.
+                // TODO: Refactor since this is now a detection vector as we are now writing the 'JumpTable' into the process.
                 codeCave.Write(bytes.ToArray());
-                CachedCodeCaves.Add((uint) address, (uint) codeCave);
 
                 Type typeOfDelegate = ToCallDelegate().GetType();
-                safeFunction = Marshal.GetDelegateForFunctionPointer(codeCave, typeOfDelegate);
-            }
-            else
-            {
-                safeFunction = Marshal.GetDelegateForFunctionPointer(new IntPtr(cachedCodeCaveValue), ToCallDelegate().GetType());
+
+                SafeFunction = Marshal.GetDelegateForFunctionPointer(codeCave, typeOfDelegate);
             }
 
-            T ret = (T)safeFunction.DynamicInvoke(parameters);
+            T ret = (T)SafeFunction.DynamicInvoke(parameters);
 
             return ret;
         }
-
-        
 
         /// <summary>
         ///     This should return an UnmanagedFunctionPointer delegate.
