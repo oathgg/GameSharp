@@ -107,3 +107,13 @@ Currently there are a lot of detection vectors which are still present and most 
 However, I do try to keep some of the anti-cheat in mind, for example:
 > The code creates a code cave inside the remote process before hooking a function.
 > This bypass is for an anti-cheat which is validating the return address of a function to reside in it's own module.
+
+### What the sample includes
+
+- DLL injection of a managed DLL in an unmanaged application through the famous RemoteThread injection method.
+- Randomizing the PE header.
+- Attaching a managed debugger to the unmanaged remote process.
+- Execution of the entry point of the injected DLL in the remote process.
+- Execution of the MessageBoxW function with my own arguments in an Unsafe and 'Safe' way.
+- Hooking the MessageBoxW function in a 'Safe' way.
+- (Currently commented) Disabling the MessageBoxW function.
