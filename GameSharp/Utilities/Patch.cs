@@ -10,10 +10,10 @@ namespace GameSharp.Utilities
     /// </summary>
     public class Patch : IDisposable
     {
-        private IntPtr _addressToPatch { get; }
-        private byte[] _originalBytes { get; set; }
-        private bool _isActive { get; set; } = false;
-        private byte[] _newBytes { get; set; }
+        public IntPtr PatchAddress { get; }
+        private byte[] OriginalBytes { get; set; }
+        private bool IsActive { get; set; } = false;
+        private byte[] NewBytes { get; set; }
 
         /// <summary>
         ///     A patch can be used to change byte(s) starting at the defined address.
@@ -21,26 +21,26 @@ namespace GameSharp.Utilities
         /// <param name="addressToPatch">The address of the byte where we want our patch to start.</param>
         public Patch(IntPtr addressToPatch, byte[] newBytes)
         {
-            _addressToPatch = IntPtr.Size == 4 ? new IntPtr(addressToPatch.ToInt32()) : new IntPtr(addressToPatch.ToInt64());
-            _newBytes = newBytes;
-            _originalBytes = _addressToPatch.Read<byte[]>(_newBytes.Length);
+            PatchAddress = IntPtr.Size == 4 ? new IntPtr(addressToPatch.ToInt32()) : new IntPtr(addressToPatch.ToInt64());
+            NewBytes = newBytes;
+            OriginalBytes = PatchAddress.Read<byte[]>(NewBytes.Length);
         }
 
         public void Disable()
         {
-            if (_isActive)
+            if (IsActive)
             {
-                _addressToPatch.Write(_originalBytes);
-                _isActive = false;
+                PatchAddress.Write(OriginalBytes);
+                IsActive = false;
             }
         }
 
         public void Enable()
         {
-            if (!_isActive)
+            if (!IsActive)
             {
-                _addressToPatch.Write(_newBytes);
-                _isActive = true;
+                PatchAddress.Write(NewBytes);
+                IsActive = true;
             }
         }
 
