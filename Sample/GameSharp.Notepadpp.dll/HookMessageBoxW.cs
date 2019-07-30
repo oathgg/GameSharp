@@ -1,16 +1,12 @@
 ﻿using GameSharp.Extensions;
 using GameSharp.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameSharp.Notepadpp.dll
 {
-    public class HookMessageBoxW : Hooks.Hook
+    public class HookMessageBoxW : Hook
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall, SetLastError = true)]
         private delegate int HookMessageBoxWDelegate(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)]string text, [MarshalAs(UnmanagedType.LPWStr)]string caption, uint type);

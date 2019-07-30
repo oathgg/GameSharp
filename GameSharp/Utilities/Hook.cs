@@ -3,13 +3,10 @@
 //
 
 using GameSharp.Extensions;
-using GameSharp.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
-namespace GameSharp.Hooks
+namespace GameSharp.Utilities
 {
     public abstract class Hook
     {
