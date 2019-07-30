@@ -17,7 +17,6 @@ namespace GameSharp.Extensions
             EnvDTE.DTE dte;
             try
             {
-                // Visual studio 2019
                 dte = (EnvDTE.DTE)Marshal.GetActiveObject("VisualStudio.DTE.16.0");
             }
             catch (COMException)
@@ -30,7 +29,7 @@ namespace GameSharp.Extensions
             int tryCount = 5;
             do
             {
-                Thread.Sleep(1000);
+                process.WaitForInputIdle();
 
                 try
                 {
@@ -44,6 +43,8 @@ namespace GameSharp.Extensions
                     break;
                 }
                 catch {}
+
+                Thread.Sleep(1000);
             } while (tryCount-- > 0);
         }
 
@@ -61,7 +62,7 @@ namespace GameSharp.Extensions
                 if (module != null)
                     break;
 
-                Thread.Sleep(3000);
+                Thread.Sleep(1000);
             } while (retryCount-- > 0);
 
             return module;

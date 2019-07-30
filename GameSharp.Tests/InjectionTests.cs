@@ -15,7 +15,7 @@ namespace GameSharp.Tests
             Process process = Process.Start("notepad");
             try
             {
-                Thread.Sleep(1000);
+                process.WaitForInputIdle();
 
                 IInjection injection = new RemoteThreadInjection(process);
                 injection.InjectAndExecute(Environment.CurrentDirectory + "\\..\\..\\Dll\\TestDll_x86.dll", "Main", false);
