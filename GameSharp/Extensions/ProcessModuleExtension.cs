@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace GameSharp.Extensions
 {
@@ -59,6 +60,39 @@ namespace GameSharp.Extensions
             // Free the library
             if (!Kernel32.FreeLibrary(module.BaseAddress))
                 throw new Win32Exception($"Couldn't free the library {module.ModuleName}.");
+        }
+
+        /// <summary>
+        ///     Get .text region from Module
+        ///     Scan for bytes which are in range 0x00 - 0x10
+        ///     Loop once byte has been found until size has been reached
+        ///     Return pointer to the address
+        /// </summary>
+        /// <param name="module"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static IntPtr FindCodeCaveInModule(this ProcessModule module, int size)
+        {
+            byte[] moduleBytes = module.BaseAddress.Read<byte[]>(module.ModuleMemorySize);
+
+            for (uint i = 0x1000; i < moduleBytes.Length; i++)
+            {
+                if (moduleBytes[i] != 0x0)
+                    continue;
+
+                for (uint j = 0; j <= size; j++)
+                {
+                    if (moduleBytes[i + j] == 0x0)
+                        // We found a codecave if we match the size and all bytes are of the above value.
+                        if (j == size)
+                            return new IntPtr((uint)module.BaseAddress + i);
+                    else
+                        // Skip bytes as we don't want to reread them again.
+                        i += j;
+                }
+            }
+
+            return IntPtr.Zero;
         }
     }
 }
