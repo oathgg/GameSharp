@@ -6,6 +6,7 @@ using GameSharp.Extensions;
 using GameSharp.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Hooks
@@ -18,9 +19,15 @@ namespace GameSharp.Hooks
         /// </summary>
         private readonly Delegate HookDelegate;
 
+        /// <summary>
+        ///     This variable contains the jump from the module where the hookable function resides into our module.
+        ///     Bypass for an anti-cheat which is validating the return address of a function to reside in it's own module.
+        /// </summary>
+        private Patch CodeCavePatch { get; set; }
+
         private IntPtr HookPtr { get; }
 
-        private Patch Patch { get; }
+        private Patch HookPatch { get; set; }
 
         private IntPtr TargetFuncPtr { get; }
 
@@ -42,27 +49,55 @@ namespace GameSharp.Hooks
             HookDelegate = GetDetourDelegate();
             HookPtr = HookDelegate.ToFunctionPtr();
 
+            InitializeAntiCheatHook();
+        }
+
+        private void InitializeAntiCheatHook()
+        {
+            byte[] bytes = GetHookBytes(HookPtr);
+            IntPtr codeCave = GetModuleWhichBelongsToAddress(TargetFuncPtr).FindCodeCaveInModule(bytes.Length);
+            CodeCavePatch = new Patch(codeCave, bytes);
+
+            byte[] retToCodeCave = GetHookBytes(CodeCavePatch.PatchAddress);
+            HookPatch = new Patch(TargetFuncPtr, retToCodeCave);
+        }
+
+        private ProcessModule GetModuleWhichBelongsToAddress(IntPtr address)
+        {
+            ProcessModuleCollection modules = Process.GetCurrentProcess().Modules;
+            foreach (ProcessModule module in modules)
+            {
+                if ((uint) address > (uint)module.BaseAddress && (uint) address < (uint) module.BaseAddress + module.ModuleMemorySize)
+                {
+                    return module;
+                }
+            }
+            return null;
+        }
+
+        private byte[] GetHookBytes(IntPtr ptrToJumpTo)
+        {
             // PUSH opcode http://ref.x86asm.net/coder32.html#x68
             List<byte> bytes = new List<byte> { 0x68 };
 
             // Push our hook address onto the stack
-            byte[] hookPtrAddress = IntPtr.Size == 4 ? BitConverter.GetBytes(HookPtr.ToInt32()) : BitConverter.GetBytes(HookPtr.ToInt64());
+            byte[] hookPtrAddress = IntPtr.Size == 4 ? BitConverter.GetBytes(ptrToJumpTo.ToInt32()) : BitConverter.GetBytes(ptrToJumpTo.ToInt64());
 
             bytes.AddRange(hookPtrAddress);
 
             // RETN opcode http://ref.x86asm.net/coder32.html#xC3
             bytes.Add(0xC3);
 
-            Patch = new Patch(TargetFuncPtr, bytes.ToArray());
+            return bytes.ToArray();
         }
-        
 
         /// <summary>
         ///     Reverts the bytes back to their original value.
         /// </summary>
         public void Disable()
         {
-            Patch.Disable();
+            CodeCavePatch.Disable();
+            HookPatch.Disable();
         }
 
         /// <summary>
@@ -71,7 +106,8 @@ namespace GameSharp.Hooks
         /// <returns></returns>
         public void Enable()
         {
-            Patch.Enable();
+            CodeCavePatch.Enable();
+            HookPatch.Enable();
         }
 
         /// <summary>
