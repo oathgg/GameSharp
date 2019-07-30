@@ -30,10 +30,10 @@ namespace GameSharp.Injection
             if (Kernel32.WriteProcessMemory(_process.Handle, allocatedMemory, pathBytes, pathBytes.Length, out IntPtr a))
             {
                 // Gets the base address of the Kernel32.Dll file
-                IntPtr kernel32Module = Kernel32.GetModuleHandle(Constants.KERNEL32_DLL);
+                IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
 
                 // Gets the address of the exported function 'LoadLibraryA' from the kernel32.dll file
-                IntPtr loadLibraryAddress = Kernel32.GetProcAddress(kernel32Module, Constants.LOAD_LIBRARY_PROC);
+                IntPtr loadLibraryAddress = Kernel32.GetProcAddress(kernel32Module, "LoadLibraryW");
 
                 // Creates a remote thread in the process that will call the function loadlibrary which takes a memory pointer which contains the path to our dll.
                 Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, loadLibraryAddress, allocatedMemory, 0, IntPtr.Zero);

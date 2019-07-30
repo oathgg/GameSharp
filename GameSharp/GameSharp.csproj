@@ -65,7 +65,6 @@
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />
-    <Compile Include="Native\Constants.cs" />
     <Compile Include="Native\Enums.cs" />
     <Compile Include="Native\Kernel32.cs" />
     <Compile Include="Native\Structs.cs" />

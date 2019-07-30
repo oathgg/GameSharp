@@ -118,7 +118,7 @@ namespace GameSharp.Injection
         private void AllocConsole()
         {
             // Gets the base address of the Kernel32.Dll file
-            IntPtr kernel32Module = Kernel32.GetModuleHandle(Constants.KERNEL32_DLL);
+            IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
 
             // Gets the address of the exported function 'LoadLibraryA' from the kernel32.dll file
             IntPtr allocConsoleAddress = Kernel32.GetProcAddress(kernel32Module, "AllocConsole");
