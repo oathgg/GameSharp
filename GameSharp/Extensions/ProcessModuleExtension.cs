@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace GameSharp.Extensions
 {
@@ -63,6 +64,11 @@ namespace GameSharp.Extensions
         }
 
         /// <summary>
+        ///     Keeps track of all code caves currently in use, even if there are no injected bytes.
+        /// </summary>
+        private static Dictionary<uint, uint> CodeCavesTaken = new Dictionary<uint, uint>();
+
+        /// <summary>
         ///     Get .text region from Module
         ///     Scan for bytes which are in range 0x00 - 0x10
         ///     Loop once byte has been found until size has been reached
@@ -71,7 +77,7 @@ namespace GameSharp.Extensions
         /// <param name="module"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public static IntPtr FindCodeCaveInModule(this ProcessModule module, int size)
+        public static IntPtr FindCodeCaveInModule(this ProcessModule module, uint size)
         {
             byte[] moduleBytes = module.BaseAddress.Read<byte[]>(module.ModuleMemorySize);
 
@@ -80,15 +86,32 @@ namespace GameSharp.Extensions
                 if (moduleBytes[i] != 0x0)
                     continue;
 
+                // If the codecave has already been taken (might still have bytes that are 0'd then we skip the size of the other codecave.
+                CodeCavesTaken.TryGetValue((uint)module.BaseAddress + i, out uint sizeTaken);
+                if (sizeTaken > 0)
+                {
+                    i += sizeTaken;
+                    continue;
+                }
+
                 for (uint j = 0; j <= size; j++)
                 {
                     if (moduleBytes[i + j] == 0x0)
-                        // We found a codecave if we match the size and all bytes are of the above value.
+                    {
+                        // We found a codecave if we match the size of the bytes we wish to inject.
                         if (j == size)
+                        {
+                            CodeCavesTaken.Add((uint)module.BaseAddress + i, size);
+
                             return new IntPtr((uint)module.BaseAddress + i);
+                        }
+                    }
+                    // If we can't find a codecave we will stop looping through the bytes
                     else
-                        // Skip bytes as we don't want to reread them again.
+                    {
                         i += j;
+                        break;
+                    }
                 }
             }
 
