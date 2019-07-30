@@ -3,19 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace GameSharp.Utilities
+namespace GameSharp.Memory
 {
     public class PatternScanner
     {
         /// <summary>
         ///     Contains all the bytes of the specified module.
         /// </summary>
-        private byte[] _bytes { get; set; }
+        private byte[] Bytes { get; set; }
 
         /// <summary>
         ///     The base address of the module.
         /// </summary>
-        private IntPtr _moduleBase { get; } = new IntPtr();
+        private IntPtr ModuleBase { get; } = new IntPtr();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PatternScanner" /> class.
@@ -23,25 +23,25 @@ namespace GameSharp.Utilities
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
         public PatternScanner(ProcessModule module)
         {
-            _moduleBase = module.BaseAddress;
-            _bytes = _moduleBase.Read<byte[]>(module.ModuleMemorySize);
+            ModuleBase = module.BaseAddress;
+            Bytes = ModuleBase.Read<byte[]>(module.ModuleMemorySize);
         }
 
         public PatternScanner(byte[] bytesToScan)
         {
-            _bytes = bytesToScan;
+            Bytes = bytesToScan;
         }
 
         private IntPtr FindByteAddress(byte[] array, int offset = 0)
         {
-            for (int memByteOffset = 0; memByteOffset < _bytes.Length; memByteOffset++)
+            for (int memByteOffset = 0; memByteOffset < Bytes.Length; memByteOffset++)
             {
-                if (_bytes[memByteOffset] != array[0])
+                if (Bytes[memByteOffset] != array[0])
                     continue;
 
                 if (PatternCheck(ref memByteOffset, array))
                 {
-                    return _moduleBase
+                    return ModuleBase
                         // offset in byte array
                         + memByteOffset
                         // offset given by user
@@ -97,7 +97,7 @@ namespace GameSharp.Utilities
                 if (pattern[i] == 0x0)
                     continue;
 
-                if (pattern[i] != _bytes[index + i])
+                if (pattern[i] != Bytes[index + i])
                 {
                     // Increase the index with the i we stopped at so we don't repeat scanning those bytes again.
                     index += i;

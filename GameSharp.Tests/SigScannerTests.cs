@@ -1,4 +1,5 @@
 ﻿using System;
+using GameSharp.Memory;
 using GameSharp.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

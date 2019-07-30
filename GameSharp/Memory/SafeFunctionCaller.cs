@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace GameSharp.Utilities
+namespace GameSharp.Memory
 {
     /// <summary>
     ///     By extending from this class you're creating a somewhat safe way to call a function.
@@ -12,33 +12,33 @@ namespace GameSharp.Utilities
     ///     The opcodes will become a jumptable between your malicious module and the code block of where the function resides.
     ///     This bypass is to prevent a possible anti-cheat method which validates the return address of a function to reside in it's own module code section.
     /// </summary>
-    public abstract class SafeFunctionCaller
+    public abstract class SafeFunction
     {
-        private Delegate SafeFunction { get; set; }
+        private readonly Delegate SafeFunctionDelegate;
+
+        public SafeFunction()
+        {
+            IntPtr address = ToCallDelegate().ToFunctionPtr();
+
+            ProcessModule module = address.GetModuleWhichBelongsToAddress();
+
+            List<byte> bytes = new List<byte>();
+
+            bytes.AddRange(address.GetReturnToPtr());
+
+            IntPtr codeCave = module.FindCodeCaveInModule((uint)bytes.Count);
+
+            // TODO: Refactor since this is now a detection vector as we are now writing the 'JumpTable' into the process.
+            codeCave.Write(bytes.ToArray());
+
+            Type typeOfDelegate = ToCallDelegate().GetType();
+
+            SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(codeCave, typeOfDelegate);
+        }
 
         public T Call<T>(params object[] parameters)
         {
-            if (SafeFunction == null)
-            {
-                IntPtr address = ToCallDelegate().ToFunctionPtr();
-
-                ProcessModule module = address.GetModuleWhichBelongsToAddress();
-
-                List<byte> bytes = new List<byte>();
-
-                bytes.AddRange(address.GetReturnToPtr());
-
-                IntPtr codeCave = module.FindCodeCaveInModule((uint) bytes.Count);
-
-                // TODO: Refactor since this is now a detection vector as we are now writing the 'JumpTable' into the process.
-                codeCave.Write(bytes.ToArray());
-
-                Type typeOfDelegate = ToCallDelegate().GetType();
-
-                SafeFunction = Marshal.GetDelegateForFunctionPointer(codeCave, typeOfDelegate);
-            }
-
-            T ret = (T)SafeFunction.DynamicInvoke(parameters);
+            T ret = (T)SafeFunctionDelegate.DynamicInvoke(parameters);
 
             return ret;
         }

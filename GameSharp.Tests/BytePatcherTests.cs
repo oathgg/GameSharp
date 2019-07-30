@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using GameSharp.Extensions;
+using GameSharp.Memory;
 using GameSharp.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

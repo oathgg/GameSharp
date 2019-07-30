@@ -1,4 +1,5 @@
 ﻿using GameSharp.Extensions;
+using GameSharp.Memory;
 using GameSharp.Utilities;
 using System;
 using System.Diagnostics;

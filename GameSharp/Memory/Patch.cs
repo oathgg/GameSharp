@@ -1,7 +1,7 @@
 ﻿using GameSharp.Extensions;
 using System;
 
-namespace GameSharp.Utilities
+namespace GameSharp.Memory
 {
     /// <summary>
     ///     Keeps track of all the bytes patched and keeps track of the original opcodes.

@@ -1,4 +1,5 @@
 ﻿using GameSharp.Extensions;
+using GameSharp.Memory;
 using GameSharp.Utilities;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GameSharp.Notepadpp.dll
 {
-    public class SafeCallMessageBoxW : SafeFunctionCaller
+    public class SafeCallMessageBoxW : SafeFunction
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate int MessageBoxWDelegate(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)]string text, [MarshalAs(UnmanagedType.LPWStr)]string caption, uint type);
