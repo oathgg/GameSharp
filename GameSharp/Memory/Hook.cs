@@ -118,15 +118,5 @@ namespace GameSharp.Memory
         ///     e.g. return new OnAfkDelegate(DetourMethod);
         /// </summary>
         public abstract Delegate GetDetourDelegate();
-
-        /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. In this
-        ///     case, it will disable the <see cref="Hook" /> instance and suppress the finalizer.
-        /// </summary>
-        public void Dispose()
-        {
-            Disable();
-            GC.SuppressFinalize(this);
-        }
     }
 }
