@@ -5,7 +5,7 @@ namespace GameSharp.Native
     public class Enums
     {
         [Flags]
-        public enum ProcessAccessFlags : uint
+        public enum ProcessAccess : uint
         {
             All = 0x001F0FFF,
             Terminate = 0x00000001,
@@ -63,6 +63,7 @@ namespace GameSharp.Native
             WriteCombineModifierflag = 0x400
         }
 
+        [Flags]
         public enum Protection
         {
             PAGE_NOACCESS = 0x01,
@@ -78,7 +79,8 @@ namespace GameSharp.Native
             PAGE_WRITECOMBINE = 0x400
         }
 
-        public enum ContextFlags : uint
+        [Flags]
+        public enum Context : uint
         {
             CONTEXT_i386 = 0x10000,
             CONTEXT_i486 = 0x10000,
@@ -93,7 +95,7 @@ namespace GameSharp.Native
         }
 
         [Flags]
-        public enum ThreadAccessFlags : int
+        public enum ThreadAccess : int
         {
             TERMINATE = 0x0001,
             SUSPEND_RESUME = 0x0002,

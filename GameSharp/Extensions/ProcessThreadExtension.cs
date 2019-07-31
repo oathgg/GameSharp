@@ -11,8 +11,8 @@ namespace GameSharp.Extensions
         public static Structs.Context GetThreadContext(this ProcessThread thread)
         {
             Structs.Context Context = new Structs.Context();
-            Context.ContextFlags = (uint)Enums.ContextFlags.CONTEXT_CONTROL;
-            IntPtr hThread = Kernel32.OpenThread(Enums.ThreadAccessFlags.GET_CONTEXT, false, (uint)thread.Id);
+            Context.ContextFlags = (uint)Enums.Context.CONTEXT_CONTROL;
+            IntPtr hThread = Kernel32.OpenThread(Enums.ThreadAccess.GET_CONTEXT, false, (uint)thread.Id);
 
             if (hThread == IntPtr.Zero)
                 throw new Win32Exception(Marshal.GetLastWin32Error());

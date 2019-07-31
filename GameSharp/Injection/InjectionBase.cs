@@ -57,7 +57,7 @@ namespace GameSharp.Injection
             foreach (ProcessThread pT in _process.Threads)
             {
                 // Get the handle of the current thread.
-                IntPtr tHandle = Kernel32.OpenThread(Enums.ThreadAccessFlags.SUSPEND_RESUME, false, (uint)pT.Id);
+                IntPtr tHandle = Kernel32.OpenThread(Enums.ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
 
                 if (tHandle != IntPtr.Zero)
                 {
