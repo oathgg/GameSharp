@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -27,17 +28,11 @@ namespace GameSharp.Injection
             // Possible anti-cheat detterence.
             SuspendThreads(true);
 
-            Logger.Info($"Injecting DLL '{pathToDll}'.");
             Inject(pathToDll);
 
-            // Possible anti-cheat detterence
-            string moduleName = Path.GetFileName(pathToDll);
-            _process.RandomizePeHeader(moduleName);
-
-            // Attach to the remote process if wanted.
-            if (attach)
-                AttachToProcess();
-
+            // In case we want to attach then we have to do so BEFORE we execute to give full debugging capabilities.
+            if (attach && Debugger.IsAttached)
+                _process.Attach();
             Logger.Info($"Creating a console for output from our injected DLL.");
             AllocConsole();
 
@@ -50,7 +45,6 @@ namespace GameSharp.Injection
         {
             foreach (ProcessThread pT in _process.Threads)
             {
-                // Get the handle of the current thread.
                 IntPtr tHandle = Kernel32.OpenThread(Enums.ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
 
                 if (tHandle != IntPtr.Zero)
@@ -72,17 +66,6 @@ namespace GameSharp.Injection
                     throw new Win32Exception(Marshal.GetLastWin32Error());
                 }
             }
-        }
-
-        /// <summary>
-        ///     Attaches the debugger to the process, we need to hide our presence here.
-        /// </summary>
-        private void AttachToProcess()
-        {
-            // Attaches our current debugger to the process we are injecting to if we currently have a debugger present.
-            Logger.Info($"Attaching our debugger to the remote process.");
-            if (Debugger.IsAttached)
-                _process.Attach();
         }
 
         /// <summary>
@@ -111,13 +94,8 @@ namespace GameSharp.Injection
         /// </summary>
         private void AllocConsole()
         {
-            // Gets the base address of the Kernel32.Dll file
             IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
-
-            // Gets the address of the exported function 'LoadLibraryA' from the kernel32.dll file
             IntPtr allocConsoleAddress = Kernel32.GetProcAddress(kernel32Module, "AllocConsole");
-
-            // Creates a remote thread in the process that will call the function AllocConsole,
             Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
 

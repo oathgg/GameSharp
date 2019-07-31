@@ -25,7 +25,6 @@ namespace GameSharp.Extensions
                 return;
             }
 
-            // Try loop - Visual Studio may not respond the first time.
             int tryCount = 5;
             do
             {
@@ -68,17 +67,8 @@ namespace GameSharp.Extensions
             return module;
         }
 
-        /// <summary>
-        ///     Loads the specified module into the address space of the calling process.
-        /// </summary>
-        /// <param name="libraryPath">
-        ///     The name of the module. This can be either a library module (a .dll file) or an executable
-        ///     module (an .exe file).
-        /// </param>
-        /// <returns>A <see cref="ProcessModule" /> corresponding to the loaded library.</returns>
         public static ProcessModule LoadLibrary(this Process process, string libraryPath, bool resolveReferences = true)
         {
-            // Check whether the file exists
             if (!File.Exists(libraryPath))
                 throw new FileNotFoundException($"Couldn't load the library {libraryPath} because the file doesn't exist.");
 
@@ -91,28 +81,7 @@ namespace GameSharp.Extensions
 
             process.Refresh();
 
-            // Enumerate the loaded modules and return the one newly added
             return process.Modules.Cast<ProcessModule>().First(m => m.FileName == libraryPath);
-        }
-
-        /// <summary>
-        ///     https://github.com/Akaion/Bleak/blob/master/Bleak/Extensions/RandomiseHeaders.cs 
-        ///     I've made it compatible with my codebase, however this is where the idea came from.
-        ///     
-        ///     We cannot call the default extension methods, as these methods are only available once we are injected.
-        /// </summary>
-        /// <param name="process"></param>
-        /// <param name="dllPath"></param>
-        public static void RandomizePeHeader(this Process process, string moduleName)
-        {
-            Logger.Info($"Randomizing PE header for {moduleName}.");
-
-            IntPtr dllBaseAddress = process.GetProcessModule(moduleName).BaseAddress;
-
-            Kernel32.VirtualQueryEx(process.Handle, dllBaseAddress, out Structs.MemoryBasicInformation memoryInformation, Marshal.SizeOf<Structs.MemoryBasicInformation>());
-            byte[] buffer = new byte[(int)memoryInformation.RegionSize];
-            new Random().NextBytes(buffer);
-            Kernel32.WriteProcessMemory(process.Handle, dllBaseAddress, buffer, (int)memoryInformation.RegionSize, out IntPtr _);
         }
     }
 }
