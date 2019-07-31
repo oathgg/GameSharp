@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SafeCallMessageBoxW.cs" />
-    <Compile Include="UnsafeCallMessageBox.cs" />
     <Compile Include="Entrypoint.cs" />
     <Compile Include="HookMessageBoxW.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

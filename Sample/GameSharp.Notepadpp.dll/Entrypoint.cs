@@ -18,9 +18,7 @@ namespace GameSharp.Notepadpp.dll
         {
             Logger.Info("I have been injected!");
 
-            new UnsafeCallMessageBox().Run();
             HookMessageBox();
-            //PatchMessageBoxW();
             new SafeCallMessageBoxW().Call<int>(IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
         }
 
@@ -29,14 +27,6 @@ namespace GameSharp.Notepadpp.dll
             new HookMessageBoxW().Enable();
 
             Logger.Info("MessageBoxW Hooked!");
-        }
-
-        private static void PatchMessageBoxW()
-        {
-            ProcessModule module = Process.GetCurrentProcess().GetProcessModule("USER32.DLL");
-            Patch patch = new Patch(module.BaseAddress + 0x78290, new byte[] { 0xC3 });
-            patch.Enable();
-            Logger.Info("MessageBoxW Patched!");
         }
     }
 }
