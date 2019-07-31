@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace GameSharp.Utilities
 {
-    /// <summary>
-    ///     A simple wrapper class which uses the <seealso cref="Console.WriteLine"/> function.
-    /// </summary>
     public static class Logger
     {
         public static void Info(string message) => Write(message, ConsoleColor.White);
         public static void Warning(string message) => Write(message, ConsoleColor.Yellow);
         public static void Error(string message) => Write(message, ConsoleColor.Red);
+        public static void Verbose(string message) => Write(message, ConsoleColor.Cyan);
 
         private static void Write(string message, ConsoleColor color)
         {

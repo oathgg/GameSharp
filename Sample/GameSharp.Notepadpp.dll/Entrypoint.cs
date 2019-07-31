@@ -1,13 +1,6 @@
-﻿using GameSharp.Extensions;
-using GameSharp.Memory;
-using GameSharp.Utilities;
+﻿using GameSharp.Utilities;
 using RGiesecke.DllExport;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameSharp.Notepadpp.dll
 {
@@ -18,15 +11,11 @@ namespace GameSharp.Notepadpp.dll
         {
             Logger.Info("I have been injected!");
 
-            HookMessageBox();
-            new SafeCallMessageBoxW().Call<int>(IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
-        }
+            HookMessageBoxW messageBoxHook = new HookMessageBoxW();
+            messageBoxHook.Enable();
 
-        private static void HookMessageBox()
-        {
-            new HookMessageBoxW().Enable();
-
-            Logger.Info("MessageBoxW Hooked!");
+            SafeCallMessageBoxW safeMessageBoxFunction = new SafeCallMessageBoxW();
+            safeMessageBoxFunction.Call<int>(IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
         }
     }
 }

@@ -64,19 +64,12 @@ namespace GameSharp.Memory
             HookPatch = new Patch(TargetFuncPtr, retToCodeCave);
         }
 
-        /// <summary>
-        ///     Reverts the bytes back to their original value.
-        /// </summary>
         public void Disable()
         {
             CodeCavePatch.Disable();
             HookPatch.Disable();
         }
 
-        /// <summary>
-        ///     Writes the bytes we have created for our hook to the process memory.
-        /// </summary>
-        /// <returns></returns>
         public void Enable()
         {
             CodeCavePatch.Enable();

@@ -20,17 +20,11 @@ namespace GameSharp.Injection
             _process = process ?? throw new NullReferenceException();
         }
 
-        /// <summary>
-        ///     Injects and executes the DLL through the IInjection injection method.
-        /// </summary>
-        /// <param name="pathToDll"></param>
-        /// <param name="entryPoint"></param>
         public void InjectAndExecute(string pathToDll, string entryPoint, bool attach)
         {
-            // Update all DLL files in the exe directory which we need to inject or resolve references to.
             UpdateFiles(pathToDll);
 
-            // Pause all threads before injecting in case of anti-cheat.
+            // Possible anti-cheat detterence.
             SuspendThreads(true);
 
             Logger.Info($"Injecting DLL '{pathToDll}'.");
