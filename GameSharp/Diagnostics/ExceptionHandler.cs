@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace GameSharp.Utilities
+namespace GameSharp.Diagnostics
 {
     public static class ExceptionHandler
     {
@@ -9,9 +9,6 @@ namespace GameSharp.Utilities
         {
             // Set the System.Diagnostics.Process.Exited event to be raised when the process terminates.
             Process.GetCurrentProcess().EnableRaisingEvents = true;
-
-            // We call our friendly ExceptionHandler method whenever an 
-            //  unhandled exception occurs in the CLR which hasn't been handled properly.
             AppDomain.CurrentDomain.UnhandledException += UnhandledException;
         }
 
@@ -25,7 +22,7 @@ namespace GameSharp.Utilities
 
         private static void BeautifyException(object exception)
         {
-            // Safe cast it as an exception otherwise we might cause a crash in our crash.
+            // Safe cast it as an exception otherwise we might cause a crash while crashing, lol.
             if (exception is Exception)
                 BeautifyException(exception as Exception);
         }

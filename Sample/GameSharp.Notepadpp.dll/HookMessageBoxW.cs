@@ -1,6 +1,6 @@
 ﻿using GameSharp.Extensions;
-using GameSharp.Memory;
-using GameSharp.Utilities;
+using GameSharp.Memory.Internal;
+using GameSharp.Diagnostics;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;

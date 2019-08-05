@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace GameSharp.Memory
+namespace GameSharp.Memory.Internal
 {
     /// <summary>
     ///     By extending from this class you're creating a somewhat safe way to call a function.

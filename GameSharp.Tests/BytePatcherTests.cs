@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using GameSharp.Extensions;
-using GameSharp.Memory;
-using GameSharp.Utilities;
+using GameSharp.Memory.Internal;
+using GameSharp.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameSharp.Tests

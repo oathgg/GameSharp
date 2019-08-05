@@ -6,7 +6,7 @@ using GameSharp.Extensions;
 using System;
 using System.Diagnostics;
 
-namespace GameSharp.Memory
+namespace GameSharp.Memory.Internal
 {
     public abstract class Hook
     {

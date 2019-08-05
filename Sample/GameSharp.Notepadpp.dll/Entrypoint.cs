@@ -1,4 +1,4 @@
-﻿using GameSharp.Utilities;
+﻿using GameSharp.Diagnostics;
 using RGiesecke.DllExport;
 using System;
 

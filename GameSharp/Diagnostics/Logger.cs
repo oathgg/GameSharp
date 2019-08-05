@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameSharp.Utilities
+namespace GameSharp.Diagnostics
 {
     public static class Logger
     {
