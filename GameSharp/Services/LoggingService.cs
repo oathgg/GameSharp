@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameSharp.Diagnostics
+namespace GameSharp.Services
 {
-    public static class Logger
+    public static class LoggingService
     {
         public static void Info(string message) => Write(message, ConsoleColor.White);
         public static void Warning(string message) => Write(message, ConsoleColor.Yellow);

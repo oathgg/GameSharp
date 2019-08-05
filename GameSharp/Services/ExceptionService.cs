@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace GameSharp.Diagnostics
+namespace GameSharp.Services
 {
-    public static class ExceptionHandler
+    public static class ExceptionService
     {
         public static void Initialize()
         {

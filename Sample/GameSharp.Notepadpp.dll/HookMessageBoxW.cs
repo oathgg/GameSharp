@@ -1,6 +1,6 @@
 ﻿using GameSharp.Extensions;
 using GameSharp.Memory.Internal;
-using GameSharp.Diagnostics;
+using GameSharp.Services;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -14,10 +14,10 @@ namespace GameSharp.Notepadpp.dll
 
         private int DetourMethod(IntPtr hWnd, string text, string caption, uint type)
         {
-            Logger.Info("MessageBoxW called");
+            LoggingService.Info("MessageBoxW called");
 
-            Logger.Info(caption);
-            Logger.Info(text);
+            LoggingService.Info(caption);
+            LoggingService.Info(text);
 
             int result = this.CallOriginal<int>(hWnd, text, caption, type);
 

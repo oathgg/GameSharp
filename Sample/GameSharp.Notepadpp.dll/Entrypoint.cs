@@ -1,4 +1,4 @@
-﻿using GameSharp.Diagnostics;
+﻿using GameSharp.Services;
 using RGiesecke.DllExport;
 using System;
 
@@ -9,7 +9,7 @@ namespace GameSharp.Notepadpp.dll
         [DllExport]
         public static void Main()
         {
-            Logger.Info("I have been injected!");
+            LoggingService.Info("I have been injected!");
 
             HookMessageBoxW messageBoxHook = new HookMessageBoxW();
             messageBoxHook.Enable();

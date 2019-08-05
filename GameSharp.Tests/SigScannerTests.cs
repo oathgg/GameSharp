@@ -1,6 +1,6 @@
 ﻿using System;
 using GameSharp.Memory.Internal;
-using GameSharp.Diagnostics;
+using GameSharp.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameSharp.Tests

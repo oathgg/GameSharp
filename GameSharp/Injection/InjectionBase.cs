@@ -1,6 +1,6 @@
 ﻿using GameSharp.Extensions;
 using GameSharp.Native;
-using GameSharp.Diagnostics;
+using GameSharp.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +34,7 @@ namespace GameSharp.Injection
             if (attach && Debugger.IsAttached)
                 _process.Attach();
 
-            Logger.Info($"Creating a console for output from our injected DLL.");
+            LoggingService.Info($"Creating a console for output from our injected DLL.");
             AllocConsole();
 
             Execute(pathToDll, entryPoint);
