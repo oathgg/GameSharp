@@ -20,20 +20,6 @@ namespace GameSharp.Extensions
         public static IntPtr FindPattern(this ProcessModule module, string pattern, int offset = 0) => new PatternScanner(module).FindPattern(pattern, offset);
 
         /// <summary>
-        ///     Wrapper for the PatternScanner.FindPattern but after finding the pattern it will read the value for you.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="module"></param>
-        /// <param name="pattern"></param>
-        /// <param name="offset"></param>
-        /// <returns></returns>
-        public static T FindPattern<T>(this ProcessModule module, string pattern, int offset = 0)
-        {
-            IntPtr ptr = module.FindPattern(pattern, offset);
-            return ptr.Read<T>(Marshal.SizeOf<T>());
-        }
-
-        /// <summary>
         ///     Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
         /// </summary>
         /// <param name="moduleName">The module name (not case-sensitive).</param>
@@ -41,15 +27,12 @@ namespace GameSharp.Extensions
         /// <returns>The address of the exported function.</returns>
         public static IntPtr GetProcAddress(this ProcessModule module, string functionName)
         {
-            // Get the function address
             IntPtr ret = Kernel32.GetProcAddress(module.BaseAddress, functionName);
 
-            // Check whether the function was found
-            if (ret != IntPtr.Zero)
-                return ret;
+            if (ret == IntPtr.Zero)
+                throw new Win32Exception($"Couldn't get the function address with name {functionName}.");
 
-            // Else the function was not found, throws an exception
-            throw new Win32Exception($"Couldn't get the function address of {functionName}.");
+            return ret;
         }
 
         /// <summary>
@@ -58,7 +41,6 @@ namespace GameSharp.Extensions
         /// <param name="libraryName">The name of the library to free (not case-sensitive).</param>
         public static void FreeLibrary(this ProcessModule module)
         {
-            // Free the library
             if (!Kernel32.FreeLibrary(module.BaseAddress))
                 throw new Win32Exception($"Couldn't free the library {module.ModuleName}.");
         }
@@ -98,7 +80,6 @@ namespace GameSharp.Extensions
                 {
                     if (moduleBytes[i + j] == 0x0)
                     {
-                        // We found a codecave if we match the size of the bytes we wish to inject.
                         if (j == size)
                         {
                             CodeCavesTaken.Add((uint)module.BaseAddress + i, size);
@@ -106,7 +87,7 @@ namespace GameSharp.Extensions
                             return new IntPtr((uint)module.BaseAddress + i);
                         }
                     }
-                    // If we can't find a codecave we will stop looping through the bytes
+                    // If we can't find a codecave big enough we will stop looping through the bytes
                     else
                     {
                         i += j;
