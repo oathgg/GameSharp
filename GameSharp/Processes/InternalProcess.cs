@@ -19,7 +19,7 @@ namespace GameSharp.Processes
 
         public Process Process { get; } = Process.GetCurrentProcess();
 
-        public IModule LoadLibrary(string libraryPath, bool resolveReferences = true)
+        public ProcessModule LoadLibrary(string libraryPath, bool resolveReferences = true)
         {
             if (!File.Exists(libraryPath))
                 throw new FileNotFoundException(libraryPath);
@@ -34,9 +34,9 @@ namespace GameSharp.Processes
             return GetModule(Path.GetFileName(libraryPath));
         }
 
-        public IModule GetModule(string moduleName)
+        public ProcessModule GetModule(string moduleName)
         {
-            InternalModule internalModule = new InternalModule(Process.GetProcessModule(moduleName));
+            ProcessModule internalModule = Process.GetProcessModule(moduleName);
 
             return internalModule;
         }
