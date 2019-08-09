@@ -12,14 +12,6 @@ namespace GameSharp.Extensions
     public static class ProcessModuleExtensions
     {
         /// <summary>
-        ///     Wrapper for the PatternScanner.FindPattern utility.
-        /// </summary>
-        /// <param name="module"></param>
-        /// <param name="pattern"></param>
-        /// <returns></returns>
-        public static IntPtr FindPattern(this ProcessModule module, string pattern, int offset = 0) => new PatternScanner(module).FindPattern(pattern, offset);
-
-        /// <summary>
         ///     Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
         /// </summary>
         /// <param name="moduleName">The module name (not case-sensitive).</param>
@@ -33,16 +25,6 @@ namespace GameSharp.Extensions
                 throw new Win32Exception($"Couldn't get the function address with name {functionName}.");
 
             return ret;
-        }
-
-        /// <summary>
-        ///     Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count.
-        /// </summary>
-        /// <param name="libraryName">The name of the library to free (not case-sensitive).</param>
-        public static void FreeLibrary(this ProcessModule module)
-        {
-            if (!Kernel32.FreeLibrary(module.BaseAddress))
-                throw new Win32Exception($"Couldn't free the library {module.ModuleName}.");
         }
 
         /// <summary>
