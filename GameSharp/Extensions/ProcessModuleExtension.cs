@@ -1,5 +1,5 @@
 ﻿using GameSharp.Native;
-using GameSharp.Memory.Internal;
+using GameSharp.Memory.External;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;

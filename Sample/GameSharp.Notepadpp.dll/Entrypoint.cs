@@ -1,4 +1,5 @@
-﻿using GameSharp.Services;
+﻿using GameSharp.Processes;
+using GameSharp.Services;
 using RGiesecke.DllExport;
 using System;
 
@@ -15,7 +16,7 @@ namespace GameSharp.Notepadpp.dll
             messageBoxHook.Enable();
 
             SafeCallMessageBoxW safeMessageBoxFunction = new SafeCallMessageBoxW();
-            safeMessageBoxFunction.Call<int>(IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
+            InternalProcess.GetInstance.CallFunction<int>(safeMessageBoxFunction, IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
         }
     }
 }

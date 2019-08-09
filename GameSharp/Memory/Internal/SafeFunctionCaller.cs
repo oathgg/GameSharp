@@ -1,4 +1,5 @@
 ﻿using GameSharp.Extensions;
+using GameSharp.Processes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -36,7 +37,7 @@ namespace GameSharp.Memory.Internal
             SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(codeCave, typeOfDelegate);
         }
 
-        public T Call<T>(params object[] parameters)
+        internal T Call<T>(params object[] parameters)
         {
             T ret = (T)SafeFunctionDelegate.DynamicInvoke(parameters);
 

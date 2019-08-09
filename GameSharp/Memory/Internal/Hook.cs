@@ -3,6 +3,7 @@
 //
 
 using GameSharp.Extensions;
+using GameSharp.Processes;
 using System;
 using System.Diagnostics;
 
@@ -29,6 +30,8 @@ namespace GameSharp.Memory.Internal
         private IntPtr TargetFuncPtr { get; }
 
         private Delegate TargetDelegate { get; }
+
+        public InternalProcess Process { get; } = new InternalProcess();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Hook" /> class.

@@ -19,13 +19,13 @@ namespace GameSharp.Native
         [DllImport(kernel32, SetLastError = true)]
         internal static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int nSize, out IntPtr lpNumberOfBytesWritten);
 
-        [DllImport(kernel32, CharSet = CharSet.Auto)]
+        [DllImport(kernel32, SetLastError = true, CharSet = CharSet.Unicode)]
         internal static extern IntPtr GetModuleHandle(string lpModuleName);
 
-        [DllImport(kernel32, CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
+        [DllImport(kernel32, SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true)]
         internal static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
 
-        [DllImport(kernel32)]
+        [DllImport(kernel32, SetLastError = true)]
         internal static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
 
         [DllImport(kernel32, SetLastError = true, CharSet = CharSet.Unicode)]

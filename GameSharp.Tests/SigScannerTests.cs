@@ -1,5 +1,5 @@
 ﻿using System;
-using GameSharp.Memory.Internal;
+using GameSharp.Memory.External;
 using GameSharp.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

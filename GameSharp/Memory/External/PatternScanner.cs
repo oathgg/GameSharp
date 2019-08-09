@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace GameSharp.Memory.Internal
+namespace GameSharp.Memory.External
 {
     public class PatternScanner
     {
