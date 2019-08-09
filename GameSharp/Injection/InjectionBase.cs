@@ -14,11 +14,11 @@ namespace GameSharp.Injection
 {
     public abstract class InjectionBase : IInjection
     {
-        protected Process _process;
+        private Process Process;
 
         public InjectionBase(Process process)
         {
-            _process = process ?? throw new NullReferenceException();
+            Process = process ?? throw new NullReferenceException();
         }
 
         public void InjectAndExecute(string pathToDll, string entryPoint, bool attach)
@@ -32,7 +32,7 @@ namespace GameSharp.Injection
 
             // In case we want to attach then we have to do so BEFORE we execute to give full debugging capabilities.
             if (attach && Debugger.IsAttached)
-                _process.Attach();
+                Process.Attach();
 
             LoggingService.Info($"Creating a console for output from our injected DLL.");
             AllocConsole();
@@ -44,7 +44,7 @@ namespace GameSharp.Injection
 
         private void SuspendThreads(bool suspend)
         {
-            foreach (ProcessThread pT in _process.Threads)
+            foreach (ProcessThread pT in Process.Threads)
             {
                 IntPtr tHandle = Kernel32.OpenThread(Enums.ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
 
@@ -76,7 +76,7 @@ namespace GameSharp.Injection
         private void UpdateFiles(string pathToDll)
         {
             // Full path to the process
-            string processPath = Path.GetDirectoryName(_process.MainModule.FileName);
+            string processPath = Path.GetDirectoryName(Process.MainModule.FileName);
 
             // Copy all DLLs which our injecting DLL might use which are in the same folder.
             CopyFile(pathToDll, "GameSharp.dll", processPath);
@@ -97,7 +97,7 @@ namespace GameSharp.Injection
         {
             IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
             IntPtr allocConsoleAddress = Kernel32.GetProcAddress(kernel32Module, "AllocConsole");
-            Kernel32.CreateRemoteThread(_process.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
+            Kernel32.CreateRemoteThread(Process.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
 
         /// <summary>

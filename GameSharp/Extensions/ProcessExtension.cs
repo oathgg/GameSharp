@@ -47,7 +47,7 @@ namespace GameSharp.Extensions
             } while (tryCount-- > 0);
         }
 
-        public static ProcessModule GetProcessModule(this Process process, string moduleName)
+        internal static ProcessModule GetProcessModule(this Process process, string moduleName)
         {
             int retryCount = 5;
             ProcessModule module = null;
@@ -65,23 +65,6 @@ namespace GameSharp.Extensions
             } while (retryCount-- > 0);
 
             return module;
-        }
-
-        public static ProcessModule LoadLibrary(this Process process, string libraryPath, bool resolveReferences = true)
-        {
-            if (!File.Exists(libraryPath))
-                throw new FileNotFoundException($"Couldn't load the library {libraryPath} because the file doesn't exist.");
-
-            bool failed = resolveReferences
-                ? Kernel32.LoadLibrary(libraryPath) == IntPtr.Zero
-                : Kernel32.LoadLibraryExW(libraryPath, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences) == IntPtr.Zero;
-
-            if (failed)
-                throw new Win32Exception($"Couldn't load the library {libraryPath}.");
-
-            process.Refresh();
-
-            return process.Modules.Cast<ProcessModule>().First(m => m.FileName == libraryPath);
         }
     }
 }

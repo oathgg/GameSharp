@@ -19,19 +19,19 @@ namespace GameSharp.Native
         [DllImport(kernel32, SetLastError = true)]
         internal static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, int nSize, out IntPtr lpNumberOfBytesWritten);
 
-        [DllImport(kernel32, SetLastError = true, CharSet = CharSet.Unicode)]
+        [DllImport(kernel32, SetLastError = true)]
         internal static extern IntPtr GetModuleHandle(string lpModuleName);
 
-        [DllImport(kernel32, SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true)]
+        [DllImport(kernel32, SetLastError = true)]
         internal static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
 
         [DllImport(kernel32, SetLastError = true)]
         internal static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
 
-        [DllImport(kernel32, SetLastError = true, CharSet = CharSet.Unicode)]
+        [DllImport(kernel32, SetLastError = true)]
         internal static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPWStr)]string lpFileName);
 
-        [DllImport(kernel32, SetLastError = true, CharSet = CharSet.Unicode)]
+        [DllImport(kernel32, SetLastError = true)]
         internal static extern IntPtr LoadLibraryExW([MarshalAs(UnmanagedType.LPWStr)]string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
 
         [DllImport(kernel32, SetLastError = true)]
