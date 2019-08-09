@@ -51,7 +51,7 @@ namespace GameSharp.Native
         internal static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
 
         [DllImport(kernel32, SetLastError = true)]
-        internal static extern bool GetThreadContext(IntPtr hThread, ref Structs.Context lpContext);
+        internal static extern bool GetThreadContext(IntPtr hThread, ref Structs.ThreadContext32 lpContext);
 
         [DllImport(kernel32, SetLastError = true)]
         internal static extern bool VirtualQueryEx(IntPtr processHandle, IntPtr baseAddress, out MemoryBasicInformation buffer, int length);
