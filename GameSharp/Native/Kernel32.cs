@@ -23,7 +23,7 @@ namespace GameSharp.Native
         internal static extern IntPtr GetModuleHandle(string lpModuleName);
 
         [DllImport(kernel32, SetLastError = true)]
-        internal static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+        internal static extern IntPtr GetProcAddress(IntPtr baseAddress, string procName);
 
         [DllImport(kernel32, SetLastError = true)]
         internal static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);

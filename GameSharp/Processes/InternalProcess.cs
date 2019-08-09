@@ -1,4 +1,5 @@
 ﻿using GameSharp.Extensions;
+using GameSharp.Memory;
 using GameSharp.Memory.Internal;
 using GameSharp.Native;
 using System;
@@ -14,11 +15,11 @@ namespace GameSharp.Processes
     {
         private static InternalProcess _instance;
 
-        public static InternalProcess GetInstance => _instance ?? (_instance = new InternalProcess());
+        public static InternalProcess Instance => _instance ?? (_instance = new InternalProcess());
 
         public Process Process { get; } = Process.GetCurrentProcess();
 
-        public ProcessModule LoadLibrary(string libraryPath, bool resolveReferences = true)
+        public IModule LoadLibrary(string libraryPath, bool resolveReferences = true)
         {
             if (!File.Exists(libraryPath))
                 throw new FileNotFoundException(libraryPath);
@@ -30,11 +31,15 @@ namespace GameSharp.Processes
             if (failed)
                 throw new Win32Exception($"Couldn't load the library {libraryPath}.");
 
-            return GetProcessModule(Path.GetFileName(libraryPath));
+            return GetModule(Path.GetFileName(libraryPath));
         }
 
-        public ProcessModule GetProcessModule(string moduleName) => Process.GetProcessModule(moduleName);
+        public IModule GetModule(string moduleName)
+        {
+            InternalModule internalModule = new InternalModule(Process.GetProcessModule(moduleName));
 
+            return internalModule;
+        }
         public T CallFunction<T>(SafeFunction safeFunction, params object[] parameters) => safeFunction.Call<T>(parameters);
     }
 }

@@ -31,8 +31,6 @@ namespace GameSharp.Memory.Internal
 
         private Delegate TargetDelegate { get; }
 
-        public InternalProcess Process { get; } = new InternalProcess();
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="Hook" /> class.
         ///     

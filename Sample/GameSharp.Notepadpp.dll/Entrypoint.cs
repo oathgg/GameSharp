@@ -16,7 +16,7 @@ namespace GameSharp.Notepadpp.dll
             messageBoxHook.Enable();
 
             SafeCallMessageBoxW safeMessageBoxFunction = new SafeCallMessageBoxW();
-            InternalProcess.GetInstance.CallFunction<int>(safeMessageBoxFunction, IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
+            InternalProcess.Instance.CallFunction<int>(safeMessageBoxFunction, IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
         }
     }
 }

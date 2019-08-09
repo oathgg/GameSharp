@@ -1,27 +1,26 @@
 ﻿using GameSharp.Extensions;
+using GameSharp.Memory;
+using GameSharp.Memory.External;
 using GameSharp.Native;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GameSharp.Processes
 {
-    public class RemoteProcess : IProcess
+    public class ExternalProcess : IProcess
     {
         public Process Process { get; }
 
-        public RemoteProcess(Process process)
+        public ExternalProcess(Process process)
         {
             Process = process;
         }
 
-        public ProcessModule LoadLibrary(string pathToDll, bool resolveReferences = true)
+        public IModule LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -45,9 +44,9 @@ namespace GameSharp.Processes
                     throw new Win32Exception($"Couldn't create a remote thread, error code: {Marshal.GetLastWin32Error()}.");
             }
 
-            return GetProcessModule(Path.GetFileName(pathToDll));
+            return GetModule(Path.GetFileName(pathToDll));
         }
 
-        public ProcessModule GetProcessModule(string moduleName) => Process.GetProcessModule(moduleName);
+        public IModule GetModule(string moduleName) => new ExternalModule(Process.GetProcessModule(moduleName));
     }
 }

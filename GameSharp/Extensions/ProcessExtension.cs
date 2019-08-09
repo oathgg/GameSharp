@@ -1,3 +1,4 @@
+using GameSharp.Memory;
 using GameSharp.Native;
 using GameSharp.Services;
 using System;
