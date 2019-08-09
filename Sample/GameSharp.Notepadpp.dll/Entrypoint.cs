@@ -12,11 +12,11 @@ namespace GameSharp.Notepadpp.dll
         {
             LoggingService.Info("I have been injected!");
 
-            HookMessageBoxW messageBoxHook = new HookMessageBoxW();
-            messageBoxHook.Enable();
-
             SafeCallMessageBoxW safeMessageBoxFunction = new SafeCallMessageBoxW();
             InternalProcess.Instance.CallFunction<int>(safeMessageBoxFunction, IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
+
+            HookMessageBoxW messageBoxHook = new HookMessageBoxW();
+            messageBoxHook.Enable();
         }
     }
 }

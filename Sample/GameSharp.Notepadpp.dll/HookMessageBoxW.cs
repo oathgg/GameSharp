@@ -17,7 +17,7 @@ namespace GameSharp.Notepadpp.dll
         {
             LoggingService.Info("MessageBoxW called");
 
-            LoggingService.Info(caption);
+            LoggingService.Info(caption = "Hooked messagebox");
             LoggingService.Info(text);
 
             int result = this.CallOriginal<int>(hWnd, text, caption, type);
