@@ -1,17 +1,13 @@
 ﻿using GameSharp.Extensions;
-using GameSharp.Memory;
 using GameSharp.Memory.Internal;
 using GameSharp.Native;
 using GameSharp.Native.Enums;
+using GameSharp.Native.Structs;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
-using static GameSharp.Native.Structs;
 
 namespace GameSharp.Processes
 {

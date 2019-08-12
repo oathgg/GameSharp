@@ -76,7 +76,12 @@
     <Compile Include="Native\Enums\ProcessAccess.cs" />
     <Compile Include="Native\Enums\ThreadAccess.cs" />
     <Compile Include="Native\PInvoke\Kernel32.cs" />
-    <Compile Include="Native\Structs.cs" />
+    <Compile Include="Native\Structs\FloatingSaveArea.cs" />
+    <Compile Include="Native\Structs\M128A.cs" />
+    <Compile Include="Native\Structs\MemoryBasicInformation.cs" />
+    <Compile Include="Native\Structs\ThreadContext32.cs" />
+    <Compile Include="Native\Structs\ThreadContext64.cs" />
+    <Compile Include="Native\Structs\XSaveFormat64.cs" />
     <Compile Include="Processes\InternalProcess.cs" />
     <Compile Include="Processes\IProcess.cs" />
     <Compile Include="Processes\ExternalProcess.cs" />

@@ -1,7 +1,7 @@
 using GameSharp.Native.Enums;
+using GameSharp.Native.Structs;
 using System;
 using System.Runtime.InteropServices;
-using static GameSharp.Native.Structs;
 
 namespace GameSharp.Native
 {
