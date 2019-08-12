@@ -36,7 +36,9 @@ namespace PeNet.ImpHash
         private string ComputeImpHash(ICollection<ImportFunction> importedFunctions)
         {
             if (importedFunctions == null || importedFunctions.Count == 0)
+            {
                 return null;
+            }
 
             List<string> list = new List<string>();
             foreach (ImportFunction impFunc in importedFunctions)

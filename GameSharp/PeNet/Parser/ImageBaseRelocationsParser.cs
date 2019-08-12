@@ -21,7 +21,9 @@ namespace PeNet.Parser
         protected override IMAGE_BASE_RELOCATION[] ParseTarget()
         {
             if (_offset == 0)
+            {
                 return null;
+            }
 
             List<IMAGE_BASE_RELOCATION> imageBaseRelocations = new List<IMAGE_BASE_RELOCATION>();
             uint currentBlock = _offset;
@@ -30,7 +32,9 @@ namespace PeNet.Parser
             while (true)
             {
                 if (currentBlock >= _offset + _directorySize - 8)
+                {
                     break;
+                }
 
                 imageBaseRelocations.Add(new IMAGE_BASE_RELOCATION(_buff, currentBlock, _directorySize));
                 currentBlock += imageBaseRelocations.Last().SizeOfBlock;

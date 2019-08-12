@@ -126,7 +126,9 @@ namespace PeNet.PatternMatching
 
                 // visit children
                 foreach (Node<T, TValue> child in node)
+                {
                     queue.Enqueue(child);
+                }
 
                 // fail link of root is root
                 if (node == root)
@@ -138,11 +140,15 @@ namespace PeNet.PatternMatching
                 Node<T, TValue> fail = node.Parent.Fail;
 
                 while (fail[node.Word] == null && fail != root)
+                {
                     fail = fail.Fail;
+                }
 
                 node.Fail = fail[node.Word] ?? root;
                 if (node.Fail == node)
+                {
                     node.Fail = root;
+                }
             }
         }
 
@@ -167,14 +173,18 @@ namespace PeNet.PatternMatching
             foreach (T c in text)
             {
                 while (node[c] == null && node != root)
+                {
                     node = node.Fail;
+                }
 
                 node = node[c] ?? root;
 
                 for (Node<T, TValue> t = node; t != root; t = t.Fail)
                 {
                     foreach (TValue value in t.Values)
+                    {
                         yield return new Tuple<TValue, int>(value, pos);
+                    }
                 }
                 pos++;
             }

@@ -62,7 +62,9 @@ namespace PeNet.Structures
             get
             {
                 if (_metaData != null)
+                {
                     return _metaData;
+                }
 
                 _metaData = SetImageDataDirectory(Buff, Offset + 0x8);
                 return _metaData;
@@ -106,7 +108,9 @@ namespace PeNet.Structures
             get
             {
                 if (_resources != null)
+                {
                     return _resources;
+                }
 
                 _resources = SetImageDataDirectory(Buff, Offset + 0x18);
                 return _resources;
@@ -121,7 +125,9 @@ namespace PeNet.Structures
             get
             {
                 if (_strongSignatureNames != null)
+                {
                     return _strongSignatureNames;
+                }
 
                 _strongSignatureNames = SetImageDataDirectory(Buff, Offset + 0x20);
                 return _strongSignatureNames;
@@ -136,7 +142,9 @@ namespace PeNet.Structures
             get
             {
                 if (_codeManagerTable != null)
+                {
                     return _codeManagerTable;
+                }
 
                 _codeManagerTable = SetImageDataDirectory(Buff, Offset + 0x28);
                 return _codeManagerTable;
@@ -151,7 +159,9 @@ namespace PeNet.Structures
             get
             {
                 if (_vTableFixups != null)
+                {
                     return _vTableFixups;
+                }
 
                 _vTableFixups = SetImageDataDirectory(Buff, Offset + 0x30);
                 return _vTableFixups;
@@ -166,7 +176,9 @@ namespace PeNet.Structures
             get
             {
                 if (_exportAddressTableJumps != null)
+                {
                     return _exportAddressTableJumps;
+                }
 
                 _exportAddressTableJumps = SetImageDataDirectory(Buff, Offset + 0x38);
                 return _exportAddressTableJumps;
@@ -181,7 +193,9 @@ namespace PeNet.Structures
             get
             {
                 if (_managedNativeHeader != null)
+                {
                     return _managedNativeHeader;
+                }
 
                 _managedNativeHeader = SetImageDataDirectory(Buff, Offset + 0x40);
                 return _managedNativeHeader;

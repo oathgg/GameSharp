@@ -26,11 +26,15 @@ namespace GameSharp.Extensions
 
             // As we don't understand IntPtr in unmanaged code we do a check and set it to the appropriate type we DO understand.
             if (typeof(T) == typeof(IntPtr))
+            {
                 typeCode = IntPtr.Size == 4 ? TypeCode.Int32 : TypeCode.Int64;
+            }
 
             // When we want to cast it to type byte array then we can just return the array.
             if (typeof(T) == typeof(byte[]))
+            {
                 typeCode = TypeCode.Byte;
+            }
 
             // Most of these types can be converted to an int, see the BP of microsoft:
             // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/types/how-to-convert-a-byte-array-to-an-int

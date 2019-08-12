@@ -175,7 +175,10 @@ namespace PeNet.Structures
                     if (table.HasValue)
                     {
                         uint rowCount = _tables[(int)table.Value].RowCount;
-                        if (rowCount > maxRowCount) maxRowCount = rowCount;
+                        if (rowCount > maxRowCount)
+                        {
+                            maxRowCount = rowCount;
+                        }
                     }
                 }
 

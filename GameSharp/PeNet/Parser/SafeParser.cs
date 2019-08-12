@@ -28,12 +28,16 @@ namespace PeNet.Parser
         public T GetParserTarget()
         {
             if (_alreadyParsed)
+            {
                 return _target;
+            }
 
             _alreadyParsed = true;
 
             if (SanityCheckFailed())
+            {
                 return null;
+            }
 
             try
             {

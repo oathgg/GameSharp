@@ -57,7 +57,9 @@ namespace PeNet
             METADATASTREAMHDR metaDataStream = MetaDataHdr?.MetaDataStreamsHdrs?.FirstOrDefault(x => x.streamName == "#Strings");
 
             if (metaDataStream == null)
+            {
                 return null;
+            }
 
             return new MetaDataStreamStringParser(_buff, MetaDataHdr.Offset + metaDataStream.offset, metaDataStream.size);
         }
@@ -67,7 +69,9 @@ namespace PeNet
             METADATASTREAMHDR metaDataStream = MetaDataHdr?.MetaDataStreamsHdrs?.FirstOrDefault(x => x.streamName == "#US");
 
             if (metaDataStream == null)
+            {
                 return null;
+            }
 
             return new MetaDataStreamUSParser(_buff, MetaDataHdr.Offset + metaDataStream.offset, metaDataStream.size);
         }
@@ -77,7 +81,9 @@ namespace PeNet
             METADATASTREAMHDR metaDataStream = MetaDataHdr?.MetaDataStreamsHdrs?.FirstOrDefault(x => x.streamName == "#~");
 
             if (metaDataStream == null)
+            {
                 return null;
+            }
 
             return new MetaDataStreamTablesHeaderParser(_buff, MetaDataHdr.Offset + metaDataStream.offset);
         }
@@ -87,7 +93,9 @@ namespace PeNet
             METADATASTREAMHDR metaDataStream = MetaDataHdr?.MetaDataStreamsHdrs?.FirstOrDefault(x => x.streamName == "#GUID");
 
             if (metaDataStream == null)
+            {
                 return null;
+            }
 
             return new MetaDataStreamGUIDParser(_buff, MetaDataHdr.Offset + metaDataStream.offset, metaDataStream.size);
         }
@@ -97,7 +105,9 @@ namespace PeNet
             METADATASTREAMHDR metaDataStream = MetaDataHdr?.MetaDataStreamsHdrs?.FirstOrDefault(x => x.streamName == "#Blob");
 
             if (metaDataStream == null)
+            {
                 return null;
+            }
 
             return new MetaDataStreamBlobParser(_buff, MetaDataHdr.Offset + metaDataStream.offset, metaDataStream.size);
         }

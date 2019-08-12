@@ -46,7 +46,9 @@ namespace PeNet.Utilities
         {
             byte[] bytes = new byte[2];
             for (int i = 0; i < numOfBytes; i++)
+            {
                 bytes[i] = buff[offset + i];
+            }
 
             return BitConverter.ToUInt16(bytes, 0);
         }
@@ -86,7 +88,9 @@ namespace PeNet.Utilities
         {
             byte[] bytes = new byte[4];
             for (int i = 0; i < numOfBytes; i++)
+            {
                 bytes[i] = buff[offset + i];
+            }
 
             return BitConverter.ToUInt32(bytes, 0);
         }
@@ -103,7 +107,9 @@ namespace PeNet.Utilities
         {
             byte[] bytes = new byte[4];
             for (int i = 0; i < numOfBytes; i++)
+            {
                 bytes[i] = buff[offset + i];
+            }
 
             count += numOfBytes;
             return BitConverter.ToUInt32(bytes, 0);
@@ -144,7 +150,9 @@ namespace PeNet.Utilities
         {
             byte[] bytes = new byte[4];
             for (int i = 0; i < numOfBytes; i++)
+            {
                 bytes[i] = buff[offset + i];
+            }
 
             return BitConverter.ToInt32(bytes, 0);
         }
@@ -161,7 +169,9 @@ namespace PeNet.Utilities
         {
             byte[] bytes = new byte[4];
             for (int i = 0; i < numOfBytes; i++)
+            {
                 bytes[i] = buff[offset + i];
+            }
 
             count += numOfBytes;
             return BitConverter.ToInt32(bytes, 0);
@@ -209,7 +219,9 @@ namespace PeNet.Utilities
         {
             byte[] bytes = new byte[8];
             for (int i = 0; i < numOfBytes; i++)
+            {
                 bytes[i] = buff[offset + i];
+            }
 
             return BitConverter.ToUInt64(bytes, 0);
         }
@@ -419,11 +431,17 @@ namespace PeNet.Utilities
         /// <returns>Hex-String</returns>
         public static string ToHexString(this ICollection<byte> bytes)
         {
-            if (bytes == null) return null;
+            if (bytes == null)
+            {
+                return null;
+            }
 
             StringBuilder hex = new StringBuilder(bytes.Count * 2);
             foreach (byte b in bytes)
+            {
                 hex.AppendFormat("{0:x2}", b);
+            }
+
             return $"0x{hex}";
         }
 
@@ -434,11 +452,17 @@ namespace PeNet.Utilities
         /// <returns>Hex-String</returns>
         public static string ToHexString(this ICollection<ushort> values)
         {
-            if (values == null) return null;
+            if (values == null)
+            {
+                return null;
+            }
 
             StringBuilder hex = new StringBuilder(values.Count * 2);
             foreach (ushort b in values)
+            {
                 hex.AppendFormat("{0:X4}", b);
+            }
+
             return $"0x{hex}";
         }
 
@@ -493,7 +517,10 @@ namespace PeNet.Utilities
         /// <returns></returns>
         public static List<string> ToHexString(this byte[] input, ulong from, ulong length)
         {
-            if (input == null) return null;
+            if (input == null)
+            {
+                return null;
+            }
 
             List<string> hexList = new List<string>();
             for (ulong i = @from; i < @from + length; i++)

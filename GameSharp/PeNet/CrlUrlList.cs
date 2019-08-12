@@ -21,7 +21,9 @@ namespace PeNet
             Urls = new List<string>();
 
             if (rawData == null)
+            {
                 return;
+            }
 
             ParseCrls(rawData);
         }
@@ -33,7 +35,10 @@ namespace PeNet
         public CrlUrlList(X509Certificate2 cert)
         {
             Urls = new List<string>();
-            if (cert == null) return;
+            if (cert == null)
+            {
+                return;
+            }
 
             foreach (X509Extension ext in cert.Extensions)
             {
@@ -95,7 +100,9 @@ namespace PeNet
                     string uri = Encoding.ASCII.GetString(bytes.ToArray());
 
                     if (IsValidUri(uri) && uri.StartsWith("http://") && uri.EndsWith(".crl"))
+                    {
                         Urls.Add(uri);
+                    }
 
                     if (uri.StartsWith("ldap:", StringComparison.InvariantCulture))
                     {
@@ -125,7 +132,10 @@ namespace PeNet
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("CRL URLs:");
             foreach (string url in Urls)
+            {
                 sb.AppendFormat("\t{0}\n", url);
+            }
+
             return sb.ToString();
         }
     }

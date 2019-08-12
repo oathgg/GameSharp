@@ -33,9 +33,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0, (uint)value);
+                }
             }
         }
 
@@ -51,9 +55,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 8, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 4, (uint)value);
+                }
             }
         }
 
@@ -69,9 +77,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x10, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 8, (uint)value);
+                }
             }
         }
 
@@ -87,9 +99,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x18, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x0c, (uint)value);
+                }
             }
         }
 
@@ -105,9 +121,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt32(Offset + 0x20, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x10, value);
+                }
             }
         }
 
@@ -123,9 +143,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt32(Offset + 0x24, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x14, value);
+                }
             }
         }
 

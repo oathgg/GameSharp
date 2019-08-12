@@ -22,7 +22,9 @@ namespace PeNet.Parser
         protected override ExportFunction[] ParseTarget()
         {
             if (_exportDirectory == null || _exportDirectory.AddressOfFunctions == 0)
+            {
                 return null;
+            }
 
             ExportFunction[] expFuncs = new ExportFunction[_exportDirectory.NumberOfFunctions];
 

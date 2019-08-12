@@ -95,7 +95,10 @@ namespace PeNet.Structures
             get
             {
                 if ((OffsetToData & 0x80000000) == 0x80000000)
+                {
                     return true;
+                }
+
                 return false;
             }
         }
@@ -108,7 +111,10 @@ namespace PeNet.Structures
             get
             {
                 if ((Name & 0x80000000) == 0x80000000)
+                {
                     return true;
+                }
+
                 return false;
             }
         }

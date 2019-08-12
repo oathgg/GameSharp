@@ -138,7 +138,9 @@ namespace PeNet
             uint rawAddress = _dataDirectories[(int)Constants.DataDirectoryIndex.Security].VirtualAddress;
 
             if (rawAddress == 0)
+            {
                 return null;
+            }
 
             return new WinCertificateParser(_buff, rawAddress);
         }
@@ -166,7 +168,9 @@ namespace PeNet
                 _dataDirectories[(int)Constants.DataDirectoryIndex.BaseReloc].VirtualAddress.SafeRVAtoFileMapping(_sectionHeaders);
 
             if (rawAddress == null)
+            {
                 return null;
+            }
 
             return new ImageBaseRelocationsParser(
                 _buff,
@@ -180,7 +184,9 @@ namespace PeNet
             uint? rawAddress =
                 _dataDirectories[(int)Constants.DataDirectoryIndex.Export].VirtualAddress.SafeRVAtoFileMapping(_sectionHeaders);
             if (rawAddress == null)
+            {
                 return null;
+            }
 
             return new ImageExportDirectoriesParser(_buff, rawAddress.Value);
         }
@@ -191,7 +197,9 @@ namespace PeNet
                 _dataDirectories[(int)Constants.DataDirectoryIndex.Exception].VirtualAddress.SafeRVAtoFileMapping(_sectionHeaders);
 
             if (rawAddress == null)
+            {
                 return null;
+            }
 
             return new RuntimeFunctionsParser(
                 _buff,

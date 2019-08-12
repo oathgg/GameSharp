@@ -66,12 +66,16 @@ namespace PeNet.Structures
             for (uint i = Offset + 1; i < Offset + _size; i++)
             {
                 if (Buff[i] >= 0x80) // Not sure why this works but it does.
+                {
                     i++;
+                }
 
                 int length = Buff[i];
 
                 if (length == 0)                                        // Stop if a string has the length 0 since the end 
+                {
                     break;                                              // of the list is reached.
+                }
 
                 i += 1;                                                 // Add "length byte" to current offset.
                 string tmpString = Buff.GetUnicodeString(i, length - 1);  // Read the UTF-16 string

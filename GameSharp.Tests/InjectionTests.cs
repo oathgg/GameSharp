@@ -1,7 +1,4 @@
-﻿using GameSharp.Injection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Diagnostics;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameSharp.Tests
 {

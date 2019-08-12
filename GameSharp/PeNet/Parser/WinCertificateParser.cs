@@ -12,7 +12,9 @@ namespace PeNet.Parser
         protected override WIN_CERTIFICATE ParseTarget()
         {
             if (_offset == 0)
+            {
                 return null;
+            }
 
             return new WIN_CERTIFICATE(_buff, _offset);
         }

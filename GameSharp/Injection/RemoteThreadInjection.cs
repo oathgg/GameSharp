@@ -25,7 +25,9 @@ namespace GameSharp.Injection
             IntPtr entryPointAddress = module.GetProcAddress(entryPoint);
 
             if (entryPointAddress == IntPtr.Zero)
+            {
                 throw new Win32Exception($"Couldn't find the entry point, system returned error code: {Marshal.GetLastWin32Error()}");
+            }
 
             // TODO: Refactor to an invocation of an entrypoint with params.
             Kernel32.CreateRemoteThread(ExternalProcess.Process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);

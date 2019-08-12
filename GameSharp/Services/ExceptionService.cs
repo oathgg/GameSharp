@@ -17,14 +17,18 @@ namespace GameSharp.Services
             BeautifyException(eventArgs.ExceptionObject);
 
             if (Debugger.IsAttached)
+            {
                 Debugger.Break();
+            }
         }
 
         private static void BeautifyException(object exception)
         {
             // Safe cast it as an exception otherwise we might cause a crash while crashing, lol.
             if (exception is Exception)
+            {
                 BeautifyException(exception as Exception);
+            }
         }
 
         /// <summary>

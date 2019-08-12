@@ -36,7 +36,9 @@ namespace GameSharp.Memory
             for (int memByteOffset = 0; memByteOffset < Bytes.Length; memByteOffset++)
             {
                 if (Bytes[memByteOffset] != array[0])
+                {
                     continue;
+                }
 
                 if (PatternCheck(ref memByteOffset, array))
                 {
@@ -94,7 +96,9 @@ namespace GameSharp.Memory
             {
                 // Skip this byte in case its a variable.
                 if (pattern[i] == 0x0)
+                {
                     continue;
+                }
 
                 if (pattern[i] != Bytes[index + i])
                 {

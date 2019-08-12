@@ -26,7 +26,9 @@ namespace PeNet.Utilities
             }
 
             foreach (byte t in hash)
+            {
                 sBuilder.Append(t.ToString("x2"));
+            }
 
             return sBuilder.ToString();
         }
@@ -44,7 +46,9 @@ namespace PeNet.Utilities
             byte[] hash = sha.ComputeHash(buff);
 
             foreach (byte t in hash)
+            {
                 sBuilder.Append(t.ToString("x2"));
+            }
 
             return sBuilder.ToString();
         }
@@ -66,7 +70,9 @@ namespace PeNet.Utilities
             }
 
             foreach (byte t in hash)
+            {
                 sBuilder.Append(t.ToString("x2"));
+            }
 
             return sBuilder.ToString();
         }
@@ -84,7 +90,9 @@ namespace PeNet.Utilities
             byte[] hash = sha.ComputeHash(buff);
 
             foreach (byte t in hash)
+            {
                 sBuilder.Append(t.ToString("x2"));
+            }
 
             return sBuilder.ToString();
         }
@@ -106,7 +114,9 @@ namespace PeNet.Utilities
             }
 
             foreach (byte t in hash)
+            {
                 sBuilder.Append(t.ToString("x2"));
+            }
 
             return sBuilder.ToString();
         }
@@ -124,7 +134,9 @@ namespace PeNet.Utilities
             byte[] hash = sha.ComputeHash(buff);
 
             foreach (byte t in hash)
+            {
                 sBuilder.Append(t.ToString("x2"));
+            }
 
             return sBuilder.ToString();
         }

@@ -32,15 +32,21 @@ namespace GameSharp.Processes
             {
                 IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
                 if (kernel32Module == IntPtr.Zero)
+                {
                     throw new Win32Exception($"Couldn't get handle for module the module, error code: {Marshal.GetLastWin32Error()}.");
+                }
 
                 IntPtr loadLibraryAddress = Kernel32.GetProcAddress(kernel32Module, "LoadLibraryW");
                 if (loadLibraryAddress == IntPtr.Zero)
+                {
                     throw new Win32Exception($"Couldn't get proc address, error code: {Marshal.GetLastWin32Error()}.");
+                }
 
                 IntPtr tHandle = Kernel32.CreateRemoteThread(Process.Handle, IntPtr.Zero, 0, loadLibraryAddress, allocatedMemory, 0, IntPtr.Zero);
                 if (tHandle == IntPtr.Zero)
+                {
                     throw new Win32Exception($"Couldn't create a remote thread, error code: {Marshal.GetLastWin32Error()}.");
+                }
             }
 
             return GetModule(Path.GetFileName(pathToDll));
@@ -50,7 +56,9 @@ namespace GameSharp.Processes
         public byte[] LoadLibraryPayload(string pathToDll)
         {
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
+            {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
 
             byte[] pathBytes = Encoding.Unicode.GetBytes(pathToDll);
 
@@ -69,7 +77,9 @@ namespace GameSharp.Processes
                 module = new ExternalModule(Process.Modules.Cast<ProcessModule>().SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase)));
 
                 if (module != null)
+                {
                     break;
+                }
 
                 Thread.Sleep(1000);
             } while (retryCount-- > 0);

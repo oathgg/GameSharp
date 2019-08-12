@@ -47,13 +47,19 @@ namespace PeNet
         public static bool IsPeValidPeFile(byte[] buff)
         {
             if (HasMagicHeader(buff) == false)
+            {
                 return false;
+            }
 
             if (IsPeFileParseable(buff) == false)
+            {
                 return false;
+            }
 
             if (HasValidNumberOfDirectories(buff) == false)
+            {
                 return false;
+            }
 
             return true;
         }

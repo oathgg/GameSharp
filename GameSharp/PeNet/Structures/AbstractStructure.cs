@@ -49,12 +49,16 @@ namespace PeNet.Structures
                 if (p.PropertyType.IsArray)
                 {
                     if (p.GetValue(obj, null) == null)
+                    {
                         continue;
+                    }
 
                     foreach (object entry in (IEnumerable)p.GetValue(obj, null))
                     {
                         if (entry.GetType().IsSubclassOf(typeof(AbstractStructure)) == false)
+                        {
                             continue;
+                        }
 
                         sb.Append(entry.ToString());
                     }

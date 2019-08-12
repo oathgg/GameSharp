@@ -87,7 +87,10 @@ namespace PeNet.Authenticode
 
         private bool VerifyHash()
         {
-            if (SignedHash == null) return false;
+            if (SignedHash == null)
+            {
+                return false;
+            }
             // 2.  Initialize a hash algorithm context.
             HashAlgorithm hashAlgorithm;
             switch (SignedHash.Length)

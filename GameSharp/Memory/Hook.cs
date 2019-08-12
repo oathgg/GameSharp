@@ -55,7 +55,9 @@ namespace GameSharp.Interoperability
             Module.InternalModule module = TargetFuncPtr.GetModuleWhichBelongsToAddress();
 
             if (module == null)
+            {
                 throw new NullReferenceException("Cannot find a module which belongs to the specified pointer.");
+            }
 
             UnmanagedMemory codeCave = module.FindCodeCaveInModule((uint)bytes.Length);
             CodeCavePatch = new Patch(codeCave, bytes);

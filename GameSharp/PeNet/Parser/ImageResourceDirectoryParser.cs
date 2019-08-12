@@ -12,7 +12,9 @@ namespace PeNet.Parser
         protected override IMAGE_RESOURCE_DIRECTORY ParseTarget()
         {
             if (_offset == 0)
+            {
                 return null;
+            }
 
             // Parse the root directory.
             IMAGE_RESOURCE_DIRECTORY root = new IMAGE_RESOURCE_DIRECTORY(_buff, _offset, _offset);

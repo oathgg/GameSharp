@@ -25,7 +25,9 @@ namespace PeNet.Parser
         protected override RUNTIME_FUNCTION[] ParseTarget()
         {
             if (_is32Bit || _offset == 0)
+            {
                 return null;
+            }
 
             int sizeOfRuntimeFunction = 0xC;
             RUNTIME_FUNCTION[] rf = new RUNTIME_FUNCTION[_directorySize / sizeOfRuntimeFunction];

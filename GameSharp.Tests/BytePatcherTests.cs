@@ -1,8 +1,6 @@
-﻿using GameSharp.Extensions;
-using GameSharp.Interoperability;
+﻿using GameSharp.Interoperability;
 using GameSharp.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Tests
@@ -30,7 +28,9 @@ namespace GameSharp.Tests
             // Validate if the byte has been changed.
             byte[] retrievedBytes = ptrAllocatedMemory.Read<byte[]>(3);
             for (int i = 0; i < originalBytes.Length; i++)
+            {
                 Assert.AreEqual(retrievedBytes[i], newBytes[i]);
+            }
 
             // Disable the patch.
             bp.Disable();
@@ -38,7 +38,9 @@ namespace GameSharp.Tests
             // Validate if the old byte is there.
             retrievedBytes = ptrAllocatedMemory.Read<byte[]>(3);
             for (int i = 0; i < originalBytes.Length; i++)
+            {
                 Assert.AreEqual(retrievedBytes[i], originalBytes[i]);
+            }
         }
     }
 }

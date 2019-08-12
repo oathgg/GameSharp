@@ -70,7 +70,9 @@ namespace PeNet.Structures
                 i += (uint)tmpString.Length;
 
                 if (String.IsNullOrWhiteSpace(tmpString))
+                {
                     continue;
+                }
 
                 stringsAndIndices.Add(new Tuple<string, uint>(tmpString, index));
             }

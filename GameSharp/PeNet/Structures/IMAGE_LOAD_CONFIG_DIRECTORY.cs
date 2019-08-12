@@ -95,9 +95,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x18, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x18, (uint)value);
+                }
             }
         }
 
@@ -110,9 +114,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x20, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x1C, (uint)value);
+                }
             }
         }
 
@@ -126,9 +134,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x28, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x20, (uint)value);
+                }
             }
         }
 
@@ -141,9 +153,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x30, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x24, (uint)value);
+                }
             }
         }
 
@@ -156,9 +172,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x38, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x28, (uint)value);
+                }
             }
         }
 
@@ -171,9 +191,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x40, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x30, (uint)value);
+                }
             }
         }
 
@@ -186,9 +210,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt32(Offset + 0x48, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x2C, value);
+                }
             }
         }
 
@@ -201,9 +229,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt16(Offset + 0x4C, value);
+                }
                 else
+                {
                     Buff.SetUInt16(Offset + 0x34, value);
+                }
             }
         }
 
@@ -216,9 +248,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt16(Offset + 0x4E, value);
+                }
                 else
+                {
                     Buff.SetUInt16(Offset + 0x36, value);
+                }
             }
         }
 
@@ -231,9 +267,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x50, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x38, (uint)value);
+                }
             }
         }
 
@@ -246,9 +286,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x58, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x3C, (uint)value);
+                }
             }
         }
 
@@ -262,9 +306,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x60, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x40, (uint)value);
+                }
             }
         }
 
@@ -277,9 +325,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x68, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x44, (uint)value);
+                }
             }
         }
 
@@ -292,9 +344,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x70, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x4C, (uint)value);
+                }
             }
         }
 
@@ -307,9 +363,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x78, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x4C, (uint)value);
+                }
             }
         }
 
@@ -322,9 +382,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x80, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x50, (uint)value);
+                }
             }
         }
 
@@ -337,9 +401,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt64(Offset + 0x88, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x54, (uint)value);
+                }
             }
         }
 
@@ -352,9 +420,13 @@ namespace PeNet.Structures
             set
             {
                 if (_is64Bit)
+                {
                     Buff.SetUInt32(Offset + 0x90, value);
+                }
                 else
+                {
                     Buff.SetUInt32(Offset + 0x58, value);
+                }
             }
         }
     }

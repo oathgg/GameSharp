@@ -40,7 +40,9 @@ namespace PeNet.Parser
                 {
                     IMAGE_TLS_CALLBACK cb = new IMAGE_TLS_CALLBACK(_buff, rawAddressOfCallbacks + count * 8, _is64Bit);
                     if (cb.Callback == 0)
+                    {
                         break;
+                    }
 
                     callbacks.Add(cb);
                     count++;
@@ -49,7 +51,9 @@ namespace PeNet.Parser
                 {
                     IMAGE_TLS_CALLBACK cb = new IMAGE_TLS_CALLBACK(_buff, rawAddressOfCallbacks + count * 4, _is64Bit);
                     if (cb.Callback == 0)
+                    {
                         break;
+                    }
 
                     callbacks.Add(cb);
                     count++;

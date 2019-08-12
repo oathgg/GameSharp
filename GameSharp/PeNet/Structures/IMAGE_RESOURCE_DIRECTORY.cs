@@ -83,7 +83,9 @@ namespace PeNet.Structures
         private IMAGE_RESOURCE_DIRECTORY_ENTRY[] ParseDirectoryEntries(uint resourceDirOffset)
         {
             if (SanityCheckFailed())
+            {
                 return null;
+            }
 
             IMAGE_RESOURCE_DIRECTORY_ENTRY[] entries = new IMAGE_RESOURCE_DIRECTORY_ENTRY[NumberOfIdEntries + NumberOfNameEntries];
 
@@ -106,7 +108,9 @@ namespace PeNet.Structures
         private bool SanityCheckFailed()
         {
             if (NumberOfIdEntries + NumberOfNameEntries >= 1000)
+            {
                 return true;
+            }
 
             return false;
         }

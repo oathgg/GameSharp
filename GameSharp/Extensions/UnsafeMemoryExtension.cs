@@ -17,7 +17,9 @@ namespace GameSharp.Extensions
         public static T ToDelegate<T>(this IntPtr addr) where T : class
         {
             if (typeof(T).GetCustomAttributes(typeof(UnmanagedFunctionPointerAttribute), true).Length == 0)
+            {
                 throw new InvalidOperationException("This operation can only convert to delegates adorned with the UnmanagedFunctionPointerAttribute");
+            }
 
             return Marshal.GetDelegateForFunctionPointer(addr, typeof(T)) as T;
         }

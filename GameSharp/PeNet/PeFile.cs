@@ -346,7 +346,9 @@ namespace PeNet
         public CrlUrlList GetCrlUrlList()
         {
             if (PKCS7 == null)
+            {
                 return null;
+            }
 
             try
             {
@@ -456,13 +458,18 @@ namespace PeNet
 
             if ((ImageNtHeaders.FileHeader.Characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_DLL) !=
                 0)
+            {
                 fileType += "_DLL";
+            }
             else if ((ImageNtHeaders.FileHeader.Characteristics &
                       (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_EXECUTABLE_IMAGE) != 0)
+            {
                 fileType += "_EXE";
+            }
             else
+            {
                 fileType += "_UNKNOWN";
-
+            }
 
             return fileType;
         }

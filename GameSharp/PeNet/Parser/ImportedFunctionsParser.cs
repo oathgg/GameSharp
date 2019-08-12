@@ -25,7 +25,9 @@ namespace PeNet.Parser
         protected override ImportFunction[] ParseTarget()
         {
             if (_importDescriptors == null)
+            {
                 return null;
+            }
 
             List<ImportFunction> impFuncs = new List<ImportFunction>();
             uint sizeOfThunk = (uint)(_is64Bit ? 0x8 : 0x4); // Size of IMAGE_THUNK_DATA
@@ -37,10 +39,15 @@ namespace PeNet.Parser
                 uint dllAdr = idesc.Name.RVAtoFileMapping(_sectionHeaders);
                 string dll = _buff.GetCString(dllAdr);
                 if (IsModuleNameTooLong(dll))
+                {
                     continue;
+                }
+
                 uint tmpAdr = idesc.OriginalFirstThunk != 0 ? idesc.OriginalFirstThunk : idesc.FirstThunk;
                 if (tmpAdr == 0)
+                {
                     continue;
+                }
 
                 uint thunkAdr = tmpAdr.RVAtoFileMapping(_sectionHeaders);
                 uint round = 0;
@@ -49,7 +56,9 @@ namespace PeNet.Parser
                     IMAGE_THUNK_DATA t = new IMAGE_THUNK_DATA(_buff, thunkAdr + round * sizeOfThunk, _is64Bit);
 
                     if (t.AddressOfData == 0)
+                    {
                         break;
+                    }
 
                     // Check if import by name or by ordinal.
                     // If it is an import by ordinal, the most significant bit of "Ordinal" is "1" and the ordinal can

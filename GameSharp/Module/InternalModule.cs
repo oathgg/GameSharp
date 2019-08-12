@@ -39,7 +39,9 @@ namespace GameSharp.Module
             IntPtr ret = Kernel32.GetProcAddress(ProcessModule.BaseAddress, functionName);
 
             if (ret == IntPtr.Zero)
+            {
                 throw new Win32Exception($"Couldn't get the function address with name {functionName}.");
+            }
 
             return ret;
         }
@@ -65,7 +67,9 @@ namespace GameSharp.Module
             for (uint i = 0x1000; i < moduleBytes.Length; i++)
             {
                 if (moduleBytes[i] != 0x0)
+                {
                     continue;
+                }
 
                 // If the codecave has already been taken (might still have bytes that are 0'd then we skip the size of the other codecave.
                 CodeCavesTaken.TryGetValue((uint)ProcessModule.BaseAddress + i, out uint sizeTaken);

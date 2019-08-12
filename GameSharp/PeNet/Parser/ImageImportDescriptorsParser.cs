@@ -13,7 +13,9 @@ namespace PeNet.Parser
         protected override IMAGE_IMPORT_DESCRIPTOR[] ParseTarget()
         {
             if (_offset == 0)
+            {
                 return null;
+            }
 
             List<IMAGE_IMPORT_DESCRIPTOR> idescs = new List<IMAGE_IMPORT_DESCRIPTOR>();
             uint idescSize = 20; // Size of IMAGE_IMPORT_DESCRIPTOR (5 * 4 Byte)

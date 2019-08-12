@@ -149,7 +149,9 @@ namespace PeNet.Structures
             get
             {
                 if (_tableDefinitions != null)
+                {
                     return _tableDefinitions;
+                }
 
                 _tableDefinitions = ParseTableDefinitions();
                 return _tableDefinitions;

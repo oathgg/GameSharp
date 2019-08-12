@@ -64,7 +64,9 @@ namespace PeNet.Structures
         private int AddHeaderPaddingLength(int headerLength)
         {
             if (headerLength % 4 == 0)
+            {
                 return headerLength + 4;
+            }
             else
             {
                 return headerLength + (4 - (headerLength % 4));
