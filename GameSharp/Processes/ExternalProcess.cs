@@ -58,7 +58,25 @@ namespace GameSharp.Processes
             return pathBytes;
         }
 
-        public ModuleBase GetModule(string moduleName) => Process.GetProcessModule(moduleName);
+        public ModuleBase GetModule(string moduleName)
+        {
+            int retryCount = 5;
+            ExternalModule module = null;
+            do
+            {
+                // We do a refresh in case something has changed in the process, for example a DLL has been injected.
+                Process.Refresh();
+
+                module = new ExternalModule(Process.Modules.Cast<ProcessModule>().SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase)));
+
+                if (module != null)
+                    break;
+
+                Thread.Sleep(1000);
+            } while (retryCount-- > 0);
+
+            return module;
+        }
 
         public void AllocConsole()
         {
