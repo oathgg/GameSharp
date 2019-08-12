@@ -20,7 +20,7 @@ namespace GameSharp.Processes
             Process = process;
         }
 
-        public IModule LoadLibrary(string pathToDll, bool resolveReferences = true)
+        public ProcessModule LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -47,6 +47,6 @@ namespace GameSharp.Processes
             return GetModule(Path.GetFileName(pathToDll));
         }
 
-        public IModule GetModule(string moduleName) => new ExternalModule(Process.GetProcessModule(moduleName));
+        public ProcessModule GetModule(string moduleName) => Process.GetProcessModule(moduleName);
     }
 }

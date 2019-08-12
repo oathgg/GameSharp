@@ -69,9 +69,6 @@
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />
-    <Compile Include="Modules\ExternalModule.cs" />
-    <Compile Include="Modules\IModule.cs" />
-    <Compile Include="Modules\InternalModule.cs" />
     <Compile Include="Native\Enums.cs" />
     <Compile Include="Native\Kernel32.cs" />
     <Compile Include="Native\Structs.cs" />
@@ -79,7 +76,6 @@
     <Compile Include="Processes\IProcess.cs" />
     <Compile Include="Processes\ExternalProcess.cs" />
     <Compile Include="Services\LoggingService.cs" />
-    <Compile Include="Extensions\ProcessThreadExtension.cs" />
     <Compile Include="Memory\Patch.cs" />
     <Compile Include="Memory\Hook.cs" />
     <Compile Include="Extensions\ArrayExtension.cs" />

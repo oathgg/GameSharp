@@ -8,6 +8,9 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading;
+using static GameSharp.Native.Structs;
 
 namespace GameSharp.Processes
 {
@@ -19,7 +22,7 @@ namespace GameSharp.Processes
 
         public Process Process { get; } = Process.GetCurrentProcess();
 
-        public IModule LoadLibrary(string libraryPath, bool resolveReferences = true)
+        public ProcessModule LoadLibrary(string libraryPath, bool resolveReferences = true)
         {
             if (!File.Exists(libraryPath))
                 throw new FileNotFoundException(libraryPath);
@@ -34,12 +37,46 @@ namespace GameSharp.Processes
             return GetModule(Path.GetFileName(libraryPath));
         }
 
-        public IModule GetModule(string moduleName)
+        public ProcessModule GetModule(string moduleName)
         {
-            InternalModule internalModule = new InternalModule(Process.GetProcessModule(moduleName));
+            ProcessModule internalModule = Process.GetProcessModule(moduleName);
 
             return internalModule;
         }
         public T CallFunction<T>(SafeFunction safeFunction, params object[] parameters) => safeFunction.Call<T>(parameters);
+
+        public ThreadContext32 GetThreadContext()
+        {
+            ThreadContext32 Context = new ThreadContext32
+            {
+                ContextFlags = (uint)Enums.Context.CONTEXT_CONTROL
+            };
+
+            uint threadId = 0;
+            foreach (ProcessThread t in Process.Threads)
+            {
+                var state = t.ThreadState;
+
+                if (state == System.Diagnostics.ThreadState.Wait)
+                    threadId = (uint) t.Id;
+            }
+
+            IntPtr hThread = Kernel32.OpenThread(Enums.ThreadAccess.GET_CONTEXT, false, threadId);
+
+            if (hThread == IntPtr.Zero)
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+
+            Kernel32.SuspendThread(hThread);
+
+            if (!Kernel32.GetThreadContext(hThread, ref Context))
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+
+            if (!Kernel32.CloseHandle(hThread))
+                throw new Win32Exception("Cannot close thread handle.");
+
+            Kernel32.ResumeThread(hThread);
+
+            return Context;
+        }
     }
 }

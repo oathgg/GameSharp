@@ -3,6 +3,7 @@ using GameSharp.Memory;
 using GameSharp.Memory.Internal;
 using GameSharp.Processes;
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Notepadpp.dll
@@ -14,9 +15,9 @@ namespace GameSharp.Notepadpp.dll
 
         public override Delegate ToCallDelegate()
         {
-            IModule module = InternalProcess.Instance.GetModule("USER32.DLL");
+            ProcessModule module = InternalProcess.Instance.GetModule("USER32.DLL");
 
-            return (module.BaseAddress() + 0x78290).ToDelegate<MessageBoxWDelegate>();
+            return (module.BaseAddress + 0x78290).ToDelegate<MessageBoxWDelegate>();
         }
     }
 }

@@ -21,13 +21,13 @@ namespace GameSharp.Memory.External
         ///     Initializes a new instance of the <see cref="PatternScanner" /> class.
         /// </summary>
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
-        public PatternScanner(ProcessModule module)
+        internal PatternScanner(ProcessModule module)
         {
             ModuleBase = module.BaseAddress;
             Bytes = ModuleBase.Read<byte[]>(module.ModuleMemorySize);
         }
 
-        public PatternScanner(byte[] bytesToScan)
+        internal PatternScanner(byte[] bytesToScan)
         {
             Bytes = bytesToScan;
         }
@@ -58,7 +58,7 @@ namespace GameSharp.Memory.External
         /// <param name="pattern"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public IntPtr FindPattern(string pattern, int offset = 0)
+        internal IntPtr FindPattern(string pattern, int offset = 0)
         {
             byte[] arrPattern = ParsePatternString(pattern.Trim());
 

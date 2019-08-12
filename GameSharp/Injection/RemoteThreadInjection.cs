@@ -25,7 +25,7 @@ namespace GameSharp.Injection
         protected override void Execute(string pathToDll, string entryPoint)
         {
             InternalProcess myProcess = InternalProcess.Instance;
-            IModule module = myProcess.LoadLibrary(pathToDll, false);
+            ProcessModule module = myProcess.LoadLibrary(pathToDll, false);
             IntPtr entryPointAddress = module.GetProcAddress(entryPoint);
 
             if (entryPointAddress == IntPtr.Zero)
