@@ -4,7 +4,7 @@ namespace PeNet.Parser
 {
     internal class MetaDataStreamTablesHeaderParser : SafeParser<METADATATABLESHDR>
     {
-        public MetaDataStreamTablesHeaderParser(byte[] buff, uint offset) 
+        public MetaDataStreamTablesHeaderParser(byte[] buff, uint offset)
             : base(buff, offset)
         {
         }

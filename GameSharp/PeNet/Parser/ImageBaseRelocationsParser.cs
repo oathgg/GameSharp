@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using PeNet.Structures;
+using System.Collections.Generic;
 using System.Linq;
-using PeNet.Structures;
 
 namespace PeNet.Parser
 {
@@ -23,8 +23,8 @@ namespace PeNet.Parser
             if (_offset == 0)
                 return null;
 
-            var imageBaseRelocations = new List<IMAGE_BASE_RELOCATION>();
-            var currentBlock = _offset;
+            List<IMAGE_BASE_RELOCATION> imageBaseRelocations = new List<IMAGE_BASE_RELOCATION>();
+            uint currentBlock = _offset;
 
 
             while (true)

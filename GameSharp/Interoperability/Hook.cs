@@ -3,9 +3,10 @@
 //
 
 using GameSharp.Extensions;
+using GameSharp.Memory;
 using System;
 
-namespace GameSharp.Memory.Internal
+namespace GameSharp.Interoperability
 {
     public abstract class Hook
     {
@@ -21,11 +22,11 @@ namespace GameSharp.Memory.Internal
         /// </summary>
         private Patch CodeCavePatch { get; set; }
 
-        private IntPtr HookPtr { get; }
+        private InternalIntPtr HookPtr { get; }
 
         private Patch HookPatch { get; set; }
 
-        private IntPtr TargetFuncPtr { get; }
+        private InternalIntPtr TargetFuncPtr { get; }
 
         private Delegate TargetDelegate { get; }
 
@@ -56,7 +57,7 @@ namespace GameSharp.Memory.Internal
             if (module == null)
                 throw new NullReferenceException("Cannot find a module which belongs to the specified pointer.");
 
-            IntPtr codeCave = module.FindCodeCaveInModule((uint)bytes.Length);
+            InternalIntPtr codeCave = module.FindCodeCaveInModule((uint)bytes.Length);
             CodeCavePatch = new Patch(codeCave, bytes);
 
             byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr();

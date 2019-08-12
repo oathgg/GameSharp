@@ -7,6 +7,6 @@
 
     public class METADATASTREAM_BLOB : IMETADATASTREAM_BLOB
     {
-        
+
     }
 }

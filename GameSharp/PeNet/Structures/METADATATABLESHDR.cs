@@ -1,9 +1,8 @@
-﻿using System;
+﻿using PeNet.Structures.MetaDataTables;
+using PeNet.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using PeNet.Structures.MetaDataTables;
-using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -59,7 +58,7 @@ namespace PeNet.Structures
             /// <summary>
             /// Byter per row in the table.
             /// </summary>
-            public uint BytesPerRow { get; set;}
+            public uint BytesPerRow { get; set; }
         }
 
         /// <summary>
@@ -67,7 +66,7 @@ namespace PeNet.Structures
         /// </summary>
         /// <param name="buff">Buffer which contains a METADATATABLESHDR structure.</param>
         /// <param name="offset">Offset in the buffer, where the header starts.</param>
-        public METADATATABLESHDR(byte[] buff, uint offset) 
+        public METADATATABLESHDR(byte[] buff, uint offset)
             : base(buff, offset)
         {
         }
@@ -160,13 +159,13 @@ namespace PeNet.Structures
         /// <summary>
         /// Access all parsed meta data tables.
         /// </summary>
-        public Tables Tables 
+        public Tables Tables
         {
             get
             {
-                if(_tables is null)
+                if (_tables is null)
                 {
-                    
+
                     _tables = ParseMetaDataTables();
                 }
 
@@ -176,17 +175,17 @@ namespace PeNet.Structures
 
         private List<MetaDataTableInfo> ParseTableDefinitions()
         {
-            var heapSizes = new HeapSizes(HeapSizes);
+            HeapSizes heapSizes = new HeapSizes(HeapSizes);
 
 
-            var tables = new MetaDataTableInfo[64];
+            MetaDataTableInfo[] tables = new MetaDataTableInfo[64];
 
-            var startOfTableDefinitions = Offset + 24;
-            var names = FlagResolver.ResolveMaskValidFlags(Valid);
+            uint startOfTableDefinitions = Offset + 24;
+            List<string> names = FlagResolver.ResolveMaskValidFlags(Valid);
 
             // Set number of rows per table
-            var cnt = 0;
-            for (var i = 0; i < tables.Length; ++i)
+            int cnt = 0;
+            for (int i = 0; i < tables.Length; ++i)
             {
                 if ((Valid & (1UL << i)) != 0)
                 {
@@ -196,7 +195,7 @@ namespace PeNet.Structures
                 }
             }
 
-            var indexSizes = new IndexSize(tables);
+            IndexSize indexSizes = new IndexSize(tables);
 
             // Set row size of tables
             tables[(int)MetadataToken.Module].BytesPerRow = 2 + heapSizes.String + heapSizes.Guid * 3;
@@ -252,44 +251,44 @@ namespace PeNet.Structures
 
         private Tables ParseMetaDataTables()
         {
-            var tables = new Tables
+            Tables tables = new Tables
             {
-                Module                  = ParseTable<Module>(MetadataToken.Module),
-                TypeRef                 = ParseTable<TypeRef>(MetadataToken.TypeReference),
-                TypeDef                 = ParseTable<TypeDef>(MetadataToken.TypeDef),
-                Field                   = ParseTable<Field>(MetadataToken.Field),
-                MethodDef               = ParseTable<MethodDef>(MetadataToken.MethodDef),
-                Param                   = ParseTable<Param>(MetadataToken.Parameter),
-                InterfaceImpl           = ParseTable<InterfaceImpl>(MetadataToken.InterfaceImplementation),
-                MemberRef               = ParseTable<MemberRef>(MetadataToken.MemberReference),
-                Constant                = ParseTable<Constant>(MetadataToken.Constant),
-                CustomAttribute         = ParseTable<CustomAttribute>(MetadataToken.CustomAttribute),
-                FieldMarshal            = ParseTable<FieldMarshal>(MetadataToken.FieldMarshal),
-                DeclSecurity            = ParseTable<DeclSecurity>(MetadataToken.DeclarativeSecurity),
-                ClassLayout             = ParseTable<ClassLayout>(MetadataToken.ClassLayout),
-                FieldLayout             = ParseTable<FieldLayout>(MetadataToken.FieldLayout),
-                StandAloneSig           = ParseTable<StandAloneSig>(MetadataToken.StandAloneSignature),
-                EventMap                = ParseTable<EventMap>(MetadataToken.EventMap),
-                Event                   = ParseTable<Event>(MetadataToken.Event),
-                PropertyMap             = ParseTable<PropertyMap>(MetadataToken.PropertyMap),
-                Property                = ParseTable<Property>(MetadataToken.Property),
-                MethodSemantic          = ParseTable<MethodSemantics>(MetadataToken.MethodSemantics),
-                MethodImpl              = ParseTable<MethodImpl>(MetadataToken.MethodImplementation),
-                ModuleRef               = ParseTable<ModuleRef>(MetadataToken.ModuleReference),
-                TypeSpec                = ParseTable<TypeSpec>(MetadataToken.TypeSpecification),
-                ImplMap                 = ParseTable<ImplMap>(MetadataToken.ImplementationMap),
-                FieldRVA                = ParseTable<FieldRVA>(MetadataToken.FieldRVA),
-                Assembly                = ParseTable<Assembly>(MetadataToken.Assembly),
-                AssemblyProcessor       = ParseTable<AssemblyProcessor>(MetadataToken.AssemblyProcessor),
-                AssemblyOS              = ParseTable<AssemblyOS>(MetadataToken.AssemblyOS),
-                AssemblyRef             = ParseTable<AssemblyRef>(MetadataToken.AssemblyReference),
-                AssemblyRefProcessor    = ParseTable<AssemblyRefProcessor>(MetadataToken.AssemblyReferenceProcessor),
-                AssemblyRefOS           = ParseTable<AssemblyRefOS>(MetadataToken.AssemblyReferenceOS),
-                File                    = ParseTable<File>(MetadataToken.File),
-                ExportedType            = ParseTable<ExportedType>(MetadataToken.ExportedType),
-                ManifestResource        = ParseTable<ManifestResource>(MetadataToken.ManifestResource),
-                NestedClass             = ParseTable<NestedClass>(MetadataToken.NestedClass),
-                GenericParam            = ParseTable<GenericParam>(MetadataToken.GenericParameter),
+                Module = ParseTable<Module>(MetadataToken.Module),
+                TypeRef = ParseTable<TypeRef>(MetadataToken.TypeReference),
+                TypeDef = ParseTable<TypeDef>(MetadataToken.TypeDef),
+                Field = ParseTable<Field>(MetadataToken.Field),
+                MethodDef = ParseTable<MethodDef>(MetadataToken.MethodDef),
+                Param = ParseTable<Param>(MetadataToken.Parameter),
+                InterfaceImpl = ParseTable<InterfaceImpl>(MetadataToken.InterfaceImplementation),
+                MemberRef = ParseTable<MemberRef>(MetadataToken.MemberReference),
+                Constant = ParseTable<Constant>(MetadataToken.Constant),
+                CustomAttribute = ParseTable<CustomAttribute>(MetadataToken.CustomAttribute),
+                FieldMarshal = ParseTable<FieldMarshal>(MetadataToken.FieldMarshal),
+                DeclSecurity = ParseTable<DeclSecurity>(MetadataToken.DeclarativeSecurity),
+                ClassLayout = ParseTable<ClassLayout>(MetadataToken.ClassLayout),
+                FieldLayout = ParseTable<FieldLayout>(MetadataToken.FieldLayout),
+                StandAloneSig = ParseTable<StandAloneSig>(MetadataToken.StandAloneSignature),
+                EventMap = ParseTable<EventMap>(MetadataToken.EventMap),
+                Event = ParseTable<Event>(MetadataToken.Event),
+                PropertyMap = ParseTable<PropertyMap>(MetadataToken.PropertyMap),
+                Property = ParseTable<Property>(MetadataToken.Property),
+                MethodSemantic = ParseTable<MethodSemantics>(MetadataToken.MethodSemantics),
+                MethodImpl = ParseTable<MethodImpl>(MetadataToken.MethodImplementation),
+                ModuleRef = ParseTable<ModuleRef>(MetadataToken.ModuleReference),
+                TypeSpec = ParseTable<TypeSpec>(MetadataToken.TypeSpecification),
+                ImplMap = ParseTable<ImplMap>(MetadataToken.ImplementationMap),
+                FieldRVA = ParseTable<FieldRVA>(MetadataToken.FieldRVA),
+                Assembly = ParseTable<Assembly>(MetadataToken.Assembly),
+                AssemblyProcessor = ParseTable<AssemblyProcessor>(MetadataToken.AssemblyProcessor),
+                AssemblyOS = ParseTable<AssemblyOS>(MetadataToken.AssemblyOS),
+                AssemblyRef = ParseTable<AssemblyRef>(MetadataToken.AssemblyReference),
+                AssemblyRefProcessor = ParseTable<AssemblyRefProcessor>(MetadataToken.AssemblyReferenceProcessor),
+                AssemblyRefOS = ParseTable<AssemblyRefOS>(MetadataToken.AssemblyReferenceOS),
+                File = ParseTable<File>(MetadataToken.File),
+                ExportedType = ParseTable<ExportedType>(MetadataToken.ExportedType),
+                ManifestResource = ParseTable<ManifestResource>(MetadataToken.ManifestResource),
+                NestedClass = ParseTable<NestedClass>(MetadataToken.NestedClass),
+                GenericParam = ParseTable<GenericParam>(MetadataToken.GenericParameter),
                 GenericParamConstraints = ParseTable<GenericParamConstraint>(MetadataToken.GenericParameterConstraint)
             };
 
@@ -299,18 +298,18 @@ namespace PeNet.Structures
         private List<T> ParseTable<T>(MetadataToken token)
             where T : AbstractTable
         {
-            var heapSizes = new HeapSizes(HeapSizes);
-            var indexSizes = new IndexSize(TableDefinitions.ToArray());
+            HeapSizes heapSizes = new HeapSizes(HeapSizes);
+            IndexSize indexSizes = new IndexSize(TableDefinitions.ToArray());
             uint tablesOffset = (uint)(Offset + 0x18u + HammingWeight(Valid) * 4u);
 
-            var tableInfo = TableDefinitions[(int)token];
-            var rows = new List<T>();
+            MetaDataTableInfo tableInfo = TableDefinitions[(int)token];
+            List<T> rows = new List<T>();
 
-            if(tableInfo.RowCount != 0)
+            if (tableInfo.RowCount != 0)
             {
-                for(var i = 0u; i < tableInfo.RowCount; i++)
+                for (uint i = 0u; i < tableInfo.RowCount; i++)
                 {
-                    rows.Add((T) Activator.CreateInstance(typeof(T), new object[] 
+                    rows.Add((T)Activator.CreateInstance(typeof(T), new object[]
                         {
                             Buff, tablesOffset + tableInfo.Offset + tableInfo.BytesPerRow * i, heapSizes, indexSizes
                         }));
@@ -322,7 +321,7 @@ namespace PeNet.Structures
 
         private int HammingWeight(ulong value)
         {
-            var count = 0;
+            int count = 0;
             while (value != 0)
             {
                 ++count;

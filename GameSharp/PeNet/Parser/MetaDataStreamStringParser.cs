@@ -7,10 +7,10 @@ namespace PeNet.Parser
         private readonly uint _size;
 
         public MetaDataStreamStringParser(
-            byte[] buff, 
+            byte[] buff,
             uint offset,
             uint size
-            ) 
+            )
             : base(buff, offset)
         {
             _size = size;

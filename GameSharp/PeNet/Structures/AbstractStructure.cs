@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
@@ -41,21 +39,21 @@ namespace PeNet.Structures
         /// <returns>String containing all property-value pairs.</returns>
         public override string ToString()
         {
-            var obj = this;
-            var properties = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var sb = new StringBuilder();
+            AbstractStructure obj = this;
+            PropertyInfo[] properties = obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            StringBuilder sb = new StringBuilder();
             sb.Append($"{obj.GetType().Name}\n");
 
-            foreach (var p in properties)
+            foreach (PropertyInfo p in properties)
             {
                 if (p.PropertyType.IsArray)
                 {
-                    if(p.GetValue(obj, null) == null)
+                    if (p.GetValue(obj, null) == null)
                         continue;
 
-                    foreach(var entry in (IEnumerable) p.GetValue(obj, null))
+                    foreach (object entry in (IEnumerable)p.GetValue(obj, null))
                     {
-                        if(entry.GetType().IsSubclassOf(typeof(AbstractStructure)) == false)
+                        if (entry.GetType().IsSubclassOf(typeof(AbstractStructure)) == false)
                             continue;
 
                         sb.Append(entry.ToString());

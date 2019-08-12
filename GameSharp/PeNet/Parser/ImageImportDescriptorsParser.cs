@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using PeNet.Structures;
+﻿using PeNet.Structures;
+using System.Collections.Generic;
 
 namespace PeNet.Parser
 {
@@ -15,13 +15,13 @@ namespace PeNet.Parser
             if (_offset == 0)
                 return null;
 
-            var idescs = new List<IMAGE_IMPORT_DESCRIPTOR>();
+            List<IMAGE_IMPORT_DESCRIPTOR> idescs = new List<IMAGE_IMPORT_DESCRIPTOR>();
             uint idescSize = 20; // Size of IMAGE_IMPORT_DESCRIPTOR (5 * 4 Byte)
             uint round = 0;
 
             while (true)
             {
-                var idesc = new IMAGE_IMPORT_DESCRIPTOR(_buff, _offset + idescSize*round);
+                IMAGE_IMPORT_DESCRIPTOR idesc = new IMAGE_IMPORT_DESCRIPTOR(_buff, _offset + idescSize * round);
 
                 // Found the last IMAGE_IMPORT_DESCRIPTOR which is completely null (except TimeDateStamp).
                 if (idesc.OriginalFirstThunk == 0

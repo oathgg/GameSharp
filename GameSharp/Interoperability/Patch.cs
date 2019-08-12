@@ -1,7 +1,7 @@
-﻿using GameSharp.Extensions;
+﻿using GameSharp.Memory;
 using System;
 
-namespace GameSharp.Memory.Internal
+namespace GameSharp.Interoperability
 {
     /// <summary>
     ///     Keeps track of all the bytes patched and keeps track of the original opcodes.
@@ -10,7 +10,7 @@ namespace GameSharp.Memory.Internal
     /// </summary>
     public class Patch : IDisposable
     {
-        public IntPtr PatchAddress { get; }
+        public InternalIntPtr PatchAddress { get; }
         private byte[] OriginalBytes { get; set; }
         private bool IsActive { get; set; } = false;
         private byte[] NewBytes { get; set; }
@@ -19,9 +19,9 @@ namespace GameSharp.Memory.Internal
         ///     A patch can be used to change byte(s) starting at the defined address.
         /// </summary>
         /// <param name="addressToPatch">The address of the byte where we want our patch to start.</param>
-        public Patch(IntPtr addressToPatch, byte[] newBytes)
+        public Patch(InternalIntPtr addressToPatch, byte[] newBytes)
         {
-            PatchAddress = IntPtr.Size == 4 ? new IntPtr(addressToPatch.ToInt32()) : new IntPtr(addressToPatch.ToInt64());
+            PatchAddress = addressToPatch;
             NewBytes = newBytes;
             OriginalBytes = PatchAddress.Read<byte[]>(NewBytes.Length);
         }

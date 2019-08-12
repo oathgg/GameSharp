@@ -1,5 +1,4 @@
-﻿using System.Text;
-using PeNet.Utilities;
+﻿using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -16,7 +15,7 @@ namespace PeNet.Structures
         /// </summary>
         /// <param name="buff">Buffer which contains a Meta Data Stream Header.</param>
         /// <param name="offset">Offset in the buffer, where the header starts.</param>
-        public METADATASTREAMHDR(byte[] buff, uint offset) 
+        public METADATASTREAMHDR(byte[] buff, uint offset)
             : base(buff, offset)
         {
         }
@@ -47,28 +46,28 @@ namespace PeNet.Structures
 
         private uint GetHeaderLength()
         {
-            var maxHeaderLength = 100;
-            var headerLength = 0;
-            for (var inHdrOffset = 8; inHdrOffset < maxHeaderLength; inHdrOffset++)
+            int maxHeaderLength = 100;
+            int headerLength = 0;
+            for (int inHdrOffset = 8; inHdrOffset < maxHeaderLength; inHdrOffset++)
             {
                 if (Buff[Offset + inHdrOffset] == 0x00)
                 {
                     headerLength = inHdrOffset;
                     break;
                 }
-                    
+
             }
 
-            return (uint) AddHeaderPaddingLength(headerLength);
+            return (uint)AddHeaderPaddingLength(headerLength);
         }
 
         private int AddHeaderPaddingLength(int headerLength)
         {
-            if (headerLength%4 == 0)
+            if (headerLength % 4 == 0)
                 return headerLength + 4;
             else
             {
-                return headerLength + (4-(headerLength%4));
+                return headerLength + (4 - (headerLength % 4));
             }
         }
 

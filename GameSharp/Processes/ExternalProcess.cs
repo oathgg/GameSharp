@@ -1,5 +1,4 @@
-﻿using GameSharp.Extensions;
-using GameSharp.Module;
+﻿using GameSharp.Module;
 using GameSharp.Native;
 using GameSharp.Native.Enums;
 using GameSharp.Services;
@@ -14,7 +13,7 @@ using System.Threading;
 
 namespace GameSharp.Processes
 {
-    public class ExternalProcess : IProcess
+    public class ExternalProcess
     {
         public Process Process { get; }
 
@@ -23,7 +22,7 @@ namespace GameSharp.Processes
             Process = process;
         }
 
-        public ModuleBase LoadLibrary(string pathToDll, bool resolveReferences = true)
+        public ExternalModule LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
             byte[] loadLibraryOpcodes = LoadLibraryPayload(pathToDll);
 
@@ -58,7 +57,7 @@ namespace GameSharp.Processes
             return pathBytes;
         }
 
-        public ModuleBase GetModule(string moduleName)
+        public ExternalModule GetModule(string moduleName)
         {
             int retryCount = 5;
             ExternalModule module = null;

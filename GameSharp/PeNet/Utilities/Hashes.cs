@@ -17,15 +17,15 @@ namespace PeNet.Utilities
         public static string Sha256(string file)
         {
             byte[] hash;
-            var sBuilder = new StringBuilder();
+            StringBuilder sBuilder = new StringBuilder();
 
-            using (var sr = new StreamReader(file))
+            using (StreamReader sr = new StreamReader(file))
             {
-                var sha = new SHA256Managed();
+                SHA256Managed sha = new SHA256Managed();
                 hash = sha.ComputeHash(sr.BaseStream);
             }
 
-            foreach (var t in hash)
+            foreach (byte t in hash)
                 sBuilder.Append(t.ToString("x2"));
 
             return sBuilder.ToString();
@@ -38,12 +38,12 @@ namespace PeNet.Utilities
         /// <returns>SHA-256 as 64 characters long hex-string</returns>
         public static string Sha256(byte[] buff)
         {
-            var sBuilder = new StringBuilder();
+            StringBuilder sBuilder = new StringBuilder();
 
-            var sha = new SHA256Managed();
-            var hash = sha.ComputeHash(buff);
+            SHA256Managed sha = new SHA256Managed();
+            byte[] hash = sha.ComputeHash(buff);
 
-            foreach (var t in hash)
+            foreach (byte t in hash)
                 sBuilder.Append(t.ToString("x2"));
 
             return sBuilder.ToString();
@@ -57,15 +57,15 @@ namespace PeNet.Utilities
         public static string Sha1(string file)
         {
             byte[] hash;
-            var sBuilder = new StringBuilder();
+            StringBuilder sBuilder = new StringBuilder();
 
-            using (var sr = new StreamReader(file))
+            using (StreamReader sr = new StreamReader(file))
             {
-                var sha = new SHA1Managed();
+                SHA1Managed sha = new SHA1Managed();
                 hash = sha.ComputeHash(sr.BaseStream);
             }
 
-            foreach (var t in hash)
+            foreach (byte t in hash)
                 sBuilder.Append(t.ToString("x2"));
 
             return sBuilder.ToString();
@@ -78,12 +78,12 @@ namespace PeNet.Utilities
         /// <returns>SHA-1 as 40 characters long hex-string</returns>
         public static string Sha1(byte[] buff)
         {
-            var sBuilder = new StringBuilder();
+            StringBuilder sBuilder = new StringBuilder();
 
-            var sha = new SHA1Managed();
-            var hash = sha.ComputeHash(buff);
+            SHA1Managed sha = new SHA1Managed();
+            byte[] hash = sha.ComputeHash(buff);
 
-            foreach (var t in hash)
+            foreach (byte t in hash)
                 sBuilder.Append(t.ToString("x2"));
 
             return sBuilder.ToString();
@@ -97,15 +97,15 @@ namespace PeNet.Utilities
         public static string MD5(string file)
         {
             byte[] hash;
-            var sBuilder = new StringBuilder();
+            StringBuilder sBuilder = new StringBuilder();
 
-            using (var sr = new StreamReader(file))
+            using (StreamReader sr = new StreamReader(file))
             {
-                var sha = new MD5CryptoServiceProvider();
+                MD5CryptoServiceProvider sha = new MD5CryptoServiceProvider();
                 hash = sha.ComputeHash(sr.BaseStream);
             }
 
-            foreach (var t in hash)
+            foreach (byte t in hash)
                 sBuilder.Append(t.ToString("x2"));
 
             return sBuilder.ToString();
@@ -118,12 +118,12 @@ namespace PeNet.Utilities
         /// <returns>MD5 as 32 characters long hex-string</returns>
         public static string MD5(byte[] buff)
         {
-            var sBuilder = new StringBuilder();
+            StringBuilder sBuilder = new StringBuilder();
 
-            var sha = new MD5CryptoServiceProvider();
-            var hash = sha.ComputeHash(buff);
+            MD5CryptoServiceProvider sha = new MD5CryptoServiceProvider();
+            byte[] hash = sha.ComputeHash(buff);
 
-            foreach (var t in hash)
+            foreach (byte t in hash)
                 sBuilder.Append(t.ToString("x2"));
 
             return sBuilder.ToString();

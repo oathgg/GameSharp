@@ -15,7 +15,7 @@ namespace PeNet.Structures
         /// <param name="buff">PE file as binary buffer.</param>
         /// <param name="offset">Offset to TLS structure in buffer.</param>
         /// <param name="is64Bit">Flag if the PE file is 64 Bit.</param>
-        public IMAGE_TLS_DIRECTORY(byte[] buff, uint offset, bool is64Bit) 
+        public IMAGE_TLS_DIRECTORY(byte[] buff, uint offset, bool is64Bit)
             : base(buff, offset)
         {
             _is64Bit = is64Bit;
@@ -35,8 +35,8 @@ namespace PeNet.Structures
                 if (_is64Bit)
                     Buff.SetUInt64(Offset + 0, value);
                 else
-                    Buff.SetUInt32(Offset + 0, (uint) value);
-            } 
+                    Buff.SetUInt32(Offset + 0, (uint)value);
+            }
         }
 
         /// <summary>
@@ -50,10 +50,10 @@ namespace PeNet.Structures
             }
             set
             {
-                if(_is64Bit)
+                if (_is64Bit)
                     Buff.SetUInt64(Offset + 8, value);
                 else
-                    Buff.SetUInt32(Offset + 4, (uint) value);
+                    Buff.SetUInt32(Offset + 4, (uint)value);
             }
         }
 
@@ -68,10 +68,10 @@ namespace PeNet.Structures
             }
             set
             {
-                if(_is64Bit)
+                if (_is64Bit)
                     Buff.SetUInt64(Offset + 0x10, value);
                 else
-                    Buff.SetUInt32(Offset + 8, (uint) value);
+                    Buff.SetUInt32(Offset + 8, (uint)value);
             }
         }
 
@@ -86,10 +86,10 @@ namespace PeNet.Structures
             }
             set
             {
-                if(_is64Bit)
+                if (_is64Bit)
                     Buff.SetUInt64(Offset + 0x18, value);
                 else
-                    Buff.SetUInt32(Offset + 0x0c, (uint) value);
+                    Buff.SetUInt32(Offset + 0x0c, (uint)value);
             }
         }
 
@@ -104,7 +104,7 @@ namespace PeNet.Structures
             }
             set
             {
-                if(_is64Bit)
+                if (_is64Bit)
                     Buff.SetUInt32(Offset + 0x20, value);
                 else
                     Buff.SetUInt32(Offset + 0x10, value);
@@ -122,10 +122,10 @@ namespace PeNet.Structures
             }
             set
             {
-                if(_is64Bit)
+                if (_is64Bit)
                     Buff.SetUInt32(Offset + 0x24, value);
                 else
-                    Buff.SetUInt32(Offset+0x14, value);
+                    Buff.SetUInt32(Offset + 0x14, value);
             }
         }
 

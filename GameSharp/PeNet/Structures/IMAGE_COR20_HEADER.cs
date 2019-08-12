@@ -1,6 +1,5 @@
-﻿using System;
-using System.Text;
-using PeNet.Utilities;
+﻿using PeNet.Utilities;
+using System;
 
 namespace PeNet.Structures
 {
@@ -23,7 +22,7 @@ namespace PeNet.Structures
         /// </summary>
         /// <param name="buff">PE binary as byte array.</param>
         /// <param name="offset">Offset to the COM+ 2 (CLI) header in the byte array.</param>
-        public IMAGE_COR20_HEADER(byte[] buff, uint offset) 
+        public IMAGE_COR20_HEADER(byte[] buff, uint offset)
             : base(buff, offset)
         {
         }
@@ -69,7 +68,7 @@ namespace PeNet.Structures
                 return _metaData;
             }
         }
-        
+
         /// <summary>
         /// COM image flags.
         /// </summary>
@@ -109,7 +108,7 @@ namespace PeNet.Structures
                 if (_resources != null)
                     return _resources;
 
-                _resources = SetImageDataDirectory(Buff, Offset+0x18);
+                _resources = SetImageDataDirectory(Buff, Offset + 0x18);
                 return _resources;
             }
         }

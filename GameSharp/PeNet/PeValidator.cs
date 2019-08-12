@@ -1,5 +1,5 @@
-﻿using System;
-using PeNet.Structures;
+﻿using PeNet.Structures;
+using System;
 
 namespace PeNet
 {
@@ -9,7 +9,7 @@ namespace PeNet
         {
             try
             {
-                var imageDosHeader = new IMAGE_DOS_HEADER(buff, 0);
+                IMAGE_DOS_HEADER imageDosHeader = new IMAGE_DOS_HEADER(buff, 0);
                 return imageDosHeader.e_magic == 0x5a4d;
             }
             catch (Exception)

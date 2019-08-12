@@ -5,11 +5,11 @@ namespace PeNet.Structures.MetaDataTables
 {
     public class AbstractTable : AbstractStructure
     {
-        protected HeapSizes HeapSizes {get;}
-        protected IndexSize IndexSizes {get;}
+        protected HeapSizes HeapSizes { get; }
+        protected IndexSize IndexSizes { get; }
         protected uint CurrentOffset;
 
-        public AbstractTable(byte[] buff, uint offset, HeapSizes heapSizes, IndexSize indexSizes) 
+        public AbstractTable(byte[] buff, uint offset, HeapSizes heapSizes, IndexSize indexSizes)
             : base(buff, offset)
         {
             HeapSizes = heapSizes;
@@ -19,9 +19,9 @@ namespace PeNet.Structures.MetaDataTables
 
         private uint ReadSize(uint size, ref uint offset)
         {
-            switch(size)
+            switch (size)
             {
-                case 1: 
+                case 1:
                     offset += 1;
                     return Buff[offset - 1];
                 case 2:

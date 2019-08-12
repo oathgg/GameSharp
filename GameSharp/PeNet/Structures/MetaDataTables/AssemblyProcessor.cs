@@ -2,12 +2,12 @@
 {
     public class AssemblyProcessor : AbstractTable
     {
-        public AssemblyProcessor(byte[] buff, uint offset, HeapSizes heapSizes, IndexSize indexSizes) 
+        public AssemblyProcessor(byte[] buff, uint offset, HeapSizes heapSizes, IndexSize indexSizes)
             : base(buff, offset, heapSizes, indexSizes)
         {
             Processor = ReadSize(4);
         }
 
-        public uint Processor {get;}
+        public uint Processor { get; }
     }
 }

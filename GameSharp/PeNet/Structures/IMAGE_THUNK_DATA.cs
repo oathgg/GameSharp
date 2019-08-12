@@ -1,5 +1,4 @@
-﻿using System.Text;
-using PeNet.Utilities;
+﻿using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -33,7 +32,7 @@ namespace PeNet.Structures
             set
             {
                 if (!_is64Bit)
-                    Buff.SetUInt32(Offset, (uint) value);
+                    Buff.SetUInt32(Offset, (uint)value);
                 else
                     Buff.SetUInt64(Offset, value);
             }

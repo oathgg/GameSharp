@@ -1,5 +1,5 @@
-using System;
 using PeNet.Asn1;
+using System;
 
 namespace PeNet.Authenticode
 {
@@ -9,17 +9,17 @@ namespace PeNet.Authenticode
         public string ContentType { get; }
 
         public ContentInfo(byte[] data)
-            : this(Asn1Node.ReadNode(data)) {}
+            : this(Asn1Node.ReadNode(data)) { }
 
         public ContentInfo(Asn1Node asn1)
         {
-            var nodes = asn1.Nodes;
+            System.Collections.Generic.IList<Asn1Node> nodes = asn1.Nodes;
             // SEQUENCE with 1 or 2 elements
             if ((asn1.NodeType != Asn1UniversalNodeType.Sequence) || (nodes.Count < 1 && nodes.Count > 2))
                 throw new ArgumentException("Invalid ASN1");
             if (!(nodes[0] is Asn1ObjectIdentifier))
                 throw new ArgumentException("Invalid contentType");
-            ContentType = ((Asn1ObjectIdentifier) nodes[0]).FriendlyName;
+            ContentType = ((Asn1ObjectIdentifier)nodes[0]).FriendlyName;
             if (nodes.Count <= 1) return;
             if (nodes[1].TagClass != Asn1TagClass.ContextDefined || nodes[1].TagForm != Asn1TagForm.Constructed)
                 throw new ArgumentException("Invalid content");
@@ -31,7 +31,7 @@ namespace PeNet.Authenticode
     {
         public SignedData(Asn1Node asn1)
         {
-            var node = asn1.Nodes[0];
+            Asn1Node node = asn1.Nodes[0];
             if ((node.NodeType != Asn1UniversalNodeType.Sequence) || (node.Nodes.Count < 4))
                 throw new ArgumentException("Invalid SignedData");
 

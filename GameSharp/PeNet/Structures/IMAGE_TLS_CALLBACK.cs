@@ -15,7 +15,7 @@ namespace PeNet.Structures
         /// <param name="buff">PE file as byte buffer.</param>
         /// <param name="offset">Offset of the TLS callback structure in the buffer.</param>
         /// <param name="is64Bit">Flag is the PE file is 64 Bit.</param>
-        public IMAGE_TLS_CALLBACK(byte[] buff, uint offset, bool is64Bit) 
+        public IMAGE_TLS_CALLBACK(byte[] buff, uint offset, bool is64Bit)
             : base(buff, offset)
         {
             _is64Bit = is64Bit;
@@ -32,10 +32,10 @@ namespace PeNet.Structures
             }
             set
             {
-                if(_is64Bit)
+                if (_is64Bit)
                     Buff.SetUInt64(Offset + 0, value);
                 else
-                    Buff.SetUInt32(Offset + 0, (uint) value);
+                    Buff.SetUInt32(Offset + 0, (uint)value);
             }
         }
     }

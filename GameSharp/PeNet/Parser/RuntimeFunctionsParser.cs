@@ -27,12 +27,12 @@ namespace PeNet.Parser
             if (_is32Bit || _offset == 0)
                 return null;
 
-            var sizeOfRuntimeFunction = 0xC;
-            var rf = new RUNTIME_FUNCTION[_directorySize/sizeOfRuntimeFunction];
+            int sizeOfRuntimeFunction = 0xC;
+            RUNTIME_FUNCTION[] rf = new RUNTIME_FUNCTION[_directorySize / sizeOfRuntimeFunction];
 
-            for (var i = 0; i < rf.Length; i++)
+            for (int i = 0; i < rf.Length; i++)
             {
-                rf[i] = new RUNTIME_FUNCTION(_buff, (uint) (_offset + i*sizeOfRuntimeFunction), _sectionHeaders);
+                rf[i] = new RUNTIME_FUNCTION(_buff, (uint)(_offset + i * sizeOfRuntimeFunction), _sectionHeaders);
             }
 
             return rf;

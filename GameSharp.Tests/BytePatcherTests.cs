@@ -1,5 +1,6 @@
 ﻿using GameSharp.Extensions;
-using GameSharp.Memory.Internal;
+using GameSharp.Interoperability;
+using GameSharp.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Runtime.InteropServices;
@@ -15,7 +16,7 @@ namespace GameSharp.Tests
             byte[] byteArray = Utils.GenerateByteArray(1024);
 
             // Allocate memory.
-            IntPtr ptrAllocatedMemory = Marshal.AllocHGlobal(byteArray.Length);
+            InternalIntPtr ptrAllocatedMemory = new InternalIntPtr(Marshal.AllocHGlobal(byteArray.Length));
 
             byte[] originalBytes = ptrAllocatedMemory.Read<byte[]>(3);
             byte[] newBytes = new byte[] { 1, 2, 3 };

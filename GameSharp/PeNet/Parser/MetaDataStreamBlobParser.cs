@@ -7,9 +7,9 @@ namespace PeNet.Parser
         private readonly uint _size;
 
         public MetaDataStreamBlobParser(
-            byte[] buff, 
-            uint offset, 
-            uint size) 
+            byte[] buff,
+            uint offset,
+            uint size)
             : base(buff, offset)
         {
             _size = size;
@@ -17,7 +17,7 @@ namespace PeNet.Parser
 
         protected override byte[] ParseTarget()
         {
-            var blob = new byte[_size];
+            byte[] blob = new byte[_size];
             Array.Copy(_buff, _offset, blob, 0, _size);
 
             return blob;

@@ -14,10 +14,10 @@ namespace PeNet.Parser
 
         protected override IMAGE_DEBUG_DIRECTORY[] ParseTarget()
         {
-            var numEntries = size / 28; // Debug entry is 28 bytes
-            var entries = new IMAGE_DEBUG_DIRECTORY[numEntries];
+            uint numEntries = size / 28; // Debug entry is 28 bytes
+            IMAGE_DEBUG_DIRECTORY[] entries = new IMAGE_DEBUG_DIRECTORY[numEntries];
 
-            for(uint i = 0; i < numEntries; i++)
+            for (uint i = 0; i < numEntries; i++)
             {
                 entries[i] = new IMAGE_DEBUG_DIRECTORY(_buff, _offset + (i * 28));
             }

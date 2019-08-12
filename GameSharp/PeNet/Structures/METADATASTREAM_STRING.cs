@@ -1,8 +1,7 @@
-﻿using System;
+﻿using PeNet.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -41,12 +40,12 @@ namespace PeNet.Structures
     public class METADATASTREAM_STRING : AbstractStructure, IMETADATASTREAM_STRING
     {
         private readonly uint _size;
-        
+
         public List<string> Strings { get; }
 
         public List<Tuple<string, uint>> StringsAndIndices { get; }
 
-        public METADATASTREAM_STRING(byte[] buff, uint offset, uint size) 
+        public METADATASTREAM_STRING(byte[] buff, uint offset, uint size)
             : base(buff, offset)
         {
             _size = size;
@@ -62,12 +61,12 @@ namespace PeNet.Structures
 
         private List<Tuple<string, uint>> ParseStringsAndIndices()
         {
-            var stringsAndIndices = new List<Tuple<string, uint>>();
+            List<Tuple<string, uint>> stringsAndIndices = new List<Tuple<string, uint>>();
 
-            for (var i = Offset; i < Offset + _size; i++)
+            for (uint i = Offset; i < Offset + _size; i++)
             {
-                var index = i - Offset;
-                var tmpString = Buff.GetCString(i);
+                uint index = i - Offset;
+                string tmpString = Buff.GetCString(i);
                 i += (uint)tmpString.Length;
 
                 if (String.IsNullOrWhiteSpace(tmpString))

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using PeNet.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -22,7 +22,7 @@ namespace PeNet.Structures
         /// </summary>
         /// <param name="buff">Byte buffer which contains a Meta Data Header.</param>
         /// <param name="offset">Offset of the header start in the byte buffer.</param>
-        public METADATAHDR(byte[] buff, uint offset) 
+        public METADATAHDR(byte[] buff, uint offset)
             : base(buff, offset)
         {
         }
@@ -76,7 +76,8 @@ namespace PeNet.Structures
         /// <summary>
         /// Version number as an UTF-8 string.
         /// </summary>
-        public string Version {
+        public string Version
+        {
             get
             {
                 if (!_versionStringParsed)
@@ -90,20 +91,20 @@ namespace PeNet.Structures
                     {
                         _versionString = null;
                     }
-                    
+
                 }
 
                 return _versionString;
             }
         }
-            
+
 
         /// <summary>
         /// Reserved flags field. Always 0.
         /// </summary>
         public ushort Flags
         {
-            get { return Buff.BytesToUInt16(VersionLength + Offset +  0x10); }
+            get { return Buff.BytesToUInt16(VersionLength + Offset + 0x10); }
             set { Buff.SetUInt16(VersionLength + Offset + 0x10, value); }
         }
 
@@ -141,12 +142,12 @@ namespace PeNet.Structures
 
         private METADATASTREAMHDR[] ParseMetaDataStreamHdrs(uint offset)
         {
-            var metaDataStreamHdrs = new List<METADATASTREAMHDR>();
-            var tmpOffset = offset;
+            List<METADATASTREAMHDR> metaDataStreamHdrs = new List<METADATASTREAMHDR>();
+            uint tmpOffset = offset;
 
-            for (var i = 0; i < Streams; i++)
+            for (int i = 0; i < Streams; i++)
             {
-                var metaDataStreamHdr = new METADATASTREAMHDR(Buff, tmpOffset);
+                METADATASTREAMHDR metaDataStreamHdr = new METADATASTREAMHDR(Buff, tmpOffset);
                 metaDataStreamHdrs.Add(metaDataStreamHdr);
                 tmpOffset += metaDataStreamHdr.HeaderLength;
             }
@@ -156,9 +157,9 @@ namespace PeNet.Structures
 
         private string ParseVersionString(uint offset, uint versionLength)
         {
-            var bytes = new byte[versionLength];
+            byte[] bytes = new byte[versionLength];
             Array.Copy(Buff, offset, bytes, 0, versionLength);
-            var paddedString = Encoding.UTF8.GetString(bytes);
+            string paddedString = Encoding.UTF8.GetString(bytes);
 
             // Remove padding and return.
             return paddedString.Replace("\0", string.Empty);

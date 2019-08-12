@@ -2,7 +2,7 @@
 {
     public class TypeRef : AbstractTable
     {
-        public TypeRef(byte[] buff, uint offset, HeapSizes heapSizes, IndexSize indexSizes) 
+        public TypeRef(byte[] buff, uint offset, HeapSizes heapSizes, IndexSize indexSizes)
             : base(buff, offset, heapSizes, indexSizes)
         {
             ResolutionScope = ReadSize(IndexSizes[Index.ResolutionScope]);
@@ -10,10 +10,10 @@
             TypeNamespace = ReadSize(HeapSizes.String);
         }
 
-        public uint ResolutionScope {get;}
+        public uint ResolutionScope { get; }
 
-        public uint TypeName {get;}
+        public uint TypeName { get; }
 
-        public uint TypeNamespace {get;}
+        public uint TypeNamespace { get; }
     }
 }

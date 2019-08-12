@@ -1,5 +1,4 @@
-﻿using System.Text;
-using PeNet.Utilities;
+﻿using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -33,12 +32,12 @@ namespace PeNet.Structures
         /// <summary>
         ///     Unwind operation.
         /// </summary>
-        public byte UnwindOp => (byte) (Buff[Offset + 0x1] >> 4);
+        public byte UnwindOp => (byte)(Buff[Offset + 0x1] >> 4);
 
         /// <summary>
         ///     Operation information.
         /// </summary>
-        public byte Opinfo => (byte) (Buff[Offset + 0x1] & 0xF);
+        public byte Opinfo => (byte)(Buff[Offset + 0x1] & 0xF);
 
         /// <summary>
         ///     Frame offset.

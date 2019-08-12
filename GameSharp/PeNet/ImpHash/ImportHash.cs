@@ -38,23 +38,23 @@ namespace PeNet.ImpHash
             if (importedFunctions == null || importedFunctions.Count == 0)
                 return null;
 
-            var list = new List<string>();
-            foreach (var impFunc in importedFunctions)
+            List<string> list = new List<string>();
+            foreach (ImportFunction impFunc in importedFunctions)
             {
-                var tmp = FormatLibraryName(impFunc.DLL);
+                string tmp = FormatLibraryName(impFunc.DLL);
                 tmp += FormatFunctionName(impFunc);
 
                 list.Add(tmp);
             }
 
             // Concatenate all imports to one string separated by ','.
-            var imports = string.Join(",", list);
+            string imports = string.Join(",", list);
 
-            var md5 = MD5.Create();
-            var inputBytes = Encoding.ASCII.GetBytes(imports);
-            var hash = md5.ComputeHash(inputBytes);
-            var sb = new StringBuilder();
-            foreach (var t in hash)
+            MD5 md5 = MD5.Create();
+            byte[] inputBytes = Encoding.ASCII.GetBytes(imports);
+            byte[] hash = md5.ComputeHash(inputBytes);
+            StringBuilder sb = new StringBuilder();
+            foreach (byte t in hash)
             {
                 sb.Append(t.ToString("x2"));
             }
@@ -63,13 +63,13 @@ namespace PeNet.ImpHash
 
         private string FormatLibraryName(string libraryName)
         {
-            var exts = new List<string> {"ocx", "sys", "dll"};
-            var parts = libraryName.ToLower().Split('.');
-            var libName = "";
+            List<string> exts = new List<string> { "ocx", "sys", "dll" };
+            string[] parts = libraryName.ToLower().Split('.');
+            string libName = "";
 
             if (parts.Length > 1 && exts.Contains(parts[parts.Length - 1]))
             {
-                for (var i = 0; i < parts.Length - 1; i++)
+                for (int i = 0; i < parts.Length - 1; i++)
                 {
                     libName += parts[i];
                     libName += ".";
@@ -77,7 +77,7 @@ namespace PeNet.ImpHash
             }
             else
             {
-                foreach (var p in parts)
+                foreach (string p in parts)
                 {
                     libName += p;
                     libName += ".";
@@ -89,7 +89,7 @@ namespace PeNet.ImpHash
 
         private string FormatFunctionName(ImportFunction impFunc)
         {
-            var tmp = "";
+            string tmp = "";
             if (impFunc.Name == null) // Import by ordinal
             {
                 if (impFunc.DLL.ToLower() == "oleaut32.dll")

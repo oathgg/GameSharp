@@ -15,10 +15,10 @@ namespace PeNet.Parser
                 return null;
 
             // Parse the root directory.
-            var root = new IMAGE_RESOURCE_DIRECTORY(_buff, _offset, _offset);
+            IMAGE_RESOURCE_DIRECTORY root = new IMAGE_RESOURCE_DIRECTORY(_buff, _offset, _offset);
 
             // Parse the second stage (type)
-            foreach (var de in root.DirectoryEntries)
+            foreach (IMAGE_RESOURCE_DIRECTORY_ENTRY de in root.DirectoryEntries)
             {
                 de.ResourceDirectory = new IMAGE_RESOURCE_DIRECTORY(
                     _buff,
@@ -27,7 +27,7 @@ namespace PeNet.Parser
                     );
 
                 // Parse the third stage (name/IDs)
-                foreach (var de2 in de.ResourceDirectory.DirectoryEntries)
+                foreach (IMAGE_RESOURCE_DIRECTORY_ENTRY de2 in de.ResourceDirectory.DirectoryEntries)
                 {
                     de2.ResourceDirectory = new IMAGE_RESOURCE_DIRECTORY(
                         _buff,
@@ -36,7 +36,7 @@ namespace PeNet.Parser
                         );
 
                     // Parse the forth stage (language) with the data.
-                    foreach (var de3 in de2.ResourceDirectory.DirectoryEntries)
+                    foreach (IMAGE_RESOURCE_DIRECTORY_ENTRY de3 in de2.ResourceDirectory.DirectoryEntries)
                     {
                         de3.ResourceDataEntry = new IMAGE_RESOURCE_DATA_ENTRY(_buff,
                             _offset + de3.OffsetToData);

@@ -1,7 +1,4 @@
-﻿using System.Text;
-using ExtensionMethods = PeNet.Utilities.ExtensionMethods;
-
-namespace PeNet
+﻿namespace PeNet
 {
     /// <summary>
     ///     Represents an imported function.

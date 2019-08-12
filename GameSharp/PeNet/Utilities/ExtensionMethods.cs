@@ -1,10 +1,9 @@
-﻿using System;
+﻿using PeNet.Structures;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using PeNet.Structures;
 
 namespace PeNet.Utilities
 {
@@ -22,7 +21,7 @@ namespace PeNet.Utilities
         /// <returns>UInt16 of the input bytes.</returns>
         private static ushort BytesToUInt16(byte b1, byte b2)
         {
-            return BitConverter.ToUInt16(new[] {b1, b2}, 0);
+            return BitConverter.ToUInt16(new[] { b1, b2 }, 0);
         }
 
         /// <summary>
@@ -45,8 +44,8 @@ namespace PeNet.Utilities
         /// <returns>UInt16 of numOfBytes bytes.</returns>
         public static uint BytesToUInt16(this byte[] buff, uint offset, uint numOfBytes)
         {
-            var bytes = new byte[2];
-            for (var i = 0; i < numOfBytes; i++)
+            byte[] bytes = new byte[2];
+            for (int i = 0; i < numOfBytes; i++)
                 bytes[i] = buff[offset + i];
 
             return BitConverter.ToUInt16(bytes, 0);
@@ -62,7 +61,7 @@ namespace PeNet.Utilities
         /// <returns>UInt32 representation of the input bytes.</returns>
         private static uint BytesToUInt32(byte b1, byte b2, byte b3, byte b4)
         {
-            return BitConverter.ToUInt32(new[] {b1, b2, b3, b4}, 0);
+            return BitConverter.ToUInt32(new[] { b1, b2, b3, b4 }, 0);
         }
 
         /// <summary>
@@ -85,8 +84,8 @@ namespace PeNet.Utilities
         /// <returns>UInt32 of numOfBytes bytes.</returns>
         public static uint BytesToUInt32(this byte[] buff, uint offset, uint numOfBytes)
         {
-            var bytes = new byte[4];
-            for (var i = 0; i < numOfBytes; i++)
+            byte[] bytes = new byte[4];
+            for (int i = 0; i < numOfBytes; i++)
                 bytes[i] = buff[offset + i];
 
             return BitConverter.ToUInt32(bytes, 0);
@@ -102,8 +101,8 @@ namespace PeNet.Utilities
         /// <returns>UInt32 of numOfBytes bytes.</returns>
         public static uint BytesToUInt32(this byte[] buff, uint offset, uint numOfBytes, ref uint count)
         {
-            var bytes = new byte[4];
-            for (var i = 0; i < numOfBytes; i++)
+            byte[] bytes = new byte[4];
+            for (int i = 0; i < numOfBytes; i++)
                 bytes[i] = buff[offset + i];
 
             count += numOfBytes;
@@ -120,7 +119,7 @@ namespace PeNet.Utilities
         /// <returns>UInt32 representation of the input bytes.</returns>
         private static int BytesToInt32(byte b1, byte b2, byte b3, byte b4)
         {
-            return BitConverter.ToInt32(new[] {b1, b2, b3, b4}, 0);
+            return BitConverter.ToInt32(new[] { b1, b2, b3, b4 }, 0);
         }
 
         /// <summary>
@@ -143,8 +142,8 @@ namespace PeNet.Utilities
         /// <returns>UInt32 of numOfBytes bytes.</returns>
         public static int BytesToInt32(this byte[] buff, uint offset, uint numOfBytes)
         {
-            var bytes = new byte[4];
-            for (var i = 0; i < numOfBytes; i++)
+            byte[] bytes = new byte[4];
+            for (int i = 0; i < numOfBytes; i++)
                 bytes[i] = buff[offset + i];
 
             return BitConverter.ToInt32(bytes, 0);
@@ -160,8 +159,8 @@ namespace PeNet.Utilities
         /// <returns>UInt32 of numOfBytes bytes.</returns>
         public static int BytesToInt32(this byte[] buff, uint offset, uint numOfBytes, ref uint count)
         {
-            var bytes = new byte[4];
-            for (var i = 0; i < numOfBytes; i++)
+            byte[] bytes = new byte[4];
+            for (int i = 0; i < numOfBytes; i++)
                 bytes[i] = buff[offset + i];
 
             count += numOfBytes;
@@ -182,7 +181,7 @@ namespace PeNet.Utilities
         /// <returns>UInt64 of the input bytes.</returns>
         private static ulong BytesToUInt64(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8)
         {
-            return BitConverter.ToUInt64(new[] {b1, b2, b3, b4, b5, b6, b7, b8}, 0);
+            return BitConverter.ToUInt64(new[] { b1, b2, b3, b4, b5, b6, b7, b8 }, 0);
         }
 
         /// <summary>
@@ -194,7 +193,7 @@ namespace PeNet.Utilities
         /// <returns>UInt64 of the byte sequence at offset i.</returns>
         public static ulong BytesToUInt64(this byte[] buff, ulong offset)
         {
-            return BytesToUInt64(buff[offset], buff[offset + 1], buff[offset + 2], 
+            return BytesToUInt64(buff[offset], buff[offset + 1], buff[offset + 2],
                 buff[offset + 3], buff[offset + 4], buff[offset + 5], buff[offset + 6],
                 buff[offset + 7]);
         }
@@ -208,8 +207,8 @@ namespace PeNet.Utilities
         /// <returns>UInt64 of numOfBytes bytes.</returns>
         public static ulong BytesToUInt64(this byte[] buff, uint offset, uint numOfBytes)
         {
-            var bytes = new byte[8];
-            for (var i = 0; i < numOfBytes; i++)
+            byte[] bytes = new byte[8];
+            for (int i = 0; i < numOfBytes; i++)
                 bytes[i] = buff[offset + i];
 
             return BitConverter.ToUInt64(bytes, 0);
@@ -233,7 +232,7 @@ namespace PeNet.Utilities
         /// <param name="value">The value to set.</param>
         public static void SetUInt16(this byte[] buff, ulong offset, ushort value)
         {
-            var x = UInt16ToBytes(value);
+            byte[] x = UInt16ToBytes(value);
             buff[offset] = x[0];
             buff[offset + 1] = x[1];
         }
@@ -266,7 +265,7 @@ namespace PeNet.Utilities
         /// <param name="value">Value to set.</param>
         public static void SetUInt32(this byte[] buff, uint offset, uint value)
         {
-            var x = UInt32ToBytes(value);
+            byte[] x = UInt32ToBytes(value);
             buff[offset] = x[0];
             buff[offset + 1] = x[1];
             buff[offset + 2] = x[2];
@@ -281,7 +280,7 @@ namespace PeNet.Utilities
         /// <param name="value">Value to set.</param>
         public static void SetUInt64(this byte[] buff, ulong offset, ulong value)
         {
-            var x = UInt64ToBytes(value);
+            byte[] x = UInt64ToBytes(value);
             buff[offset] = x[0];
             buff[offset + 1] = x[1];
             buff[offset + 2] = x[2];
@@ -301,10 +300,10 @@ namespace PeNet.Utilities
         public static ulong VAtoFileMapping(this ulong VA, ICollection<IMAGE_SECTION_HEADER> sh)
         {
             VA -= sh.FirstOrDefault().ImageBaseAddress;
-            var sortedSt = sh.OrderBy(x => x.VirtualAddress).ToList();
+            List<IMAGE_SECTION_HEADER> sortedSt = sh.OrderBy(x => x.VirtualAddress).ToList();
             uint vOffset = 0, rOffset = 0;
-            var secFound = false;
-            for (var i = 0; i < sortedSt.Count - 1; i++)
+            bool secFound = false;
+            for (int i = 0; i < sortedSt.Count - 1; i++)
             {
                 if (sortedSt[i].VirtualAddress <= VA && sortedSt[i + 1].VirtualAddress > VA)
                 {
@@ -341,7 +340,7 @@ namespace PeNet.Utilities
         /// <returns>Raw file address.</returns>
         public static uint VAtoFileMapping(this uint VA, ICollection<IMAGE_SECTION_HEADER> sh)
         {
-            return (uint)VAtoFileMapping((uint) (ulong)VA, sh);
+            return VA.VAtoFileMapping(sh);
         }
 
         /// <summary>
@@ -352,10 +351,10 @@ namespace PeNet.Utilities
         /// <returns>Raw file address.</returns>
         public static ulong RVAtoFileMapping(this ulong RVA, ICollection<IMAGE_SECTION_HEADER> sh)
         {
-            var sortedSt = sh.OrderBy(x => x.VirtualAddress).ToList();
+            List<IMAGE_SECTION_HEADER> sortedSt = sh.OrderBy(x => x.VirtualAddress).ToList();
             uint vOffset = 0, rOffset = 0;
-            var secFound = false;
-            for (var i = 0; i < sortedSt.Count - 1; i++)
+            bool secFound = false;
+            for (int i = 0; i < sortedSt.Count - 1; i++)
             {
                 if (sortedSt[i].VirtualAddress <= RVA && sortedSt[i + 1].VirtualAddress > RVA)
                 {
@@ -392,7 +391,7 @@ namespace PeNet.Utilities
         /// <returns>Raw file address.</returns>
         public static uint RVAtoFileMapping(this uint RVA, ICollection<IMAGE_SECTION_HEADER> sh)
         {
-            return (uint) RVAtoFileMapping((ulong) RVA, sh);
+            return (uint)RVAtoFileMapping((ulong)RVA, sh);
         }
 
         /// <summary>
@@ -422,8 +421,8 @@ namespace PeNet.Utilities
         {
             if (bytes == null) return null;
 
-            var hex = new StringBuilder(bytes.Count*2);
-            foreach (var b in bytes)
+            StringBuilder hex = new StringBuilder(bytes.Count * 2);
+            foreach (byte b in bytes)
                 hex.AppendFormat("{0:x2}", b);
             return $"0x{hex}";
         }
@@ -437,8 +436,8 @@ namespace PeNet.Utilities
         {
             if (values == null) return null;
 
-            var hex = new StringBuilder(values.Count*2);
-            foreach (var b in values)
+            StringBuilder hex = new StringBuilder(values.Count * 2);
+            foreach (ushort b in values)
                 hex.AppendFormat("{0:X4}", b);
             return $"0x{hex}";
         }
@@ -496,8 +495,8 @@ namespace PeNet.Utilities
         {
             if (input == null) return null;
 
-            var hexList = new List<string>();
-            for (var i = @from; i < @from + length; i++)
+            List<string> hexList = new List<string>();
+            for (ulong i = @from; i < @from + length; i++)
             {
                 hexList.Add(input[i].ToString("X2"));
             }
@@ -511,12 +510,12 @@ namespace PeNet.Utilities
         /// <returns>The hex string value as a long.</returns>
         public static long ToIntFromHexString(this string hexString)
         {
-            return (long) new Int64Converter().ConvertFromString(hexString);
+            return (long)new Int64Converter().ConvertFromString(hexString);
         }
 
         internal static ushort GetOrdinal(this byte[] buff, uint ordinal)
         {
-            return BitConverter.ToUInt16(new[] {buff[ordinal], buff[ordinal + 1]}, 0);
+            return BitConverter.ToUInt16(new[] { buff[ordinal], buff[ordinal + 1] }, 0);
         }
 
         /// <summary>
@@ -527,11 +526,11 @@ namespace PeNet.Utilities
         /// <returns>The parsed C string.</returns>
         public static string GetCString(this byte[] buff, ulong stringOffset)
         {
-            var length = GetCStringLength(buff, stringOffset);
-            var tmp = new char[length];
+            ulong length = GetCStringLength(buff, stringOffset);
+            char[] tmp = new char[length];
             for (ulong i = 0; i < length; i++)
             {
-                tmp[i] = (char) buff[stringOffset + i];
+                tmp[i] = (char)buff[stringOffset + i];
             }
 
             return new string(tmp);
@@ -546,7 +545,7 @@ namespace PeNet.Utilities
         /// <returns>Length of the string in bytes.</returns>
         public static ulong GetCStringLength(this byte[] buff, ulong stringOffset)
         {
-            var offset = stringOffset;
+            ulong offset = stringOffset;
             ulong length = 0;
             while (buff[offset] != 0x00)
             {
@@ -565,7 +564,7 @@ namespace PeNet.Utilities
         /// <returns>The parsed unicode string.</returns>
         public static string GetUnicodeString(this byte[] buff, ulong stringOffset, int length)
         {
-            var bytes = new byte[length];
+            byte[] bytes = new byte[length];
             Array.Copy(buff, (int)stringOffset, bytes, 0, length);
             return Encoding.Unicode.GetString(bytes);
         }
@@ -578,8 +577,8 @@ namespace PeNet.Utilities
         /// <returns>Size if index in bits.</returns>
         public static uint MetaDataTableIndexSize(this Type indexEnum)
         {
-            var numOfTags = Enum.GetNames(indexEnum).Length;
-            return (uint) Math.Ceiling(Math.Log(numOfTags, 2));
+            int numOfTags = Enum.GetNames(indexEnum).Length;
+            return (uint)Math.Ceiling(Math.Log(numOfTags, 2));
         }
     }
 }

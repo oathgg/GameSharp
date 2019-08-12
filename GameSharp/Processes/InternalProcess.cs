@@ -1,4 +1,4 @@
-﻿using GameSharp.Memory.Internal;
+﻿using GameSharp.Interoperability;
 using GameSharp.Module;
 using GameSharp.Native;
 using GameSharp.Native.Enums;
@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace GameSharp.Processes
 {
-    public sealed class InternalProcess : IProcess
+    public sealed class InternalProcess
     {
         private static InternalProcess _instance;
 
@@ -21,7 +21,9 @@ namespace GameSharp.Processes
 
         public Process Process { get; } = Process.GetCurrentProcess();
 
-        public ModuleBase LoadLibrary(string libraryPath, bool resolveReferences = true)
+        public ProcessModuleCollection Modules => Process.Modules;
+
+        public InternalModule LoadLibrary(string libraryPath, bool resolveReferences = true)
         {
             if (!File.Exists(libraryPath))
                 throw new FileNotFoundException(libraryPath);
@@ -36,7 +38,7 @@ namespace GameSharp.Processes
             return GetModule(Path.GetFileName(libraryPath));
         }
 
-        public ModuleBase GetModule(string moduleName)
+        public InternalModule GetModule(string moduleName)
         {
             int retryCount = 5;
             InternalModule module = null;

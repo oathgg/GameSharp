@@ -2,7 +2,7 @@
 {
     public class MemberRef : AbstractTable
     {
-        public MemberRef(byte[] buff, uint offset, HeapSizes heapSizes, IndexSize indexSizes) 
+        public MemberRef(byte[] buff, uint offset, HeapSizes heapSizes, IndexSize indexSizes)
             : base(buff, offset, heapSizes, indexSizes)
         {
             Class = ReadSize(IndexSizes[Index.MemberRefParent]);
@@ -10,8 +10,8 @@
             Signature = ReadSize(HeapSizes.Blob);
         }
 
-        public uint Class {get;}
-        public uint Name  {get;}
-        public uint Signature {get;}
+        public uint Class { get; }
+        public uint Name { get; }
+        public uint Signature { get; }
     }
 }

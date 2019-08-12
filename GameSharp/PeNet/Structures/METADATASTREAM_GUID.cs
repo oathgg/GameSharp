@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -45,7 +43,7 @@ namespace PeNet.Structures
         public List<Guid> Guids { get; }
         public List<Tuple<Guid, uint>> GuidsAndIndices { get; }
 
-        public METADATASTREAM_GUID(byte[] buff, uint offset, uint size) 
+        public METADATASTREAM_GUID(byte[] buff, uint offset, uint size)
             : base(buff, offset)
         {
             _size = size;
@@ -61,15 +59,15 @@ namespace PeNet.Structures
         private List<Tuple<Guid, uint>> ParseGuidsAndIndices()
         {
             // A GUID is an 128 bit (16 bytes) long identifier
-            var numOfGUIDs = _size / 16;
-            var guidsAndIndicies = new List<Tuple<Guid, uint>>((int)numOfGUIDs);
+            uint numOfGUIDs = _size / 16;
+            List<Tuple<Guid, uint>> guidsAndIndicies = new List<Tuple<Guid, uint>>((int)numOfGUIDs);
 
-            for (var i = Offset; i < Offset + _size; i += 16)
+            for (uint i = Offset; i < Offset + _size; i += 16)
             {
-                var bytes = new byte[16];
+                byte[] bytes = new byte[16];
                 Array.Copy(Buff, i, bytes, 0, 16);
 
-                guidsAndIndicies.Add(new Tuple<Guid, uint>(new Guid(bytes), (uint) guidsAndIndicies.Count + 1));
+                guidsAndIndicies.Add(new Tuple<Guid, uint>(new Guid(bytes), (uint)guidsAndIndicies.Count + 1));
             }
 
             return guidsAndIndicies;

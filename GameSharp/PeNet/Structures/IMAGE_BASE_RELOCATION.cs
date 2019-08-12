@@ -1,8 +1,6 @@
-﻿using System;
+﻿using PeNet.Utilities;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -29,7 +27,7 @@ namespace PeNet.Structures
                 throw new ArgumentOutOfRangeException(nameof(relocSize),
                     "SizeOfBlock cannot be bigger than size of the Relocation Directory.");
 
-            if(SizeOfBlock < 8)
+            if (SizeOfBlock < 8)
                 throw new Exception("SizeOfBlock cannot be smaller than 8.");
 
             ParseTypeOffsets();
@@ -60,10 +58,10 @@ namespace PeNet.Structures
 
         private void ParseTypeOffsets()
         {
-            var list = new List<TypeOffset>();
-            for (uint i = 0; i < (SizeOfBlock - 8)/2; i++)
+            List<TypeOffset> list = new List<TypeOffset>();
+            for (uint i = 0; i < (SizeOfBlock - 8) / 2; i++)
             {
-                list.Add(new TypeOffset(Buff, Offset + 8 + i*2));
+                list.Add(new TypeOffset(Buff, Offset + 8 + i * 2));
             }
             TypeOffsets = list.ToArray();
         }
@@ -96,8 +94,8 @@ namespace PeNet.Structures
             {
                 get
                 {
-                    var to = _buff.BytesToUInt16(_offset);
-                    return (byte) (to >> 12);
+                    ushort to = _buff.BytesToUInt16(_offset);
+                    return (byte)(to >> 12);
                 }
             }
 
@@ -109,8 +107,8 @@ namespace PeNet.Structures
             {
                 get
                 {
-                    var to = _buff.BytesToUInt16(_offset);
-                    return (ushort) (to & 0xFFF);
+                    ushort to = _buff.BytesToUInt16(_offset);
+                    return (ushort)(to & 0xFFF);
                 }
             }
         }

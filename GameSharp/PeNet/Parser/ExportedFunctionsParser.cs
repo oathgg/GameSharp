@@ -24,28 +24,28 @@ namespace PeNet.Parser
             if (_exportDirectory == null || _exportDirectory.AddressOfFunctions == 0)
                 return null;
 
-            var expFuncs = new ExportFunction[_exportDirectory.NumberOfFunctions];
+            ExportFunction[] expFuncs = new ExportFunction[_exportDirectory.NumberOfFunctions];
 
-            var funcOffsetPointer = _exportDirectory.AddressOfFunctions.RVAtoFileMapping(_sectionHeaders);
-            var ordOffset = _exportDirectory.AddressOfNameOrdinals.RVAtoFileMapping(_sectionHeaders);
-            var nameOffsetPointer = _exportDirectory.AddressOfNames.RVAtoFileMapping(_sectionHeaders);
+            uint funcOffsetPointer = _exportDirectory.AddressOfFunctions.RVAtoFileMapping(_sectionHeaders);
+            uint ordOffset = _exportDirectory.AddressOfNameOrdinals.RVAtoFileMapping(_sectionHeaders);
+            uint nameOffsetPointer = _exportDirectory.AddressOfNames.RVAtoFileMapping(_sectionHeaders);
 
             //Get addresses
             for (uint i = 0; i < expFuncs.Length; i++)
             {
-                var ordinal = i + _exportDirectory.Base;
-                var address = _buff.BytesToUInt32(funcOffsetPointer + sizeof(uint)*i);
+                uint ordinal = i + _exportDirectory.Base;
+                uint address = _buff.BytesToUInt32(funcOffsetPointer + sizeof(uint) * i);
 
-                expFuncs[i] = new ExportFunction(null, address, (ushort) ordinal);
+                expFuncs[i] = new ExportFunction(null, address, (ushort)ordinal);
             }
 
             //Associate names
             for (uint i = 0; i < _exportDirectory.NumberOfNames; i++)
             {
-                var namePtr = _buff.BytesToUInt32(nameOffsetPointer + sizeof(uint)*i);
-                var nameAdr = namePtr.RVAtoFileMapping(_sectionHeaders);
-                var name = _buff.GetCString(nameAdr);
-                var ordinalIndex = (uint) _buff.GetOrdinal(ordOffset + sizeof(ushort)*i);
+                uint namePtr = _buff.BytesToUInt32(nameOffsetPointer + sizeof(uint) * i);
+                uint nameAdr = namePtr.RVAtoFileMapping(_sectionHeaders);
+                string name = _buff.GetCString(nameAdr);
+                uint ordinalIndex = _buff.GetOrdinal(ordOffset + sizeof(ushort) * i);
 
                 expFuncs[ordinalIndex] = new ExportFunction(name, expFuncs[ordinalIndex].Address,
                     expFuncs[ordinalIndex].Ordinal);

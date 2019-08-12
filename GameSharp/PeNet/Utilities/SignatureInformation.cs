@@ -31,7 +31,7 @@ namespace PeNet.Utilities
             cert = null;
             try
             {
-                var peFile = new PeFile(filePath);
+                PeFile peFile = new PeFile(filePath);
                 if (peFile.PKCS7 == null)
                 {
                     return false;
@@ -56,7 +56,7 @@ namespace PeNet.Utilities
         /// <returns>True of cert chain is valid and from a trusted CA.</returns>
         public static bool IsValidCertChain(string filePath, bool online)
         {
-            return IsSigned(filePath, out var cert) 
+            return IsSigned(filePath, out X509Certificate2 cert)
                    && IsValidCertChain(cert, online);
         }
 
@@ -69,7 +69,7 @@ namespace PeNet.Utilities
         /// <returns>True of cert chain is valid and from a trusted CA.</returns>
         public static bool IsValidCertChain(string filePath, TimeSpan urlRetrievalTimeout, bool excludeRoot = true)
         {
-            return IsSigned(filePath, out var cert) 
+            return IsSigned(filePath, out X509Certificate2 cert)
                    && IsValidCertChain(cert, urlRetrievalTimeout, excludeRoot);
         }
 
@@ -81,7 +81,7 @@ namespace PeNet.Utilities
         /// <returns>True of cert chain is valid and from a trusted CA.</returns>
         public static bool IsValidCertChain(X509Certificate2 cert, bool online)
         {
-            var chain = new X509Chain
+            X509Chain chain = new X509Chain
             {
                 ChainPolicy =
                 {
@@ -103,7 +103,7 @@ namespace PeNet.Utilities
         /// <returns>True of cert chain is valid and from a trusted CA.</returns>
         public static bool IsValidCertChain(X509Certificate2 cert, TimeSpan urlRetrievalTimeout, bool excludeRoot = true)
         {
-            var chain = new X509Chain
+            X509Chain chain = new X509Chain
             {
                 ChainPolicy =
                 {

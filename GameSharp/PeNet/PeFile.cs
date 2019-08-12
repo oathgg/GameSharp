@@ -1,11 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using PeNet.Authenticode;
 using PeNet.ImpHash;
 using PeNet.Structures;
 using PeNet.Utilities;
+using System;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 /// <summary>
 /// Credits go to this Github repository:
@@ -129,7 +129,7 @@ namespace PeNet
         /// </summary>
         public bool IsDLL
             =>
-                (ImageNtHeaders.FileHeader.Characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_DLL) >
+                (ImageNtHeaders.FileHeader.Characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_DLL) >
                 0;
 
         /// <summary>
@@ -139,14 +139,14 @@ namespace PeNet
         public bool IsEXE
             =>
                 (ImageNtHeaders.FileHeader.Characteristics &
-                 (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_EXECUTABLE_IMAGE) > 0;
+                 (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_EXECUTABLE_IMAGE) > 0;
 
         /// <summary>
         ///     Returns true if the PE file is a system driver
         ///     based on the Subsytem = 0x1 value in the Optional Header.
         /// </summary>
         public bool IsDriver => ImageNtHeaders.OptionalHeader.Subsystem ==
-                                (ushort) Constants.OptionalHeaderSubsystem.IMAGE_SUBSYSTEM_NATIVE;
+                                (ushort)Constants.OptionalHeaderSubsystem.IMAGE_SUBSYSTEM_NATIVE;
 
         /// <summary>
         ///     Returns true if the PE file is signed. It
@@ -168,7 +168,7 @@ namespace PeNet
         ///     Returns true if the PE file is x64.
         /// </summary>
         public bool Is64Bit => Buff.BytesToUInt16(ImageDosHeader.e_lfanew + 0x4) ==
-                               (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_AMD64;
+                               (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_AMD64;
 
         /// <summary>
         ///     Returns true if the PE file is x32.
@@ -254,7 +254,7 @@ namespace PeNet
         /// Access the IMAGE_LOAD_CONFIG_DIRECTORY from the data directory.
         /// </summary>
         public IMAGE_LOAD_CONFIG_DIRECTORY ImageLoadConfigDirectory => _dataDirectoryParsers.ImageLoadConfigDirectory;
-    
+
         /// <summary>
         /// Access the IMAGE_COR20_HEADER (COM Descriptor/CLI) from the data directory.
         /// </summary>
@@ -369,9 +369,9 @@ namespace PeNet
         /// <returns>True if the MZ header is set.</returns>
         public static bool IsPEFile(string file)
         {
-            var buffer = new byte[2];
+            byte[] buffer = new byte[2];
 
-            using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
+            using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read))
             {
                 fs.Read(buffer, 0, buffer.Length);
             }
@@ -386,14 +386,14 @@ namespace PeNet
         /// <returns>True if file is PE and x64.</returns>
         public static bool Is64BitPeFile(string file)
         {
-            var buff = File.ReadAllBytes(file);
+            byte[] buff = File.ReadAllBytes(file);
             IMAGE_DOS_HEADER dosHeader;
             bool is64;
             try
             {
                 dosHeader = new IMAGE_DOS_HEADER(buff, 0);
                 is64 = buff.BytesToUInt16(dosHeader.e_lfanew + 0x4) ==
-                       (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_AMD64;
+                       (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_AMD64;
             }
             catch (Exception)
             {
@@ -410,14 +410,14 @@ namespace PeNet
         /// <returns>True if file is PE and x32.</returns>
         public static bool Is32BitPeFile(string file)
         {
-            var buff = File.ReadAllBytes(file);
+            byte[] buff = File.ReadAllBytes(file);
             IMAGE_DOS_HEADER dosHeader;
             bool is32;
             try
             {
                 dosHeader = new IMAGE_DOS_HEADER(buff, 0);
                 is32 = buff.BytesToUInt16(dosHeader.e_lfanew + 0x4) ==
-                       (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_I386;
+                       (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_I386;
             }
             catch (Exception)
             {
@@ -443,10 +443,10 @@ namespace PeNet
 
             switch (ImageNtHeaders.FileHeader.Machine)
             {
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_I386:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_I386:
                     fileType = "I386";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_AMD64:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_AMD64:
                     fileType = "AMD64";
                     break;
                 default:
@@ -454,11 +454,11 @@ namespace PeNet
                     break;
             }
 
-            if ((ImageNtHeaders.FileHeader.Characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_DLL) !=
+            if ((ImageNtHeaders.FileHeader.Characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_DLL) !=
                 0)
                 fileType += "_DLL";
             else if ((ImageNtHeaders.FileHeader.Characteristics &
-                      (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_EXECUTABLE_IMAGE) != 0)
+                      (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_EXECUTABLE_IMAGE) != 0)
                 fileType += "_EXE";
             else
                 fileType += "_UNKNOWN";

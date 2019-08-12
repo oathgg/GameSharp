@@ -35,7 +35,7 @@ namespace PeNet
             Urls = new List<string>();
             if (cert == null) return;
 
-            foreach (var ext in cert.Extensions)
+            foreach (X509Extension ext in cert.Extensions)
             {
                 if (ext.Oid.Value == "2.5.29.31")
                 {
@@ -51,8 +51,8 @@ namespace PeNet
 
         private void ParseCrls(byte[] rawData)
         {
-            var rawLength = rawData.Length;
-            for (var i = 0; i < rawLength - 5; i++)
+            int rawLength = rawData.Length;
+            for (int i = 0; i < rawLength - 5; i++)
             {
                 // Find a HTTP(s) string.
                 if ((rawData[i] == 'h'
@@ -66,8 +66,8 @@ namespace PeNet
                         && rawData[i + 3] == 'p'
                         && rawData[i + 4] == ':'))
                 {
-                    var bytes = new List<byte>();
-                    for (var j = i; j < rawLength; j++)
+                    List<byte> bytes = new List<byte>();
+                    for (int j = i; j < rawLength; j++)
                     {
                         if ((rawData[j - 4] == '.'
                              && rawData[j - 3] == 'c'
@@ -92,7 +92,7 @@ namespace PeNet
 
                         bytes.Add(rawData[j]);
                     }
-                    var uri = Encoding.ASCII.GetString(bytes.ToArray());
+                    string uri = Encoding.ASCII.GetString(bytes.ToArray());
 
                     if (IsValidUri(uri) && uri.StartsWith("http://") && uri.EndsWith(".crl"))
                         Urls.Add(uri);
@@ -122,9 +122,9 @@ namespace PeNet
         /// <returns>CRL URLs.</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.AppendLine("CRL URLs:");
-            foreach (var url in Urls)
+            foreach (string url in Urls)
                 sb.AppendFormat("\t{0}\n", url);
             return sb.ToString();
         }

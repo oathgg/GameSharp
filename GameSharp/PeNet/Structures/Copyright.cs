@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using ExtensionMethods = PeNet.Utilities.ExtensionMethods;
 
 namespace PeNet.Structures
 {
@@ -28,7 +27,7 @@ namespace PeNet.Structures
 
         private string ParseCopyrightString(byte[] buff, uint offset, uint size)
         {
-            return Encoding.ASCII.GetString(buff, (int) offset, (int) size);
+            return Encoding.ASCII.GetString(buff, (int)offset, (int)size);
         }
     }
 }

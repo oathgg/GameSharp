@@ -1,9 +1,11 @@
 ﻿using GameSharp.Extensions;
+using GameSharp.Memory;
+using GameSharp.Module;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace GameSharp.Memory.Internal
+namespace GameSharp.Interoperability
 {
     /// <summary>
     ///     By extending from this class you're creating a somewhat safe way to call a function.
@@ -17,22 +19,22 @@ namespace GameSharp.Memory.Internal
 
         public SafeFunction()
         {
-            IntPtr address = ToCallDelegate().ToFunctionPtr();
+            InternalIntPtr address = ToCallDelegate().ToFunctionPtr();
 
-            Module.InternalModule module = address.GetModuleWhichBelongsToAddress();
+            InternalModule module = address.GetModuleWhichBelongsToAddress();
 
             List<byte> bytes = new List<byte>();
 
             bytes.AddRange(address.GetReturnToPtr());
 
-            IntPtr codeCave = module.FindCodeCaveInModule((uint)bytes.Count);
+            InternalIntPtr codeCave = module.FindCodeCaveInModule((uint)bytes.Count);
 
             // TODO: Refactor since this is now a detection vector as we are now writing the 'JumpTable' into the process.
             codeCave.Write(bytes.ToArray());
 
             Type typeOfDelegate = ToCallDelegate().GetType();
 
-            SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(codeCave, typeOfDelegate);
+            SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(codeCave.Address, typeOfDelegate);
         }
 
         internal T Call<T>(params object[] parameters)

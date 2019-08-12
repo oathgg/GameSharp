@@ -43,7 +43,7 @@ namespace PeNet.PatternMatching
         /// <param name="name">Name of the pattern</param>
         public void Add(string pattern, Encoding encoding, string name)
         {
-            var bytes = encoding.GetBytes(pattern);
+            byte[] bytes = encoding.GetBytes(pattern);
             base.Add(bytes, name);
         }
 
@@ -96,11 +96,11 @@ namespace PeNet.PatternMatching
             _isBuild = false;
 
             // start at the root
-            Node<T, TValue>[] node = {root};
+            Node<T, TValue>[] node = { root };
 
             // build a branch for the word, one letter at a time
             // if a letter node doesn't exist, add it
-            foreach (var child in word.Select(c => node[0][c] ?? (node[0][c] = new Node<T, TValue>(c, node[0]))))
+            foreach (Node<T, TValue> child in word.Select(c => node[0][c] ?? (node[0][c] = new Node<T, TValue>(c, node[0]))))
             {
                 node[0] = child;
             }
@@ -117,15 +117,15 @@ namespace PeNet.PatternMatching
         private void Build()
         {
             // construction is done using breadth-first-search
-            var queue = new Queue<Node<T, TValue>>();
+            Queue<Node<T, TValue>> queue = new Queue<Node<T, TValue>>();
             queue.Enqueue(root);
 
             while (queue.Count > 0)
             {
-                var node = queue.Dequeue();
+                Node<T, TValue> node = queue.Dequeue();
 
                 // visit children
-                foreach (var child in node)
+                foreach (Node<T, TValue> child in node)
                     queue.Enqueue(child);
 
                 // fail link of root is root
@@ -135,7 +135,7 @@ namespace PeNet.PatternMatching
                     continue;
                 }
 
-                var fail = node.Parent.Fail;
+                Node<T, TValue> fail = node.Parent.Fail;
 
                 while (fail[node.Word] == null && fail != root)
                     fail = fail.Fail;
@@ -162,18 +162,18 @@ namespace PeNet.PatternMatching
                 _isBuild = true;
             }
 
-            var node = root;
-            var pos = 0;
-            foreach (var c in text)
+            Node<T, TValue> node = root;
+            int pos = 0;
+            foreach (T c in text)
             {
                 while (node[c] == null && node != root)
                     node = node.Fail;
 
                 node = node[c] ?? root;
 
-                for (var t = node; t != root; t = t.Fail)
+                for (Node<T, TValue> t = node; t != root; t = t.Fail)
                 {
-                    foreach (var value in t.Values)
+                    foreach (TValue value in t.Values)
                         yield return new Tuple<TValue, int>(value, pos);
                 }
                 pos++;

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Text;
-using PeNet.Utilities;
+﻿using PeNet.Utilities;
+using System;
 
 namespace PeNet.Structures
 {
@@ -28,8 +27,8 @@ namespace PeNet.Structures
                 }
                 else if (IsNamedEntry)
                 {
-                    var nameAddress = resourceDirOffset + (Name & 0x7FFFFFFF);
-                    var unicodeName = new IMAGE_RESOURCE_DIR_STRING_U(Buff, nameAddress);
+                    uint nameAddress = resourceDirOffset + (Name & 0x7FFFFFFF);
+                    IMAGE_RESOURCE_DIR_STRING_U unicodeName = new IMAGE_RESOURCE_DIR_STRING_U(Buff, nameAddress);
                     ResolvedName = unicodeName.NameString;
                 }
             }

@@ -1,5 +1,4 @@
-﻿using System.Text;
-using PeNet.Utilities;
+﻿using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -55,7 +54,8 @@ namespace PeNet.Structures
         /// <summary>
         ///     Unwind Info object belonging to this Runtime Function.
         /// </summary>
-        public UNWIND_INFO ResolvedUnwindInfo {
+        public UNWIND_INFO ResolvedUnwindInfo
+        {
             get
             {
                 if (_resolvedUnwindInfo != null)
@@ -76,11 +76,11 @@ namespace PeNet.Structures
         {
             // Check if the last bit is set in the UnwindInfo. If so, it is a chained 
             // information.
-            var uwAddress = (UnwindInfo & 0x1) == 0x1
+            uint uwAddress = (UnwindInfo & 0x1) == 0x1
                 ? UnwindInfo & 0xFFFE
                 : UnwindInfo;
 
-            var uw = new UNWIND_INFO(Buff, uwAddress.RVAtoFileMapping(sh));
+            UNWIND_INFO uw = new UNWIND_INFO(Buff, uwAddress.RVAtoFileMapping(sh));
             return uw;
         }
     }

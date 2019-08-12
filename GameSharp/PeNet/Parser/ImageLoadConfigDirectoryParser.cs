@@ -6,7 +6,7 @@ namespace PeNet.Parser
     {
         private readonly bool _is64Bit;
 
-        internal ImageLoadConfigDirectoryParser(byte[] buff, uint offset, bool is64Bit) 
+        internal ImageLoadConfigDirectoryParser(byte[] buff, uint offset, bool is64Bit)
             : base(buff, offset)
         {
             _is64Bit = is64Bit;

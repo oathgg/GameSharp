@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameSharp.Memory;
+using System;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Extensions
@@ -8,9 +9,9 @@ namespace GameSharp.Extensions
     /// </summary>
     public static class UnsafeMemoryExtension
     {
-        public static IntPtr ToFunctionPtr(this Delegate d)
+        public static InternalIntPtr ToFunctionPtr(this Delegate d)
         {
-            return Marshal.GetFunctionPointerForDelegate(d);
+            return new InternalIntPtr(Marshal.GetFunctionPointerForDelegate(d));
         }
 
         public static T ToDelegate<T>(this IntPtr addr) where T : class

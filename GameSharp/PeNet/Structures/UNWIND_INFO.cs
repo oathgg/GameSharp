@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using PeNet.Utilities;
+﻿using PeNet.Utilities;
+using System.Collections.Generic;
 
 namespace PeNet.Structures
 {
@@ -26,12 +25,12 @@ namespace PeNet.Structures
         /// <summary>
         ///     Version
         /// </summary>
-        public byte Version => (byte) (Buff[Offset] >> 5);
+        public byte Version => (byte)(Buff[Offset] >> 5);
 
         /// <summary>
         ///     Flags
         /// </summary>
-        public byte Flags => (byte) (Buff[Offset] & 0x1F);
+        public byte Flags => (byte)(Buff[Offset] & 0x1F);
 
         /// <summary>
         ///     Size of prolog.
@@ -57,12 +56,12 @@ namespace PeNet.Structures
         /// <summary>
         ///     Frame register.
         /// </summary>
-        public byte FrameRegister => (byte) (Buff[Offset + 0x3] >> 4);
+        public byte FrameRegister => (byte)(Buff[Offset + 0x3] >> 4);
 
         /// <summary>
         ///     Frame offset.
         /// </summary>
-        public byte FrameOffset => (byte) (Buff[Offset + 0x3] & 0xF);
+        public byte FrameOffset => (byte)(Buff[Offset + 0x3] & 0xF);
 
         /// <summary>
         ///     UnwindCode structure.
@@ -76,12 +75,12 @@ namespace PeNet.Structures
         {
             get
             {
-                var off = (uint) (Offset + 0x4 + sizeOfUnwindeCode*CountOfCodes);
+                uint off = (uint)(Offset + 0x4 + sizeOfUnwindeCode * CountOfCodes);
                 return Buff.BytesToUInt32(off);
             }
             set
             {
-                var off = (uint) (Offset + 0x4 + sizeOfUnwindeCode*CountOfCodes);
+                uint off = (uint)(Offset + 0x4 + sizeOfUnwindeCode * CountOfCodes);
                 Buff.SetUInt32(off, value);
             }
         }
@@ -104,54 +103,54 @@ namespace PeNet.Structures
 
         private UNWIND_CODE[] ParseUnwindCodes(byte[] buff, uint offset)
         {
-            var ucList = new List<UNWIND_CODE>();
-            var i = 0;
+            List<UNWIND_CODE> ucList = new List<UNWIND_CODE>();
+            int i = 0;
             uint nodeSize = 0x2;
-            var currentUnwindeCode = offset;
+            uint currentUnwindeCode = offset;
             while (i < CountOfCodes)
             {
                 int numberOfNodes;
-                var uw = new UNWIND_CODE(buff, currentUnwindeCode);
+                UNWIND_CODE uw = new UNWIND_CODE(buff, currentUnwindeCode);
                 currentUnwindeCode += nodeSize; // CodeOffset and UnwindOp/Opinfo (= 0x2 byte)
 
                 switch (uw.UnwindOp)
                 {
-                    case (byte) Constants.UnwindOpCodes.UWOP_PUSH_NONVOL:
+                    case (byte)Constants.UnwindOpCodes.UWOP_PUSH_NONVOL:
                         break;
-                    case (byte) Constants.UnwindOpCodes.UWOP_ALLOC_LARGE:
-                        currentUnwindeCode += (uint) (uw.Opinfo == 0 ? 0x2 : 0x4);
+                    case (byte)Constants.UnwindOpCodes.UWOP_ALLOC_LARGE:
+                        currentUnwindeCode += (uint)(uw.Opinfo == 0 ? 0x2 : 0x4);
                         break;
-                    case (byte) Constants.UnwindOpCodes.UWOP_ALLOC_SMALL:
+                    case (byte)Constants.UnwindOpCodes.UWOP_ALLOC_SMALL:
                         break;
-                    case (byte) Constants.UnwindOpCodes.UWOP_SET_FPREG:
+                    case (byte)Constants.UnwindOpCodes.UWOP_SET_FPREG:
                         break;
-                    case (byte) Constants.UnwindOpCodes.UWOP_SAVE_NONVOL:
+                    case (byte)Constants.UnwindOpCodes.UWOP_SAVE_NONVOL:
                         currentUnwindeCode += 0x2;
                         break;
-                    case (byte) Constants.UnwindOpCodes.UWOP_SAVE_NONVOL_FAR:
+                    case (byte)Constants.UnwindOpCodes.UWOP_SAVE_NONVOL_FAR:
                         currentUnwindeCode += 0x4;
                         break;
-                    case (byte) Constants.UnwindOpCodes.UWOP_SAVE_XMM128:
+                    case (byte)Constants.UnwindOpCodes.UWOP_SAVE_XMM128:
                         currentUnwindeCode += 0x2;
                         break;
-                    case (byte) Constants.UnwindOpCodes.UWOP_SAVE_XMM128_FAR:
+                    case (byte)Constants.UnwindOpCodes.UWOP_SAVE_XMM128_FAR:
                         currentUnwindeCode += 0x4;
                         break;
-                    case (byte) Constants.UnwindOpCodes.UWOP_PUSH_MACHFRAME:
+                    case (byte)Constants.UnwindOpCodes.UWOP_PUSH_MACHFRAME:
                         break;
                 }
 
-                if ((uw.UnwindOp == (byte) Constants.UnwindOpCodes.UWOP_ALLOC_LARGE
+                if ((uw.UnwindOp == (byte)Constants.UnwindOpCodes.UWOP_ALLOC_LARGE
                      && uw.Opinfo == 0x0)
-                    || (uw.UnwindOp == (byte) Constants.UnwindOpCodes.UWOP_SAVE_NONVOL)
-                    || (uw.UnwindOp == (byte) Constants.UnwindOpCodes.UWOP_SAVE_XMM128))
+                    || (uw.UnwindOp == (byte)Constants.UnwindOpCodes.UWOP_SAVE_NONVOL)
+                    || (uw.UnwindOp == (byte)Constants.UnwindOpCodes.UWOP_SAVE_XMM128))
                 {
                     numberOfNodes = 2;
                 }
-                else if ((uw.UnwindOp == (byte) Constants.UnwindOpCodes.UWOP_ALLOC_LARGE
+                else if ((uw.UnwindOp == (byte)Constants.UnwindOpCodes.UWOP_ALLOC_LARGE
                           && uw.Opinfo == 0x1)
-                         || (uw.UnwindOp == (byte) Constants.UnwindOpCodes.UWOP_SAVE_NONVOL_FAR)
-                         || (uw.UnwindOp == (byte) Constants.UnwindOpCodes.UWOP_SAVE_XMM128_FAR))
+                         || (uw.UnwindOp == (byte)Constants.UnwindOpCodes.UWOP_SAVE_NONVOL_FAR)
+                         || (uw.UnwindOp == (byte)Constants.UnwindOpCodes.UWOP_SAVE_XMM128_FAR))
                 {
                     numberOfNodes = 3;
                 }

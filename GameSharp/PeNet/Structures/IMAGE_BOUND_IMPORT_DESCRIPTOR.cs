@@ -12,7 +12,7 @@ namespace PeNet.Structures
         /// </summary>
         /// <param name="buff">PE file as byte buffer.</param>
         /// <param name="offset">Offset of bound import descriptor in the buffer.</param>
-        public IMAGE_BOUND_IMPORT_DESCRIPTOR(byte[] buff, uint offset) 
+        public IMAGE_BOUND_IMPORT_DESCRIPTOR(byte[] buff, uint offset)
             : base(buff, offset)
         {
         }

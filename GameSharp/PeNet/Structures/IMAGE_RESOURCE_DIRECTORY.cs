@@ -1,6 +1,5 @@
-﻿using System;
-using System.Text;
-using PeNet.Utilities;
+﻿using PeNet.Utilities;
+using System;
 
 namespace PeNet.Structures
 {
@@ -86,13 +85,13 @@ namespace PeNet.Structures
             if (SanityCheckFailed())
                 return null;
 
-            var entries = new IMAGE_RESOURCE_DIRECTORY_ENTRY[NumberOfIdEntries + NumberOfNameEntries];
+            IMAGE_RESOURCE_DIRECTORY_ENTRY[] entries = new IMAGE_RESOURCE_DIRECTORY_ENTRY[NumberOfIdEntries + NumberOfNameEntries];
 
-            for (var index = 0; index < entries.Length; index++)
+            for (int index = 0; index < entries.Length; index++)
             {
                 try
                 {
-                    entries[index] = new IMAGE_RESOURCE_DIRECTORY_ENTRY(Buff, (uint) index*8 + Offset + 16,
+                    entries[index] = new IMAGE_RESOURCE_DIRECTORY_ENTRY(Buff, (uint)index * 8 + Offset + 16,
                         resourceDirOffset);
                 }
                 catch (IndexOutOfRangeException)

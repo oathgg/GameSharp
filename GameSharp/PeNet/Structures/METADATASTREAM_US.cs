@@ -1,8 +1,7 @@
-﻿using System;
+﻿using PeNet.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -44,7 +43,7 @@ namespace PeNet.Structures
         public List<string> UserStrings { get; }
         public List<Tuple<string, uint>> UserStringsAndIndices { get; }
 
-        public METADATASTREAM_US(byte[] buff, uint offset, uint size) 
+        public METADATASTREAM_US(byte[] buff, uint offset, uint size)
             : base(buff, offset)
         {
             _size = size;
@@ -60,11 +59,11 @@ namespace PeNet.Structures
 
         private List<Tuple<string, uint>> ParseUserStringsAndIndices()
         {
-            var stringsAndIncides = new List<Tuple<string, uint>>();
+            List<Tuple<string, uint>> stringsAndIncides = new List<Tuple<string, uint>>();
 
             // The #US stream starts with a "0x00" byte. That's why 
             // we skip the first byte in the buffer
-            for (var i = Offset + 1; i < Offset + _size; i++)
+            for (uint i = Offset + 1; i < Offset + _size; i++)
             {
                 if (Buff[i] >= 0x80) // Not sure why this works but it does.
                     i++;
@@ -75,7 +74,7 @@ namespace PeNet.Structures
                     break;                                              // of the list is reached.
 
                 i += 1;                                                 // Add "length byte" to current offset.
-                var tmpString = Buff.GetUnicodeString(i, length - 1);  // Read the UTF-16 string
+                string tmpString = Buff.GetUnicodeString(i, length - 1);  // Read the UTF-16 string
                 i += (uint)length - 1;                                 // Add the string length to the current offset.
 
                 stringsAndIncides.Add(new Tuple<string, uint>(tmpString, i - (uint)length - Offset));

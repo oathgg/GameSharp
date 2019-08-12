@@ -16,7 +16,7 @@ namespace PeNet.Utilities
         /// <returns>String representation of the section name.</returns>
         public static string ResolveSectionName(byte[] name)
         {
-            return Encoding.UTF8.GetString(name).TrimEnd((char) 0);
+            return Encoding.UTF8.GetString(name).TrimEnd((char)0);
         }
 
         /// <summary>
@@ -27,97 +27,97 @@ namespace PeNet.Utilities
         /// <returns>Name of the target machine as string.</returns>
         public static string ResolveTargetMachine(ushort targetMachine)
         {
-            var tm = "unknown";
+            string tm = "unknown";
             switch (targetMachine)
             {
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_I386:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_I386:
                     tm = "Intel 386";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_I860:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_I860:
                     tm = "Intel i860";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_R3000:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_R3000:
                     tm = "MIPS R3000";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_R4000:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_R4000:
                     tm = "MIPS little endian (R4000)";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_R10000:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_R10000:
                     tm = "MIPS R10000";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_WCEMIPSV2:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_WCEMIPSV2:
                     tm = "MIPS little endian WCI v2";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_OLDALPHA:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_OLDALPHA:
                     tm = "old Alpha AXP";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_ALPHA:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_ALPHA:
                     tm = "Alpha AXP";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_SH3:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_SH3:
                     tm = "Hitachi SH3";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_SH3DSP:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_SH3DSP:
                     tm = "Hitachi SH3 DSP";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_SH3E:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_SH3E:
                     tm = "Hitachi SH3E";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_SH4:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_SH4:
                     tm = "Hitachi SH4";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_SH5:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_SH5:
                     tm = "Hitachi SH5";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_ARM:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_ARM:
                     tm = "ARM little endian";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_THUMB:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_THUMB:
                     tm = "Thumb";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_AM33:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_AM33:
                     tm = "Matsushita AM33";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_POWERPC:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_POWERPC:
                     tm = "PowerPC little endian";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_POWERPCFP:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_POWERPCFP:
                     tm = "PowerPC with floating point support";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_IA64:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_IA64:
                     tm = "Intel IA64";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_MIPS16:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_MIPS16:
                     tm = "MIPS16";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_M68K:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_M68K:
                     tm = "Motorola 68000 series";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_ALPHA64:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_ALPHA64:
                     tm = "Alpha AXP 64-bit";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_MIPSFPU:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_MIPSFPU:
                     tm = "MIPS with FPU";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_TRICORE:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_TRICORE:
                     tm = "Tricore";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_CEF:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_CEF:
                     tm = "CEF";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_MIPSFPU16:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_MIPSFPU16:
                     tm = "MIPS16 with FPU";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_EBC:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_EBC:
                     tm = "EFI Byte Code";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_AMD64:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_AMD64:
                     tm = "AMD AMD64";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_M32R:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_M32R:
                     tm = "Mitsubishi M32R little endian";
                     break;
-                case (ushort) Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_CEE:
+                case (ushort)Constants.FileHeaderMachine.IMAGE_FILE_MACHINE_CEE:
                     tm = "clr pure MSIL";
                     break;
             }
@@ -146,45 +146,45 @@ namespace PeNet.Utilities
         {
             switch (id)
             {
-                case (uint) Constants.ResourceGroupIDs.Cursor:
+                case (uint)Constants.ResourceGroupIDs.Cursor:
                     return "Cursor";
-                case (uint) Constants.ResourceGroupIDs.Bitmap:
+                case (uint)Constants.ResourceGroupIDs.Bitmap:
                     return "Bitmap";
-                case (uint) Constants.ResourceGroupIDs.Icon:
+                case (uint)Constants.ResourceGroupIDs.Icon:
                     return "Icon";
-                case (uint) Constants.ResourceGroupIDs.Menu:
+                case (uint)Constants.ResourceGroupIDs.Menu:
                     return "Menu";
-                case (uint) Constants.ResourceGroupIDs.Dialog:
+                case (uint)Constants.ResourceGroupIDs.Dialog:
                     return "Dialog";
-                case (uint) Constants.ResourceGroupIDs.String:
+                case (uint)Constants.ResourceGroupIDs.String:
                     return "String";
-                case (uint) Constants.ResourceGroupIDs.FontDirectory:
+                case (uint)Constants.ResourceGroupIDs.FontDirectory:
                     return "FontDirectory";
-                case (uint) Constants.ResourceGroupIDs.Fonst:
+                case (uint)Constants.ResourceGroupIDs.Fonst:
                     return "Fonst";
-                case (uint) Constants.ResourceGroupIDs.Accelerator:
+                case (uint)Constants.ResourceGroupIDs.Accelerator:
                     return "Accelerator";
-                case (uint) Constants.ResourceGroupIDs.RcData:
+                case (uint)Constants.ResourceGroupIDs.RcData:
                     return "RcData";
-                case (uint) Constants.ResourceGroupIDs.MessageTable:
+                case (uint)Constants.ResourceGroupIDs.MessageTable:
                     return "MessageTable";
-                case (uint) Constants.ResourceGroupIDs.GroupIcon:
+                case (uint)Constants.ResourceGroupIDs.GroupIcon:
                     return "GroupIcon";
-                case (uint) Constants.ResourceGroupIDs.Version:
+                case (uint)Constants.ResourceGroupIDs.Version:
                     return "Version";
-                case (uint) Constants.ResourceGroupIDs.DlgInclude:
+                case (uint)Constants.ResourceGroupIDs.DlgInclude:
                     return "DlgInclude";
-                case (uint) Constants.ResourceGroupIDs.PlugAndPlay:
+                case (uint)Constants.ResourceGroupIDs.PlugAndPlay:
                     return "PlugAndPlay";
-                case (uint) Constants.ResourceGroupIDs.VXD:
+                case (uint)Constants.ResourceGroupIDs.VXD:
                     return "VXD";
-                case (uint) Constants.ResourceGroupIDs.AnimatedCurser:
+                case (uint)Constants.ResourceGroupIDs.AnimatedCurser:
                     return "AnimatedCurser";
-                case (uint) Constants.ResourceGroupIDs.AnimatedIcon:
+                case (uint)Constants.ResourceGroupIDs.AnimatedIcon:
                     return "AnimatedIcon";
-                case (uint) Constants.ResourceGroupIDs.HTML:
+                case (uint)Constants.ResourceGroupIDs.HTML:
                     return "HTML";
-                case (uint) Constants.ResourceGroupIDs.Manifest:
+                case (uint)Constants.ResourceGroupIDs.Manifest:
                     return "Manifest";
                 default:
                     return "unknown";
@@ -198,7 +198,7 @@ namespace PeNet.Utilities
         /// <returns>Subsystem as readable string.</returns>
         public static string ResolveSubsystem(ushort subsystem)
         {
-            var ss = "unknown";
+            string ss = "unknown";
             switch (subsystem)
             {
                 case 1:
@@ -248,10 +248,10 @@ namespace PeNet.Utilities
         /// <returns>List with flag names for the section.</returns>
         public static List<string> ResolveSectionFlags(uint sectionFlags)
         {
-            var st = new List<string>();
-            foreach (var flag in (Constants.SectionFlags[]) Enum.GetValues(typeof(Constants.SectionFlags)))
+            List<string> st = new List<string>();
+            foreach (Constants.SectionFlags flag in (Constants.SectionFlags[])Enum.GetValues(typeof(Constants.SectionFlags)))
             {
-                if ((sectionFlags & (uint) flag) == (uint) flag)
+                if ((sectionFlags & (uint)flag) == (uint)flag)
                 {
                     st.Add(flag.ToString());
                 }
@@ -267,10 +267,10 @@ namespace PeNet.Utilities
         /// <returns>List with resolved flag names.</returns>
         public static List<string> ResolveCOMImageFlags(uint comImageFlags)
         {
-            var st = new List<string>();
-            foreach (var flag in (DotNetConstants.COMImageFlag[]) Enum.GetValues(typeof(DotNetConstants.COMImageFlag)))
+            List<string> st = new List<string>();
+            foreach (DotNetConstants.COMImageFlag flag in (DotNetConstants.COMImageFlag[])Enum.GetValues(typeof(DotNetConstants.COMImageFlag)))
             {
-                if ((comImageFlags & (uint) flag) == (uint) flag)
+                if ((comImageFlags & (uint)flag) == (uint)flag)
                 {
                     st.Add(flag.ToString());
                 }
@@ -286,10 +286,10 @@ namespace PeNet.Utilities
         /// <returns>List with present table names.</returns>
         public static List<string> ResolveMaskValidFlags(ulong maskValid)
         {
-            var st = new List<string>();
-            foreach (var flag in (DotNetConstants.MaskValidFlags[]) Enum.GetValues(typeof(DotNetConstants.MaskValidFlags)))
+            List<string> st = new List<string>();
+            foreach (DotNetConstants.MaskValidFlags flag in (DotNetConstants.MaskValidFlags[])Enum.GetValues(typeof(DotNetConstants.MaskValidFlags)))
             {
-                if ((maskValid & (ulong) flag) == (ulong) flag)
+                if ((maskValid & (ulong)flag) == (ulong)flag)
                 {
                     st.Add(flag.ToString());
                 }

@@ -1,5 +1,4 @@
-﻿using GameSharp.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -15,7 +14,7 @@ namespace GameSharp.Memory.External
         /// <summary>
         ///     The base address of the module.
         /// </summary>
-        private IntPtr ModuleBase { get; } = new IntPtr();
+        private InternalIntPtr ModuleBase { get; } = new InternalIntPtr();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PatternScanner" /> class.
@@ -23,7 +22,7 @@ namespace GameSharp.Memory.External
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
         internal PatternScanner(ProcessModule module)
         {
-            ModuleBase = module.BaseAddress;
+            ModuleBase = new InternalIntPtr(module.BaseAddress);
             Bytes = ModuleBase.Read<byte[]>(module.ModuleMemorySize);
         }
 
@@ -41,7 +40,7 @@ namespace GameSharp.Memory.External
 
                 if (PatternCheck(ref memByteOffset, array))
                 {
-                    return ModuleBase
+                    return ModuleBase.Address
                         // offset in byte array
                         + memByteOffset
                         // offset given by user

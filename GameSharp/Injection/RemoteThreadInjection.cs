@@ -21,13 +21,13 @@ namespace GameSharp.Injection
         protected override void Execute(string pathToDll, string entryPoint)
         {
             InternalProcess myProcess = InternalProcess.Instance;
-            ModuleBase module = myProcess.LoadLibrary(pathToDll, false);
+            InternalModule module = myProcess.LoadLibrary(pathToDll, false);
             IntPtr entryPointAddress = module.GetProcAddress(entryPoint);
 
             if (entryPointAddress == IntPtr.Zero)
                 throw new Win32Exception($"Couldn't find the entry point, system returned error code: {Marshal.GetLastWin32Error()}");
 
-            // Invoke the entry point in the remote process
+            // TODO: Refactor to an invocation of an entrypoint with params.
             Kernel32.CreateRemoteThread(RemoteProcess.Process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
     }

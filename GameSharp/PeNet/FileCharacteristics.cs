@@ -1,7 +1,4 @@
-﻿using System.Text;
-using ExtensionMethods = PeNet.Utilities.ExtensionMethods;
-
-namespace PeNet
+﻿namespace PeNet
 {
     /// <summary>
     ///     Describes which file characteristics based on the
@@ -16,50 +13,50 @@ namespace PeNet
         /// <param name="characteristics">Characteristics from the file header.</param>
         public FileCharacteristics(ushort characteristics)
         {
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_RELOCS_STRIPPED) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_RELOCS_STRIPPED) > 0)
                 RelocStripped = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_EXECUTABLE_IMAGE) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_EXECUTABLE_IMAGE) > 0)
                 ExecutableImage = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_LINE_NUMS_STRIPPED) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_LINE_NUMS_STRIPPED) > 0)
                 LineNumbersStripped = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_LOCAL_SYMS_STRIPPED) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_LOCAL_SYMS_STRIPPED) > 0)
                 LocalSymbolsStripped = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_AGGRESIVE_WS_TRIM) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_AGGRESIVE_WS_TRIM) > 0)
                 AggressiveWsTrim = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_LARGE_ADDRESS_AWARE) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_LARGE_ADDRESS_AWARE) > 0)
                 LargeAddressAware = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_BYTES_REVERSED_LO) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_BYTES_REVERSED_LO) > 0)
                 BytesReversedLo = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_32BIT_MACHINE) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_32BIT_MACHINE) > 0)
                 Machine32Bit = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_DEBUG_STRIPPED) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_DEBUG_STRIPPED) > 0)
                 DebugStripped = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP) >
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP) >
                 0)
                 RemovableRunFromSwap = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_NET_RUN_FROM_SWAP) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_NET_RUN_FROM_SWAP) > 0)
                 NetRunFromSwap = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_SYSTEM) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_SYSTEM) > 0)
                 System = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_DLL) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_DLL) > 0)
                 DLL = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_UP_SYSTEM_ONLY) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_UP_SYSTEM_ONLY) > 0)
                 UpSystemOnly = true;
 
-            if ((characteristics & (ushort) Constants.FileHeaderCharacteristics.IMAGE_FILE_BYTES_REVERSED_HI) > 0)
+            if ((characteristics & (ushort)Constants.FileHeaderCharacteristics.IMAGE_FILE_BYTES_REVERSED_HI) > 0)
                 BytesReversedHi = true;
         }
 

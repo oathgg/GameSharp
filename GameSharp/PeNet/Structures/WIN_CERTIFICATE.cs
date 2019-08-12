@@ -15,10 +15,9 @@ limitations under the License.
 
 *************************************************************************/
 
-using System;
-using System.Text;
 using Newtonsoft.Json;
 using PeNet.Utilities;
+using System;
 
 namespace PeNet.Structures
 {
@@ -75,7 +74,7 @@ namespace PeNet.Structures
         {
             get
             {
-                var cert = new byte[dwLength - 8];
+                byte[] cert = new byte[dwLength - 8];
                 Array.Copy(Buff, Offset + 0x8, cert, 0, dwLength - 8);
                 return cert;
             }

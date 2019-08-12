@@ -1,7 +1,7 @@
-﻿using System;
+﻿using PeNet.Utilities;
+using System;
 using System.Linq;
 using System.Text;
-using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -100,7 +100,7 @@ namespace PeNet.Structures
         {
             get
             {
-                var bytes = new byte[16];
+                byte[] bytes = new byte[16];
                 Array.Copy(Buff, PointerToRawData + 4, bytes, 0, 16);
                 return new Guid(bytes);
             }
@@ -120,7 +120,7 @@ namespace PeNet.Structures
         {
             get
             {
-                var bytes = Buff.Skip((int) PointerToRawData + 0x18).TakeWhile(x => x != 0x0).ToArray();
+                byte[] bytes = Buff.Skip((int)PointerToRawData + 0x18).TakeWhile(x => x != 0x0).ToArray();
                 return Encoding.UTF8.GetString(bytes);
             }
         }

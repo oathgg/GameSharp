@@ -1,6 +1,6 @@
-﻿using System;
+﻿using PeNet.Utilities;
+using System;
 using System.Text;
-using PeNet.Utilities;
 
 namespace PeNet.Structures
 {
@@ -37,8 +37,8 @@ namespace PeNet.Structures
         {
             get
             {
-                var subarray = new byte[Length*2];
-                Array.Copy(Buff, Offset + 2, subarray, 0, Length*2);
+                byte[] subarray = new byte[Length * 2];
+                Array.Copy(Buff, Offset + 2, subarray, 0, Length * 2);
 
                 return Encoding.Unicode.GetString(subarray);
             }
