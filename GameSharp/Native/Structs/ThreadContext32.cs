@@ -17,7 +17,7 @@ namespace GameSharp.Native.Structs
         public uint Dr3;
         public uint Dr6;
         public uint Dr7;
-        public FLOATING_SAVE_AREA FloatSave;
+        public FloatingSaveArea FloatSave;
         public uint SegGs;
         public uint SegFs;
         public uint SegEs;

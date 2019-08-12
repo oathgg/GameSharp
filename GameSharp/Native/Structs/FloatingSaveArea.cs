@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GameSharp.Native.Structs
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct FLOATING_SAVE_AREA
+    public struct FloatingSaveArea
     {
         public uint ControlWord;
         public uint StatusWord;
