@@ -30,10 +30,7 @@ namespace GameSharp.Memory
         public T Read<T>(int size, int offset = 0)
         {
             byte[] destination = new byte[size];
-
-            // Copy the memory to our own object
             Marshal.Copy(Address, destination, offset, destination.Length);
-
             return destination.CastTo<T>();
         }
 

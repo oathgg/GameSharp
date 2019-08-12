@@ -18,12 +18,12 @@ namespace GameSharp.Module
         {
             ProcessModule = processModule;
             BaseAddress = new InternalIntPtr(ProcessModule.BaseAddress);
-            //PeHeader = GeneratePeHeader();
+            PeHeader = GeneratePeHeader();
         }
 
         private PeNet.PeFile GeneratePeHeader()
         {
-            PeNet.PeFile header = new PeNet.PeFile(BaseAddress.Read<byte[]>(ProcessModule.ModuleMemorySize));
+            PeNet.PeFile header = new PeNet.PeFile(BaseAddress.Read<byte[]>(0x1000));
 
             return header;
         }
