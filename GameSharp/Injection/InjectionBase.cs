@@ -14,14 +14,14 @@ namespace GameSharp.Injection
             ExternalProcess = new ExternalProcess(process) ?? throw new NullReferenceException();
         }
 
-        public void InjectAndExecute(string pathToDll, string entryPoint, bool attach)
+        public void InjectAndExecute(InjectableAssembly assembly, bool attach)
         {
-            UpdateFiles(pathToDll);
+            UpdateFiles(assembly.PathToAssemblyFile);
 
             // Possible anti-cheat detterence.
             ExternalProcess.SuspendThreads(true);
 
-            Inject(pathToDll);
+            Inject(assembly.PathToAssemblyFile);
 
             // In case we want to attach then we have to do so BEFORE we execute to give full debugging capabilities.
             if (attach && Debugger.IsAttached)
@@ -29,7 +29,7 @@ namespace GameSharp.Injection
 
             ExternalProcess.AllocConsole();
 
-            Execute(pathToDll, entryPoint);
+            Execute(assembly.PathToAssemblyFile, assembly.Entrypoint);
 
             ExternalProcess.SuspendThreads(false);
         }

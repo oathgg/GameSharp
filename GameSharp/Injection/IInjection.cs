@@ -2,6 +2,6 @@
 {
     public interface IInjection
     {
-        void InjectAndExecute(string pathToDll, string entryPoint, bool attach);
+        void InjectAndExecute(InjectableAssembly assembly, bool attach);
     }
 }

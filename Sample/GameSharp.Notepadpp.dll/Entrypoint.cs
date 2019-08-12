@@ -16,9 +16,10 @@ namespace GameSharp.Notepadpp.dll
             InternalProcess.Instance.CallFunction<int>(safeMessageBoxFunction, IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
 
             HookMessageBoxW messageBoxHook = new HookMessageBoxW();
+            LoggingService.Info("Hooked messagebox!");
             messageBoxHook.Enable();
 
-            Native.Structs.ThreadContext32 context = InternalProcess.Instance.GetThreadContext();
+            //Native.Structs.ThreadContext32 context = InternalProcess.Instance.GetThreadContext();
         }
     }
 }
