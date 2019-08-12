@@ -25,14 +25,11 @@ namespace GameSharp.Processes
 
         public InternalModule LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
-            if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+            byte[] loadLibraryOpcodes = GetLoadLibraryOpcodes(pathToDll);
 
-            byte[] pathBytes = Encoding.Unicode.GetBytes(pathToDll);
+            IntPtr allocatedMemory = Kernel32.VirtualAllocEx(Process.Handle, IntPtr.Zero, (uint)loadLibraryOpcodes.Length, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite);
 
-            IntPtr allocatedMemory = Kernel32.VirtualAllocEx(Process.Handle, IntPtr.Zero, (uint)pathBytes.Length, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite);
-
-            if (Kernel32.WriteProcessMemory(Process.Handle, allocatedMemory, pathBytes, pathBytes.Length, out IntPtr _))
+            if (Kernel32.WriteProcessMemory(Process.Handle, allocatedMemory, loadLibraryOpcodes, loadLibraryOpcodes.Length, out IntPtr _))
             {
                 IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
                 if (kernel32Module == IntPtr.Zero)
@@ -48,6 +45,16 @@ namespace GameSharp.Processes
             }
 
             return GetModule(Path.GetFileName(pathToDll));
+        }
+
+        public byte[] GetLoadLibraryOpcodes(string pathToDll)
+        {
+            if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+
+            byte[] pathBytes = Encoding.Unicode.GetBytes(pathToDll);
+
+            return pathBytes;
         }
 
         public InternalModule GetModule(string moduleName) => Process.GetProcessModule(moduleName);

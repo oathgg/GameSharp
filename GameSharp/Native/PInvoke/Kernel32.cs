@@ -34,10 +34,6 @@ namespace GameSharp.Native
         internal static extern IntPtr LoadLibraryExW([MarshalAs(UnmanagedType.LPWStr)]string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
 
         [DllImport(kernel32, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool FreeLibrary(IntPtr hModule);
-
-        [DllImport(kernel32, SetLastError = true)]
         internal static extern bool CloseHandle(IntPtr hObject);
 
         [DllImport(kernel32, SetLastError = true)]
@@ -51,8 +47,5 @@ namespace GameSharp.Native
 
         [DllImport(kernel32, SetLastError = true)]
         internal static extern bool GetThreadContext(IntPtr hThread, ref ThreadContext32 lpContext);
-
-        [DllImport(kernel32, SetLastError = true)]
-        internal static extern bool VirtualQueryEx(IntPtr processHandle, IntPtr baseAddress, out MemoryBasicInformation buffer, int length);
     }
 }
