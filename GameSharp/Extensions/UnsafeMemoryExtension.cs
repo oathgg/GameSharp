@@ -13,18 +13,6 @@ namespace GameSharp.Extensions
     public static class UnsafeMemoryExtension
     {
         /// <summary>
-        /// Gets an address from a vtable index. Since it uses index * IntPtr, it should work for both x64 and x32. 
-        /// </summary>
-        /// <param name="intPtr">The int PTR.</param>
-        /// <param name="functionIndex">Index of the function.</param>
-        /// <returns>IntPtr.</returns>
-        public static IntPtr GetVtableIntPtr(this IntPtr intPtr, int functionIndex)
-        {
-            IntPtr vftable = intPtr.Read<IntPtr>();
-            return (vftable + functionIndex * IntPtr.Size).Read<IntPtr>();
-        }
-
-        /// <summary>
         ///     Converts an unmanaged delegate to a function pointer.
         /// </summary>
         public static IntPtr ToFunctionPtr(this Delegate d)
