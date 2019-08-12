@@ -69,7 +69,7 @@ namespace GameSharp.Processes
             Kernel32.CreateRemoteThread(Process.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
 
-        public void Attach()
+        public void AttachDebugger()
         {
             EnvDTE.DTE dte;
             try

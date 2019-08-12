@@ -25,7 +25,7 @@ namespace GameSharp.Injection
 
             // In case we want to attach then we have to do so BEFORE we execute to give full debugging capabilities.
             if (attach && Debugger.IsAttached)
-                ExternalProcess.Attach();
+                ExternalProcess.AttachDebugger();
 
             ExternalProcess.AllocConsole();
 
