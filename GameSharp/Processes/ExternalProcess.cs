@@ -25,7 +25,7 @@ namespace GameSharp.Processes
 
         public InternalModule LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
-            byte[] loadLibraryOpcodes = GetLoadLibraryOpcodes(pathToDll);
+            byte[] loadLibraryOpcodes = LoadLibraryPayload(pathToDll);
 
             IntPtr allocatedMemory = Kernel32.VirtualAllocEx(Process.Handle, IntPtr.Zero, (uint)loadLibraryOpcodes.Length, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite);
 
@@ -47,7 +47,8 @@ namespace GameSharp.Processes
             return GetModule(Path.GetFileName(pathToDll));
         }
 
-        public byte[] GetLoadLibraryOpcodes(string pathToDll)
+        // TODO: Refactor to an actual payload, another detection vector is to get the entry point of a thread if its equal to LoadLibrary.
+        public byte[] LoadLibraryPayload(string pathToDll)
         {
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
