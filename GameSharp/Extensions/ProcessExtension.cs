@@ -1,10 +1,5 @@
-using GameSharp.Memory;
-using GameSharp.Native;
-using GameSharp.Services;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -42,7 +37,7 @@ namespace GameSharp.Extensions
                     }
                     break;
                 }
-                catch {}
+                catch { }
 
                 Thread.Sleep(1000);
             } while (tryCount-- > 0);

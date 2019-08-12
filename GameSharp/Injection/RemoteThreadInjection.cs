@@ -1,13 +1,10 @@
-﻿using GameSharp.Native;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using GameSharp.Extensions;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
+﻿using GameSharp.Extensions;
+using GameSharp.Native;
 using GameSharp.Processes;
-using GameSharp.Memory;
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace GameSharp.Injection
 {

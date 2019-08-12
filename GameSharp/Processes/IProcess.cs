@@ -1,5 +1,4 @@
-﻿using GameSharp.Memory;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace GameSharp.Processes
 {

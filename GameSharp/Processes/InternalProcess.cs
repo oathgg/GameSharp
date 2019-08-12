@@ -46,7 +46,7 @@ namespace GameSharp.Processes
         {
             ThreadContext32 context = new ThreadContext32
             {
-                ContextFlags = (uint) Context.CONTEXT_CONTROL
+                ContextFlags = (uint)Context.CONTEXT_CONTROL
             };
 
             uint threadId = 0;
@@ -54,8 +54,8 @@ namespace GameSharp.Processes
             {
                 var state = t.ThreadState;
 
-                if (state == System.Diagnostics.ThreadState.Wait)
-                    threadId = (uint) t.Id;
+                if (state == ThreadState.Wait)
+                    threadId = (uint)t.Id;
             }
 
             IntPtr hThread = Kernel32.OpenThread(ThreadAccess.GET_CONTEXT, false, threadId);

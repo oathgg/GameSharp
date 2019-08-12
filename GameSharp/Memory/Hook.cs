@@ -3,7 +3,6 @@
 //
 
 using GameSharp.Extensions;
-using GameSharp.Processes;
 using System;
 using System.Diagnostics;
 
@@ -40,7 +39,7 @@ namespace GameSharp.Memory.Internal
         /// <param name="target">The target delegate we want to detour.</param>
         /// <param name="hook">The hook delegate where want it to go.</param>
         public Hook()
-        { 
+        {
             TargetDelegate = GetHookDelegate();
             TargetFuncPtr = TargetDelegate.ToFunctionPtr();
 
@@ -58,7 +57,7 @@ namespace GameSharp.Memory.Internal
             if (module == null)
                 throw new NullReferenceException("Cannot find a module which belongs to the specified pointer.");
 
-            IntPtr codeCave = module.FindCodeCaveInModule((uint) bytes.Length);
+            IntPtr codeCave = module.FindCodeCaveInModule((uint)bytes.Length);
             CodeCavePatch = new Patch(codeCave, bytes);
 
             byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr();
@@ -95,7 +94,7 @@ namespace GameSharp.Memory.Internal
 
             Enable();
 
-            return (T) ret;
+            return (T)ret;
         }
 
         /// <summary>

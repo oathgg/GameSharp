@@ -1,11 +1,8 @@
 ﻿using GameSharp.Native;
-using GameSharp.Memory.External;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace GameSharp.Extensions
 {
