@@ -7,7 +7,7 @@ namespace GameSharp.Native
 {
     public static class Kernel32
     {
-        const string kernel32 = "kernel32.dll";
+        internal const string kernel32 = "kernel32.dll";
 
         [DllImport(kernel32, SetLastError = true)]
         internal static extern bool VirtualProtect(IntPtr lpAddress, int dwSize, MemoryProtection flNewProtect, out MemoryProtection lpflOldProtect);

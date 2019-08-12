@@ -29,7 +29,7 @@ namespace GameSharp.Injection
                 throw new Win32Exception($"Couldn't find the entry point, system returned error code: {Marshal.GetLastWin32Error()}");
 
             // Invoke the entry point in the remote process
-            Kernel32.CreateRemoteThread((IntPtr)RemoteProcess.Process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);
+            Kernel32.CreateRemoteThread(RemoteProcess.Process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace GameSharp.Processes
             uint threadId = 0;
             foreach (ProcessThread t in Process.Threads)
             {
-                var state = t.ThreadState;
+                ThreadState state = t.ThreadState;
 
                 if (state == ThreadState.Wait)
                     threadId = (uint)t.Id;
