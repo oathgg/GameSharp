@@ -34,16 +34,9 @@ namespace GameSharp.Injection
             ExternalProcess.SuspendThreads(false);
         }
 
-        /// <summary>
-        ///     Updates all the DLLs which we require for the injection to succeed.
-        /// </summary>
-        /// <param name="pathToDll"></param>
         private void UpdateFiles(string pathToDll)
         {
-            // Full path to the process
             string processPath = Path.GetDirectoryName(ExternalProcess.Process.MainModule.FileName);
-
-            // Copy all DLLs which our injecting DLL might use which are in the same folder.
             CopyFile(pathToDll, "GameSharp.dll", processPath);
         }
 

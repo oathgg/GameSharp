@@ -34,12 +34,8 @@ namespace GameSharp.Processes
             return GetModule(Path.GetFileName(libraryPath));
         }
 
-        public ProcessModule GetModule(string moduleName)
-        {
-            ProcessModule internalModule = Process.GetProcessModule(moduleName);
+        public ProcessModule GetModule(string moduleName) => Process.GetProcessModule(moduleName);
 
-            return internalModule;
-        }
         public T CallFunction<T>(SafeFunction safeFunction, params object[] parameters) => safeFunction.Call<T>(parameters);
 
         public ThreadContext32 GetThreadContext()
