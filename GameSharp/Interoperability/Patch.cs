@@ -10,7 +10,7 @@ namespace GameSharp.Interoperability
     /// </summary>
     public class Patch : IDisposable
     {
-        public InternalIntPtr PatchAddress { get; }
+        public UnmanagedMemory PatchAddress { get; }
         private byte[] OriginalBytes { get; set; }
         private bool IsActive { get; set; } = false;
         private byte[] NewBytes { get; set; }
@@ -19,7 +19,7 @@ namespace GameSharp.Interoperability
         ///     A patch can be used to change byte(s) starting at the defined address.
         /// </summary>
         /// <param name="addressToPatch">The address of the byte where we want our patch to start.</param>
-        public Patch(InternalIntPtr addressToPatch, byte[] newBytes)
+        public Patch(UnmanagedMemory addressToPatch, byte[] newBytes)
         {
             PatchAddress = addressToPatch;
             NewBytes = newBytes;

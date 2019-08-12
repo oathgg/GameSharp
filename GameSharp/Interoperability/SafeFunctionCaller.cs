@@ -19,7 +19,7 @@ namespace GameSharp.Interoperability
 
         public SafeFunction()
         {
-            InternalIntPtr address = ToCallDelegate().ToFunctionPtr();
+            UnmanagedMemory address = ToCallDelegate().ToFunctionPtr();
 
             InternalModule module = address.GetModuleWhichBelongsToAddress();
 
@@ -27,14 +27,14 @@ namespace GameSharp.Interoperability
 
             bytes.AddRange(address.GetReturnToPtr());
 
-            InternalIntPtr codeCave = module.FindCodeCaveInModule((uint)bytes.Count);
+            UnmanagedMemory codeCave = module.FindCodeCaveInModule((uint)bytes.Count);
 
             // TODO: Refactor since this is now a detection vector as we are now writing the 'JumpTable' into the process.
             codeCave.Write(bytes.ToArray());
 
             Type typeOfDelegate = ToCallDelegate().GetType();
 
-            SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(codeCave.Address, typeOfDelegate);
+            SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(codeCave.ManagedAddress, typeOfDelegate);
         }
 
         internal T Call<T>(params object[] parameters)
