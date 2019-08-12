@@ -1,5 +1,5 @@
 ﻿using GameSharp.Extensions;
-using GameSharp.Memory.Module;
+using GameSharp.Module;
 using GameSharp.Native;
 using GameSharp.Native.Enums;
 using GameSharp.Services;
@@ -23,7 +23,7 @@ namespace GameSharp.Processes
             Process = process;
         }
 
-        public Module LoadLibrary(string pathToDll, bool resolveReferences = true)
+        public InternalModule LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -50,7 +50,7 @@ namespace GameSharp.Processes
             return GetModule(Path.GetFileName(pathToDll));
         }
 
-        public Module GetModule(string moduleName) => Process.GetProcessModule(moduleName);
+        public InternalModule GetModule(string moduleName) => Process.GetProcessModule(moduleName);
 
         public void AllocConsole()
         {

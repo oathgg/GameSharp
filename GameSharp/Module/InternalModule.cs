@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace GameSharp.Memory.Module
+namespace GameSharp.Module
 {
-    public class Module
+    public class InternalModule
     {
         public ProcessModule ProcessModule { get; set; }
 
-        public Module(ProcessModule processModule)
+        public InternalModule(ProcessModule processModule)
         {
             ProcessModule = processModule;
         }

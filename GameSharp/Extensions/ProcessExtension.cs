@@ -1,4 +1,4 @@
-using GameSharp.Memory.Module;
+using GameSharp.Module;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -8,16 +8,16 @@ namespace GameSharp.Extensions
 {
     public static class ProcessExtension
     {
-        internal static Module GetProcessModule(this Process process, string moduleName)
+        internal static InternalModule GetProcessModule(this Process process, string moduleName)
         {
             int retryCount = 5;
-            Module module = null;
+            InternalModule module = null;
             do
             {
                 // We do a refresh in case something has changed in the process, for example a DLL has been injected.
                 process.Refresh();
 
-                module = new Module(process.Modules.Cast<ProcessModule>().SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase)));
+                module = new InternalModule(process.Modules.Cast<ProcessModule>().SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase)));
 
                 if (module != null)
                     break;

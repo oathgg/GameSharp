@@ -19,7 +19,7 @@ namespace GameSharp.Memory.Internal
         {
             IntPtr address = ToCallDelegate().ToFunctionPtr();
 
-            Module.Module module = address.GetModuleWhichBelongsToAddress();
+            Module.InternalModule module = address.GetModuleWhichBelongsToAddress();
 
             List<byte> bytes = new List<byte>();
 

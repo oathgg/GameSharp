@@ -69,7 +69,7 @@
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />
-    <Compile Include="Memory\Module\Module.cs" />
+    <Compile Include="Module\InternalModule.cs" />
     <Compile Include="Native\Enums\AllocationType.cs" />
     <Compile Include="Native\Enums\Context.cs" />
     <Compile Include="Native\Enums\LoadLibraryFlags.cs" />

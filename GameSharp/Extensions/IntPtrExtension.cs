@@ -1,4 +1,4 @@
-﻿using GameSharp.Memory.Module;
+﻿using GameSharp.Module;
 using GameSharp.Native;
 using GameSharp.Native.Enums;
 using System;
@@ -37,14 +37,14 @@ namespace GameSharp.Extensions
             Kernel32.VirtualProtect(addr, data.Length, old, out _);
         }
 
-        public static Module GetModuleWhichBelongsToAddress(this IntPtr address)
+        public static InternalModule GetModuleWhichBelongsToAddress(this IntPtr address)
         {
             ProcessModuleCollection modules = Process.GetCurrentProcess().Modules;
             foreach (ProcessModule module in modules)
             {
                 if ((uint)address > (uint)module.BaseAddress && (uint)address < (uint)module.BaseAddress + module.ModuleMemorySize)
                 {
-                    return new Module(module);
+                    return new InternalModule(module);
                 }
             }
             return null;

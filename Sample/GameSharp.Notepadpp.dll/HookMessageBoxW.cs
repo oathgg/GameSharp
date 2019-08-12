@@ -1,6 +1,6 @@
 ﻿using GameSharp.Extensions;
 using GameSharp.Memory.Internal;
-using GameSharp.Memory.Module;
+using GameSharp.Module;
 using GameSharp.Processes;
 using GameSharp.Services;
 using System;
@@ -32,7 +32,7 @@ namespace GameSharp.Notepadpp.dll
 
         public override Delegate GetHookDelegate()
         {
-            Module module = InternalProcess.Instance.GetModule("USER32.DLL");
+            InternalModule module = InternalProcess.Instance.GetModule("USER32.DLL");
 
             return (module.ProcessModule.BaseAddress + 0x78290).ToDelegate<HookMessageBoxWDelegate>();
         }
