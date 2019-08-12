@@ -36,12 +36,8 @@ namespace GameSharp.Memory
 
         public void Write(byte[] data)
         {
-            // Update the memory section so we can write to it if not writeable.
             Kernel32.VirtualProtect(Address, data.Length, MemoryProtection.ExecuteReadWrite, out MemoryProtection old);
-
             Marshal.Copy(data, 0, Address, data.Length);
-
-            // Restore the page execution permissions.
             Kernel32.VirtualProtect(Address, data.Length, old, out _);
         }
 

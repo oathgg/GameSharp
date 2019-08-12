@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace GameSharp.Memory.External
+namespace GameSharp.Memory
 {
-    public class PatternScanner
+    public class MemoryScanner
     {
         /// <summary>
         ///     Contains all the bytes of the specified module.
@@ -17,16 +17,16 @@ namespace GameSharp.Memory.External
         private InternalIntPtr ModuleBase { get; } = new InternalIntPtr();
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PatternScanner" /> class.
+        ///     Initializes a new instance of the <see cref="MemoryScanner" /> class.
         /// </summary>
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
-        internal PatternScanner(ProcessModule module)
+        internal MemoryScanner(ProcessModule module)
         {
             ModuleBase = new InternalIntPtr(module.BaseAddress);
             Bytes = ModuleBase.Read<byte[]>(module.ModuleMemorySize);
         }
 
-        internal PatternScanner(byte[] bytesToScan)
+        internal MemoryScanner(byte[] bytesToScan)
         {
             Bytes = bytesToScan;
         }
