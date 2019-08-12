@@ -18,7 +18,7 @@ namespace GameSharp.Notepadpp.dll
             HookMessageBoxW messageBoxHook = new HookMessageBoxW();
             messageBoxHook.Enable();
 
-            var context = InternalProcess.Instance.GetThreadContext();
+            Native.Structs.ThreadContext32 context = InternalProcess.Instance.GetThreadContext();
         }
     }
 }

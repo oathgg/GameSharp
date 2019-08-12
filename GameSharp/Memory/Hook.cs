@@ -4,7 +4,6 @@
 
 using GameSharp.Extensions;
 using System;
-using System.Diagnostics;
 
 namespace GameSharp.Memory.Internal
 {
@@ -52,7 +51,7 @@ namespace GameSharp.Memory.Internal
         private void InitializeAntiCheatHook()
         {
             byte[] bytes = HookPtr.GetReturnToPtr();
-            ProcessModule module = TargetFuncPtr.GetModuleWhichBelongsToAddress();
+            Module.Module module = TargetFuncPtr.GetModuleWhichBelongsToAddress();
 
             if (module == null)
                 throw new NullReferenceException("Cannot find a module which belongs to the specified pointer.");

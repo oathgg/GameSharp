@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GameSharp.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using GameSharp.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameSharp.Tests
 {

@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
+﻿using GameSharp.Memory.Module;
 
 namespace GameSharp.Processes
 {
     public interface IProcess
     {
-        ProcessModule LoadLibrary(string libraryPath, bool resolveReferences = true);
-        ProcessModule GetModule(string moduleName);
+        Module LoadLibrary(string libraryPath, bool resolveReferences = true);
+        Module GetModule(string moduleName);
     }
 }

@@ -1,22 +1,30 @@
-﻿using GameSharp.Native;
+﻿using GameSharp.Extensions;
+using GameSharp.Native;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace GameSharp.Extensions
+namespace GameSharp.Memory.Module
 {
-    public static class ProcessModuleExtensions
+    public class Module
     {
+        public ProcessModule ProcessModule { get; set; }
+
+        public Module(ProcessModule processModule)
+        {
+            ProcessModule = processModule;
+        }
+
         /// <summary>
         ///     Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
         /// </summary>
         /// <param name="moduleName">The module name (not case-sensitive).</param>
         /// <param name="functionName">The function or variable name, or the function's ordinal value.</param>
         /// <returns>The address of the exported function.</returns>
-        public static IntPtr GetProcAddress(this ProcessModule module, string functionName)
+        public IntPtr GetProcAddress(string functionName)
         {
-            IntPtr ret = Kernel32.GetProcAddress(module.BaseAddress, functionName);
+            IntPtr ret = Kernel32.GetProcAddress(ProcessModule.BaseAddress, functionName);
 
             if (ret == IntPtr.Zero)
                 throw new Win32Exception($"Couldn't get the function address with name {functionName}.");
@@ -38,9 +46,9 @@ namespace GameSharp.Extensions
         /// <param name="module"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public static IntPtr FindCodeCaveInModule(this ProcessModule module, uint size)
+        public IntPtr FindCodeCaveInModule(uint size)
         {
-            byte[] moduleBytes = module.BaseAddress.Read<byte[]>(module.ModuleMemorySize);
+            byte[] moduleBytes = ProcessModule.BaseAddress.Read<byte[]>(ProcessModule.ModuleMemorySize);
 
             for (uint i = 0x1000; i < moduleBytes.Length; i++)
             {
@@ -48,7 +56,7 @@ namespace GameSharp.Extensions
                     continue;
 
                 // If the codecave has already been taken (might still have bytes that are 0'd then we skip the size of the other codecave.
-                CodeCavesTaken.TryGetValue((uint)module.BaseAddress + i, out uint sizeTaken);
+                CodeCavesTaken.TryGetValue((uint)ProcessModule.BaseAddress + i, out uint sizeTaken);
                 if (sizeTaken > 0)
                 {
                     i += sizeTaken;
@@ -61,9 +69,9 @@ namespace GameSharp.Extensions
                     {
                         if (j == size)
                         {
-                            CodeCavesTaken.Add((uint)module.BaseAddress + i, size);
+                            CodeCavesTaken.Add((uint)ProcessModule.BaseAddress + i, size);
 
-                            return new IntPtr((uint)module.BaseAddress + i);
+                            return new IntPtr((uint)ProcessModule.BaseAddress + i);
                         }
                     }
                     // If we can't find a codecave big enough we will stop looping through the bytes

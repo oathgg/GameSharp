@@ -1,9 +1,8 @@
-﻿using GameSharp.Extensions;
+﻿using GameSharp.Memory.Module;
 using GameSharp.Native;
 using GameSharp.Processes;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Injection
@@ -22,7 +21,7 @@ namespace GameSharp.Injection
         protected override void Execute(string pathToDll, string entryPoint)
         {
             InternalProcess myProcess = InternalProcess.Instance;
-            ProcessModule module = myProcess.LoadLibrary(pathToDll, false);
+            Module module = myProcess.LoadLibrary(pathToDll, false);
             IntPtr entryPointAddress = module.GetProcAddress(entryPoint);
 
             if (entryPointAddress == IntPtr.Zero)

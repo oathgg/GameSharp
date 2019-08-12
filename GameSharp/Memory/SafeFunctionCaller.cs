@@ -1,7 +1,6 @@
 ﻿using GameSharp.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Memory.Internal
@@ -20,7 +19,7 @@ namespace GameSharp.Memory.Internal
         {
             IntPtr address = ToCallDelegate().ToFunctionPtr();
 
-            ProcessModule module = address.GetModuleWhichBelongsToAddress();
+            Module.Module module = address.GetModuleWhichBelongsToAddress();
 
             List<byte> bytes = new List<byte>();
 

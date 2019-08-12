@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace GameSharp.Notepadpp.Injector
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // The process we are injecting into.
             Process process = Process.GetProcessesByName("notepad++").FirstOrDefault();

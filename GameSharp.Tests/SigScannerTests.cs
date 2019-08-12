@@ -1,7 +1,4 @@
-﻿using System;
-using GameSharp.Memory.External;
-using GameSharp.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GameSharp.Tests
 {

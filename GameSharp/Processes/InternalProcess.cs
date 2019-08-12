@@ -1,5 +1,6 @@
 ﻿using GameSharp.Extensions;
 using GameSharp.Memory.Internal;
+using GameSharp.Memory.Module;
 using GameSharp.Native;
 using GameSharp.Native.Enums;
 using GameSharp.Native.Structs;
@@ -19,7 +20,7 @@ namespace GameSharp.Processes
 
         public Process Process { get; } = Process.GetCurrentProcess();
 
-        public ProcessModule LoadLibrary(string libraryPath, bool resolveReferences = true)
+        public Module LoadLibrary(string libraryPath, bool resolveReferences = true)
         {
             if (!File.Exists(libraryPath))
                 throw new FileNotFoundException(libraryPath);
@@ -34,7 +35,7 @@ namespace GameSharp.Processes
             return GetModule(Path.GetFileName(libraryPath));
         }
 
-        public ProcessModule GetModule(string moduleName) => Process.GetProcessModule(moduleName);
+        public Module GetModule(string moduleName) => Process.GetProcessModule(moduleName);
 
         public T CallFunction<T>(SafeFunction safeFunction, params object[] parameters) => safeFunction.Call<T>(parameters);
 
