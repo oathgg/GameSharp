@@ -23,7 +23,7 @@ namespace GameSharp.Processes
             Process = process;
         }
 
-        public InternalModule LoadLibrary(string pathToDll, bool resolveReferences = true)
+        public ModuleBase LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
             byte[] loadLibraryOpcodes = LoadLibraryPayload(pathToDll);
 
@@ -58,7 +58,7 @@ namespace GameSharp.Processes
             return pathBytes;
         }
 
-        public InternalModule GetModule(string moduleName) => Process.GetProcessModule(moduleName);
+        public ModuleBase GetModule(string moduleName) => Process.GetProcessModule(moduleName);
 
         public void AllocConsole()
         {

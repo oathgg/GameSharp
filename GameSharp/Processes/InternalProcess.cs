@@ -1,5 +1,4 @@
-﻿using GameSharp.Extensions;
-using GameSharp.Memory.Internal;
+﻿using GameSharp.Memory.Internal;
 using GameSharp.Module;
 using GameSharp.Native;
 using GameSharp.Native.Enums;
@@ -8,7 +7,9 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace GameSharp.Processes
 {
@@ -20,7 +21,7 @@ namespace GameSharp.Processes
 
         public Process Process { get; } = Process.GetCurrentProcess();
 
-        public InternalModule LoadLibrary(string libraryPath, bool resolveReferences = true)
+        public ModuleBase LoadLibrary(string libraryPath, bool resolveReferences = true)
         {
             if (!File.Exists(libraryPath))
                 throw new FileNotFoundException(libraryPath);
@@ -35,7 +36,25 @@ namespace GameSharp.Processes
             return GetModule(Path.GetFileName(libraryPath));
         }
 
-        public InternalModule GetModule(string moduleName) => Process.GetProcessModule(moduleName);
+        public ModuleBase GetModule(string moduleName)
+        {
+            int retryCount = 5;
+            InternalModule module = null;
+            do
+            {
+                // We do a refresh in case something has changed in the process, for example a DLL has been injected.
+                Process.Refresh();
+
+                module = new InternalModule(Process.Modules.Cast<ProcessModule>().SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase)));
+
+                if (module != null)
+                    break;
+
+                Thread.Sleep(1000);
+            } while (retryCount-- > 0);
+
+            return module;
+        }
 
         public T CallFunction<T>(SafeFunction safeFunction, params object[] parameters) => safeFunction.Call<T>(parameters);
 
@@ -46,16 +65,7 @@ namespace GameSharp.Processes
                 ContextFlags = (uint)Context.CONTEXT_CONTROL
             };
 
-            uint threadId = 0;
-            foreach (ProcessThread t in Process.Threads)
-            {
-                ThreadState state = t.ThreadState;
-
-                if (state == ThreadState.Wait)
-                    threadId = (uint)t.Id;
-            }
-
-            IntPtr hThread = Kernel32.OpenThread(ThreadAccess.GET_CONTEXT, false, threadId);
+            IntPtr hThread = Kernel32.OpenThread(ThreadAccess.GET_CONTEXT, false, 0);
 
             if (hThread == IntPtr.Zero)
                 throw new Win32Exception(Marshal.GetLastWin32Error());

@@ -7,13 +7,20 @@ using System.Diagnostics;
 
 namespace GameSharp.Module
 {
-    public class InternalModule
+    public class InternalModule : ModuleBase
     {
-        public ProcessModule ProcessModule { get; set; }
+        public PeNet.PeFile PeHeader { get; }
 
-        public InternalModule(ProcessModule processModule)
+        public InternalModule(ProcessModule processModule) : base(processModule)
         {
-            ProcessModule = processModule;
+            PeHeader = GeneratePeHeader();
+        }
+
+        private PeNet.PeFile GeneratePeHeader()
+        {
+            PeNet.PeFile header = new PeNet.PeFile(ProcessModule.BaseAddress.Read<byte[]>(ProcessModule.ModuleMemorySize));
+
+            return header;
         }
 
         /// <summary>
@@ -22,7 +29,7 @@ namespace GameSharp.Module
         /// <param name="moduleName">The module name (not case-sensitive).</param>
         /// <param name="functionName">The function or variable name, or the function's ordinal value.</param>
         /// <returns>The address of the exported function.</returns>
-        public IntPtr GetProcAddress(string functionName)
+        public override IntPtr GetProcAddress(string functionName)
         {
             IntPtr ret = Kernel32.GetProcAddress(ProcessModule.BaseAddress, functionName);
 

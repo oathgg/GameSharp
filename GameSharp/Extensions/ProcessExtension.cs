@@ -8,7 +8,7 @@ namespace GameSharp.Extensions
 {
     public static class ProcessExtension
     {
-        internal static InternalModule GetProcessModule(this Process process, string moduleName)
+        internal static ModuleBase GetProcessModule(this Process process, string moduleName)
         {
             int retryCount = 5;
             InternalModule module = null;

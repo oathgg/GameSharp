@@ -4,7 +4,7 @@ namespace GameSharp.Processes
 {
     public interface IProcess
     {
-        InternalModule LoadLibrary(string libraryPath, bool resolveReferences = true);
-        InternalModule GetModule(string moduleName);
+        ModuleBase LoadLibrary(string libraryPath, bool resolveReferences = true);
+        ModuleBase GetModule(string moduleName);
     }
 }
