@@ -9,14 +9,14 @@ namespace GameSharp.Injection
 {
     public class RemoteThreadInjection : InjectionBase
     {
-        private ExternalProcess RemoteProcess { get; set; }
+        private ExternalProcess ExternalProcess { get; set; }
 
         public RemoteThreadInjection(System.Diagnostics.Process process) : base(process)
         {
-            RemoteProcess = new ExternalProcess(process);
+            ExternalProcess = new ExternalProcess(process);
         }
 
-        protected override void Inject(string pathToDll) => RemoteProcess.LoadLibrary(pathToDll);
+        protected override void Inject(string pathToDll) => ExternalProcess.LoadLibrary(pathToDll);
 
         protected override void Execute(string pathToDll, string entryPoint)
         {
@@ -28,7 +28,7 @@ namespace GameSharp.Injection
                 throw new Win32Exception($"Couldn't find the entry point, system returned error code: {Marshal.GetLastWin32Error()}");
 
             // TODO: Refactor to an invocation of an entrypoint with params.
-            Kernel32.CreateRemoteThread(RemoteProcess.Process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);
+            Kernel32.CreateRemoteThread(ExternalProcess.Process.Handle, IntPtr.Zero, 0, entryPointAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
     }
 }
