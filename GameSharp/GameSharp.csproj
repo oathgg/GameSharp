@@ -69,8 +69,13 @@
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />
-    <Compile Include="Native\Enums.cs" />
-    <Compile Include="Native\Kernel32.cs" />
+    <Compile Include="Native\Enums\AllocationType.cs" />
+    <Compile Include="Native\Enums\Context.cs" />
+    <Compile Include="Native\Enums\LoadLibraryFlags.cs" />
+    <Compile Include="Native\Enums\MemoryProtection.cs" />
+    <Compile Include="Native\Enums\ProcessAccess.cs" />
+    <Compile Include="Native\Enums\ThreadAccess.cs" />
+    <Compile Include="Native\PInvoke\Kernel32.cs" />
     <Compile Include="Native\Structs.cs" />
     <Compile Include="Processes\InternalProcess.cs" />
     <Compile Include="Processes\IProcess.cs" />

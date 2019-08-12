@@ -1,7 +1,6 @@
-using Microsoft.Win32.SafeHandles;
+using GameSharp.Native.Enums;
 using System;
 using System.Runtime.InteropServices;
-using static GameSharp.Native.Enums;
 using static GameSharp.Native.Structs;
 
 namespace GameSharp.Native
@@ -11,7 +10,7 @@ namespace GameSharp.Native
         const string kernel32 = "kernel32.dll";
 
         [DllImport(kernel32, SetLastError = true)]
-        internal static extern bool VirtualProtect(IntPtr lpAddress, int dwSize, Protection flNewProtect, out Protection lpflOldProtect);
+        internal static extern bool VirtualProtect(IntPtr lpAddress, int dwSize, MemoryProtection flNewProtect, out MemoryProtection lpflOldProtect);
 
         [DllImport(kernel32, SetLastError = true)]
         internal static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, AllocationType flAllocationType, MemoryProtection flProtect);
@@ -51,7 +50,7 @@ namespace GameSharp.Native
         internal static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
 
         [DllImport(kernel32, SetLastError = true)]
-        internal static extern bool GetThreadContext(IntPtr hThread, ref Structs.ThreadContext32 lpContext);
+        internal static extern bool GetThreadContext(IntPtr hThread, ref ThreadContext32 lpContext);
 
         [DllImport(kernel32, SetLastError = true)]
         internal static extern bool VirtualQueryEx(IntPtr processHandle, IntPtr baseAddress, out MemoryBasicInformation buffer, int length);

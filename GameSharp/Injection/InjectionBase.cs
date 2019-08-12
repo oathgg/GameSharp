@@ -1,20 +1,18 @@
 ﻿using GameSharp.Extensions;
 using GameSharp.Native;
+using GameSharp.Native.Enums;
 using GameSharp.Services;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace GameSharp.Injection
 {
     public abstract class InjectionBase : IInjection
     {
-        private Process Process;
+        private readonly Process Process;
 
         public InjectionBase(Process process)
         {
@@ -46,7 +44,7 @@ namespace GameSharp.Injection
         {
             foreach (ProcessThread pT in Process.Threads)
             {
-                IntPtr tHandle = Kernel32.OpenThread(Enums.ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
+                IntPtr tHandle = Kernel32.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
 
                 if (tHandle != IntPtr.Zero)
                 {

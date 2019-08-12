@@ -1,9 +1,8 @@
 ﻿using GameSharp.Native;
-using GameSharp.Services;
+using GameSharp.Native.Enums;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Extensions
@@ -29,7 +28,7 @@ namespace GameSharp.Extensions
         public static void Write(this IntPtr addr, byte[] data)
         {
             // Update the memory section so we can write to it if not writeable.
-            Kernel32.VirtualProtect(addr, data.Length, Enums.Protection.PAGE_EXECUTE_READWRITE, out Enums.Protection old);
+            Kernel32.VirtualProtect(addr, data.Length, MemoryProtection.ExecuteReadWrite, out MemoryProtection old);
 
             Marshal.Copy(data, 0, addr, data.Length);
 

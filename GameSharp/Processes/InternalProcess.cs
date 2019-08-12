@@ -2,6 +2,7 @@
 using GameSharp.Memory;
 using GameSharp.Memory.Internal;
 using GameSharp.Native;
+using GameSharp.Native.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,7 +30,7 @@ namespace GameSharp.Processes
 
             bool failed = resolveReferences
                 ? Kernel32.LoadLibrary(libraryPath) == IntPtr.Zero
-                : Kernel32.LoadLibraryExW(libraryPath, IntPtr.Zero, Enums.LoadLibraryFlags.DontResolveDllReferences) == IntPtr.Zero;
+                : Kernel32.LoadLibraryExW(libraryPath, IntPtr.Zero, LoadLibraryFlags.DontResolveDllReferences) == IntPtr.Zero;
 
             if (failed)
                 throw new Win32Exception($"Couldn't load the library {libraryPath}.");
@@ -47,9 +48,9 @@ namespace GameSharp.Processes
 
         public ThreadContext32 GetThreadContext()
         {
-            ThreadContext32 Context = new ThreadContext32
+            ThreadContext32 context = new ThreadContext32
             {
-                ContextFlags = (uint)Enums.Context.CONTEXT_CONTROL
+                ContextFlags = (uint) Context.CONTEXT_CONTROL
             };
 
             uint threadId = 0;
@@ -61,14 +62,14 @@ namespace GameSharp.Processes
                     threadId = (uint) t.Id;
             }
 
-            IntPtr hThread = Kernel32.OpenThread(Enums.ThreadAccess.GET_CONTEXT, false, threadId);
+            IntPtr hThread = Kernel32.OpenThread(ThreadAccess.GET_CONTEXT, false, threadId);
 
             if (hThread == IntPtr.Zero)
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             Kernel32.SuspendThread(hThread);
 
-            if (!Kernel32.GetThreadContext(hThread, ref Context))
+            if (!Kernel32.GetThreadContext(hThread, ref context))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             if (!Kernel32.CloseHandle(hThread))
@@ -76,7 +77,7 @@ namespace GameSharp.Processes
 
             Kernel32.ResumeThread(hThread);
 
-            return Context;
+            return context;
         }
     }
 }

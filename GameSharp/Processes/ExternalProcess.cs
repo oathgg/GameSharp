@@ -1,7 +1,6 @@
 ﻿using GameSharp.Extensions;
-using GameSharp.Memory;
-using GameSharp.Memory.External;
 using GameSharp.Native;
+using GameSharp.Native.Enums;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -27,9 +26,9 @@ namespace GameSharp.Processes
 
             byte[] pathBytes = Encoding.Unicode.GetBytes(pathToDll);
 
-            IntPtr allocatedMemory = Kernel32.VirtualAllocEx(Process.Handle, IntPtr.Zero, (uint)pathBytes.Length, Enums.AllocationType.Reserve | Enums.AllocationType.Commit, Enums.MemoryProtection.ExecuteReadWrite);
+            IntPtr allocatedMemory = Kernel32.VirtualAllocEx(Process.Handle, IntPtr.Zero, (uint)pathBytes.Length, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite);
 
-            if (Kernel32.WriteProcessMemory(Process.Handle, allocatedMemory, pathBytes, pathBytes.Length, out IntPtr a))
+            if (Kernel32.WriteProcessMemory(Process.Handle, allocatedMemory, pathBytes, pathBytes.Length, out IntPtr _))
             {
                 IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
                 if (kernel32Module == IntPtr.Zero)
