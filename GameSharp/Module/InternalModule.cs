@@ -7,16 +7,14 @@ using System.Diagnostics;
 
 namespace GameSharp.Module
 {
-    public class InternalModule
+    public class InternalModule : BaseModule
     {
-        public readonly ProcessModule ProcessModule;
         public readonly UnmanagedMemory BaseAddress;
 
         public PeNet.PeFile PeHeader { get; }
 
-        public InternalModule(ProcessModule processModule)
+        public InternalModule(ProcessModule processModule) : base(processModule)
         {
-            ProcessModule = processModule;
             BaseAddress = new UnmanagedMemory(ProcessModule.BaseAddress);
             PeHeader = GeneratePeHeader();
         }
