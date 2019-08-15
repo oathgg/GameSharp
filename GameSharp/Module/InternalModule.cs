@@ -9,19 +9,19 @@ namespace GameSharp.Module
 {
     public class InternalModule : BaseModule
     {
-        public MemoryAddress UnmanagedAddress;
+        public MemoryAddress ModuleBaseAddress { get; }
 
         public PeNet.PeFile PeHeader { get; }
 
         public InternalModule(ProcessModule processModule) : base(processModule)
         {
-            UnmanagedAddress = new MemoryAddress(ProcessModule.BaseAddress);
+            ModuleBaseAddress = new MemoryAddress(ProcessModule.BaseAddress);
             PeHeader = GeneratePeHeader();
         }
 
         private PeNet.PeFile GeneratePeHeader()
         {
-            PeNet.PeFile header = new PeNet.PeFile(UnmanagedAddress.Read<byte[]>(0x1000));
+            PeNet.PeFile header = new PeNet.PeFile(ModuleBaseAddress.Read<byte[]>(0x1000));
 
             return header;
         }
@@ -47,7 +47,7 @@ namespace GameSharp.Module
         /// <summary>
         ///     Keeps track of all code caves currently in use, even if there are no injected bytes.
         /// </summary>
-        private static Dictionary<uint, uint> CodeCavesTaken = new Dictionary<uint, uint>();
+        private static readonly Dictionary<uint, uint> CodeCavesTaken = new Dictionary<uint, uint>();
 
         /// <summary>
         ///     Get .text region from Module
@@ -60,9 +60,9 @@ namespace GameSharp.Module
         /// <returns></returns>
         public MemoryAddress FindCodeCaveInModule(uint size)
         {
-            byte[] moduleBytes = UnmanagedAddress.Read<byte[]>(ProcessModule.ModuleMemorySize);
+            byte[] moduleBytes = ModuleBaseAddress.Read<byte[]>(ProcessModule.ModuleMemorySize);
 
-            for (uint i = 0x1000; i < moduleBytes.Length; i++)
+            for (uint i = PeHeader.ImageNtHeaders.OptionalHeader.SizeOfCode; i < moduleBytes.Length; i++)
             {
                 if (moduleBytes[i] != 0x0)
                 {

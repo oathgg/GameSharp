@@ -62,8 +62,8 @@ namespace GameSharp.Memory
         {
             foreach (InternalModule module in InternalProcess.Instance.Modules)
             {
-                if (IntPtr.ToInt64() > module.UnmanagedAddress.IntPtr.ToInt64()
-                    && IntPtr.ToInt64() < module.UnmanagedAddress.IntPtr.ToInt64() + module.Size)
+                if (IntPtr.ToInt64() > module.ModuleBaseAddress.IntPtr.ToInt64()
+                    && IntPtr.ToInt64() < module.ModuleBaseAddress.IntPtr.ToInt64() + module.Size)
                 {
                     return module;
                 }
