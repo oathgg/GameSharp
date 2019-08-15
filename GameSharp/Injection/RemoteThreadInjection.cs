@@ -20,6 +20,12 @@ namespace GameSharp.Injection
 
         protected override void Execute(string pathToDll, string entryPoint)
         {
+            if (string.IsNullOrEmpty(pathToDll))
+                throw new ArgumentNullException("pathToDll");
+
+            if (string.IsNullOrEmpty(entryPoint))
+                throw new ArgumentNullException("entryPoint");
+
             InternalProcess myProcess = InternalProcess.Instance;
             InternalModule module = myProcess.LoadLibrary(pathToDll, false);
             IntPtr entryPointAddress = module.GetProcAddress(entryPoint);
