@@ -1,6 +1,8 @@
 using GameSharp.Native.Enums;
 using GameSharp.Native.Structs;
 using System;
+using System.ComponentModel;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Native
@@ -28,12 +30,6 @@ namespace GameSharp.Native
         internal static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
 
         [DllImport(kernel32, SetLastError = true)]
-        internal static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPWStr)]string lpFileName);
-
-        [DllImport(kernel32, SetLastError = true)]
-        internal static extern IntPtr LoadLibraryExW([MarshalAs(UnmanagedType.LPWStr)]string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
-
-        [DllImport(kernel32, SetLastError = true)]
         internal static extern bool CloseHandle(IntPtr hObject);
 
         [DllImport(kernel32, SetLastError = true)]
@@ -47,5 +43,30 @@ namespace GameSharp.Native
 
         [DllImport(kernel32, SetLastError = true)]
         internal static extern bool GetThreadContext(IntPtr hThread, ref ThreadContext32 lpContext);
+
+        [DllImport(kernel32, SetLastError = true)]
+        private static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPWStr)]string lpFileName);
+
+        [DllImport(kernel32, SetLastError = true)]
+        private static extern IntPtr LoadLibraryExW([MarshalAs(UnmanagedType.LPWStr)]string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
+
+        internal static IntPtr LoadLibrary(string libraryPath, bool resolveReferences = true)
+        {
+            if (!File.Exists(libraryPath))
+            {
+                throw new FileNotFoundException(libraryPath);
+            }
+
+            IntPtr libraryAddress = resolveReferences
+                ? LoadLibrary(libraryPath)
+                : LoadLibraryExW(libraryPath, IntPtr.Zero, LoadLibraryFlags.DontResolveDllReferences);
+
+            if (libraryAddress == IntPtr.Zero)
+            {
+                throw new Win32Exception($"Couldn't load the library {libraryPath}.");
+            }
+
+            return libraryAddress;
+        }
     }
 }

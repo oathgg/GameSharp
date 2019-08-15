@@ -9,19 +9,19 @@ namespace GameSharp.Module
 {
     public class InternalModule : BaseModule
     {
-        public readonly UnmanagedMemory BaseAddress;
+        public UnmanagedMemory UnmanagedAddress;
 
         public PeNet.PeFile PeHeader { get; }
 
         public InternalModule(ProcessModule processModule) : base(processModule)
         {
-            BaseAddress = new UnmanagedMemory(ProcessModule.BaseAddress);
+            UnmanagedAddress = new UnmanagedMemory(ProcessModule.BaseAddress);
             PeHeader = GeneratePeHeader();
         }
 
         private PeNet.PeFile GeneratePeHeader()
         {
-            PeNet.PeFile header = new PeNet.PeFile(BaseAddress.Read<byte[]>(0x1000));
+            PeNet.PeFile header = new PeNet.PeFile(UnmanagedAddress.Read<byte[]>(0x1000));
 
             return header;
         }
@@ -60,7 +60,7 @@ namespace GameSharp.Module
         /// <returns></returns>
         public UnmanagedMemory FindCodeCaveInModule(uint size)
         {
-            byte[] moduleBytes = BaseAddress.Read<byte[]>(ProcessModule.ModuleMemorySize);
+            byte[] moduleBytes = UnmanagedAddress.Read<byte[]>(ProcessModule.ModuleMemorySize);
 
             for (uint i = 0x1000; i < moduleBytes.Length; i++)
             {

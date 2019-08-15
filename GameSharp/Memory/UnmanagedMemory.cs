@@ -60,12 +60,12 @@ namespace GameSharp.Memory
 
         public InternalModule GetMyModule()
         {
-            ProcessModuleCollection modules = InternalProcess.Instance.Modules;
-            foreach (ProcessModule module in modules)
+            foreach (InternalModule module in InternalProcess.Instance.Modules)
             {
-                if ((uint)ManagedAddress > (uint)module.BaseAddress && (uint)ManagedAddress < (uint)module.BaseAddress + module.ModuleMemorySize)
+                if (ManagedAddress.ToInt64() > module.UnmanagedAddress.ManagedAddress.ToInt64()
+                    && ManagedAddress.ToInt64() < module.UnmanagedAddress.ManagedAddress.ToInt64() + module.Size)
                 {
-                    return new InternalModule(module);
+                    return module;
                 }
             }
             return null;

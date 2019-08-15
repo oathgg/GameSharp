@@ -3,6 +3,7 @@ using GameSharp.Native;
 using GameSharp.Native.Enums;
 using GameSharp.Services;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -16,6 +17,7 @@ namespace GameSharp.Processes
     public class ExternalProcess
     {
         public Process Process { get; }
+        public List<ExternalModule> Modules => GetModules();
 
         public ExternalProcess(Process process)
         {
@@ -49,7 +51,7 @@ namespace GameSharp.Processes
                 }
             }
 
-            return GetModule(Path.GetFileName(pathToDll));
+            return Modules.FirstOrDefault(x => x.Name == Path.GetFileName(pathToDll));
         }
 
         // TODO: Refactor to an actual payload, another detection vector is to get the entry point of a thread if its equal to LoadLibrary.
@@ -65,26 +67,18 @@ namespace GameSharp.Processes
             return pathBytes;
         }
 
-        public ExternalModule GetModule(string moduleName)
+        public List<ExternalModule> GetModules()
         {
-            int retryCount = 5;
-            ExternalModule module = null;
-            do
+            Process.Refresh();
+
+            List<ExternalModule> iModules = new List<ExternalModule>();
+
+            foreach (ProcessModule pm in Process.Modules)
             {
-                // We do a refresh in case something has changed in the process, for example a DLL has been injected.
-                Process.Refresh();
+                iModules.Add(new ExternalModule(pm));
+            }
 
-                module = new ExternalModule(Process.Modules.Cast<ProcessModule>().SingleOrDefault(m => string.Equals(m.ModuleName, moduleName, StringComparison.OrdinalIgnoreCase)));
-
-                if (module != null)
-                {
-                    break;
-                }
-
-                Thread.Sleep(1000);
-            } while (retryCount-- > 0);
-
-            return module;
+            return iModules;
         }
 
         public void AllocConsole()
