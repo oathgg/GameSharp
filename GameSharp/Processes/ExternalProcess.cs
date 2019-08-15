@@ -55,7 +55,7 @@ namespace GameSharp.Processes
         }
 
         // TODO: Refactor to an actual payload, another detection vector is to get the entry point of a thread if its equal to LoadLibrary.
-        public byte[] LoadLibraryPayload(string pathToDll)
+        private byte[] LoadLibraryPayload(string pathToDll)
         {
             if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
             {
