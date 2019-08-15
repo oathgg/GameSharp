@@ -24,7 +24,6 @@ namespace GameSharp.Memory
         public T Read<T>(int offset = 0) where T : struct
         {
             T result = Marshal.PtrToStructure<T>(ManagedAddress + offset);
-
             return result;
         }
 
@@ -37,7 +36,8 @@ namespace GameSharp.Memory
 
         public void Write(byte[] data)
         {
-            Kernel32.VirtualProtect(ManagedAddress, data.Length, MemoryProtection.ExecuteReadWrite, out MemoryProtection old);
+            // Make sure we have Write access to the page.
+            Kernel32.VirtualProtect(ManagedAddress, data.Length, MemoryProtection.WriteCopy, out MemoryProtection old);
             Marshal.Copy(data, 0, ManagedAddress, data.Length);
             Kernel32.VirtualProtect(ManagedAddress, data.Length, old, out _);
         }
@@ -58,7 +58,7 @@ namespace GameSharp.Memory
             return bytes.ToArray();
         }
 
-        public InternalModule GetModuleWhichBelongsToAddress()
+        public InternalModule GetMyModule()
         {
             ProcessModuleCollection modules = InternalProcess.Instance.Modules;
             foreach (ProcessModule module in modules)

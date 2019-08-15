@@ -52,7 +52,7 @@ namespace GameSharp.Interoperability
         private void InitializeAntiCheatHook()
         {
             byte[] bytes = HookPtr.GetReturnToPtr();
-            Module.InternalModule module = TargetFuncPtr.GetModuleWhichBelongsToAddress();
+            Module.InternalModule module = TargetFuncPtr.GetMyModule();
 
             if (module == null)
             {

@@ -2,6 +2,9 @@
 
 namespace GameSharp.Native.Enums
 {
+    /// <summary>
+    /// https://docs.microsoft.com/en-us/windows/win32/memory/memory-protection-constants
+    /// </summary>
     [Flags]
     public enum MemoryProtection
     {

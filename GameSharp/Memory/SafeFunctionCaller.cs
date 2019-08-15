@@ -21,7 +21,7 @@ namespace GameSharp.Interoperability
         {
             UnmanagedMemory address = ToCallDelegate().ToFunctionPtr();
 
-            InternalModule module = address.GetModuleWhichBelongsToAddress();
+            InternalModule module = address.GetMyModule();
 
             List<byte> bytes = new List<byte>();
 
