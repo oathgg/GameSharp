@@ -9,9 +9,9 @@ namespace GameSharp.Extensions
     /// </summary>
     public static class UnsafeMemoryExtension
     {
-        public static UnmanagedMemory ToFunctionPtr(this Delegate d)
+        public static MemoryAddress ToFunctionPtr(this Delegate d)
         {
-            return new UnmanagedMemory(Marshal.GetFunctionPointerForDelegate(d));
+            return new MemoryAddress(Marshal.GetFunctionPointerForDelegate(d));
         }
 
         public static T ToDelegate<T>(this IntPtr addr) where T : class

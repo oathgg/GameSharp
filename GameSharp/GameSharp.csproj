@@ -77,7 +77,7 @@
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />
-    <Compile Include="Memory\UnmanagedMemory.cs" />
+    <Compile Include="Memory\MemoryAddress.cs" />
     <Compile Include="Module\ExternalModule.cs" />
     <Compile Include="Module\BaseModule.cs" />
     <Compile Include="PeNet\Authenticode\AuthenticodeInfo.cs" />

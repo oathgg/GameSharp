@@ -22,11 +22,11 @@ namespace GameSharp.Interoperability
         /// </summary>
         private Patch CodeCavePatch { get; set; }
 
-        private UnmanagedMemory HookPtr { get; }
+        private MemoryAddress HookPtr { get; }
 
         private Patch HookPatch { get; set; }
 
-        private UnmanagedMemory TargetFuncPtr { get; }
+        private MemoryAddress TargetFuncPtr { get; }
 
         private Delegate TargetDelegate { get; }
 
@@ -59,7 +59,7 @@ namespace GameSharp.Interoperability
                 throw new NullReferenceException("Cannot find a module which belongs to the specified pointer.");
             }
 
-            UnmanagedMemory codeCave = module.FindCodeCaveInModule((uint)bytes.Length);
+            MemoryAddress codeCave = module.FindCodeCaveInModule((uint)bytes.Length);
             CodeCavePatch = new Patch(codeCave, bytes);
 
             byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr();

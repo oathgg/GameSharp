@@ -14,7 +14,7 @@ namespace GameSharp.Memory
         /// <summary>
         ///     The base address of the module.
         /// </summary>
-        private UnmanagedMemory ModuleBase { get; } = new UnmanagedMemory();
+        private MemoryAddress ModuleBase { get; } = new MemoryAddress();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MemoryScanner" /> class.
@@ -22,7 +22,7 @@ namespace GameSharp.Memory
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
         internal MemoryScanner(ProcessModule module)
         {
-            ModuleBase = new UnmanagedMemory(module.BaseAddress);
+            ModuleBase = new MemoryAddress(module.BaseAddress);
             Bytes = ModuleBase.Read<byte[]>(module.ModuleMemorySize);
         }
 
@@ -42,7 +42,7 @@ namespace GameSharp.Memory
 
                 if (PatternCheck(ref memByteOffset, array))
                 {
-                    return ModuleBase.ManagedAddress
+                    return ModuleBase.IntPtr
                         // offset in byte array
                         + memByteOffset
                         // offset given by user

@@ -10,36 +10,36 @@ using System.Runtime.InteropServices;
 
 namespace GameSharp.Memory
 {
-    public class UnmanagedMemory
+    public class MemoryAddress
     {
-        public IntPtr ManagedAddress { get; }
+        public IntPtr IntPtr { get; }
 
-        public UnmanagedMemory() => new UnmanagedMemory(IntPtr.Zero);
+        public MemoryAddress() => new MemoryAddress(IntPtr.Zero);
 
-        public UnmanagedMemory(IntPtr address)
+        public MemoryAddress(IntPtr address)
         {
-            ManagedAddress = address;
+            IntPtr = address;
         }
 
         public T Read<T>(int offset = 0) where T : struct
         {
-            T result = Marshal.PtrToStructure<T>(ManagedAddress + offset);
+            T result = Marshal.PtrToStructure<T>(IntPtr + offset);
             return result;
         }
 
         public T Read<T>(int size, int offset = 0)
         {
             byte[] destination = new byte[size];
-            Marshal.Copy(ManagedAddress, destination, offset, destination.Length);
+            Marshal.Copy(IntPtr, destination, offset, destination.Length);
             return destination.CastTo<T>();
         }
 
         public void Write(byte[] data)
         {
             // Make sure we have Write access to the page.
-            Kernel32.VirtualProtect(ManagedAddress, data.Length, MemoryProtection.WriteCopy, out MemoryProtection old);
-            Marshal.Copy(data, 0, ManagedAddress, data.Length);
-            Kernel32.VirtualProtect(ManagedAddress, data.Length, old, out _);
+            Kernel32.VirtualProtect(IntPtr, data.Length, MemoryProtection.WriteCopy, out MemoryProtection old);
+            Marshal.Copy(data, 0, IntPtr, data.Length);
+            Kernel32.VirtualProtect(IntPtr, data.Length, old, out _);
         }
 
         public byte[] GetReturnToPtr()
@@ -48,7 +48,7 @@ namespace GameSharp.Memory
             List<byte> bytes = new List<byte> { 0x68 };
 
             // Push our hook address onto the stack
-            byte[] hookPtrAddress = IntPtr.Size == 4 ? BitConverter.GetBytes(ManagedAddress.ToInt32()) : BitConverter.GetBytes(ManagedAddress.ToInt64());
+            byte[] hookPtrAddress = IntPtr.Size == 4 ? BitConverter.GetBytes(IntPtr.ToInt32()) : BitConverter.GetBytes(IntPtr.ToInt64());
 
             bytes.AddRange(hookPtrAddress);
 
@@ -62,8 +62,8 @@ namespace GameSharp.Memory
         {
             foreach (InternalModule module in InternalProcess.Instance.Modules)
             {
-                if (ManagedAddress.ToInt64() > module.UnmanagedAddress.ManagedAddress.ToInt64()
-                    && ManagedAddress.ToInt64() < module.UnmanagedAddress.ManagedAddress.ToInt64() + module.Size)
+                if (IntPtr.ToInt64() > module.UnmanagedAddress.IntPtr.ToInt64()
+                    && IntPtr.ToInt64() < module.UnmanagedAddress.IntPtr.ToInt64() + module.Size)
                 {
                     return module;
                 }
@@ -71,9 +71,9 @@ namespace GameSharp.Memory
             return null;
         }
 
-        public static UnmanagedMemory AllocateMemory(int size)
+        public static MemoryAddress AllocateMemory(int size)
         {
-            return new UnmanagedMemory(Marshal.AllocHGlobal(size));
+            return new MemoryAddress(Marshal.AllocHGlobal(size));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace GameSharp.Tests
             byte[] byteArray = Utils.GenerateByteArray(1024);
 
             // Allocate memory.
-            UnmanagedMemory ptrAllocatedMemory = new UnmanagedMemory(Marshal.AllocHGlobal(byteArray.Length));
+            MemoryAddress ptrAllocatedMemory = new MemoryAddress(Marshal.AllocHGlobal(byteArray.Length));
 
             byte[] originalBytes = ptrAllocatedMemory.Read<byte[]>(3);
             byte[] newBytes = new byte[] { 1, 2, 3 };

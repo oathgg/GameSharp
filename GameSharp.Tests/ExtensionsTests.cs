@@ -30,7 +30,7 @@ namespace GameSharp.Tests
         {
             byte[] byteArray = Utils.GenerateByteArray(1024);
 
-            UnmanagedMemory unmanagedArrayPtr = UnmanagedMemory.AllocateMemory(byteArray.Length);
+            MemoryAddress unmanagedArrayPtr = MemoryAddress.AllocateMemory(byteArray.Length);
 
             // Call our function
             unmanagedArrayPtr.Write(byteArray);
@@ -40,7 +40,7 @@ namespace GameSharp.Tests
             Assert.AreEqual(byteArray[5], result[5]);
 
             // Release the unmanaged memory.
-            Marshal.FreeHGlobal(unmanagedArrayPtr.ManagedAddress);
+            Marshal.FreeHGlobal(unmanagedArrayPtr.IntPtr);
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace GameSharp.Tests
         {
             byte[] byteArray = Utils.GenerateByteArray(Marshal.SizeOf<TestStruct>());
 
-            UnmanagedMemory unmanagedArrayPtr = UnmanagedMemory.AllocateMemory(byteArray.Length);
+            MemoryAddress unmanagedArrayPtr = MemoryAddress.AllocateMemory(byteArray.Length);
 
             // Write our bytes to the newly allocated memory
             unmanagedArrayPtr.Write(byteArray);
@@ -58,7 +58,7 @@ namespace GameSharp.Tests
             Assert.AreEqual(byteArray[5], result.bArray[5]);
 
             // Release the unmanaged memory.
-            Marshal.FreeHGlobal(unmanagedArrayPtr.ManagedAddress);
+            Marshal.FreeHGlobal(unmanagedArrayPtr.IntPtr);
         }
 
         [StructLayout(LayoutKind.Explicit)]

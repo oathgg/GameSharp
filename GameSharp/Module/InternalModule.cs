@@ -9,13 +9,13 @@ namespace GameSharp.Module
 {
     public class InternalModule : BaseModule
     {
-        public UnmanagedMemory UnmanagedAddress;
+        public MemoryAddress UnmanagedAddress;
 
         public PeNet.PeFile PeHeader { get; }
 
         public InternalModule(ProcessModule processModule) : base(processModule)
         {
-            UnmanagedAddress = new UnmanagedMemory(ProcessModule.BaseAddress);
+            UnmanagedAddress = new MemoryAddress(ProcessModule.BaseAddress);
             PeHeader = GeneratePeHeader();
         }
 
@@ -58,7 +58,7 @@ namespace GameSharp.Module
         /// <param name="module"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public UnmanagedMemory FindCodeCaveInModule(uint size)
+        public MemoryAddress FindCodeCaveInModule(uint size)
         {
             byte[] moduleBytes = UnmanagedAddress.Read<byte[]>(ProcessModule.ModuleMemorySize);
 
@@ -85,7 +85,7 @@ namespace GameSharp.Module
                         {
                             CodeCavesTaken.Add((uint)ProcessModule.BaseAddress + i, size);
 
-                            return new UnmanagedMemory(new IntPtr((uint)ProcessModule.BaseAddress + i));
+                            return new MemoryAddress(new IntPtr((uint)ProcessModule.BaseAddress + i));
                         }
                     }
                     // If we can't find a codecave big enough we will stop looping through the bytes
