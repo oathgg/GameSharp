@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\GameSharp\GameSharp.csproj">
-      <Project>{214B3D50-3F2A-485F-A523-3B406B86D93D}</Project>
-      <Name>GameSharp</Name>
+    <ProjectReference Include="..\..\GameSharp.External\GameSharp.External.csproj">
+      <Project>{4422D079-E831-48AB-BC8A-1B805C7C12FA}</Project>
+      <Name>GameSharp.External</Name>
     </ProjectReference>
     <ProjectReference Include="..\GameSharp.Notepadpp.dll\GameSharp.Notepadpp.dll.csproj">
       <Project>{79c11529-1264-454a-b086-0e10eb21a584}</Project>

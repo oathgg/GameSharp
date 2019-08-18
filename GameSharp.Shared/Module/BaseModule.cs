@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace GameSharp.Core.Module
 {
-    public abstract class ModuleBase : IModule
+    public abstract class ModuleBase : IMemoryModule
     {
         public ProcessModule ProcessModule { get; }
 

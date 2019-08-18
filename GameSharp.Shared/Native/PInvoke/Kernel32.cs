@@ -45,28 +45,9 @@ namespace GameSharp.Core.Native.PInvoke
         public static extern bool GetThreadContext(IntPtr hThread, ref ThreadContext32 lpContext);
 
         [DllImport(kernel32, SetLastError = true)]
-        private static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPWStr)]string lpFileName);
+        public static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPWStr)]string lpFileName);
 
         [DllImport(kernel32, SetLastError = true)]
-        private static extern IntPtr LoadLibraryExW([MarshalAs(UnmanagedType.LPWStr)]string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
-
-        public static IntPtr LoadLibrary(string libraryPath, bool resolveReferences = true)
-        {
-            if (!File.Exists(libraryPath))
-            {
-                throw new FileNotFoundException(libraryPath);
-            }
-
-            IntPtr libraryAddress = resolveReferences
-                ? LoadLibrary(libraryPath)
-                : LoadLibraryExW(libraryPath, IntPtr.Zero, LoadLibraryFlags.DontResolveDllReferences);
-
-            if (libraryAddress == IntPtr.Zero)
-            {
-                throw new Win32Exception($"Couldn't load the library {libraryPath}.");
-            }
-
-            return libraryAddress;
-        }
+        public static extern IntPtr LoadLibraryExW([MarshalAs(UnmanagedType.LPWStr)]string lpFileName, IntPtr hReservedNull, LoadLibraryFlags dwFlags);
     }
 }

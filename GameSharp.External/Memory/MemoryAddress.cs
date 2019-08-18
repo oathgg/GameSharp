@@ -12,17 +12,12 @@ namespace GameSharp.External.Memory
             BaseAddress = address;
         }
 
-        public T Read<T>() where T : struct
+        public T Read<T>(int offset = 0) where T : struct
         {
             throw new NotImplementedException();
         }
 
-        public void Write()
-        {
-            throw new NotImplementedException();
-        }
-
-        public T Read<T>(int size)
+        public T Read<T>(int size, int offset = 0)
         {
             throw new NotImplementedException();
         }

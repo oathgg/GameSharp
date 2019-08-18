@@ -1,4 +1,7 @@
 ﻿using GameSharp.Core.Memory;
+using GameSharp.Core.Native.Enums;
+using GameSharp.Core.Native.PInvoke;
+using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
 using System.Collections.Generic;
@@ -15,24 +18,25 @@ namespace GameSharp.Internal.Memory
             BaseAddress = address;
         }
 
-        public T Read<T>() where T : struct
+        public T Read<T>(int offset = 0) where T : struct
         {
-            throw new NotImplementedException();
+            T result = Marshal.PtrToStructure<T>(BaseAddress + offset);
+            return result;
         }
 
-        public void Write()
+        public T Read<T>(int size, int offset = 0)
         {
-            throw new NotImplementedException();
+            byte[] destination = new byte[size];
+            Marshal.Copy(BaseAddress, destination, offset, destination.Length);
+            return destination.CastTo<T>();
         }
 
-        public T Read<T>(int size)
+        public void Write(byte[] data)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Write(byte[] bytes)
-        {
-            throw new NotImplementedException();
+            // Make sure we have Write access to the page.
+            Kernel32.VirtualProtect(BaseAddress, data.Length, MemoryProtection.WriteCopy, out MemoryProtection old);
+            Marshal.Copy(data, 0, BaseAddress, data.Length);
+            Kernel32.VirtualProtect(BaseAddress, data.Length, old, out _);
         }
 
         public byte[] GetReturnToPtr()

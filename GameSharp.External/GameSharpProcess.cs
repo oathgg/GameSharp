@@ -2,6 +2,7 @@
 using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
+using GameSharp.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,12 +11,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 
 namespace GameSharp.External
 {
     public class GameSharpProcess : IProcess
     {
-        public List<IModule> Modules { get; set; }
+        public List<IMemoryModule> Modules { get; set; } = new List<IMemoryModule>();
 
         public Process Process { get; }
 
@@ -24,9 +26,9 @@ namespace GameSharp.External
             Process = process;
         }
 
-        public IModule LoadLibrary(string pathToDll) => LoadLibrary(pathToDll, true);
+        public IMemoryModule LoadLibrary(string pathToDll) => LoadLibrary(pathToDll, true);
 
-        public IModule LoadLibrary(string pathToDll, bool resolveReferences)
+        public IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences)
         {
             byte[] loadLibraryOpcodes = LoadLibraryPayload(pathToDll);
 
@@ -53,7 +55,9 @@ namespace GameSharp.External
                 }
             }
 
-            return Modules.FirstOrDefault(x => x.Name == Path.GetFileName(pathToDll));
+            RefreshModules();
+
+            return Modules.FirstOrDefault(x => x.Name == Path.GetFileName(pathToDll).ToLower());
         }
 
         // TODO: Refactor to an actual payload, another detection vector is to get the entry point of a thread if its equal to LoadLibrary.
@@ -78,6 +82,77 @@ namespace GameSharp.External
             foreach (ProcessModule processModule in Process.Modules)
             {
                 Modules.Add(new Module.MemoryModule(processModule));
+            }
+        }
+
+        public void AllocConsole()
+        {
+            LoggingService.Info($"Creating a console for output from our injected DLL.");
+
+            IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
+            IntPtr allocConsoleAddress = Kernel32.GetProcAddress(kernel32Module, "AllocConsole");
+            Kernel32.CreateRemoteThread(Process.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
+        }
+
+        public void AttachDebugger()
+        {
+            EnvDTE.DTE dte;
+            try
+            {
+                dte = (EnvDTE.DTE)Marshal.GetActiveObject("VisualStudio.DTE.16.0");
+            }
+            catch (COMException)
+            {
+                Debug.WriteLine("Visual studio v2019 not found.");
+                return;
+            }
+
+            int tryCount = 5;
+            do
+            {
+                Process.WaitForInputIdle();
+
+                try
+                {
+                    EnvDTE.Processes processes = dte.Debugger.LocalProcesses;
+                    foreach (EnvDTE80.Process2 proc in processes.Cast<EnvDTE80.Process2>().Where(proc => proc.Name.IndexOf(Process.ProcessName) != -1))
+                    {
+                        EnvDTE80.Engine debugEngine = proc.Transport.Engines.Item("Managed (v4.6, v4.5, v4.0)");
+                        proc.Attach2(debugEngine);
+                        break;
+                    }
+                    break;
+                }
+                catch { }
+
+                Thread.Sleep(1000);
+            } while (tryCount-- > 0);
+        }
+
+        public void SuspendThreads(bool suspend)
+        {
+            foreach (ProcessThread pT in Process.Threads)
+            {
+                IntPtr tHandle = Kernel32.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
+
+                if (tHandle != IntPtr.Zero)
+                {
+                    if (suspend)
+                    {
+                        Kernel32.SuspendThread(tHandle);
+                    }
+                    else
+                    {
+                        Kernel32.ResumeThread(tHandle);
+                    }
+
+                    // Close the handle; https://docs.microsoft.com/nl-nl/windows/desktop/api/processthreadsapi/nf-processthreadsapi-openthread
+                    Kernel32.CloseHandle(tHandle);
+                }
+                else
+                {
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                }
             }
         }
     }

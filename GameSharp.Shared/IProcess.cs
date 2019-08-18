@@ -7,13 +7,9 @@ namespace GameSharp.Core
     public interface IProcess
     {
         Process Process { get; }
-
-        List<IModule> Modules { get; set; }
-
-        IModule LoadLibrary(string pathToDll);
-
-        IModule LoadLibrary(string pathToDll, bool resolveReferences);
-
+        List<IMemoryModule> Modules { get; set; }
+        IMemoryModule LoadLibrary(string pathToDll);
+        IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences);
         void RefreshModules();
     }
 }

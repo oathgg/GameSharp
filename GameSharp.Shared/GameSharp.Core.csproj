@@ -51,10 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Injection\IInjectable.cs" />
-    <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Memory\IMemoryAddress.cs" />
-    <Compile Include="Module\IModule.cs" />
+    <Compile Include="Module\IMemoryModule.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="Memory\MemoryScanner.cs" />
     <Compile Include="Module\BaseModule.cs" />
