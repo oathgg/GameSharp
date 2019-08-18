@@ -74,12 +74,5 @@ namespace GameSharp.Injection
         /// <param name="pathToDll"></param>
         /// <param name="entryPoint"></param>
         protected abstract void Execute(string pathToDll, string entryPoint);
-
-        
-
-        public void ExecuteEntryPoint()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

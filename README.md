@@ -2,7 +2,6 @@
 
 > TIP: The solution only works with VS 2019.
 
-
 *For the record; there are a many libraries which are better than mine available for free on GitHub.
 I'm just creating this codebase for myself to get a better understanding of architectures.*
 
