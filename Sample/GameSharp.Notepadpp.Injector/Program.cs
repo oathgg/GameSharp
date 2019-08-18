@@ -25,7 +25,7 @@ namespace GameSharp.Notepadpp.Injector
 
             // Inject the DLL and executes the entrypoint.
             string pathToDll = Path.Combine(Environment.CurrentDirectory, "GameSharp.Notepadpp.dll.dll");
-            injector.InjectAndExecute(new Injectable(pathToDll, "Main"), attach: true);
+            injector.InjectAndExecute(new Injectable(pathToDll, "Main"), attach: false);
         }
     }
 }

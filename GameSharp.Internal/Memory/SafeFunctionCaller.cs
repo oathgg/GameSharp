@@ -1,4 +1,5 @@
-﻿using GameSharp.Internal.Extensions;
+﻿using GameSharp.Core.Services;
+using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,8 @@ namespace GameSharp.Internal.Memory
             codeCave.Write(bytes.ToArray());
 
             Type typeOfDelegate = ToCallDelegate().GetType();
+
+            LoggingService.Verbose($"Adding CodeCave address for safeFunction call {typeOfDelegate.ToString()} at {codeCave.BaseAddress.ToString("X")}");
 
             SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(codeCave.BaseAddress, typeOfDelegate);
         }
