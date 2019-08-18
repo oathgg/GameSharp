@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GameSharp.Shared.Interfaces
+namespace GameSharp.Core.Memory
 {
     public interface IMemoryAddress
     {
@@ -13,5 +9,6 @@ namespace GameSharp.Shared.Interfaces
         T Read<T>(int size);
         T Read<T>() where T : struct;
         void Write();
+        void Write(byte[] bytes);
     }
 }

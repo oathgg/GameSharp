@@ -1,9 +1,8 @@
-﻿using GameSharp.Shared.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace GameSharp.External.Memory
+namespace GameSharp.Core.Memory
 {
     public class MemoryScanner
     {

@@ -1,7 +1,7 @@
-﻿using GameSharp.Shared.Interfaces;
+﻿using GameSharp.Core.Memory;
 using System;
 
-namespace GameSharp.External.Memory 
+namespace GameSharp.External.Memory
 {
     public class MemoryAddress : IMemoryAddress
     {
@@ -23,6 +23,11 @@ namespace GameSharp.External.Memory
         }
 
         public T Read<T>(int size)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(byte[] bytes)
         {
             throw new NotImplementedException();
         }

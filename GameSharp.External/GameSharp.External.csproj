@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Memory\MemoryAddress.cs" />
+    <Compile Include="GameSharpProcess.cs" />
+    <Compile Include="Module\MemoryModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

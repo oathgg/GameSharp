@@ -7,8 +7,8 @@
     <ProjectGuid>{C8009EEC-5B88-43EE-AF12-2D973C4676C2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameSharp.Shared</RootNamespace>
-    <AssemblyName>GameSharp.Shared</AssemblyName>
+    <RootNamespace>GameSharp.Core</RootNamespace>
+    <AssemblyName>GameSharp.Core</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,8 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PeNet.Asn1, Version=1.3.3.0, Culture=neutral, PublicKeyToken=1e2e3568f0050bf5, processorArchitecture=MSIL">
+      <HintPath>..\packages\PeNet.Asn1.1.3.3\lib\net461\PeNet.Asn1.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Pkcs, Version=4.0.3.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Pkcs.4.5.2\lib\net461\System.Security.Cryptography.Pkcs.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,9 +51,154 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IMemoryAddress.cs" />
+    <Compile Include="Injection\IInjectable.cs" />
+    <Compile Include="Injection\IInjection.cs" />
+    <Compile Include="Memory\IMemoryAddress.cs" />
+    <Compile Include="Module\IModule.cs" />
+    <Compile Include="IProcess.cs" />
     <Compile Include="Memory\MemoryScanner.cs" />
+    <Compile Include="Module\BaseModule.cs" />
+    <Compile Include="Native\Enums\AllocationType.cs" />
+    <Compile Include="Native\Enums\Context.cs" />
+    <Compile Include="Native\Enums\LoadLibraryFlags.cs" />
+    <Compile Include="Native\Enums\MemoryProtection.cs" />
+    <Compile Include="Native\Enums\ProcessAccess.cs" />
+    <Compile Include="Native\Enums\ThreadAccess.cs" />
+    <Compile Include="Native\PInvoke\Kernel32.cs" />
+    <Compile Include="Native\Structs\FloatingSaveArea.cs" />
+    <Compile Include="Native\Structs\M128A.cs" />
+    <Compile Include="Native\Structs\MemoryBasicInformation.cs" />
+    <Compile Include="Native\Structs\ThreadContext32.cs" />
+    <Compile Include="Native\Structs\ThreadContext64.cs" />
+    <Compile Include="Native\Structs\XSaveFormat64.cs" />
+    <Compile Include="PeNet\Authenticode\AuthenticodeInfo.cs" />
+    <Compile Include="PeNet\Authenticode\AuthenticodeParser.cs" />
+    <Compile Include="PeNet\Authenticode\X509AuthentiCodeInfo.cs" />
+    <Compile Include="PeNet\Constants.cs" />
+    <Compile Include="PeNet\CrlUrlList.cs" />
+    <Compile Include="PeNet\DataDirectoryParsers.cs" />
+    <Compile Include="PeNet\DotNetConstants.cs" />
+    <Compile Include="PeNet\DotNetStructureParsers.cs" />
+    <Compile Include="PeNet\ExportFunction.cs" />
+    <Compile Include="PeNet\FileCharacteristics.cs" />
+    <Compile Include="PeNet\ImpHash\ImportHash.cs" />
+    <Compile Include="PeNet\ImpHash\OrdinalSymbolMapping.cs" />
+    <Compile Include="PeNet\ImportFunction.cs" />
+    <Compile Include="PeNet\NativeStructureParsers.cs" />
+    <Compile Include="PeNet\Parser\ExportedFunctionsParser.cs" />
+    <Compile Include="PeNet\Parser\ImageBaseRelocationsParser.cs" />
+    <Compile Include="PeNet\Parser\ImageBoundImportDescriptorParser.cs" />
+    <Compile Include="PeNet\Parser\ImageCor20HeaderParser.cs" />
+    <Compile Include="PeNet\Parser\ImageDebugDirectoryParser.cs" />
+    <Compile Include="PeNet\Parser\ImageDelayImportDescriptorParser.cs" />
+    <Compile Include="PeNet\Parser\ImageDosHeaderParser.cs" />
+    <Compile Include="PeNet\Parser\ImageExportDirectoriesParser.cs" />
+    <Compile Include="PeNet\Parser\ImageImportDescriptorsParser.cs" />
+    <Compile Include="PeNet\Parser\ImageLoadConfigDirectoryParser.cs" />
+    <Compile Include="PeNet\Parser\ImageNtHeadersParser.cs" />
+    <Compile Include="PeNet\Parser\ImageResourceDirectoryParser.cs" />
+    <Compile Include="PeNet\Parser\ImageSectionHeadersParser.cs" />
+    <Compile Include="PeNet\Parser\ImageTlsDirectoryParser.cs" />
+    <Compile Include="PeNet\Parser\ImportedFunctionsParser.cs" />
+    <Compile Include="PeNet\Parser\MetaDataHdrParser.cs" />
+    <Compile Include="PeNet\Parser\MetaDataStreamBlobParser.cs" />
+    <Compile Include="PeNet\Parser\MetaDataStreamGUIDParser.cs" />
+    <Compile Include="PeNet\Parser\MetaDataStreamStringParser.cs" />
+    <Compile Include="PeNet\Parser\MetaDataStreamTablesHeaderParser.cs" />
+    <Compile Include="PeNet\Parser\MetaDataStreamUSParser.cs" />
+    <Compile Include="PeNet\Parser\RuntimeFunctionsParser.cs" />
+    <Compile Include="PeNet\Parser\SafeParser.cs" />
+    <Compile Include="PeNet\Parser\WinCertificateParser.cs" />
+    <Compile Include="PeNet\PatternMatching\AhoCorasick.cs" />
+    <Compile Include="PeNet\PeFile.cs" />
+    <Compile Include="PeNet\PeValidator.cs" />
+    <Compile Include="PeNet\Structures\AbstractStructure.cs" />
+    <Compile Include="PeNet\Structures\CodedIndex.cs" />
+    <Compile Include="PeNet\Structures\Copyright.cs" />
+    <Compile Include="PeNet\Structures\HeapSizes.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_BASE_RELOCATION.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_BOUND_IMPORT_DESCRIPTOR.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_COR20_HEADER.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_DATA_DIRECTORY.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_DEBUG_DIRECTORY.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_DELAY_IMPORT_DESCRIPTOR.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_DOS_HEADER.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_EXPORT_DIRECTORY.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_FILE_HEADER.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_IMPORT_BY_NAME.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_IMPORT_DESCRIPTOR.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_LOAD_CONFIG_DIRECTORY.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_NT_HEADERS.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_OPTIONAL_HEADER.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_RESOURCE_DATA_ENTRY.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_RESOURCE_DIRECTORY.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_RESOURCE_DIRECTORY_ENTRY.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_RESOURCE_DIR_STRING_U.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_SECTION_HEADER.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_THUNK_DATA.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_TLS_CALLBACK.cs" />
+    <Compile Include="PeNet\Structures\IMAGE_TLS_DIRECTORY.cs" />
+    <Compile Include="PeNet\Structures\METADATAHDR.cs" />
+    <Compile Include="PeNet\Structures\METADATASTREAMHDR.cs" />
+    <Compile Include="PeNet\Structures\METADATASTREAM_BLOB.cs" />
+    <Compile Include="PeNet\Structures\METADATASTREAM_GUID.cs" />
+    <Compile Include="PeNet\Structures\METADATASTREAM_STRING.cs" />
+    <Compile Include="PeNet\Structures\METADATASTREAM_US.cs" />
+    <Compile Include="PeNet\Structures\METADATATABLESHDR.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\AbstractTable.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\Assembly.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\AssemblyOS.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\AssemblyProcessor.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\AssemblyRef.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\AssemblyRefOS.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\AssemblyRefProcessor.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\ClassLayout.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\Constant.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\CustomAttribute.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\DeclSecurity.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\Event.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\EventMap.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\ExportedType.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\Field.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\FieldLayout.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\FieldMarshal.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\FieldRVA.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\File.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\GenericParam.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\GenericParamConstraint.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\ImplMap.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\InterfaceImpl.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\ManifestResource.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\MemberRef.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\MethodDef.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\MethodImpl.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\MethodSemantics.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\Module.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\ModuleRef.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\NestedClass.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\Param.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\Property.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\PropertyMap.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\StandAloneSig.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\Tables.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\TypeDef.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\TypeRef.cs" />
+    <Compile Include="PeNet\Structures\MetaDataTables\TypeSpec.cs" />
+    <Compile Include="PeNet\Structures\RUNTIME_FUNCTION.cs" />
+    <Compile Include="PeNet\Structures\UNWIND_CODE.cs" />
+    <Compile Include="PeNet\Structures\UNWIND_INFO.cs" />
+    <Compile Include="PeNet\Structures\WIN_CERTIFICATE.cs" />
+    <Compile Include="PeNet\Utilities\ExtensionMethods.cs" />
+    <Compile Include="PeNet\Utilities\FlagResolver.cs" />
+    <Compile Include="PeNet\Utilities\Hashes.cs" />
+    <Compile Include="PeNet\Utilities\SignatureInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ExceptionService.cs" />
+    <Compile Include="Services\LoggingService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="PeNet\Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

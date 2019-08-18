@@ -5,7 +5,6 @@ using GameSharp.Native.Enums;
 using GameSharp.Processes;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Memory
