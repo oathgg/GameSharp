@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Notepadpp.dll", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Notepadpp.Injector", "Sample\GameSharp.Notepadpp.Injector\GameSharp.Notepadpp.Injector.csproj", "{33487D43-8039-476F-B1E6-E906A0897F7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Internal", "GameSharp.Internal\GameSharp.Internal.csproj", "{9F88A5B2-866E-4DF0-98B7-69E88009194B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.External", "GameSharp.External\GameSharp.External.csproj", "{4422D079-E831-48AB-BC8A-1B805C7C12FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Core", "GameSharp.Shared\GameSharp.Core.csproj", "{C8009EEC-5B88-43EE-AF12-2D973C4676C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +59,30 @@ Global
 		{33487D43-8039-476F-B1E6-E906A0897F7B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{33487D43-8039-476F-B1E6-E906A0897F7B}.Release|x86.ActiveCfg = Release|Any CPU
 		{33487D43-8039-476F-B1E6-E906A0897F7B}.Release|x86.Build.0 = Release|Any CPU
+		{9F88A5B2-866E-4DF0-98B7-69E88009194B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F88A5B2-866E-4DF0-98B7-69E88009194B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F88A5B2-866E-4DF0-98B7-69E88009194B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9F88A5B2-866E-4DF0-98B7-69E88009194B}.Debug|x86.Build.0 = Debug|Any CPU
+		{9F88A5B2-866E-4DF0-98B7-69E88009194B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F88A5B2-866E-4DF0-98B7-69E88009194B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F88A5B2-866E-4DF0-98B7-69E88009194B}.Release|x86.ActiveCfg = Release|Any CPU
+		{9F88A5B2-866E-4DF0-98B7-69E88009194B}.Release|x86.Build.0 = Release|Any CPU
+		{4422D079-E831-48AB-BC8A-1B805C7C12FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4422D079-E831-48AB-BC8A-1B805C7C12FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4422D079-E831-48AB-BC8A-1B805C7C12FA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4422D079-E831-48AB-BC8A-1B805C7C12FA}.Debug|x86.Build.0 = Debug|Any CPU
+		{4422D079-E831-48AB-BC8A-1B805C7C12FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4422D079-E831-48AB-BC8A-1B805C7C12FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4422D079-E831-48AB-BC8A-1B805C7C12FA}.Release|x86.ActiveCfg = Release|Any CPU
+		{4422D079-E831-48AB-BC8A-1B805C7C12FA}.Release|x86.Build.0 = Release|Any CPU
+		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Debug|x86.Build.0 = Debug|Any CPU
+		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Release|x86.ActiveCfg = Release|Any CPU
+		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
