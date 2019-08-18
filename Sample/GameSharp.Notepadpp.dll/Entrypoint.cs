@@ -18,8 +18,6 @@ namespace GameSharp.Notepadpp.dll
 
             LoggingService.Info("Calling messagebox!");
 
-            Console.ReadKey();
-
             GameSharpProcess.Instance.CallFunction<int>(safeMessageBoxFunction, IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
 
             LoggingService.Info("Enabling hook on messagebox!");

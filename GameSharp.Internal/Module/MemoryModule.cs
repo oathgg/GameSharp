@@ -72,7 +72,7 @@ namespace GameSharp.Internal.Module
                     continue;
                 }
 
-                // If the codecave has already been taken (might still have bytes that are 0'd then we skip the size of the other codecave.
+                // If the codecave has already been taken, might still have bytes that are 0'd then we skip the size of the other codecave.
                 CodeCavesTaken.TryGetValue((uint)ProcessModule.BaseAddress + i, out uint sizeTaken);
                 if (sizeTaken > 0)
                 {
@@ -91,7 +91,8 @@ namespace GameSharp.Internal.Module
                             return new MemoryAddress(new IntPtr((uint)ProcessModule.BaseAddress + i));
                         }
                     }
-                    // If we can't find a codecave big enough we will stop looping through the bytes
+                    // If we can't find a codecave big enough we will stop looping through the bytes but increment the (i) var
+                    //  so we don't loop through bytes we already scanned.
                     else
                     {
                         i += j;

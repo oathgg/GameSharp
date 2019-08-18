@@ -59,6 +59,7 @@ namespace GameSharp.Internal.Memory
         {
             foreach (MemoryModule module in GameSharpProcess.Instance.Modules)
             {
+                // Address has to be between the start address of the module and the end address of the module.
                 if (BaseAddress.ToInt64() > module.BaseAddress.ToInt64()
                     && BaseAddress.ToInt64() < module.BaseAddress.ToInt64() + module.Size)
                 {

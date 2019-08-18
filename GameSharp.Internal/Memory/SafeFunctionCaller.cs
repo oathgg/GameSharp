@@ -10,7 +10,7 @@ namespace GameSharp.Internal.Memory
     /// <summary>
     ///     By extending from this class you're creating a somewhat safe way to call a function.
     ///     This class injects opcodes into the process where it can find a codecave.
-    ///     The opcodes will become a jumptable between your malicious module and the code block of where the function resides.
+    ///     The opcodes will become a jumptable between your injected library and the code block of where the function resides.
     ///     This bypass is to prevent a possible anti-cheat method which validates the return address of a function to reside in it's own module code section.
     /// </summary>
     public abstract class SafeFunction
@@ -34,7 +34,7 @@ namespace GameSharp.Internal.Memory
 
             Type typeOfDelegate = ToCallDelegate().GetType();
 
-            LoggingService.Verbose($"Adding CodeCave address for safeFunction call {typeOfDelegate.ToString()} at {codeCave.BaseAddress.ToString("X")}");
+            //LoggingService.Verbose($"{typeOfDelegate.ToString()} - JmpTable at {codeCave.BaseAddress.ToString("X")}");
 
             SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(codeCave.BaseAddress, typeOfDelegate);
         }
@@ -48,9 +48,10 @@ namespace GameSharp.Internal.Memory
 
         /// <summary>
         ///     This should return an UnmanagedFunctionPointer delegate.
-        ///
-        ///     e.g. Marshal.GetDelegateForFunctionPointer<DELEGATE>(ADDRESS);
         /// </summary>
+        /// <code>
+        ///     return Marshal.GetDelegateForFunctionPointer<DELEGATE>(ADDRESS);
+        /// </code>
         /// <returns></returns>
         public abstract Delegate ToCallDelegate();
     }
