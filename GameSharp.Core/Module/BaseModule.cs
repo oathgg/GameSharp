@@ -12,7 +12,7 @@ namespace GameSharp.Core.Module
 
         public IntPtr BaseAddress { get; }
 
-        public int Size { get; }
+        public int ModuleMemorySize { get; }
 
         public abstract IMemoryAddress MemoryAddress { get; }
 
@@ -21,7 +21,7 @@ namespace GameSharp.Core.Module
             ProcessModule = module;
             Name = ProcessModule.ModuleName.ToLower();
             BaseAddress = ProcessModule.BaseAddress;
-            Size = ProcessModule.ModuleMemorySize;
+            ModuleMemorySize = ProcessModule.ModuleMemorySize;
         }
 
         public override string ToString()

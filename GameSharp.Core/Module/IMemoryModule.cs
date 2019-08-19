@@ -12,7 +12,7 @@ namespace GameSharp.Core.Module
 
         IntPtr BaseAddress { get; }
 
-        int Size { get; }
+        int ModuleMemorySize { get; }
 
         IMemoryAddress MemoryAddress { get; }
     }

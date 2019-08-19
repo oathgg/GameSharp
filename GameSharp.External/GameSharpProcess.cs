@@ -42,7 +42,10 @@ namespace GameSharp.External
                     throw new Win32Exception($"Couldn't get handle for module the module, error code: {Marshal.GetLastWin32Error()}.");
                 }
 
-                IntPtr loadLibraryAddress = Kernel32.GetProcAddress(kernel32Module, "LoadLibraryW");
+                IntPtr loadLibraryAddress = resolveReferences 
+                    ? Kernel32.GetProcAddress(kernel32Module, "LoadLibraryW")
+                    : Kernel32.GetProcAddress(kernel32Module, "LoadLibraryExW");
+
                 if (loadLibraryAddress == IntPtr.Zero)
                 {
                     throw new Win32Exception($"Couldn't get proc address, error code: {Marshal.GetLastWin32Error()}.");

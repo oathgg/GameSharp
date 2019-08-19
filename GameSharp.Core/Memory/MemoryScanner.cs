@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameSharp.Core.Module;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -20,13 +21,13 @@ namespace GameSharp.Core.Memory
         ///     Initializes a new instance of the <see cref="MemoryScanner" /> class.
         /// </summary>
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
-        internal MemoryScanner(ProcessModule module, IMemoryAddress moduleBaseAddress)
+        public MemoryScanner(IMemoryModule module)
         {
-            ModuleBase = moduleBaseAddress;
+            ModuleBase = module.MemoryAddress;
             Bytes = ModuleBase.Read<byte[]>(module.ModuleMemorySize);
         }
 
-        internal MemoryScanner(byte[] bytesToScan)
+        public MemoryScanner(byte[] bytesToScan)
         {
             Bytes = bytesToScan;
         }
@@ -59,7 +60,7 @@ namespace GameSharp.Core.Memory
         /// <param name="pattern"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        internal IntPtr FindPattern(string pattern, int offset = 0)
+        public IntPtr FindPattern(string pattern, int offset = 0)
         {
             byte[] arrPattern = ParsePatternString(pattern.Trim());
 
