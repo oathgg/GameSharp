@@ -5,7 +5,7 @@
 *For the record; there are a many libraries which are better than mine available for free on GitHub.
 I'm just creating this codebase for myself to get a better understanding of architectures.*
 
-This library changes a native (unmanaged) game application into a managed application.
+This library changes a native (unmanaged) game application into a managed application by injecting your managed library and loading all the needed CLR dlls.
 
 ### How to
 
