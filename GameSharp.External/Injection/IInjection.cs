@@ -1,6 +1,7 @@
-﻿using GameSharp.External.Injection;
+﻿using GameSharp.Core;
+using GameSharp.External.Injection;
 
-namespace GameSharp.Core.Injection
+namespace GameSharp.External.Injection
 {
     public interface IInjection
     {

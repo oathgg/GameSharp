@@ -1,11 +1,10 @@
 ﻿using GameSharp.Core.Native.PInvoke;
-using GameSharp.External;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace GameSharp.Injection
+namespace GameSharp.External.Injection
 {
     public class RemoteThreadInjection : InjectionBase
     {

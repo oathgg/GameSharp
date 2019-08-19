@@ -1,12 +1,9 @@
 ﻿using GameSharp.Core;
-using GameSharp.Core.Injection;
-using GameSharp.External;
-using GameSharp.External.Injection;
 using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace GameSharp.Injection
+namespace GameSharp.External.Injection
 {
     public abstract class InjectionBase : IInjection
     {
