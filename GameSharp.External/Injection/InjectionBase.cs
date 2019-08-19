@@ -16,7 +16,7 @@ namespace GameSharp.External.Injection
         public InjectionBase(Process process)
         {
             Process = new GameSharpProcess(process) ?? throw new NullReferenceException();
-            ExternalProcess = (GameSharpProcess) Process;
+            ExternalProcess = Process as GameSharpProcess;
         }
 
         public void InjectAndExecute(Injectable assembly, bool attach)

@@ -19,13 +19,8 @@ namespace GameSharp.External.Injection
 
         protected override void Execute(string pathToDll, string entryPoint)
         {
-            if (string.IsNullOrEmpty(pathToDll))
-                throw new ArgumentNullException("pathToDll");
-
-            if (string.IsNullOrEmpty(entryPoint))
-                throw new ArgumentNullException("entryPoint");
-
             IntPtr dllBase = Kernel32.LoadLibraryExW(pathToDll, IntPtr.Zero, Core.Native.Enums.LoadLibraryFlags.DontResolveDllReferences);
+
             IntPtr entryPointAddress = Kernel32.GetProcAddress(dllBase, entryPoint);
 
             if (entryPointAddress == IntPtr.Zero)
