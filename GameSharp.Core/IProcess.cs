@@ -8,8 +8,7 @@ namespace GameSharp.Core
     {
         Process Process { get; }
         List<IMemoryModule> Modules { get; set; }
-        IMemoryModule LoadLibrary(string pathToDll);
-        IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences);
+        IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences = true);
         void RefreshModules();
     }
 }

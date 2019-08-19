@@ -1,5 +1,4 @@
-﻿using GameSharp.Core.Services;
-using GameSharp.Internal.Extensions;
+﻿using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
 using System.Collections.Generic;

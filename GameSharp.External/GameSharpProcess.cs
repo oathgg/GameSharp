@@ -26,9 +26,7 @@ namespace GameSharp.External
             Process = process;
         }
 
-        public IMemoryModule LoadLibrary(string pathToDll) => LoadLibrary(pathToDll, true);
-
-        public IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences)
+        public IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
             byte[] loadLibraryOpcodes = LoadLibraryPayload(pathToDll);
 
@@ -42,9 +40,15 @@ namespace GameSharp.External
                     throw new Win32Exception($"Couldn't get handle for module the module, error code: {Marshal.GetLastWin32Error()}.");
                 }
 
-                IntPtr loadLibraryAddress = resolveReferences 
-                    ? Kernel32.GetProcAddress(kernel32Module, "LoadLibraryW")
-                    : Kernel32.GetProcAddress(kernel32Module, "LoadLibraryExW");
+                IntPtr loadLibraryAddress;
+                if (resolveReferences)
+                {
+                    loadLibraryAddress = Kernel32.GetProcAddress(kernel32Module, "LoadLibraryW");
+                }
+                else
+                {
+                    loadLibraryAddress = Kernel32.GetProcAddress(kernel32Module, "LoadLibraryExW");
+                }
 
                 if (loadLibraryAddress == IntPtr.Zero)
                 {

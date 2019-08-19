@@ -39,7 +39,7 @@ namespace PeNet.Structures
     /// <inheritdoc cref="IMETADATASTREAM_US" />
     public class METADATASTREAM_US : AbstractStructure, IMETADATASTREAM_US
     {
-        private uint _size;
+        private readonly uint _size;
         public List<string> UserStrings { get; }
         public List<Tuple<string, uint>> UserStringsAndIndices { get; }
 

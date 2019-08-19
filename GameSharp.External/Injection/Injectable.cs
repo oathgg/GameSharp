@@ -12,10 +12,14 @@ namespace GameSharp.External.Injection
         public Injectable(string pathToDll, string entrypoint)
         {
             if (string.IsNullOrEmpty(pathToDll))
+            {
                 throw new ArgumentNullException("pathToDll");
+            }
 
             if (string.IsNullOrEmpty(entrypoint))
+            {
                 throw new ArgumentNullException("entrypoint");
+            }
 
             PathToAssemblyFile = pathToDll;
             Entrypoint = entrypoint;

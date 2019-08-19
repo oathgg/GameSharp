@@ -1,5 +1,4 @@
 ﻿using GameSharp.Core;
-using GameSharp.External.Injection;
 
 namespace GameSharp.External.Injection
 {

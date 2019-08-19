@@ -2,7 +2,6 @@
 // https://github.com/lolp1/Process.NET/blob/master/src/Process.NET/Applied/Detours/Detour.cs
 //
 
-using GameSharp.Core.Memory;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;

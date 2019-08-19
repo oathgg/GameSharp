@@ -125,7 +125,7 @@ namespace PeNet.Structures
         }
 
 
-        private Dictionary<Index, IMetaDataIndex> _index = null;
+        private readonly Dictionary<Index, IMetaDataIndex> _index = null;
 
         public uint this[Index index]
         {
@@ -138,8 +138,8 @@ namespace PeNet.Structures
 
     internal class SingleIndex : IMetaDataIndex
     {
-        private MetadataToken _token;
-        private MetaDataTableInfo[] _tables;
+        private readonly MetadataToken _token;
+        private readonly MetaDataTableInfo[] _tables;
 
         public SingleIndex(MetadataToken token, MetaDataTableInfo[] tables)
         {

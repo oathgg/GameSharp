@@ -69,7 +69,7 @@ namespace PeNet.Structures
                 string tmpString = Buff.GetCString(i);
                 i += (uint)tmpString.Length;
 
-                if (String.IsNullOrWhiteSpace(tmpString))
+                if (string.IsNullOrWhiteSpace(tmpString))
                 {
                     continue;
                 }

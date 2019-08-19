@@ -47,7 +47,7 @@ namespace GameSharp.Core.Services
                 {
                     Console.WriteLine("Type: {0}", exception.GetType().FullName);
                     Console.WriteLine("Message: {0}", exception.Message);
-                    if (!String.IsNullOrEmpty(exception.StackTrace))
+                    if (!string.IsNullOrEmpty(exception.StackTrace))
                     {
                         Console.WriteLine("Stracktrace:");
                         Console.WriteLine(exception.StackTrace);
