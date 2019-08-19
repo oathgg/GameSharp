@@ -1,8 +1,10 @@
 ﻿using GameSharp.Core;
+using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Services;
+using GameSharp.External.Memory;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,42 +23,42 @@ namespace GameSharp.External
 
         public Process Process { get; }
 
+        public IntPtr Handle => Process.Handle;
+
+        public ProcessModule MainModule => Process.MainModule;
+
         public GameSharpProcess(Process process)
         {
             Process = process;
+
+            RefreshModules();
         }
 
         public IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
             byte[] loadLibraryOpcodes = LoadLibraryPayload(pathToDll);
 
-            IntPtr allocatedMemory = Kernel32.VirtualAllocEx(Process.Handle, IntPtr.Zero, (uint)loadLibraryOpcodes.Length, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite);
+            IMemoryAddress allocatedMemory = AllocateManagedMemory(loadLibraryOpcodes.Length);
 
-            if (Kernel32.WriteProcessMemory(Process.Handle, allocatedMemory, loadLibraryOpcodes, loadLibraryOpcodes.Length, out IntPtr _))
+            if (Kernel32.WriteProcessMemory(Process.Handle, allocatedMemory.BaseAddress, loadLibraryOpcodes, loadLibraryOpcodes.Length, out IntPtr _))
             {
-                IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
-                if (kernel32Module == IntPtr.Zero)
-                {
-                    throw new Win32Exception($"Couldn't get handle for module the module, error code: {Marshal.GetLastWin32Error()}.");
-                }
-
-                IntPtr loadLibraryAddress;
+                IMemoryModule kernel32Module = Modules.FirstOrDefault(x => x.Name == "kernel32.dll");
+                IMemoryAddress loadLibraryAddress;
                 if (resolveReferences)
                 {
-                    loadLibraryAddress = Kernel32.GetProcAddress(kernel32Module, "LoadLibraryW");
+                    loadLibraryAddress = kernel32Module.GetProcAddress("LoadLibraryW");
                 }
                 else
                 {
-                    loadLibraryAddress = Kernel32.GetProcAddress(kernel32Module, "LoadLibraryExW");
+                    loadLibraryAddress = kernel32Module.GetProcAddress("LoadLibraryExW");
                 }
 
-                if (loadLibraryAddress == IntPtr.Zero)
+                if (loadLibraryAddress == null)
                 {
                     throw new Win32Exception($"Couldn't get proc address, error code: {Marshal.GetLastWin32Error()}.");
                 }
 
-                IntPtr tHandle = Kernel32.CreateRemoteThread(Process.Handle, IntPtr.Zero, 0, loadLibraryAddress, allocatedMemory, 0, IntPtr.Zero);
-                if (tHandle == IntPtr.Zero)
+                if (CreateRemoteThread(loadLibraryAddress, allocatedMemory) == IntPtr.Zero)
                 {
                     throw new Win32Exception($"Couldn't create a remote thread, error code: {Marshal.GetLastWin32Error()}.");
                 }
@@ -161,6 +163,16 @@ namespace GameSharp.External
                     throw new Win32Exception(Marshal.GetLastWin32Error());
                 }
             }
+        }
+
+        public IMemoryAddress AllocateManagedMemory(int size)
+        {
+            return new MemoryAddress(Kernel32.VirtualAllocEx(Process.Handle, IntPtr.Zero, (uint) size, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite));
+        }
+
+        public IntPtr CreateRemoteThread(IMemoryAddress entryPoint, IMemoryAddress arguments)
+        {
+            return Kernel32.CreateRemoteThread(Process.Handle, IntPtr.Zero, 0, entryPoint.BaseAddress, arguments.BaseAddress, 0, IntPtr.Zero);
         }
     }
 }

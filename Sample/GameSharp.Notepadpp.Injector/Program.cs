@@ -1,4 +1,5 @@
-﻿using GameSharp.External.Injection;
+﻿using GameSharp.External;
+using GameSharp.External.Injection;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -11,7 +12,7 @@ namespace GameSharp.Notepadpp.Injector
         private static void Main(string[] args)
         {
             // The process we are injecting into.
-            Process process = Process.GetProcessesByName("notepad++").FirstOrDefault();
+            GameSharpProcess process = new GameSharpProcess(Process.GetProcessesByName("notepad++").FirstOrDefault());
 
             if (process == null)
             {

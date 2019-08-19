@@ -51,6 +51,7 @@
     <Compile Include="Injection\Injectable.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />
+    <Compile Include="Injection\ThreadHijackInjection.cs" />
     <Compile Include="Memory\MemoryAddress.cs" />
     <Compile Include="GameSharpProcess.cs" />
     <Compile Include="Module\MemoryModule.cs" />

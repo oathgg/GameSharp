@@ -35,13 +35,13 @@ namespace GameSharp.Internal.Module
         /// <param name="moduleName">The module name (not case-sensitive).</param>
         /// <param name="functionName">The function or variable name, or the function's ordinal value.</param>
         /// <returns>The address of the exported function.</returns>
-        public IntPtr GetProcAddress(string functionName)
+        public override IMemoryAddress GetProcAddress(string name)
         {
-            IntPtr ret = Kernel32.GetProcAddress(ProcessModule.BaseAddress, functionName);
+            MemoryAddress ret = new MemoryAddress(Kernel32.GetProcAddress(ProcessModule.BaseAddress, name));
 
-            if (ret == IntPtr.Zero)
+            if (ret == null)
             {
-                throw new Win32Exception($"Couldn't get the function address with name {functionName}.");
+                throw new Win32Exception($"Couldn't get the function address with name {name}.");
             }
 
             return ret;

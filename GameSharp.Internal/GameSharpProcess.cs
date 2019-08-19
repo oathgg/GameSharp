@@ -1,4 +1,5 @@
 ﻿using GameSharp.Core;
+using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
@@ -16,11 +17,21 @@ namespace GameSharp.Internal
     public sealed class GameSharpProcess : IProcess
     {
         private static GameSharpProcess _instance;
+
         public static GameSharpProcess Instance => _instance ?? (_instance = new GameSharpProcess());
-        public List<IMemoryModule> Modules { get; set; } = new List<IMemoryModule>();
+
+        public List<IMemoryModule> Modules { get; private set; } = new List<IMemoryModule>();
+
         public Process Process { get; } = Process.GetCurrentProcess();
 
-        public IMemoryModule LoadLibrary(string pathToDll) => LoadLibrary(pathToDll, true);
+        public IntPtr Handle => Instance.Process.Handle;
+
+        public ProcessModule MainModule => Instance.Process.MainModule;
+
+        public IMemoryModule LoadLibrary(string pathToDll)
+        {
+            return LoadLibrary(pathToDll, true);
+        }
 
         public IMemoryModule LoadLibrary(string libraryPath, bool resolveReferences)
         {
@@ -41,7 +52,10 @@ namespace GameSharp.Internal
             return Modules.FirstOrDefault(x => x.Name == Path.GetFileName(libraryPath.ToLower()));
         }
 
-        public T CallFunction<T>(SafeFunction safeFunction, params object[] parameters) => safeFunction.Call<T>(parameters);
+        public T CallFunction<T>(SafeFunction safeFunction, params object[] parameters)
+        {
+            return safeFunction.Call<T>(parameters);
+        }
 
         public void RefreshModules()
         {

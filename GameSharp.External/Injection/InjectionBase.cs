@@ -7,45 +7,33 @@ namespace GameSharp.External.Injection
 {
     public abstract class InjectionBase : IInjection
     {
-        public Injectable InjectableAssembly { get; set; }
+        public GameSharpProcess Process { get; }
 
-        private GameSharpProcess ExternalProcess { get; }
-
-        public IProcess Process { get; }
-
-        public InjectionBase(Process process)
+        public InjectionBase(GameSharpProcess process)
         {
-            Process = new GameSharpProcess(process) ?? throw new NullReferenceException();
-            ExternalProcess = Process as GameSharpProcess;
+            Process = process ?? throw new NullReferenceException();
         }
 
         public void InjectAndExecute(Injectable assembly, bool attach)
         {
-            InjectableAssembly = assembly;
-
             UpdateFiles(assembly.PathToAssemblyFile);
 
-            // Possible anti-cheat detterence.
-            ExternalProcess.SuspendThreads(true);
+            PreExecution(assembly);
 
-            Inject(assembly.PathToAssemblyFile);
+            Process.AllocConsole();
 
             // In case we want to attach then we have to do so BEFORE we execute to give full debugging capabilities.
             if (attach && Debugger.IsAttached)
             {
-                ExternalProcess.AttachDebugger();
+                Process.AttachDebugger();
             }
 
-            ExternalProcess.AllocConsole();
-
-            Execute(assembly.PathToAssemblyFile, assembly.Entrypoint);
-
-            ExternalProcess.SuspendThreads(false);
+            Execute(assembly);
         }
 
         private void UpdateFiles(string pathToDll)
         {
-            string processPath = Path.GetDirectoryName(Process.Process.MainModule.FileName);
+            string processPath = Path.GetDirectoryName(Process.MainModule.FileName);
             CopyFile(pathToDll, "GameSharp.Core.dll", processPath);
             CopyFile(pathToDll, "GameSharp.Internal.dll", processPath);
         }
@@ -63,13 +51,13 @@ namespace GameSharp.External.Injection
         /// </summary>
         /// <param name="pathToDll"></param>
         /// <param name="entryPoint"></param>
-        protected abstract void Inject(string pathToDll);
+        protected abstract void PreExecution(Injectable assembly);
 
         /// <summary>
         ///     Execution after the DLL has been injected.
         /// </summary>
         /// <param name="pathToDll"></param>
         /// <param name="entryPoint"></param>
-        protected abstract void Execute(string pathToDll, string entryPoint);
+        protected abstract void Execute(Injectable assembly);
     }
 }
