@@ -52,8 +52,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameSharp.Shared\GameSharp.Core.csproj">
-      <Project>{C8009EEC-5B88-43EE-AF12-2D973C4676C2}</Project>
+    <ProjectReference Include="..\GameSharp.Core\GameSharp.Core.csproj">
+      <Project>{c8009eec-5b88-43ee-af12-2d973c4676c2}</Project>
       <Name>GameSharp.Core</Name>
     </ProjectReference>
   </ItemGroup>

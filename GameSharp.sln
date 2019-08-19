@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Internal", "GameS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.External", "GameSharp.External\GameSharp.External.csproj", "{4422D079-E831-48AB-BC8A-1B805C7C12FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Core", "GameSharp.Shared\GameSharp.Core.csproj", "{C8009EEC-5B88-43EE-AF12-2D973C4676C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Core", "GameSharp.Core\GameSharp.Core.csproj", "{C8009EEC-5B88-43EE-AF12-2D973C4676C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

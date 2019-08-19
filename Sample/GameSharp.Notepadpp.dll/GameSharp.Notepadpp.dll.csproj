@@ -73,13 +73,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\GameSharp.Core\GameSharp.Core.csproj">
+      <Project>{C8009EEC-5B88-43EE-AF12-2D973C4676C2}</Project>
+      <Name>GameSharp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\GameSharp.Internal\GameSharp.Internal.csproj">
       <Project>{9f88a5b2-866e-4df0-98b7-69e88009194b}</Project>
       <Name>GameSharp.Internal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\GameSharp.Shared\GameSharp.Core.csproj">
-      <Project>{C8009EEC-5B88-43EE-AF12-2D973C4676C2}</Project>
-      <Name>GameSharp.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
