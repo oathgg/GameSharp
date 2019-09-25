@@ -51,7 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ArrayExtension.cs" />
     <Compile Include="Memory\IMemoryAddress.cs" />
+    <Compile Include="Memory\Patch.cs" />
     <Compile Include="Module\IMemoryModule.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="Memory\MemoryScanner.cs" />

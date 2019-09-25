@@ -11,17 +11,21 @@ namespace GameSharp.External.Module
     {
         public override IMemoryAddress MemoryAddress { get; }
 
-        public MemoryModule(ProcessModule processModule) : base(processModule)
+        public GameSharpProcess GameSharpProcess { get; }
+
+        public MemoryModule(GameSharpProcess process, ProcessModule processModule) : base(processModule)
         {
-            MemoryAddress = new MemoryAddress(processModule.BaseAddress);
+            GameSharpProcess = process;
+
+            MemoryAddress = new MemoryAddress(GameSharpProcess, processModule.BaseAddress);
         }
 
         public override IMemoryAddress GetProcAddress(string name)
         {
-            MemoryAddress address = new MemoryAddress(Kernel32.GetProcAddress(ProcessModule.BaseAddress, name));
+            MemoryAddress address = new MemoryAddress(GameSharpProcess, Kernel32.GetProcAddress(NativeProcessModule.BaseAddress, name));
             if (address == null)
             {
-                throw new NullReferenceException($"Couldn't find function {name} in module {ProcessModule.ModuleName}");
+                throw new NullReferenceException($"Couldn't find function {name} in module {NativeProcessModule.ModuleName}");
             }
             return address;
         }

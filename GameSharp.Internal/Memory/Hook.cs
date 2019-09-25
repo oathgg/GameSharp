@@ -2,6 +2,7 @@
 // https://github.com/lolp1/Process.NET/blob/master/src/Process.NET/Applied/Detours/Detour.cs
 //
 
+using GameSharp.Core.Memory;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
@@ -20,11 +21,11 @@ namespace GameSharp.Internal.Memory
         ///     This variable contains the jump from the module where the hookable function resides into our module.
         ///     Bypass for an anti-cheat which is validating the return address of a function to reside in it's own module.
         /// </summary>
-        private Patch CodeCavePatch { get; set; }
+        private MemoryPatch CodeCavePatch { get; set; }
 
         private MemoryAddress HookPtr { get; }
 
-        private Patch HookPatch { get; set; }
+        private MemoryPatch HookPatch { get; set; }
 
         private MemoryAddress TargetFuncPtr { get; }
 
@@ -60,10 +61,11 @@ namespace GameSharp.Internal.Memory
             }
 
             MemoryAddress codeCave = module.FindCodeCaveInModule((uint)bytes.Length);
-            CodeCavePatch = new Patch(codeCave, bytes);
+            CodeCavePatch = new MemoryPatch(codeCave, bytes);
 
             byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr();
-            HookPatch = new Patch(TargetFuncPtr, retToCodeCave);
+
+            HookPatch = new MemoryPatch(TargetFuncPtr, retToCodeCave);
         }
 
         public void Disable()

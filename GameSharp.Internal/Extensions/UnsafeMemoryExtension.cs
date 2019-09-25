@@ -1,5 +1,7 @@
-﻿using GameSharp.Internal.Memory;
+﻿using GameSharp.Core.Memory;
+using GameSharp.Internal.Memory;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal.Extensions
@@ -22,6 +24,24 @@ namespace GameSharp.Internal.Extensions
             }
 
             return Marshal.GetDelegateForFunctionPointer(addr, typeof(T)) as T;
+        }
+
+        public static byte[] GetReturnToPtr(this IMemoryAddress memoryAddress)
+        {
+            // PUSH opcode http://ref.x86asm.net/coder32.html#x68
+            List<byte> bytes = new List<byte> { 0x68 };
+
+            // Push our hook address onto the stack
+            byte[] hookPtrAddress = IntPtr.Size == 4 
+                ? BitConverter.GetBytes(memoryAddress.BaseAddress.ToInt32()) 
+                : BitConverter.GetBytes(memoryAddress.BaseAddress.ToInt64());
+
+            bytes.AddRange(hookPtrAddress);
+
+            // RETN opcode http://ref.x86asm.net/coder32.html#xC3
+            bytes.Add(0xC3);
+
+            return bytes.ToArray();
         }
     }
 }

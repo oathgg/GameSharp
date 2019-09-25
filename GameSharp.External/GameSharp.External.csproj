@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\Injectable.cs" />
     <Compile Include="Injection\InjectionBase.cs" />

@@ -18,13 +18,13 @@ namespace GameSharp.Internal.Module
 
         public MemoryModule(ProcessModule processModule) : base(processModule)
         {
-            MemoryAddress = new MemoryAddress(ProcessModule.BaseAddress);
+            MemoryAddress = new MemoryAddress(NativeProcessModule.BaseAddress);
             PeHeader = GeneratePeHeader();
         }
 
         private PeFile GeneratePeHeader()
         {
-            PeFile header = new PeFile(MemoryAddress.Read<byte[]>(0x1000));
+            PeFile header = new PeFile(MemoryAddress.Read(0x1000));
 
             return header;
         }
@@ -37,7 +37,7 @@ namespace GameSharp.Internal.Module
         /// <returns>The address of the exported function.</returns>
         public override IMemoryAddress GetProcAddress(string name)
         {
-            MemoryAddress ret = new MemoryAddress(Kernel32.GetProcAddress(ProcessModule.BaseAddress, name));
+            MemoryAddress ret = new MemoryAddress(Kernel32.GetProcAddress(NativeProcessModule.BaseAddress, name));
 
             if (ret == null)
             {
@@ -63,7 +63,7 @@ namespace GameSharp.Internal.Module
         /// <returns></returns>
         public MemoryAddress FindCodeCaveInModule(uint size)
         {
-            byte[] moduleBytes = MemoryAddress.Read<byte[]>(ProcessModule.ModuleMemorySize);
+            byte[] moduleBytes = MemoryAddress.Read(NativeProcessModule.ModuleMemorySize);
 
             for (uint i = PeHeader.ImageNtHeaders.OptionalHeader.SizeOfCode; i < moduleBytes.Length; i++)
             {
@@ -73,7 +73,7 @@ namespace GameSharp.Internal.Module
                 }
 
                 // If the codecave has already been taken, might still have bytes that are 0'd then we skip the size of the other codecave.
-                CodeCavesTaken.TryGetValue((uint)ProcessModule.BaseAddress + i, out uint sizeTaken);
+                CodeCavesTaken.TryGetValue((uint)NativeProcessModule.BaseAddress + i, out uint sizeTaken);
                 if (sizeTaken > 0)
                 {
                     i += sizeTaken;
@@ -86,9 +86,9 @@ namespace GameSharp.Internal.Module
                     {
                         if (j == size)
                         {
-                            CodeCavesTaken.Add((uint)ProcessModule.BaseAddress + i, size);
+                            CodeCavesTaken.Add((uint)NativeProcessModule.BaseAddress + i, size);
 
-                            return new MemoryAddress(new IntPtr((uint)ProcessModule.BaseAddress + i));
+                            return new MemoryAddress(new IntPtr((uint)NativeProcessModule.BaseAddress + i));
                         }
                     }
                     // If we can't find a codecave big enough we will stop looping through the bytes but increment the (i) var

@@ -8,10 +8,10 @@ namespace GameSharp.Core
 {
     public interface IProcess
     {
-        Process Process { get; }
+        Process NativeProcess { get; }
         ProcessModule MainModule { get; }
         IntPtr Handle { get; }
-        List<IMemoryModule> Modules { get; }
+        Dictionary<string, IMemoryModule> Modules { get; }
         IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences = true);
         void RefreshModules();
     }

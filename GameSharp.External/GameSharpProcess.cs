@@ -4,7 +4,9 @@ using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Services;
+using GameSharp.External.Helpers;
 using GameSharp.External.Memory;
+using GameSharp.External.Module;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,17 +21,17 @@ namespace GameSharp.External
 {
     public class GameSharpProcess : IProcess
     {
-        public List<IMemoryModule> Modules { get; set; } = new List<IMemoryModule>();
+        public Dictionary<string, IMemoryModule> Modules { get; set; } = new Dictionary<string, IMemoryModule>();
 
-        public Process Process { get; }
+        public Process NativeProcess { get; }
 
-        public IntPtr Handle => Process.Handle;
+        public IntPtr Handle => NativeProcess.Handle;
 
-        public ProcessModule MainModule => Process.MainModule;
+        public ProcessModule MainModule => NativeProcess.MainModule;
 
         public GameSharpProcess(Process process)
         {
-            Process = process;
+            NativeProcess = process;
 
             RefreshModules();
         }
@@ -40,9 +42,9 @@ namespace GameSharp.External
 
             IMemoryAddress allocatedMemory = AllocateManagedMemory(loadLibraryOpcodes.Length);
 
-            if (Kernel32.WriteProcessMemory(Process.Handle, allocatedMemory.BaseAddress, loadLibraryOpcodes, loadLibraryOpcodes.Length, out IntPtr _))
+            if (Kernel32.WriteProcessMemory(NativeProcess.Handle, allocatedMemory.BaseAddress, loadLibraryOpcodes, loadLibraryOpcodes.Length, out IntPtr _))
             {
-                IMemoryModule kernel32Module = Modules.FirstOrDefault(x => x.Name == "kernel32.dll");
+                IMemoryModule kernel32Module = Modules["kernel32.dll"];
                 IMemoryAddress loadLibraryAddress;
                 if (resolveReferences)
                 {
@@ -66,7 +68,7 @@ namespace GameSharp.External
 
             RefreshModules();
 
-            return Modules.FirstOrDefault(x => x.Name == Path.GetFileName(pathToDll).ToLower());
+            return Modules[Path.GetFileName(pathToDll).ToLower()];
         }
 
         // TODO: Refactor to an actual payload, another detection vector is to get the entry point of a thread if its equal to LoadLibrary.
@@ -84,14 +86,16 @@ namespace GameSharp.External
 
         public void RefreshModules()
         {
-            Process.Refresh();
+            NativeProcess.Refresh();
 
             Modules.Clear();
 
-            foreach (ProcessModule processModule in Process.Modules)
+            foreach (ProcessModule processModule in NativeProcess.Modules)
             {
-                Modules.Add(new Module.MemoryModule(processModule));
+                Modules.Add(processModule.ModuleName.ToLower(), new MemoryModule(this, processModule));
             }
+
+            Thread.Sleep(1000);
         }
 
         public void AllocConsole()
@@ -100,47 +104,14 @@ namespace GameSharp.External
 
             IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
             IntPtr allocConsoleAddress = Kernel32.GetProcAddress(kernel32Module, "AllocConsole");
-            Kernel32.CreateRemoteThread(Process.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
+            Kernel32.CreateRemoteThread(NativeProcess.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
 
-        public void AttachDebugger()
-        {
-            EnvDTE.DTE dte;
-            try
-            {
-                dte = (EnvDTE.DTE)Marshal.GetActiveObject("VisualStudio.DTE.16.0");
-            }
-            catch (COMException)
-            {
-                Debug.WriteLine("Visual studio v2019 not found.");
-                return;
-            }
-
-            int tryCount = 5;
-            do
-            {
-                Process.WaitForInputIdle();
-
-                try
-                {
-                    EnvDTE.Processes processes = dte.Debugger.LocalProcesses;
-                    foreach (EnvDTE80.Process2 proc in processes.Cast<EnvDTE80.Process2>().Where(proc => proc.Name.IndexOf(Process.ProcessName) != -1))
-                    {
-                        EnvDTE80.Engine debugEngine = proc.Transport.Engines.Item("Managed (v4.6, v4.5, v4.0)");
-                        proc.Attach2(debugEngine);
-                        break;
-                    }
-                    break;
-                }
-                catch { }
-
-                Thread.Sleep(1000);
-            } while (tryCount-- > 0);
-        }
+        public void AttachDebugger() => DebugHelper.SafeAttach(this);
 
         public void SuspendThreads(bool suspend)
         {
-            foreach (ProcessThread pT in Process.Threads)
+            foreach (ProcessThread pT in NativeProcess.Threads)
             {
                 IntPtr tHandle = Kernel32.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
 
@@ -167,12 +138,12 @@ namespace GameSharp.External
 
         public IMemoryAddress AllocateManagedMemory(int size)
         {
-            return new MemoryAddress(Kernel32.VirtualAllocEx(Process.Handle, IntPtr.Zero, (uint) size, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite));
+            return new MemoryAddress(this, Kernel32.VirtualAllocEx(NativeProcess.Handle, IntPtr.Zero, (uint) size, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite));
         }
 
         public IntPtr CreateRemoteThread(IMemoryAddress entryPoint, IMemoryAddress arguments)
         {
-            return Kernel32.CreateRemoteThread(Process.Handle, IntPtr.Zero, 0, entryPoint.BaseAddress, arguments.BaseAddress, 0, IntPtr.Zero);
+            return Kernel32.CreateRemoteThread(NativeProcess.Handle, IntPtr.Zero, 0, entryPoint.BaseAddress, arguments.BaseAddress, 0, IntPtr.Zero);
         }
     }
 }

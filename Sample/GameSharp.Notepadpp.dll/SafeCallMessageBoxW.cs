@@ -19,7 +19,7 @@ namespace GameSharp.Notepadpp.dll
 
             process.RefreshModules();
 
-            MemoryModule module = process.Modules.FirstOrDefault(x => x.Name == "user32.dll") as MemoryModule;
+            MemoryModule module = process.Modules["user32.dll"] as MemoryModule;
 
             return (module.BaseAddress + 0x807B0).ToDelegate<MessageBoxWDelegate>();
         }

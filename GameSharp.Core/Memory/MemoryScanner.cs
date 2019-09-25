@@ -24,7 +24,7 @@ namespace GameSharp.Core.Memory
         public MemoryScanner(IMemoryModule module)
         {
             ModuleBase = module.MemoryAddress;
-            Bytes = ModuleBase.Read<byte[]>(module.ModuleMemorySize);
+            Bytes = ModuleBase.Read(module.ModuleMemorySize);
         }
 
         public MemoryScanner(byte[] bytesToScan)

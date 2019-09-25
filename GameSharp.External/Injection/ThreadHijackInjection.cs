@@ -19,8 +19,6 @@ namespace GameSharp.External.Injection
             IMemoryAddress allocatedMemory = Process.AllocateManagedMemory(assembly.PathToAssemblyFile.Length);
 
             allocatedMemory.Write(Encoding.Unicode.GetBytes(assembly.PathToAssemblyFile));
-
-
         }
     }
 }

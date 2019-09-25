@@ -9,7 +9,7 @@ namespace GameSharp.Core.Module
 {
     public abstract class ModuleBase : IMemoryModule
     {
-        public ProcessModule ProcessModule { get; }
+        public ProcessModule NativeProcessModule { get; }
         public string Name { get; }
         public IntPtr BaseAddress { get; }
         public int ModuleMemorySize { get; }
@@ -19,10 +19,10 @@ namespace GameSharp.Core.Module
 
         public ModuleBase(ProcessModule module)
         {
-            ProcessModule = module;
-            Name = ProcessModule.ModuleName.ToLower();
-            BaseAddress = ProcessModule.BaseAddress;
-            ModuleMemorySize = ProcessModule.ModuleMemorySize;
+            NativeProcessModule = module;
+            Name = NativeProcessModule.ModuleName.ToLower();
+            BaseAddress = NativeProcessModule.BaseAddress;
+            ModuleMemorySize = NativeProcessModule.ModuleMemorySize;
         }
 
         public override string ToString()

@@ -3,6 +3,7 @@ using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
+using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Memory;
 using GameSharp.Internal.Module;
 using System;
@@ -11,22 +12,25 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal
 {
     public sealed class GameSharpProcess : IProcess
     {
+        private GameSharpProcess() { }
+
         private static GameSharpProcess _instance;
 
         public static GameSharpProcess Instance => _instance ?? (_instance = new GameSharpProcess());
 
-        public List<IMemoryModule> Modules { get; private set; } = new List<IMemoryModule>();
+        public Dictionary<string, IMemoryModule> Modules { get; private set; } = new Dictionary<string, IMemoryModule>();
 
-        public Process Process { get; } = Process.GetCurrentProcess();
+        public Process NativeProcess { get; } = Process.GetCurrentProcess();
 
-        public IntPtr Handle => Instance.Process.Handle;
+        public IntPtr Handle => Instance.NativeProcess.Handle;
 
-        public ProcessModule MainModule => Instance.Process.MainModule;
+        public ProcessModule MainModule => Instance.NativeProcess.MainModule;
 
         public IMemoryModule LoadLibrary(string pathToDll)
         {
@@ -49,7 +53,7 @@ namespace GameSharp.Internal
                 throw new Win32Exception($"Couldn't load the library {libraryPath}.");
             }
 
-            return Modules.FirstOrDefault(x => x.Name == Path.GetFileName(libraryPath.ToLower()));
+            return Modules[Path.GetFileName(libraryPath.ToLower())];
         }
 
         public T CallFunction<T>(SafeFunction safeFunction, params object[] parameters)
@@ -59,13 +63,13 @@ namespace GameSharp.Internal
 
         public void RefreshModules()
         {
-            Process.Refresh();
+            NativeProcess.Refresh();
 
             Modules.Clear();
 
-            foreach (ProcessModule processModule in Process.Modules)
+            foreach (ProcessModule processModule in NativeProcess.Modules)
             {
-                Modules.Add(new MemoryModule(processModule));
+                Modules.Add(processModule.ModuleName.ToLower(), new MemoryModule(processModule));
             }
         }
     }

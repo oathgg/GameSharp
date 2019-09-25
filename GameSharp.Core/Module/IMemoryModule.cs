@@ -6,7 +6,7 @@ namespace GameSharp.Core.Module
 {
     public interface IMemoryModule
     {
-        ProcessModule ProcessModule { get; }
+        ProcessModule NativeProcessModule { get; }
 
         string Name { get; }
 

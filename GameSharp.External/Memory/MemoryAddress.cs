@@ -1,5 +1,10 @@
-﻿using GameSharp.Core.Memory;
+﻿using GameSharp.Core;
+using GameSharp.Core.Extensions;
+using GameSharp.Core.Memory;
+using GameSharp.Core.Native.PInvoke;
 using System;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace GameSharp.External.Memory
 {
@@ -7,24 +12,35 @@ namespace GameSharp.External.Memory
     {
         public IntPtr BaseAddress { get; }
 
-        public MemoryAddress(IntPtr address)
+        public IProcess Process { get; }
+
+        public MemoryAddress(GameSharpProcess process, IntPtr address)
         {
             BaseAddress = address;
+            Process = process as IProcess;
         }
 
         public T Read<T>(int offset = 0) where T : struct
         {
-            throw new NotImplementedException();
+            byte[] result = new byte[Marshal.SizeOf<T>()];
+
+            Kernel32.ReadProcessMemory(Process.NativeProcess.Handle, BaseAddress + offset, result, result.Length, out IntPtr _);
+
+            return result.CastTo<T>(); // [0] would be faster, but First() is safer. E.g. of buffer[0] ?? default(T)
         }
 
-        public T Read<T>(int size, int offset = 0)
+        public byte[] Read(int size, int offset = 0)
         {
-            throw new NotImplementedException();
+            byte[] result = new byte[size];
+
+            Kernel32.ReadProcessMemory(Process.NativeProcess.Handle, BaseAddress + offset, result, result.Length, out IntPtr _);
+
+            return result;
         }
 
         public void Write(byte[] bytes)
         {
-            throw new NotImplementedException();
+            Kernel32.WriteProcessMemory(Process.NativeProcess.Handle, BaseAddress, bytes, bytes.Length, out IntPtr _);
         }
     }
 }

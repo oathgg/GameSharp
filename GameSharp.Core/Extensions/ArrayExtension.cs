@@ -1,7 +1,8 @@
 using System;
+using System.Linq;
 using System.Text;
 
-namespace GameSharp.Internal.Extensions
+namespace GameSharp.Core.Extensions
 {
     public static class ArrayExtension
     {
@@ -45,7 +46,7 @@ namespace GameSharp.Internal.Extensions
                     break;
 
                 case TypeCode.Byte:
-                    val = data;
+                    val = data.First();
                     break;
 
                 case TypeCode.Boolean:
