@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace GameSharp.External.Injection
 {
@@ -6,6 +7,7 @@ namespace GameSharp.External.Injection
     {
         public string PathToAssemblyFile { get; }
         public string Entrypoint { get; }
+        public string AssemblyName => Path.GetFileName(PathToAssemblyFile);
 
         public Injectable(string pathToDll) => new Injectable(pathToDll, "");
 

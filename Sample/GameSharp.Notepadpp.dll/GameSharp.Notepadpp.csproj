@@ -7,8 +7,8 @@
     <ProjectGuid>{79C11529-1264-454A-B086-0E10EB21A584}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameSharp.Notepadpp.dll</RootNamespace>
-    <AssemblyName>GameSharp.Notepadpp.dll</AssemblyName>
+    <RootNamespace>GameSharp.Notepadpp</RootNamespace>
+    <AssemblyName>GameSharp.Notepadpp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

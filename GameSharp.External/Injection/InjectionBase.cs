@@ -20,6 +20,8 @@ namespace GameSharp.External.Injection
 
             PreExecution(assembly);
 
+            Process.RefreshModules();
+
             Process.AllocConsole();
 
             // In case we want to attach then we have to do so BEFORE we execute to give full debugging capabilities.

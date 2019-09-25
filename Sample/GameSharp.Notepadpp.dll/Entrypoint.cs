@@ -3,7 +3,7 @@ using GameSharp.Internal;
 using RGiesecke.DllExport;
 using System;
 
-namespace GameSharp.Notepadpp.dll
+namespace GameSharp.Notepadpp
 {
     public class Entrypoint
     {

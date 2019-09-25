@@ -86,6 +86,8 @@ namespace GameSharp.External
 
         public void RefreshModules()
         {
+            Thread.Sleep(5000);
+
             NativeProcess.Refresh();
 
             Modules.Clear();
@@ -94,8 +96,6 @@ namespace GameSharp.External
             {
                 Modules.Add(processModule.ModuleName.ToLower(), new MemoryModule(this, processModule));
             }
-
-            Thread.Sleep(1000);
         }
 
         public void AllocConsole()
@@ -131,7 +131,7 @@ namespace GameSharp.External
                 }
                 else
                 {
-                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), $"Cannot open a thread handle to {pT.Id}");
                 }
             }
         }

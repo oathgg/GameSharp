@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{85FF6757-CBA4-460F-B028-ABC0282D73E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Notepadpp.dll", "Sample\GameSharp.Notepadpp.dll\GameSharp.Notepadpp.dll.csproj", "{79C11529-1264-454A-B086-0E10EB21A584}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Notepadpp", "Sample\GameSharp.Notepadpp.dll\GameSharp.Notepadpp.csproj", "{79C11529-1264-454A-B086-0E10EB21A584}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Notepadpp.Injector", "Sample\GameSharp.Notepadpp.Injector\GameSharp.Notepadpp.Injector.csproj", "{33487D43-8039-476F-B1E6-E906A0897F7B}"
 EndProject

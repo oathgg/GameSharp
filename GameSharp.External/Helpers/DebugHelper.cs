@@ -34,7 +34,7 @@ namespace GameSharp.External.Helpers
 
         private void HideFromPEB()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void DisposeOfPatches()

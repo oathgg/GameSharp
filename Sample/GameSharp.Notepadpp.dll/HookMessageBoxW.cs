@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace GameSharp.Notepadpp.dll
+namespace GameSharp.Notepadpp
 {
     public class HookMessageBoxW : Hook
     {
