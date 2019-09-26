@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -107,7 +106,10 @@ namespace GameSharp.External
             Kernel32.CreateRemoteThread(NativeProcess.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
         }
 
-        public void AttachDebugger() => DebugHelper.SafeAttach(this);
+        public void AttachDebugger()
+        {
+            DebugHelper.SafeAttach(this);
+        }
 
         public void SuspendThreads(bool suspend)
         {
@@ -138,7 +140,7 @@ namespace GameSharp.External
 
         public IMemoryAddress AllocateManagedMemory(int size)
         {
-            return new MemoryAddress(this, Kernel32.VirtualAllocEx(NativeProcess.Handle, IntPtr.Zero, (uint) size, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite));
+            return new MemoryAddress(this, Kernel32.VirtualAllocEx(NativeProcess.Handle, IntPtr.Zero, (uint)size, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite));
         }
 
         public IntPtr CreateRemoteThread(IMemoryAddress entryPoint, IMemoryAddress arguments)

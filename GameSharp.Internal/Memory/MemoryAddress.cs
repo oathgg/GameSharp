@@ -3,11 +3,9 @@ using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
-using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal.Memory

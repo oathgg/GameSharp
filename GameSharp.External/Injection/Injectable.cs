@@ -9,7 +9,10 @@ namespace GameSharp.External.Injection
         public string Entrypoint { get; }
         public string AssemblyName => Path.GetFileName(PathToAssemblyFile);
 
-        public Injectable(string pathToDll) => new Injectable(pathToDll, "");
+        public Injectable(string pathToDll)
+        {
+            new Injectable(pathToDll, "");
+        }
 
         public Injectable(string pathToDll, string entrypoint)
         {

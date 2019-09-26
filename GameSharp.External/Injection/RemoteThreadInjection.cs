@@ -1,8 +1,6 @@
-﻿using GameSharp.Core;
-using GameSharp.Core.Native.PInvoke;
+﻿using GameSharp.Core.Native.PInvoke;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.External.Injection
@@ -35,7 +33,7 @@ namespace GameSharp.External.Injection
                 throw new Win32Exception($"Couldn't find the entry point, system returned error code: {Marshal.GetLastWin32Error()}");
             }
 
-            IntPtr entryPointInRemoteProcess = new IntPtr((long) Process.Modules[assembly.AssemblyName.ToLower()].BaseAddress + (long) entryPointAddress - (long) dllBase);
+            IntPtr entryPointInRemoteProcess = new IntPtr((long)Process.Modules[assembly.AssemblyName.ToLower()].BaseAddress + (long)entryPointAddress - (long)dllBase);
             IntPtr thread = Kernel32.CreateRemoteThread(Process.Handle, IntPtr.Zero, 0, entryPointInRemoteProcess, IntPtr.Zero, 0, IntPtr.Zero);
             if (thread == IntPtr.Zero)
             {

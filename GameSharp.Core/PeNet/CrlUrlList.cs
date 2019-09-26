@@ -115,8 +115,7 @@ namespace PeNet
 
         private bool IsValidUri(string uri)
         {
-            Uri uriResult;
-            return Uri.TryCreate(uri, UriKind.Absolute, out uriResult)
+            return Uri.TryCreate(uri, UriKind.Absolute, out Uri uriResult)
                    && (uriResult.Scheme == Uri.UriSchemeHttp
                        || uriResult.Scheme == Uri.UriSchemeHttps);
         }

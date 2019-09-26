@@ -10,7 +10,7 @@ namespace GameSharp.Core.Native.Structs
 
         public override string ToString()
         {
-            return string.Format("High:{0}, Low:{1}", this.High, this.Low);
+            return string.Format("High:{0}, Low:{1}", High, Low);
         }
     }
 }

@@ -5,17 +5,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace GameSharp.External.Helpers
 {
-    class DebugHelper
+    internal class DebugHelper
     {
-        private List<MemoryPatch> MemoryPatches = new List<MemoryPatch>();
-
-        readonly GameSharpProcess Process;
+        private readonly List<MemoryPatch> MemoryPatches = new List<MemoryPatch>();
+        private readonly GameSharpProcess Process;
 
         private DebugHelper(GameSharpProcess process)
         {
@@ -40,7 +37,7 @@ namespace GameSharp.External.Helpers
 
         private void DisposeOfPatches()
         {
-            foreach (var p in MemoryPatches)
+            foreach (MemoryPatch p in MemoryPatches)
             {
                 p.Dispose();
             }
@@ -55,7 +52,9 @@ namespace GameSharp.External.Helpers
             byte dbgBreakPointByte = dbgBreakPointPtr.Read<byte>();
 
             if (dbgBreakPointByte == 0xC3)
+            {
                 MemoryPatches.Add(new MemoryPatch(dbgBreakPointPtr, new byte[] { 0xCC }));
+            }
         }
 
         private void AttachManagedDebugger()

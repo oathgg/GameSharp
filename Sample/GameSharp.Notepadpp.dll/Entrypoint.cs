@@ -15,8 +15,10 @@ namespace GameSharp.Notepadpp
 
             LoggingService.Info("Calling MessageBoxW!");
             SafeCallMessageBoxW safeMessageBoxFunction = new SafeCallMessageBoxW();
-            if (safeMessageBoxFunction.Call<int>(IntPtr.Zero, "Through a SafeFunctionCall method", "Caption", (uint) 0) == 0)
+            if (safeMessageBoxFunction.Call<int>(IntPtr.Zero, "Through a SafeFunctionCall method", "Caption", (uint)0) == 0)
+            {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
 
             LoggingService.Info("Enabling hook on MessageBoxW!");
             HookMessageBoxW messageBoxHook = new HookMessageBoxW();

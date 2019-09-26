@@ -1,5 +1,4 @@
-﻿using GameSharp.Core;
-using GameSharp.Core.Memory;
+﻿using GameSharp.Core.Memory;
 using System.Text;
 
 namespace GameSharp.External.Injection

@@ -25,8 +25,8 @@ namespace PeNet.Structures
         /// </summary>
         public byte CodeOffset
         {
-            get { return Buff[Offset]; }
-            set { Buff[Offset] = value; }
+            get => Buff[Offset];
+            set => Buff[Offset] = value;
         }
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace PeNet.Structures
         /// </summary>
         public ushort FrameOffset
         {
-            get { return Buff.BytesToUInt16(Offset + 0x2); }
-            set { Buff.SetUInt16(Offset + 0x2, value); }
+            get => Buff.BytesToUInt16(Offset + 0x2);
+            set => Buff.SetUInt16(Offset + 0x2, value);
         }
     }
 }

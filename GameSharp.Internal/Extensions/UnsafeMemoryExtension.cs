@@ -32,8 +32,8 @@ namespace GameSharp.Internal.Extensions
             List<byte> bytes = new List<byte> { 0x68 };
 
             // Push our hook address onto the stack
-            byte[] hookPtrAddress = IntPtr.Size == 4 
-                ? BitConverter.GetBytes(memoryAddress.Address.ToInt32()) 
+            byte[] hookPtrAddress = IntPtr.Size == 4
+                ? BitConverter.GetBytes(memoryAddress.Address.ToInt32())
                 : BitConverter.GetBytes(memoryAddress.Address.ToInt64());
 
             bytes.AddRange(hookPtrAddress);

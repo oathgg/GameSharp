@@ -15,7 +15,7 @@ namespace GameSharp.Core.Memory
         private bool IsActive { get; set; } = false;
         private byte[] NewBytes { get; set; }
 
-        private static List<MemoryPatch> MemoryPatches = new List<MemoryPatch>();
+        private static readonly List<MemoryPatch> MemoryPatches = new List<MemoryPatch>();
 
         /// <summary>
         ///     A patch can be used to change byte(s) starting at the defined address.
@@ -59,7 +59,7 @@ namespace GameSharp.Core.Memory
 
         public static void DisposeAllPatches()
         {
-            foreach (var p in MemoryPatches)
+            foreach (MemoryPatch p in MemoryPatches)
             {
                 p.Dispose();
             }

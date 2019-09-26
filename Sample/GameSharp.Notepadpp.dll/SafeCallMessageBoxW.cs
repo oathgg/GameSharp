@@ -3,10 +3,7 @@ using GameSharp.Core.Module;
 using GameSharp.Internal;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Memory;
-using GameSharp.Internal.Module;
 using System;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Notepadpp

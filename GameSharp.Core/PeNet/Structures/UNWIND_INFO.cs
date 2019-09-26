@@ -37,8 +37,8 @@ namespace PeNet.Structures
         /// </summary>
         public byte SizeOfProlog
         {
-            get { return Buff[Offset + 0x1]; }
-            set { Buff[Offset + 0x1] = value; }
+            get => Buff[Offset + 0x1];
+            set => Buff[Offset + 0x1] = value;
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace PeNet.Structures
         /// </summary>
         public byte CountOfCodes
         {
-            get { return Buff[Offset + 0x2]; }
-            set { Buff[Offset + 0x2] = value; }
+            get => Buff[Offset + 0x2];
+            set => Buff[Offset + 0x2] = value;
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace PeNet.Structures
         /// </summary>
         public uint FunctionEntry
         {
-            get { return ExceptionHandler; }
-            set { ExceptionHandler = value; }
+            get => ExceptionHandler;
+            set => ExceptionHandler = value;
         }
 
         // DONT KNOW HOW BIG

@@ -1,9 +1,7 @@
 ﻿using GameSharp.Core.Memory;
 using GameSharp.Core.Native.PInvoke;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace GameSharp.Core.Module
 {

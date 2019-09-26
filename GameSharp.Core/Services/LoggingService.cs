@@ -5,13 +5,32 @@ namespace GameSharp.Core.Services
 {
     public static class LoggingService
     {
-        public static void Info(object obj) => Write(obj.ToString(), ConsoleColor.White);
-        public static void Warning(string message) => Write(message, ConsoleColor.Yellow);
-        public static void Error(string message) => Write(message, ConsoleColor.Red);
-        public static void Verbose(string message) => Write(message, ConsoleColor.Cyan);
+        public static void Info(object obj)
+        {
+            Write(obj.ToString(), ConsoleColor.White);
+        }
+
+        public static void Warning(string message)
+        {
+            Write(message, ConsoleColor.Yellow);
+        }
+
+        public static void Error(string message)
+        {
+            Write(message, ConsoleColor.Red);
+        }
+
+        public static void Verbose(string message)
+        {
+            Write(message, ConsoleColor.Cyan);
+        }
+
         public static void Debug(string message)
         {
-            if (!Debugger.IsAttached) return;
+            if (!Debugger.IsAttached)
+            {
+                return;
+            }
 
             Write(message, ConsoleColor.Cyan);
             Write("Press any key to continue", ConsoleColor.Cyan);

@@ -3,7 +3,6 @@ using GameSharp.Core.Extensions;
 using GameSharp.Core.Memory;
 using GameSharp.Core.Native.PInvoke;
 using System;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.External.Memory

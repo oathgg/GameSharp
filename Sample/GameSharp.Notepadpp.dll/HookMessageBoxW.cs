@@ -4,9 +4,7 @@ using GameSharp.Core.Services;
 using GameSharp.Internal;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Memory;
-using GameSharp.Internal.Module;
 using System;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Notepadpp
@@ -23,7 +21,7 @@ namespace GameSharp.Notepadpp
             LoggingService.Info(caption = "Changed messagebox title");
             LoggingService.Info(text);
 
-            int result = this.CallOriginal<int>(hWnd, text, caption, type);
+            int result = CallOriginal<int>(hWnd, text, caption, type);
 
             return result;
         }
