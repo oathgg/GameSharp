@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ArrayExtension.cs" />
+    <Compile Include="Extensions\ObjectExtension.cs" />
     <Compile Include="Memory\IMemoryAddress.cs" />
     <Compile Include="Memory\Patch.cs" />
     <Compile Include="Module\IMemoryModule.cs" />

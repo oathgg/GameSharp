@@ -1,4 +1,5 @@
-﻿using GameSharp.Core.Memory;
+﻿using GameSharp.Core.Extensions;
+using GameSharp.Core.Memory;
 using GameSharp.Core.Services;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
@@ -46,7 +47,7 @@ namespace GameSharp.Internal.Memory
         {
             object a = SafeFunctionDelegate.DynamicInvoke(parameters);
 
-            T ret = (T)a;
+            T ret = a.CastTo<T>();
 
             return ret;
         }
