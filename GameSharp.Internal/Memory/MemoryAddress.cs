@@ -42,8 +42,9 @@ namespace GameSharp.Internal.Memory
         public void Write(byte[] data)
         {
             // Make sure we have Write access to the page.
-            Kernel32.VirtualProtect(Address, data.Length, MemoryProtection.WriteCopy, out MemoryProtection old);
+            Kernel32.VirtualProtect(Address, data.Length, MemoryProtection.ExecuteReadWrite, out MemoryProtection old);
             Marshal.Copy(data, 0, Address, data.Length);
+            Kernel32.VirtualProtect(Address, data.Length, old, out MemoryProtection _);
         }
 
         public MemoryModule GetMyModule()

@@ -19,7 +19,7 @@ namespace GameSharp.Internal.Memory
     /// </summary>
     public abstract class SafeFunction
     {
-        private static Delegate SafeFunctionDelegate;
+        private readonly Delegate SafeFunctionDelegate;
 
         public SafeFunction()
         {
@@ -46,11 +46,7 @@ namespace GameSharp.Internal.Memory
         {
             object a = SafeFunctionDelegate.DynamicInvoke(parameters);
 
-            T ret = default;
-            if (a is T)
-            {
-                ret = (T)a;
-            }
+            T ret = (T)a;
 
             return ret;
         }
