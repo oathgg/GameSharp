@@ -1,8 +1,11 @@
-﻿using GameSharp.Internal;
+﻿using GameSharp.Core.Memory;
+using GameSharp.Core.Module;
+using GameSharp.Internal;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Memory;
 using GameSharp.Internal.Module;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -10,18 +13,18 @@ namespace GameSharp.Notepadpp
 {
     public class SafeCallMessageBoxW : SafeFunction
     {
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate int MessageBoxWDelegate(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)]string text, [MarshalAs(UnmanagedType.LPWStr)]string caption, uint type);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate int MessageBoxWDelegate(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)]string text, [MarshalAs(UnmanagedType.LPWStr)]string caption, int type);
 
-        public override Delegate ToCallDelegate()
+        protected override Delegate ToCallDelegate()
         {
             GameSharpProcess process = GameSharpProcess.Instance;
 
-            process.RefreshModules();
+            IMemoryModule user32dll = process.Modules["user32.dll"];
 
-            MemoryModule module = process.Modules["user32.dll"] as MemoryModule;
+            IMemoryAddress messageBoxWPtr = user32dll.GetProcAddress("MessageBoxW");
 
-            return (module.BaseAddress + 0x807B0).ToDelegate<MessageBoxWDelegate>();
+            return messageBoxWPtr.ToDelegate<MessageBoxWDelegate>();
         }
     }
 }

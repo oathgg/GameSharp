@@ -1,7 +1,8 @@
 ﻿using GameSharp.Core.Services;
-using GameSharp.Internal;
 using RGiesecke.DllExport;
 using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace GameSharp.Notepadpp
 {
@@ -12,15 +13,13 @@ namespace GameSharp.Notepadpp
         {
             LoggingService.Info("I have been injected!");
 
-            LoggingService.Info("Initializing changes we wish to make...");
+            LoggingService.Info("Calling MessageBoxW!");
             SafeCallMessageBoxW safeMessageBoxFunction = new SafeCallMessageBoxW();
+            if (safeMessageBoxFunction.Call<int>(IntPtr.Zero, "Through a SafeFunctionCall method", "Caption", 0) == 0)
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+
+            LoggingService.Info("Enabling hook on MessageBoxW!");
             HookMessageBoxW messageBoxHook = new HookMessageBoxW();
-
-            LoggingService.Info("Calling messagebox!");
-
-            GameSharpProcess.Instance.CallFunction<int>(safeMessageBoxFunction, IntPtr.Zero, "This is a sample of how to Call a function", "Title of the Messagebox", (uint)0);
-
-            LoggingService.Info("Enabling hook on messagebox!");
             messageBoxHook.Enable();
         }
     }

@@ -13,6 +13,7 @@ namespace GameSharp.Core
         IntPtr Handle { get; }
         Dictionary<string, IMemoryModule> Modules { get; }
         IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences = true);
+        IMemoryAddress AllocateManagedMemory(int size);
         void RefreshModules();
     }
 }

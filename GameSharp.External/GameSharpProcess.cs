@@ -31,7 +31,7 @@ namespace GameSharp.External
 
         public GameSharpProcess(Process process)
         {
-            NativeProcess = process;
+            NativeProcess = process ?? throw new NullReferenceException("process");
 
             RefreshModules();
         }
@@ -42,7 +42,7 @@ namespace GameSharp.External
 
             IMemoryAddress allocatedMemory = AllocateManagedMemory(loadLibraryOpcodes.Length);
 
-            if (Kernel32.WriteProcessMemory(NativeProcess.Handle, allocatedMemory.BaseAddress, loadLibraryOpcodes, loadLibraryOpcodes.Length, out IntPtr _))
+            if (Kernel32.WriteProcessMemory(NativeProcess.Handle, allocatedMemory.Address, loadLibraryOpcodes, loadLibraryOpcodes.Length, out IntPtr _))
             {
                 IMemoryModule kernel32Module = Modules["kernel32.dll"];
                 IMemoryAddress loadLibraryAddress;
@@ -86,7 +86,7 @@ namespace GameSharp.External
 
         public void RefreshModules()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
 
             NativeProcess.Refresh();
 
@@ -143,7 +143,7 @@ namespace GameSharp.External
 
         public IntPtr CreateRemoteThread(IMemoryAddress entryPoint, IMemoryAddress arguments)
         {
-            return Kernel32.CreateRemoteThread(NativeProcess.Handle, IntPtr.Zero, 0, entryPoint.BaseAddress, arguments.BaseAddress, 0, IntPtr.Zero);
+            return Kernel32.CreateRemoteThread(NativeProcess.Handle, IntPtr.Zero, 0, entryPoint.Address, arguments.Address, 0, IntPtr.Zero);
         }
     }
 }

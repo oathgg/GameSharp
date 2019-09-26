@@ -1,4 +1,6 @@
-﻿using GameSharp.Core.Services;
+﻿using GameSharp.Core.Memory;
+using GameSharp.Core.Module;
+using GameSharp.Core.Services;
 using GameSharp.Internal;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Memory;
@@ -35,11 +37,11 @@ namespace GameSharp.Notepadpp
         {
             GameSharpProcess process = GameSharpProcess.Instance;
 
-            process.RefreshModules();
+            IMemoryModule user32dll = process.Modules["user32.dll"];
 
-            MemoryModule module = process.Modules["user32.dll"] as MemoryModule;
+            IMemoryAddress messageBoxWPtr = user32dll.GetProcAddress("MessageBoxW");
 
-            return (module.NativeProcessModule.BaseAddress + 0x807B0).ToDelegate<HookMessageBoxWDelegate>();
+            return messageBoxWPtr.ToDelegate<HookMessageBoxWDelegate>();
         }
     }
 }

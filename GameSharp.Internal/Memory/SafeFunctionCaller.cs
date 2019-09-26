@@ -1,8 +1,13 @@
-﻿using GameSharp.Internal.Extensions;
+﻿using GameSharp.Core.Memory;
+using GameSharp.Core.Services;
+using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace GameSharp.Internal.Memory
 {
@@ -14,33 +19,38 @@ namespace GameSharp.Internal.Memory
     /// </summary>
     public abstract class SafeFunction
     {
-        private readonly Delegate SafeFunctionDelegate;
+        private static Delegate SafeFunctionDelegate;
 
         public SafeFunction()
         {
-            MemoryAddress address = ToCallDelegate().ToFunctionPtr();
+            Delegate @delegate = ToCallDelegate();
 
-            MemoryModule module = address.GetMyModule();
+            MemoryAddress originalFuncPtr = @delegate.ToFunctionPtr();
+
+            MemoryModule module = originalFuncPtr.GetMyModule();
 
             List<byte> bytes = new List<byte>();
 
-            bytes.AddRange(address.GetReturnToPtr());
+            bytes.AddRange(originalFuncPtr.GetReturnToPtr());
 
-            MemoryAddress codeCave = module.FindCodeCaveInModule((uint)bytes.Count);
+            IMemoryAddress codeCave = module.FindCodeCaveInModule((uint)bytes.Count);
 
-            // TODO: Refactor since this is now a detection vector as we are now writing the 'JumpTable' into the process.
             codeCave.Write(bytes.ToArray());
 
-            Type typeOfDelegate = ToCallDelegate().GetType();
+            Type typeOfDelegate = @delegate.GetType();
 
-            //LoggingService.Verbose($"{typeOfDelegate.ToString()} - JmpTable at {codeCave.BaseAddress.ToString("X")}");
-
-            SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(codeCave.BaseAddress, typeOfDelegate);
+            SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(codeCave.Address, typeOfDelegate);
         }
 
-        internal T Call<T>(params object[] parameters)
+        public T Call<T>(params object[] parameters)
         {
-            T ret = (T)SafeFunctionDelegate.DynamicInvoke(parameters);
+            object a = SafeFunctionDelegate.DynamicInvoke(parameters);
+
+            T ret = default;
+            if (a is T)
+            {
+                ret = (T)a;
+            }
 
             return ret;
         }
@@ -49,9 +59,9 @@ namespace GameSharp.Internal.Memory
         ///     This should return an UnmanagedFunctionPointer delegate.
         /// </summary>
         /// <code>
-        ///     return Marshal.GetDelegateForFunctionPointer<DELEGATE>(ADDRESS);
+        ///     return IMemoryAddress.ToDelegate<DELEGATE>();
         /// </code>
         /// <returns></returns>
-        public abstract Delegate ToCallDelegate();
+        protected abstract Delegate ToCallDelegate();
     }
 }

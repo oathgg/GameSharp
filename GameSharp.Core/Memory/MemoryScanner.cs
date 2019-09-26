@@ -43,7 +43,7 @@ namespace GameSharp.Core.Memory
 
                 if (PatternCheck(ref memByteOffset, array))
                 {
-                    return ModuleBase.BaseAddress
+                    return ModuleBase.Address
                         // offset in byte array
                         + memByteOffset
                         // offset given by user

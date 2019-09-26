@@ -18,7 +18,10 @@ namespace GameSharp.Internal
 {
     public sealed class GameSharpProcess : IProcess
     {
-        private GameSharpProcess() { }
+        private GameSharpProcess()
+        {
+            RefreshModules();
+        }
 
         private static GameSharpProcess _instance;
 
@@ -31,7 +34,7 @@ namespace GameSharp.Internal
         public IntPtr Handle => Instance.NativeProcess.Handle;
 
         public ProcessModule MainModule => Instance.NativeProcess.MainModule;
-
+        
         public IMemoryModule LoadLibrary(string pathToDll)
         {
             return LoadLibrary(pathToDll, true);
@@ -56,9 +59,9 @@ namespace GameSharp.Internal
             return Modules[Path.GetFileName(libraryPath.ToLower())];
         }
 
-        public T CallFunction<T>(SafeFunction safeFunction, params object[] parameters)
+        public IMemoryAddress AllocateManagedMemory(int size)
         {
-            return safeFunction.Call<T>(parameters);
+            return new MemoryAddress(Marshal.AllocHGlobal(size));
         }
 
         public void RefreshModules()

@@ -16,14 +16,14 @@ namespace GameSharp.Internal.Extensions
             return new MemoryAddress(Marshal.GetFunctionPointerForDelegate(d));
         }
 
-        public static T ToDelegate<T>(this IntPtr addr) where T : class
+        public static T ToDelegate<T>(this IMemoryAddress memoryAddress) where T : class
         {
             if (typeof(T).GetCustomAttributes(typeof(UnmanagedFunctionPointerAttribute), true).Length == 0)
             {
                 throw new InvalidOperationException("This operation can only convert to delegates adorned with the UnmanagedFunctionPointerAttribute");
             }
 
-            return Marshal.GetDelegateForFunctionPointer(addr, typeof(T)) as T;
+            return Marshal.GetDelegateForFunctionPointer(memoryAddress.Address, typeof(T)) as T;
         }
 
         public static byte[] GetReturnToPtr(this IMemoryAddress memoryAddress)
@@ -33,8 +33,8 @@ namespace GameSharp.Internal.Extensions
 
             // Push our hook address onto the stack
             byte[] hookPtrAddress = IntPtr.Size == 4 
-                ? BitConverter.GetBytes(memoryAddress.BaseAddress.ToInt32()) 
-                : BitConverter.GetBytes(memoryAddress.BaseAddress.ToInt64());
+                ? BitConverter.GetBytes(memoryAddress.Address.ToInt32()) 
+                : BitConverter.GetBytes(memoryAddress.Address.ToInt64());
 
             bytes.AddRange(hookPtrAddress);
 

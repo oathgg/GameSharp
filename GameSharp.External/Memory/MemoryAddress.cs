@@ -10,13 +10,13 @@ namespace GameSharp.External.Memory
 {
     public class MemoryAddress : IMemoryAddress
     {
-        public IntPtr BaseAddress { get; }
+        public IntPtr Address { get; }
 
         public IProcess Process { get; }
 
         public MemoryAddress(GameSharpProcess process, IntPtr address)
         {
-            BaseAddress = address;
+            Address = address;
             Process = process as IProcess;
         }
 
@@ -24,7 +24,7 @@ namespace GameSharp.External.Memory
         {
             byte[] result = new byte[Marshal.SizeOf<T>()];
 
-            Kernel32.ReadProcessMemory(Process.NativeProcess.Handle, BaseAddress + offset, result, result.Length, out IntPtr _);
+            Kernel32.ReadProcessMemory(Process.NativeProcess.Handle, Address + offset, result, result.Length, out IntPtr _);
 
             return result.CastTo<T>(); // [0] would be faster, but First() is safer. E.g. of buffer[0] ?? default(T)
         }
@@ -33,14 +33,14 @@ namespace GameSharp.External.Memory
         {
             byte[] result = new byte[size];
 
-            Kernel32.ReadProcessMemory(Process.NativeProcess.Handle, BaseAddress + offset, result, result.Length, out IntPtr _);
+            Kernel32.ReadProcessMemory(Process.NativeProcess.Handle, Address + offset, result, result.Length, out IntPtr _);
 
             return result;
         }
 
         public void Write(byte[] bytes)
         {
-            Kernel32.WriteProcessMemory(Process.NativeProcess.Handle, BaseAddress, bytes, bytes.Length, out IntPtr _);
+            Kernel32.WriteProcessMemory(Process.NativeProcess.Handle, Address, bytes, bytes.Length, out IntPtr _);
         }
     }
 }
