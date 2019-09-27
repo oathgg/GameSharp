@@ -2,7 +2,7 @@
 
 namespace GameSharp.Core.Memory
 {
-    public interface IMemoryAddress
+    public interface IMemoryAddress : IDisposable
     {
         IProcess Process { get; }
         IntPtr Address { get; }

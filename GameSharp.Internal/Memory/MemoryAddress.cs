@@ -32,7 +32,7 @@ namespace GameSharp.Internal.Memory
         {
             byte[] destination = new byte[size];
 
-            Marshal.Copy(Address, destination, offset, destination.Length);
+            Marshal.Copy(Address + offset, destination, 0, destination.Length);
 
             return destination;
         }
@@ -66,6 +66,11 @@ namespace GameSharp.Internal.Memory
         public static MemoryAddress AllocateMemory(int size)
         {
             return new MemoryAddress(Marshal.AllocHGlobal(size));
+        }
+
+        public void Dispose()
+        {
+            Marshal.FreeHGlobal(Address);
         }
     }
 }

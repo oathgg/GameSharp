@@ -63,9 +63,12 @@ namespace GameSharp.Internal.Module
         /// <returns></returns>
         public MemoryAddress FindCodeCaveInModule(uint size)
         {
-            byte[] moduleBytes = MemoryAddress.Read(NativeProcessModule.ModuleMemorySize);
+            uint baseOfCode = PeHeader.ImageNtHeaders.OptionalHeader.BaseOfCode;
+            uint sizeOfCode = PeHeader.ImageNtHeaders.OptionalHeader.SizeOfCode;
 
-            for (uint i = PeHeader.ImageNtHeaders.OptionalHeader.SizeOfCode; i < moduleBytes.Length; i++)
+            byte[] moduleBytes = MemoryAddress.Read((int)sizeOfCode, (int)baseOfCode);
+
+            for (uint i = baseOfCode; i < moduleBytes.Length; i++)
             {
                 if (moduleBytes[i] != 0x0)
                 {

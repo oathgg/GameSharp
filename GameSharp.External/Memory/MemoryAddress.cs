@@ -41,5 +41,10 @@ namespace GameSharp.External.Memory
         {
             Kernel32.WriteProcessMemory(Process.NativeProcess.Handle, Address, bytes, bytes.Length, out IntPtr _);
         }
+
+        public void Dispose()
+        {
+            //throw new NotImplementedException();
+        }
     }
 }
