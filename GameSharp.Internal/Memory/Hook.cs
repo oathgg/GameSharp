@@ -6,6 +6,7 @@ using GameSharp.Core.Memory;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
+using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal.Memory
 {
@@ -52,7 +53,7 @@ namespace GameSharp.Internal.Memory
 
         private void InitializeAntiCheatHook()
         {
-            byte[] bytes = HookPtr.GetReturnToPtr();
+            byte[] bytes = HookPtr.GetReturnToPtr(GetCallingConvention());
             MemoryModule module = TargetFuncPtr.GetMyModule();
 
             if (module == null)
@@ -60,10 +61,10 @@ namespace GameSharp.Internal.Memory
                 throw new NullReferenceException("Cannot find a module which belongs to the specified pointer.");
             }
 
-            MemoryAddress codeCave = module.FindCodeCaveInModule((uint)bytes.Length);
-            CodeCavePatch = new MemoryPatch(codeCave, bytes);
+            MemoryAddress codeCaveJmpTable = module.FindCodeCaveInModule((uint)bytes.Length);
+            CodeCavePatch = new MemoryPatch(codeCaveJmpTable, bytes);
 
-            byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr();
+            byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr(GetCallingConvention());
 
             HookPatch = new MemoryPatch(TargetFuncPtr, retToCodeCave);
         }
@@ -115,5 +116,14 @@ namespace GameSharp.Internal.Memory
         ///     e.g. return new OnAfkDelegate(DetourMethod);
         /// </summary>
         public abstract Delegate GetDetourDelegate();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Defaults to FastCall as this is the x64 architecture standard routine</returns>
+        protected virtual CallingConvention GetCallingConvention()
+        {
+            return CallingConvention.FastCall;
+        }
     }
 }

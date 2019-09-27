@@ -72,5 +72,10 @@ namespace GameSharp.Internal.Memory
         {
             Marshal.FreeHGlobal(Address);
         }
+
+        public override string ToString()
+        {
+            return $"0x{Address.ToString("X")}";
+        }
     }
 }

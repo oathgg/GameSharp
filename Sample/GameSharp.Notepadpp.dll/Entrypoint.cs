@@ -5,6 +5,7 @@ using GameSharp.Internal.Memory;
 using RGiesecke.DllExport;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -12,21 +13,23 @@ namespace GameSharp.Notepadpp
 {
     public class Entrypoint
     {
+        static GameSharpProcess GameSharpProcess = GameSharpProcess.Instance;
+        
+
         [DllExport]
         public static void Main()
         {
             LoggingService.Info("I have been injected!");
 
             LoggingService.Info("Calling MessageBoxW!");
-            SafeCallMessageBoxW safeMessageBoxFunction = new SafeCallMessageBoxW();
-            if (safeMessageBoxFunction.Call<int>(IntPtr.Zero, "Through a SafeFunctionCall method", "Caption", (uint)0) == 0)
+            if (Functions.SafeMessageBoxFunction.Call<int>(IntPtr.Zero, "Through a SafeFunctionCall method", "Caption", (uint)0) == 0)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
 
-            LoggingService.Info("Enabling hook on MessageBoxW!");
-            HookMessageBoxW messageBoxHook = new HookMessageBoxW();
-            messageBoxHook.Enable();
+            //LoggingService.Info("Enabling hook on MessageBoxW!");
+            //HookMessageBoxW messageBoxHook = new HookMessageBoxW();
+            //messageBoxHook.Enable();
 
             TestForDebugger();
         }
@@ -45,29 +48,21 @@ namespace GameSharp.Notepadpp
 
         private static void IsDebuggerPresent()
         {
-            IsDebuggerPresent isDebuggerPresent = new IsDebuggerPresent();
-
-            if (isDebuggerPresent.Call<bool>(null))
+            if (Functions.IsDebuggerPresent.Call<bool>(null))
             {
                 LoggingService.Info("IsDebuggerPresent() => We're being debugged!");
             }
         }
 
+        // Works only for 64-bit... https://www.exploit-db.com/exploits/44463
         private static void NtQueryInformationProcess(int flag, string flagName)
         {
-            NtQueryInformationProcess ntQueryInformationProcess = new NtQueryInformationProcess();
-
-            using (IMemoryAddress result = GameSharpProcess.Instance.AllocateManagedMemory(IntPtr.Size))
+            using (IMemoryAddress result = GameSharpProcess.AllocateManagedMemory(IntPtr.Size))
             {
-                int queryState = ntQueryInformationProcess.Call<int>(GameSharpProcess.Instance.Handle, flag, result.Address, (uint)4, null);
-                // STATUS_SUCCESS = 0, so if API call was successful queryState should contain 0.
-                if (queryState == 0)
-                {
-                    if (!result.Read<bool>())
-                    {
-                        LoggingService.Info($"{flagName} => We're being debugged!");
-                    }
-                }
+                if (Functions.NtQueryInformationProcess.Call<int>(GameSharpProcess.Handle, flag, result.Address, (uint)4, null) == 0)
+                    LoggingService.Error($"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error()}");
+
+                LoggingService.Info($"{flagName} => Result {result.Read<int>().ToString("X")}");
             }
         }
     }

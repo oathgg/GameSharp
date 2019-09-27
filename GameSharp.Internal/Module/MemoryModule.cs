@@ -1,12 +1,14 @@
 ﻿using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
 using GameSharp.Core.Native.PInvoke;
+using GameSharp.Core.Native.Structs;
 using GameSharp.Internal.Memory;
 using PeNet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal.Module
 {
@@ -50,7 +52,7 @@ namespace GameSharp.Internal.Module
         /// <summary>
         ///     Keeps track of all code caves currently in use, even if there are no injected bytes.
         /// </summary>
-        private static readonly Dictionary<uint, uint> CodeCavesTaken = new Dictionary<uint, uint>();
+        private static readonly Dictionary<ulong, uint> CodeCavesTaken = new Dictionary<ulong, uint>();
 
         /// <summary>
         ///     Get .text region from Module
@@ -65,10 +67,11 @@ namespace GameSharp.Internal.Module
         {
             uint baseOfCode = PeHeader.ImageNtHeaders.OptionalHeader.BaseOfCode;
             uint sizeOfCode = PeHeader.ImageNtHeaders.OptionalHeader.SizeOfCode;
+            ulong codeSection = (ulong) NativeProcessModule.BaseAddress + baseOfCode;
 
             byte[] moduleBytes = MemoryAddress.Read((int)sizeOfCode, (int)baseOfCode);
 
-            for (uint i = baseOfCode; i < moduleBytes.Length; i++)
+            for (uint i = 0; i < moduleBytes.Length; i++)
             {
                 if (moduleBytes[i] != 0x0)
                 {
@@ -76,7 +79,7 @@ namespace GameSharp.Internal.Module
                 }
 
                 // If the codecave has already been taken, might still have bytes that are 0'd then we skip the size of the other codecave.
-                CodeCavesTaken.TryGetValue((uint)NativeProcessModule.BaseAddress + i, out uint sizeTaken);
+                CodeCavesTaken.TryGetValue(codeSection + i, out uint sizeTaken);
                 if (sizeTaken > 0)
                 {
                     i += sizeTaken;
@@ -85,13 +88,16 @@ namespace GameSharp.Internal.Module
 
                 for (uint j = 0; j <= size; j++)
                 {
-                    if (moduleBytes[i + j] == 0x0)
+                    byte curByte = moduleBytes[i + j];
+                    if (curByte == 0x0)
                     {
                         if (j == size)
                         {
-                            CodeCavesTaken.Add((uint)NativeProcessModule.BaseAddress + i, size);
+                            ulong address = codeSection + i;
+                            
+                            CodeCavesTaken.Add(address, size);
 
-                            return new MemoryAddress(new IntPtr((uint)NativeProcessModule.BaseAddress + i));
+                            return new MemoryAddress((IntPtr)address);
                         }
                     }
                     // If we can't find a codecave big enough we will stop looping through the bytes but increment the (i) var

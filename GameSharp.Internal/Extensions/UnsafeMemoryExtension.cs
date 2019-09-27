@@ -23,20 +23,61 @@ namespace GameSharp.Internal.Extensions
                 throw new InvalidOperationException("This operation can only convert to delegates adorned with the UnmanagedFunctionPointerAttribute");
             }
 
-            return Marshal.GetDelegateForFunctionPointer(memoryAddress.Address, typeof(T)) as T;
+            return Marshal.GetDelegateForFunctionPointer<T>(memoryAddress.Address);
         }
 
-        public static byte[] GetReturnToPtr(this IMemoryAddress memoryAddress)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="memoryAddress"></param>
+        /// <param name="convention">Gets only used by the x64 architecture as we have to prepare the stack
+        /// The reason why we're only using this in x64 is because we're using the ret operator in x86.
+        /// 
+        /// Windows defaults to FastCalls in x64.</param>
+        /// <returns></returns>
+        public static byte[] GetReturnToPtr(this IMemoryAddress memoryAddress, CallingConvention convention)
         {
-            // PUSH opcode http://ref.x86asm.net/coder32.html#x68
-            List<byte> bytes = new List<byte> { 0x68 };
+            List<byte> bytes = new List<byte>();
 
-            // Push our hook address onto the stack
-            byte[] hookPtrAddress = IntPtr.Size == 4
-                ? BitConverter.GetBytes(memoryAddress.Address.ToInt32())
-                : BitConverter.GetBytes(memoryAddress.Address.ToInt64());
+            // 64-bit
+            if (IntPtr.Size == 8)
+            {
+                //// Prepare the stack
+                switch (convention)
+                {
+                    case CallingConvention.FastCall:
+                        // SUB RSP, 28
+                        bytes.AddRange(new byte[] { 0x48, 0x83, 0xEC, 0x28 });
+                        break;
 
-            bytes.AddRange(hookPtrAddress);
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                // MOV RAX, FUNKPTR
+                bytes.AddRange(new byte[] { 0x48, 0xB8 });
+
+                // Our address which we wish to call
+                bytes.AddRange(BitConverter.GetBytes(memoryAddress.Address.ToInt64()));
+
+                // CALL RAX
+                bytes.AddRange(new byte[] { 0xFF, 0xD0 });
+
+                // Clean up the stack
+                switch (convention)
+                {
+                    case CallingConvention.FastCall:
+                        // ADD RSP, 28
+                        bytes.AddRange(new byte[] { 0x48, 0x83, 0xC4, 0x28 });
+                        break;
+                }
+            }
+            else
+            {
+                // PUSH opcode http://ref.x86asm.net/coder32.html#x68
+                bytes.Add(0x68);
+                bytes.AddRange(BitConverter.GetBytes(memoryAddress.Address.ToInt32()));
+            }
 
             // RETN opcode http://ref.x86asm.net/coder32.html#xC3
             bytes.Add(0xC3);

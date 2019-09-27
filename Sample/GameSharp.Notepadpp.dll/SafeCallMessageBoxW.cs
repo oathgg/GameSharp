@@ -10,8 +10,8 @@ namespace GameSharp.Notepadpp
 {
     public class SafeCallMessageBoxW : SafeFunction
     {
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate int MessageBoxWDelegate(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)]string text, [MarshalAs(UnmanagedType.LPWStr)]string caption, uint type);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = true, CharSet = CharSet.Unicode)]
+        private delegate int MessageBoxWDelegate(IntPtr hWnd, string text, string caption, uint type);
 
         protected override Delegate ToCallDelegate()
         {

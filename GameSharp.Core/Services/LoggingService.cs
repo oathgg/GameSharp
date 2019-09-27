@@ -27,13 +27,10 @@ namespace GameSharp.Core.Services
 
         public static void Debug(string message)
         {
-            if (!Debugger.IsAttached)
-            {
-                return;
-            }
-
             Write(message, ConsoleColor.Cyan);
+
             Write("Press any key to continue", ConsoleColor.Cyan);
+
             Console.ReadKey();
         }
 
