@@ -54,7 +54,8 @@ namespace GameSharp.Notepadpp
             }
         }
 
-        // Works only for 64-bit... https://www.exploit-db.com/exploits/44463
+        // https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntqueryinformationprocess
+        // https://github.com/processhacker/processhacker/blob/master/phnt/include/ntpsapi.h#L98
         private static void NtQueryInformationProcess(int flag, string flagName)
         {
             using (IMemoryAddress result = Process.AllocateManagedMemory(IntPtr.Size))
