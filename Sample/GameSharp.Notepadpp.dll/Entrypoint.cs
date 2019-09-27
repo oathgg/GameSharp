@@ -13,7 +13,7 @@ namespace GameSharp.Notepadpp
 {
     public class Entrypoint
     {
-        static GameSharpProcess GameSharpProcess = GameSharpProcess.Instance;
+        static GameSharpProcess Process = GameSharpProcess.Instance;
         
 
         [DllExport]
@@ -27,9 +27,9 @@ namespace GameSharp.Notepadpp
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
 
-            //LoggingService.Info("Enabling hook on MessageBoxW!");
-            //HookMessageBoxW messageBoxHook = new HookMessageBoxW();
-            //messageBoxHook.Enable();
+            LoggingService.Info("Enabling hook on MessageBoxW!");
+            HookMessageBoxW messageBoxHook = new HookMessageBoxW();
+            messageBoxHook.Enable();
 
             TestForDebugger();
         }
@@ -57,9 +57,9 @@ namespace GameSharp.Notepadpp
         // Works only for 64-bit... https://www.exploit-db.com/exploits/44463
         private static void NtQueryInformationProcess(int flag, string flagName)
         {
-            using (IMemoryAddress result = GameSharpProcess.AllocateManagedMemory(IntPtr.Size))
+            using (IMemoryAddress result = Process.AllocateManagedMemory(IntPtr.Size))
             {
-                if (Functions.NtQueryInformationProcess.Call<int>(GameSharpProcess.Handle, flag, result.Address, (uint)4, null) == 0)
+                if (Functions.NtQueryInformationProcess.Call<int>(Process.Handle, flag, result.Address, (uint)4, null) == 0)
                     LoggingService.Error($"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error()}");
 
                 LoggingService.Info($"{flagName} => Result {result.Read<int>().ToString("X")}");
