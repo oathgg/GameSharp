@@ -1,4 +1,5 @@
 ﻿using GameSharp.Core.Memory;
+using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Services;
 using GameSharp.Internal;
 using GameSharp.Internal.Memory;
@@ -39,9 +40,10 @@ namespace GameSharp.Notepadpp
             while(true)
             {
                 IsDebuggerPresent();
-                NtQueryInformationProcess(0x7, "DebugPort");
-                NtQueryInformationProcess(0x1E, "DebugObject");
-                NtQueryInformationProcess(0x1F, "DebugFlags");
+                NtQueryInformationProcess(ProcessInformationClass.ProcessDebugPort);
+                NtQueryInformationProcess(ProcessInformationClass.ProcessDebugObjectHandle);
+                NtQueryInformationProcess(ProcessInformationClass.ProcessDebugFlags);
+
                 Thread.Sleep(1000);
             }
         }
@@ -55,15 +57,15 @@ namespace GameSharp.Notepadpp
         }
 
         // https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntqueryinformationprocess
-        // https://github.com/processhacker/processhacker/blob/master/phnt/include/ntpsapi.h#L98
-        private static void NtQueryInformationProcess(int flag, string flagName)
+        // https://github.com/processhacker/processhacker/blob/master/phnt/include/ntpsapi.h#L98 #bc35992
+        private static void NtQueryInformationProcess(ProcessInformationClass flag)
         {
             using (IMemoryAddress result = Process.AllocateManagedMemory(IntPtr.Size))
             {
-                if (Functions.NtQueryInformationProcess.Call<int>(Process.Handle, flag, result.Address, (uint)4, null) == 0)
+                if (Functions.NtQueryInformationProcess.Call<int>(Process.Handle, (int)flag, result.Address, (uint)4, null) == 0)
                     LoggingService.Error($"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error()}");
 
-                LoggingService.Info($"{flagName} => Result {result.Read<int>().ToString("X")}");
+                LoggingService.Info($"{flag.ToString()} => Result {result.Read<IntPtr>().ToString("X")}");
             }
         }
     }

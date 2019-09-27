@@ -64,6 +64,7 @@
     <Compile Include="Native\Enums\LoadLibraryFlags.cs" />
     <Compile Include="Native\Enums\MemoryProtection.cs" />
     <Compile Include="Native\Enums\ProcessAccess.cs" />
+    <Compile Include="Native\Enums\ProcessInformationClass.cs" />
     <Compile Include="Native\Enums\ThreadAccess.cs" />
     <Compile Include="Native\PInvoke\Kernel32.cs" />
     <Compile Include="Native\Structs\FloatingSaveArea.cs" />
