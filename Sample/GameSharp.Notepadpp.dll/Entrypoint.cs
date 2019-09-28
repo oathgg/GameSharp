@@ -1,5 +1,6 @@
 ﻿using GameSharp.Core.Memory;
 using GameSharp.Core.Native.Enums;
+using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Services;
 using GameSharp.Internal;
 using GameSharp.Internal.Memory;
@@ -56,17 +57,19 @@ namespace GameSharp.Notepadpp
             }
         }
 
+        static IMemoryAddress NtQueryResult = Process.AllocateManagedMemory(IntPtr.Size);
+
         // https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntqueryinformationprocess
         // https://github.com/processhacker/processhacker/blob/master/phnt/include/ntpsapi.h#L98 #bc35992
         private static void NtQueryInformationProcess(ProcessInformationClass flag)
         {
-            using (IMemoryAddress result = Process.AllocateManagedMemory(IntPtr.Size))
-            {
-                if (Functions.NtQueryInformationProcess.Call<int>(Process.Handle, (int)flag, result.Address, (uint)4, null) == 0)
-                    LoggingService.Error($"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error()}");
+            if (Functions.NtQueryInformationProcess.Call<int>(Process.Handle, (int)flag, NtQueryResult.Address, (uint)4, null) == 0)
+                LoggingService.Error($"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error()}");
 
-                LoggingService.Info($"{flag.ToString()} => Result {result.Read<IntPtr>().ToString("X")}");
-            }
+            bool beingDebugged = NtQueryResult.Read<int>() != 0;
+
+            if (beingDebugged)
+                LoggingService.Info($"{flag.ToString()} => Debugger found.");
         }
     }
 }

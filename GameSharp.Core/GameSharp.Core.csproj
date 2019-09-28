@@ -67,6 +67,7 @@
     <Compile Include="Native\Enums\ProcessInformationClass.cs" />
     <Compile Include="Native\Enums\ThreadAccess.cs" />
     <Compile Include="Native\PInvoke\Kernel32.cs" />
+    <Compile Include="Native\PInvoke\Ntdll.cs" />
     <Compile Include="Native\Structs\FloatingSaveArea.cs" />
     <Compile Include="Native\Structs\M128A.cs" />
     <Compile Include="Native\Structs\MemoryBasicInformation.cs" />

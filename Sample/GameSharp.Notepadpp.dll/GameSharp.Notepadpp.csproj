@@ -65,10 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Functions.cs" />
-    <Compile Include="IsDebuggerPresent.cs" />
-    <Compile Include="NtQueryInformationProcess.cs" />
-    <Compile Include="SafeCallMessageBoxW.cs" />
+    <Compile Include="FunctionWrapper\Functions.cs" />
+    <Compile Include="FunctionWrapper\IsDebuggerPresent.cs" />
+    <Compile Include="FunctionWrapper\NtQueryInformationProcess.cs" />
+    <Compile Include="FunctionWrapper\MessageBoxW.cs" />
     <Compile Include="Entrypoint.cs" />
     <Compile Include="HookMessageBoxW.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

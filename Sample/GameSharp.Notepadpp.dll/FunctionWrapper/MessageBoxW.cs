@@ -6,9 +6,9 @@ using GameSharp.Internal.Memory;
 using System;
 using System.Runtime.InteropServices;
 
-namespace GameSharp.Notepadpp
+namespace GameSharp.Notepadpp.FunctionWrapper
 {
-    public class SafeCallMessageBoxW : SafeFunction
+    public class MessageBoxW : SafeFunction
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = true, CharSet = CharSet.Unicode)]
         private delegate int MessageBoxWDelegate(IntPtr hWnd, string text, string caption, uint type);

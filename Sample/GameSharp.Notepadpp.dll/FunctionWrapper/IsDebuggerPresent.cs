@@ -6,7 +6,7 @@ using GameSharp.Internal.Memory;
 using System;
 using System.Runtime.InteropServices;
 
-namespace GameSharp.Notepadpp
+namespace GameSharp.Notepadpp.FunctionWrapper
 {
     public class IsDebuggerPresent : SafeFunction
     {
