@@ -1,14 +1,12 @@
 ﻿using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
 using GameSharp.Core.Native.PInvoke;
-using GameSharp.Core.Native.Structs;
 using GameSharp.Internal.Memory;
 using PeNet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal.Module
 {
@@ -67,7 +65,7 @@ namespace GameSharp.Internal.Module
         {
             uint baseOfCode = PeHeader.ImageNtHeaders.OptionalHeader.BaseOfCode;
             uint sizeOfCode = PeHeader.ImageNtHeaders.OptionalHeader.SizeOfCode;
-            ulong codeSection = (ulong) NativeProcessModule.BaseAddress + baseOfCode;
+            ulong codeSection = (ulong)NativeProcessModule.BaseAddress + baseOfCode;
 
             byte[] moduleBytes = MemoryAddress.Read((int)sizeOfCode, (int)baseOfCode);
 
@@ -94,7 +92,7 @@ namespace GameSharp.Internal.Module
                         if (j == size)
                         {
                             ulong address = codeSection + i;
-                            
+
                             CodeCavesTaken.Add(address, size);
 
                             return new MemoryAddress((IntPtr)address);

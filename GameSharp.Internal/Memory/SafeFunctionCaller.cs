@@ -1,15 +1,9 @@
 ﻿using GameSharp.Core.Extensions;
 using GameSharp.Core.Memory;
-using GameSharp.Core.Native.Enums;
-using GameSharp.Core.Native.PInvoke;
-using GameSharp.Core.Native.Structs;
-using GameSharp.Core.Services;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal.Memory
@@ -40,7 +34,7 @@ namespace GameSharp.Internal.Memory
 
             CodeCaveSize = bytes.Count < 12 ? 12 : bytes.Count;
 
-            CodeCaveJumpTable = module.FindCodeCaveInModule((uint) CodeCaveSize);
+            CodeCaveJumpTable = module.FindCodeCaveInModule((uint)CodeCaveSize);
 
             CodeCaveJumpTable.Write(bytes.ToArray());
 
