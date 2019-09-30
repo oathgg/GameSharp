@@ -13,7 +13,7 @@ namespace GameSharp.Notepadpp.FunctionWrapper
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = true, CharSet = CharSet.Unicode)]
         private delegate int MessageBoxWDelegate(IntPtr hWnd, string text, string caption, uint type);
 
-        protected override Delegate ToCallDelegate()
+        protected override Delegate InitializeDelegate()
         {
             GameSharpProcess process = GameSharpProcess.Instance;
 

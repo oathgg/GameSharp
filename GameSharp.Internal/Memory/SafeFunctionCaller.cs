@@ -22,7 +22,7 @@ namespace GameSharp.Internal.Memory
 
         public SafeFunction()
         {
-            Delegate @delegate = ToCallDelegate();
+            Delegate @delegate = InitializeDelegate();
 
             MemoryAddress originalFuncPtr = @delegate.ToFunctionPtr();
 
@@ -66,7 +66,7 @@ namespace GameSharp.Internal.Memory
         ///     return IMemoryAddress.ToDelegate<DELEGATE>();
         /// </code>
         /// <returns></returns>
-        protected abstract Delegate ToCallDelegate();
+        protected abstract Delegate InitializeDelegate();
 
         /// <summary>
         /// 

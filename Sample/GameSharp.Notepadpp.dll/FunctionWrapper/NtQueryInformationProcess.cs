@@ -13,7 +13,7 @@ namespace GameSharp.Notepadpp.FunctionWrapper
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate int NtQueryInformationProcessDelegate(IntPtr processHandle, int processInformationClass, [Out] IntPtr processInformation, uint processInformationLength, IntPtr returnLength);
 
-        protected override Delegate ToCallDelegate()
+        protected override Delegate InitializeDelegate()
         {
             GameSharpProcess process = GameSharpProcess.Instance;
 

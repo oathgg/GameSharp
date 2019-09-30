@@ -13,7 +13,7 @@ namespace GameSharp.Notepadpp.FunctionWrapper
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate bool IsDebuggerPresentDelegate();
 
-        protected override Delegate ToCallDelegate()
+        protected override Delegate InitializeDelegate()
         {
             GameSharpProcess process = GameSharpProcess.Instance;
             IMemoryModule kernel32 = process.Modules["kernel32.dll"];
