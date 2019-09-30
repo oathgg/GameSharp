@@ -60,16 +60,23 @@ namespace GameSharp.Notepadpp
         // https://github.com/processhacker/processhacker/blob/master/phnt/include/ntpsapi.h#L98 #bc35992
         private static void NtQueryInformationProcess(ProcessInformationClass flag)
         {
-            if (Functions.NtQueryInformationProcess.Call<int>(Process.Handle, (int)flag, NtQueryResult.Address, (uint)4, null) == 0)
+            int result = Functions.NtQueryInformationProcess.Call<int>(Process.Handle, (int)flag, NtQueryResult.Address, (uint)4, null);
+
+            // NT_STATUS_SUCCESS = 0
+            if (result != 0)
             {
-                LoggingService.Error($"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error()}");
+                LoggingService.Error(
+                    $"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}, " +
+                    $"Return value of NtQueryInformationProcess function is 0x{result.ToString("X")}.");
             }
+            else
+            { 
+                bool beingDebugged = NtQueryResult.Read<int>() == 0;
 
-            bool beingDebugged = NtQueryResult.Read<int>() != 0;
-
-            if (beingDebugged)
-            {
-                LoggingService.Info($"{flag.ToString()} => Debugger found.");
+                if (beingDebugged)
+                {
+                    LoggingService.Info($"{flag.ToString()} => Debugger found.");
+                }
             }
         }
     }
