@@ -12,7 +12,10 @@ namespace GameSharp.Notepadpp.Injector
         private static void Main(string[] args)
         {
             // The process we are injecting into.
-            GameSharpProcess process = new GameSharpProcess(Process.GetProcessesByName("notepad++").FirstOrDefault());
+            Process notepadpp = Process.Start("notepad++");
+            notepadpp.WaitForInputIdle();
+
+            GameSharpProcess process = new GameSharpProcess(notepadpp);
 
             if (process == null)
             {

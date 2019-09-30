@@ -38,9 +38,10 @@ namespace GameSharp.Notepadpp
             while (true)
             {
                 IsDebuggerPresent();
-                NtQueryInformationProcess(ProcessInformationClass.ProcessDebugPort);
-                NtQueryInformationProcess(ProcessInformationClass.ProcessDebugObjectHandle);
-                NtQueryInformationProcess(ProcessInformationClass.ProcessDebugFlags);
+
+                //NtQueryInformationProcess(ProcessInformationClass.ProcessDebugPort);
+                //NtQueryInformationProcess(ProcessInformationClass.ProcessDebugObjectHandle);
+                //NtQueryInformationProcess(ProcessInformationClass.ProcessDebugFlags);
 
                 Thread.Sleep(1000);
             }
