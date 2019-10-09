@@ -1,9 +1,12 @@
 ﻿using GameSharp.Core.Extensions;
 using GameSharp.Core.Memory;
+using GameSharp.Core.Native.Enums;
+using GameSharp.Core.Native.PInvoke;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal.Memory
@@ -34,25 +37,33 @@ namespace GameSharp.Internal.Memory
 
             CodeCaveSize = bytes.Count < 12 ? 12 : bytes.Count;
 
-            CodeCaveJumpTable = module.FindCodeCaveInModule((uint)CodeCaveSize);
-
-            CodeCaveJumpTable.Write(bytes.ToArray());
-
             Type typeOfDelegate = @delegate.GetType();
 
-            SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(CodeCaveJumpTable.Address, typeOfDelegate);
+            // If the function belongs to a module we want to inject our code bytes into that module before calling it.
+            if (module != null)
+            {
+                CodeCaveJumpTable = module.FindCodeCaveInModule((uint)CodeCaveSize);
+                CodeCaveJumpTable.Write(bytes.ToArray());
+                SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(CodeCaveJumpTable.Address, typeOfDelegate);
+            }
+            // Otherwise we just call the function.
+            else
+            {
+                SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(originalFuncPtr.Address, typeOfDelegate);
+            }
         }
 
         public T Call<T>(params object[] parameters)
         {
-            //if (!Kernel32.VirtualProtect(CodeCaveJumpTable.Address, CodeCaveSize, MemoryProtection.ExecuteRead, out MemoryProtection old))
-            //    throw new Win32Exception(Marshal.GetLastWin32Error());
+            if (SafeFunctionDelegate == null)
+                return default;
 
-            //LoggingService.Debug(CodeCaveJumpTable.ToString());
+            if (!Kernel32.VirtualProtect(SafeFunctionDelegate.ToFunctionPtr().Address, CodeCaveSize, MemoryProtection.ExecuteReadWrite, out MemoryProtection old))
+                throw new Win32Exception(Marshal.GetLastWin32Error());
 
             object invokeResult = SafeFunctionDelegate.DynamicInvoke(parameters);
 
-            //Kernel32.VirtualProtect(CodeCaveJumpTable.Address, CodeCaveSize, old, out MemoryProtection _);
+            Kernel32.VirtualProtect(SafeFunctionDelegate.ToFunctionPtr().Address, CodeCaveSize, old, out MemoryProtection _);
 
             T ret = invokeResult.CastTo<T>();
 

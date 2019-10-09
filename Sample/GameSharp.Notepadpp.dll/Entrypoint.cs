@@ -1,5 +1,6 @@
 ﻿using GameSharp.Core.Memory;
 using GameSharp.Core.Native.Enums;
+using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Services;
 using GameSharp.Internal;
 using RGiesecke.DllExport;
@@ -13,7 +14,6 @@ namespace GameSharp.Notepadpp
     public class Entrypoint
     {
         private static readonly GameSharpProcess Process = GameSharpProcess.Instance;
-
 
         [DllExport]
         public static void Main()
@@ -38,12 +38,105 @@ namespace GameSharp.Notepadpp
             while (true)
             {
                 IsDebuggerPresent();
-
-                //NtQueryInformationProcess(ProcessInformationClass.ProcessDebugPort);
-                //NtQueryInformationProcess(ProcessInformationClass.ProcessDebugObjectHandle);
-                //NtQueryInformationProcess(ProcessInformationClass.ProcessDebugFlags);
+                InjectedIsDebuggerPresent();
+                IsProcessDebugPort();
+                IsProcessDebugObjectHandle();
+                //IsProcessDebugFlag();
 
                 Thread.Sleep(1000);
+            }
+        }
+
+        private static readonly IMemoryAddress NtQueryResult = Process.AllocateManagedMemory(IntPtr.Size);
+        private static readonly IMemoryAddress sizeRead = Process.AllocateManagedMemory(IntPtr.Size);
+
+        private static void InjectedIsDebuggerPresent()
+        {
+            ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
+            uint result = new InjectedNtQueryInformationProcess().Call<uint>(Process.Handle, (int) flag, NtQueryResult.Address, (uint)IntPtr.Size, sizeRead.Address);
+
+            if (result == 0)
+            {
+                bool beingDebugged = (long)NtQueryResult.Read<IntPtr>() != 0;
+                if (beingDebugged)
+                {
+                    LoggingService.Info($"{flag.ToString()} => InjectedIsDebuggerPresent() => Debugger found.");
+                }
+            }
+            else
+            {
+                LoggingService.Error(
+                    $"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}, " +
+                    $"Return value of NtQueryInformationProcess function is 0x{result.ToString("X")}.");
+            }
+        }
+
+        private static void IsProcessDebugFlag()
+        {
+            ProcessInformationClass flag = ProcessInformationClass.ProcessDebugFlags;
+            uint result = Ntdll.NtQueryInformationProcess(Process.Handle, flag, NtQueryResult.Address, sizeof(ulong), out IntPtr read);
+
+            // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55
+            if (result == 0)
+            {
+                bool beingDebugged = NtQueryResult.Read<ulong>() != 0;
+                if (beingDebugged)
+                {
+                    LoggingService.Info($"{flag.ToString()} => Debugger found.");
+                }
+            }
+            else
+            {
+                LoggingService.Error(
+                    $"Flag: {flag.ToString()}" +
+                    $", Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}" +
+                    $", Return value of NtQueryInformationProcess function is 0x{result.ToString("X")}");
+            }
+        }
+
+        private static void IsProcessDebugObjectHandle()
+        {
+            ProcessInformationClass flag = ProcessInformationClass.ProcessDebugObjectHandle;
+            uint result = Ntdll.NtQueryInformationProcess(Process.Handle, flag, NtQueryResult.Address, (uint)IntPtr.Size, out IntPtr read);
+
+            if (result == 0xc0000353)
+            {
+                // We're not being debugged, status: STATUS_PORT_NOT_SET
+            }
+            else if (result == 0)
+            {
+                bool beingDebugged = NtQueryResult.Read<ulong>() != 0;
+                if (beingDebugged)
+                {
+                    LoggingService.Info($"{flag.ToString()} => Debugger found.");
+                }
+            }
+            else
+            {
+                LoggingService.Error(
+                    $"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}, " +
+                    $"Return value of NtQueryInformationProcess function is 0x{result.ToString("X")}.");
+            }
+        }
+
+        private static void IsProcessDebugPort()
+        {
+            ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
+            uint result = Ntdll.NtQueryInformationProcess(Process.Handle, flag, NtQueryResult.Address, (uint) IntPtr.Size, out IntPtr read);
+
+            if (result == 0)
+            {
+                bool beingDebugged = (long)NtQueryResult.Read<IntPtr>() != 0;
+                if (beingDebugged)
+                {
+                    LoggingService.Info($"{flag.ToString()} => Debugger found.");
+                }
+            }
+            else
+            {
+                LoggingService.Error(
+                    $"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}, " +
+                    $"Return value of NtQueryInformationProcess function is 0x{result.ToString("X")}.");
             }
         }
 
@@ -52,32 +145,6 @@ namespace GameSharp.Notepadpp
             if (Functions.IsDebuggerPresent.Call<bool>(null))
             {
                 LoggingService.Info("IsDebuggerPresent() => We're being debugged!");
-            }
-        }
-
-        private static readonly IMemoryAddress NtQueryResult = Process.AllocateManagedMemory(IntPtr.Size);
-
-        // https://docs.microsoft.com/en-us/windows/win32/api/winternl/nf-winternl-ntqueryinformationprocess
-        // https://github.com/processhacker/processhacker/blob/master/phnt/include/ntpsapi.h#L98 #bc35992
-        private static void NtQueryInformationProcess(ProcessInformationClass flag)
-        {
-            int result = Functions.NtQueryInformationProcess.Call<int>(Process.Handle, (int)flag, NtQueryResult.Address, (uint)4, null);
-
-            // NT_STATUS_SUCCESS = 0
-            if (result != 0)
-            {
-                LoggingService.Error(
-                    $"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}, " +
-                    $"Return value of NtQueryInformationProcess function is 0x{result.ToString("X")}.");
-            }
-            else
-            { 
-                bool beingDebugged = NtQueryResult.Read<int>() == 0;
-
-                if (beingDebugged)
-                {
-                    LoggingService.Info($"{flag.ToString()} => Debugger found.");
-                }
             }
         }
     }

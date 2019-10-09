@@ -1,4 +1,5 @@
-﻿using GameSharp.Core.Memory;
+﻿using GameSharp.Core;
+using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
 using GameSharp.Internal;
 using GameSharp.Internal.Extensions;
@@ -15,7 +16,7 @@ namespace GameSharp.Notepadpp.FunctionWrapper
 
         protected override Delegate InitializeDelegate()
         {
-            GameSharpProcess process = GameSharpProcess.Instance;
+            IProcess process = GameSharpProcess.Instance;
             IMemoryModule kernel32 = process.Modules["kernel32.dll"];
             IMemoryAddress IsDebuggerPresentPtr = kernel32.GetProcAddress("IsDebuggerPresent");
             return IsDebuggerPresentPtr.ToDelegate<IsDebuggerPresentDelegate>();
