@@ -50,6 +50,9 @@ namespace GameSharp.Notepadpp
         private static readonly IMemoryAddress NtQueryResult = Process.AllocateManagedMemory(IntPtr.Size);
         private static readonly IMemoryAddress sizeRead = Process.AllocateManagedMemory(IntPtr.Size);
 
+        /// <summary>
+        /// This debug flag will still trigger even if you use something like ScyllaHide to hide your presence in the X64 Debugger.
+        /// </summary>
         private static void InjectedIsDebuggerPresent()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
@@ -71,10 +74,11 @@ namespace GameSharp.Notepadpp
             }
         }
 
+        #region Default WinAPI func
         private static void IsProcessDebugFlag()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugFlags;
-            uint result = Ntdll.NtQueryInformationProcess(Process.Handle, flag, NtQueryResult.Address, sizeof(ulong), out IntPtr read);
+            uint result = Ntdll.NtQueryInformationProcess(Process.Handle, flag, NtQueryResult.Address, sizeof(ulong), out _);
 
             // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55
             if (result == 0)
@@ -97,7 +101,7 @@ namespace GameSharp.Notepadpp
         private static void IsProcessDebugObjectHandle()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugObjectHandle;
-            uint result = Ntdll.NtQueryInformationProcess(Process.Handle, flag, NtQueryResult.Address, (uint)IntPtr.Size, out IntPtr read);
+            uint result = Ntdll.NtQueryInformationProcess(Process.Handle, flag, NtQueryResult.Address, (uint)IntPtr.Size, out _);
 
             if (result == 0xc0000353)
             {
@@ -122,7 +126,7 @@ namespace GameSharp.Notepadpp
         private static void IsProcessDebugPort()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
-            uint result = Ntdll.NtQueryInformationProcess(Process.Handle, flag, NtQueryResult.Address, (uint) IntPtr.Size, out IntPtr read);
+            uint result = Ntdll.NtQueryInformationProcess(Process.Handle, flag, NtQueryResult.Address, (uint) IntPtr.Size, out _);
 
             if (result == 0)
             {
@@ -147,5 +151,6 @@ namespace GameSharp.Notepadpp
                 LoggingService.Info("IsDebuggerPresent() => We're being debugged!");
             }
         }
+        #endregion
     }
 }
