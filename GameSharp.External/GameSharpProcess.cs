@@ -29,10 +29,8 @@ namespace GameSharp.External
 
         public ProcessModule MainModule => NativeProcess.MainModule;
 
-        ManagedPeb IProcess.ManagedPeb => ManagedPeb();
-
         // Only supports 64-bit right now.
-        public ManagedPeb ManagedPeb()
+        public ManagedPeb GetPeb()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 

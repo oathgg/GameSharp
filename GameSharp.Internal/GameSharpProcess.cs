@@ -34,9 +34,7 @@ namespace GameSharp.Internal
 
         public ProcessModule MainModule => Instance.NativeProcess.MainModule;
 
-        ManagedPeb IProcess.ManagedPeb => ManagedPeb();
-
-        public ManagedPeb ManagedPeb()
+        public ManagedPeb GetPeb()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
