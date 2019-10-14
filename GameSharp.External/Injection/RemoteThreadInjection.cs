@@ -1,4 +1,5 @@
 ﻿using GameSharp.Core.Native.PInvoke;
+using GameSharp.External.Extensions;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -13,7 +14,7 @@ namespace GameSharp.External.Injection
 
         protected override void PreExecution(Injectable assembly)
         {
-            Process.SuspendThreads(true);
+            Process.Native.SuspendThreads(true);
             Process.LoadLibrary(assembly.PathToAssemblyFile);
         }
 
@@ -41,7 +42,7 @@ namespace GameSharp.External.Injection
 
         protected override void PostExecution(Injectable assembly)
         {
-            Process.SuspendThreads(false);
+            Process.Native.SuspendThreads(false);
         }
     }
 }

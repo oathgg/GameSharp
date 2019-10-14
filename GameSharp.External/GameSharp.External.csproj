@@ -48,7 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ProcessExtensions.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\LoadLibraryHelper.cs" />
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\Injectable.cs" />
     <Compile Include="Injection\InjectionBase.cs" />

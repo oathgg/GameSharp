@@ -74,12 +74,12 @@ namespace GameSharp.External.Helpers
 
             do
             {
-                Process.NativeProcess.WaitForInputIdle();
+                Process.Native.WaitForInputIdle();
 
                 try
                 {
                     EnvDTE.Processes processes = dte.Debugger.LocalProcesses;
-                    foreach (EnvDTE80.Process2 proc in processes.Cast<EnvDTE80.Process2>().Where(proc => proc.Name.IndexOf(Process.NativeProcess.ProcessName) != -1))
+                    foreach (EnvDTE80.Process2 proc in processes.Cast<EnvDTE80.Process2>().Where(proc => proc.Name.IndexOf(Process.Native.ProcessName) != -1))
                     {
                         EnvDTE80.Engine debugEngine = proc.Transport.Engines.Item("Managed (v4.6, v4.5, v4.0)");
                         proc.Attach2(debugEngine);

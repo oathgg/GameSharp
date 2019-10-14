@@ -28,11 +28,11 @@ namespace GameSharp.Internal
 
         public Dictionary<string, IModulePointer> Modules { get; private set; } = new Dictionary<string, IModulePointer>();
 
-        public Process NativeProcess { get; } = Process.GetCurrentProcess();
+        public Process Native { get; } = Process.GetCurrentProcess();
 
-        public IntPtr Handle => Instance.NativeProcess.Handle;
+        public IntPtr Handle => Instance.Native.Handle;
 
-        public ProcessModule MainModule => Instance.NativeProcess.MainModule;
+        public ProcessModule MainModule => Instance.Native.MainModule;
 
         public MemoryPeb GetPeb()
         {
@@ -76,11 +76,11 @@ namespace GameSharp.Internal
 
         public void RefreshModules()
         {
-            NativeProcess.Refresh();
+            Native.Refresh();
 
             Modules.Clear();
 
-            foreach (ProcessModule processModule in NativeProcess.Modules)
+            foreach (ProcessModule processModule in Native.Modules)
             {
                 Modules.Add(processModule.ModuleName.ToLower(), new ModulePointer(processModule));
             }

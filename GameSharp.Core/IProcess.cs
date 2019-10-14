@@ -8,7 +8,7 @@ namespace GameSharp.Core
 {
     public interface IProcess
     {
-        Process NativeProcess { get; }
+        Process Native { get; }
         ProcessModule MainModule { get; }
         IntPtr Handle { get; }
         Dictionary<string, IModulePointer> Modules { get; }
