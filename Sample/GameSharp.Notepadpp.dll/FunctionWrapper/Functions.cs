@@ -1,7 +1,9 @@
 ﻿using GameSharp.Core.Memory;
 using GameSharp.Core.Native.Enums;
+using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Services;
 using GameSharp.Internal;
+using GameSharp.Internal.Memory;
 using GameSharp.Notepadpp.FunctionWrapper;
 using System;
 using System.Runtime.InteropServices;
@@ -32,6 +34,28 @@ namespace GameSharp.Notepadpp
                     $"Flag: {pic.ToString()}" +
                     $", Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}" +
                     $", Return value of NtQueryInformationProcess function is 0x{ntResult.ToString("X")}");
+            }
+
+            return returnResult;
+        }
+
+        public static T WinApiNtQueryInformationProcess<T>(GameSharpProcess process, ProcessInformationClass pic) where T : struct
+        {
+            T returnResult = default;
+
+            IMemoryAddress ntResult = process.AllocateManagedMemory(Marshal.SizeOf<T>());
+
+            uint result = Ntdll.NtQueryInformationProcess(process.Handle, pic, ntResult.Address, (uint) Marshal.SizeOf<T>(), out _);
+
+            if (result == 0)
+            {
+                returnResult = ntResult.Read<T>();
+            }
+            else
+            {
+                LoggingService.Error(
+                    $"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}, " +
+                    $"Return value of NtQueryInformationProcess function is 0x{result.ToString("X")}.");
             }
 
             return returnResult;

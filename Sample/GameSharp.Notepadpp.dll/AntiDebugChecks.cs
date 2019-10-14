@@ -13,8 +13,6 @@ namespace GameSharp.Notepadpp
     public class AntiDebugChecks
     {
         static GameSharpProcess Process { get; } = GameSharpProcess.Instance;
-        readonly IMemoryAddress NtQueryResult = Process.AllocateManagedMemory(IntPtr.Size);
-        readonly IMemoryAddress SizeRead = Process.AllocateManagedMemory(IntPtr.Size);
 
         public static void CheckForDebugger()
         {
@@ -27,7 +25,7 @@ namespace GameSharp.Notepadpp
                 antiDebug.IsDebuggerPresent();
                 antiDebug.IsProcessDebugPort();
                 antiDebug.IsProcessDebugObjectHandle();
-                antiDebug.IsProcessDebugFlag();
+                antiDebug.IsProcessDebugFlags();
 
                 antiDebug.InjectedIsProcessDebugPort();
                 antiDebug.WinApiIsProcessDebugPort();
@@ -43,7 +41,7 @@ namespace GameSharp.Notepadpp
         private void InjectedIsProcessDebugPort()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
-            uint result = Functions.InjectedNtQueryInformationProcess.Call(Process.Handle, flag, out IMemoryAddress NtQueryResult, IntPtr.Size, out IMemoryAddress SizeRead);
+            uint result = Functions.InjectedNtQueryInformationProcess.Call(Process.Handle, flag, out IMemoryAddress NtQueryResult, IntPtr.Size, out IMemoryAddress _);
 
             if (result == 0)
             {
@@ -61,10 +59,10 @@ namespace GameSharp.Notepadpp
             }
         }
 
-        private void IsProcessDebugFlag()
+        private void IsProcessDebugFlags()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugFlags;
-            if (Functions.NtQueryInformationProcess<ulong>(Process, flag) != 0)
+            if (Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
             {
                 LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
             }
@@ -91,21 +89,9 @@ namespace GameSharp.Notepadpp
         private void WinApiIsProcessDebugPort()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
-            uint result = Ntdll.NtQueryInformationProcess(Process.Handle, flag, NtQueryResult.Address, (uint)IntPtr.Size, out _);
-
-            if (result == 0)
+            if (Functions.WinApiNtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
             {
-                bool beingDebugged = (long)NtQueryResult.Read<IntPtr>() != 0;
-                if (beingDebugged)
-                {
-                    LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
-                }
-            }
-            else
-            {
-                LoggingService.Error(
-                    $"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}, " +
-                    $"Return value of NtQueryInformationProcess function is 0x{result.ToString("X")}.");
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
             }
         }
 
@@ -113,7 +99,7 @@ namespace GameSharp.Notepadpp
         {
             if (Functions.IsDebuggerPresent.Call())
             {
-                LoggingService.Info("IsDebuggerPresent() => We're being debugged!");
+                LoggingService.Info("IsDebuggerPresent() => Debugger found.");
             }
         }
     }
