@@ -19,10 +19,7 @@ namespace GameSharp.Notepadpp
         {
             T returnResult = default;
 
-            IMemoryAddress returnPtr = process.AllocateManagedMemory(Marshal.SizeOf<T>());
-            IMemoryAddress readBytes = process.AllocateManagedMemory(Marshal.SizeOf<T>());
-
-            uint ntResult = NtQueryInformationProcessWrapper.Call<uint>(process.Handle, pic, returnPtr.Address, (uint) Marshal.SizeOf<T>(), readBytes.Address);
+            uint ntResult = NtQueryInformationProcessWrapper.Call(process.Handle, pic, out IMemoryAddress returnPtr, Marshal.SizeOf<T>(), out IMemoryAddress _);
 
             // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55
             if (ntResult == 0)

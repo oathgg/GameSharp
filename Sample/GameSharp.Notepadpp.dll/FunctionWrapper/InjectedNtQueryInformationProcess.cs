@@ -1,5 +1,6 @@
 ﻿using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
+using GameSharp.Core.Native.Enums;
 using GameSharp.Internal;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Memory;
@@ -28,6 +29,19 @@ namespace GameSharp.Notepadpp.FunctionWrapper
             });
 
             return Allocation.ToDelegate<InjectedNtQueryInformationProcessDelegate>();
+        }
+
+        public uint Call(IntPtr handle, ProcessInformationClass pic, out IMemoryAddress result, int resultLength, out IMemoryAddress bytesRead)
+        {
+            IMemoryAddress bytesReadInternal = GameSharpProcess.Instance.AllocateManagedMemory(resultLength);
+            IMemoryAddress resultInternal = GameSharpProcess.Instance.AllocateManagedMemory(resultLength);
+
+            uint retval = this.BaseCall<uint>(handle, pic, resultInternal.Address, (uint)resultLength, bytesReadInternal.Address);
+
+            bytesRead = bytesReadInternal;
+            result = resultInternal;
+
+            return retval;
         }
     }
 }

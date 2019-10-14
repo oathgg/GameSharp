@@ -21,5 +21,10 @@ namespace GameSharp.Notepadpp.FunctionWrapper
             IMemoryAddress IsDebuggerPresentPtr = kernel32.GetProcAddress("IsDebuggerPresent");
             return IsDebuggerPresentPtr.ToDelegate<IsDebuggerPresentDelegate>();
         }
+
+        public bool Call()
+        {
+            return this.BaseCall<bool>(null);
+        }
     }
 }

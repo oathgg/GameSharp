@@ -43,7 +43,7 @@ namespace GameSharp.Notepadpp
         private void InjectedIsProcessDebugPort()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
-            uint result = Functions.InjectedNtQueryInformationProcess.Call<uint>(Process.Handle, flag, NtQueryResult.Address, (uint)IntPtr.Size, SizeRead.Address);
+            uint result = Functions.InjectedNtQueryInformationProcess.Call(Process.Handle, flag, out IMemoryAddress NtQueryResult, IntPtr.Size, out IMemoryAddress SizeRead);
 
             if (result == 0)
             {
@@ -111,7 +111,7 @@ namespace GameSharp.Notepadpp
 
         private void IsDebuggerPresent()
         {
-            if (Functions.IsDebuggerPresent.Call<bool>(null))
+            if (Functions.IsDebuggerPresent.Call())
             {
                 LoggingService.Info("IsDebuggerPresent() => We're being debugged!");
             }

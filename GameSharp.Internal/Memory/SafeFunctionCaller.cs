@@ -25,13 +25,13 @@ namespace GameSharp.Internal.Memory
 
         public SafeFunction()
         {
-            Delegate @delegate = InitializeDelegate();
+            Delegate motherDelegate = InitializeDelegate();
 
-            MemoryAddress originalFuncPtr = @delegate.ToFunctionPtr();
+            MemoryAddress originalFuncPtr = motherDelegate.ToFunctionPtr();
 
             MemoryModule module = originalFuncPtr.GetMyModule();
 
-            Type typeOfDelegate = @delegate.GetType();
+            Type typeOfDelegate = motherDelegate.GetType();
 
             List<byte> bytes = new List<byte>();
 
@@ -41,12 +41,12 @@ namespace GameSharp.Internal.Memory
 
             if (module != null)
             {
-                // If the function belongs to a module we want to inject our code bytes into that module before calling it.
+                // If the function belongs to a module we can find we want to inject our code bytes into that module before calling it.
                 CodeCaveJumpTable = module.FindCodeCaveInModule((uint)CodeCaveSize);
             }
             else
             {
-                // Otherwise we just call the function.
+                // Otherwise we create a fictional jump table...
                 CodeCaveJumpTable = GameSharpProcess.Instance.AllocateManagedMemory(CodeCaveSize);
             }
 
@@ -55,7 +55,13 @@ namespace GameSharp.Internal.Memory
             SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(originalFuncPtr.Address, typeOfDelegate);
         }
 
-        public T Call<T>(params object[] parameters)
+        /// <summary>
+        ///     Call this method from your class which extends from the SafeFunction class.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        protected T BaseCall<T>(params object[] parameters)
         {
             if (SafeFunctionDelegate == null)
                 return default;
@@ -80,14 +86,5 @@ namespace GameSharp.Internal.Memory
         /// </code>
         /// <returns></returns>
         protected abstract Delegate InitializeDelegate();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns>Defaults to FastCall as this is the x64 architecture standard routine</returns>
-        protected virtual CallingConvention GetCallingConvention()
-        {
-            return CallingConvention.FastCall;
-        }
     }
 }
