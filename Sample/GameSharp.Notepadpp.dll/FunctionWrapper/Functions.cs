@@ -17,6 +17,13 @@ namespace GameSharp.Notepadpp
         public static InjectedNtQueryInformationProcess InjectedNtQueryInformationProcess = new InjectedNtQueryInformationProcess();
 
         private static readonly NtQueryInformationProcess NtQueryInformationProcessWrapper = new NtQueryInformationProcess();
+        /// <summary>
+        /// Wrapper for the NtQueryInformationProcess delegate, this will make the code more readable.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="process"></param>
+        /// <param name="pic"></param>
+        /// <returns></returns>
         public static T NtQueryInformationProcess<T>(GameSharpProcess process, ProcessInformationClass pic) where T : struct
         {
             T returnResult = default;
@@ -39,6 +46,13 @@ namespace GameSharp.Notepadpp
             return returnResult;
         }
 
+        /// <summary>
+        /// Wrapper for the defautl WinApi NtQueryInformationProcess, makes the code more readable.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="process"></param>
+        /// <param name="pic"></param>
+        /// <returns></returns>
         public static T WinApiNtQueryInformationProcess<T>(GameSharpProcess process, ProcessInformationClass pic) where T : struct
         {
             T returnResult = default;
