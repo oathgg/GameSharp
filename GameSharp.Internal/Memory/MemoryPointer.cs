@@ -14,7 +14,7 @@ namespace GameSharp.Internal.Memory
     {
         public IntPtr Address { get; }
 
-        public IProcess Process => GameSharpProcess.Instance;
+        public IProcess GameSharpProcess => Internal.GameSharpProcess.Instance;
 
         public MemoryPointer(IntPtr address)
         {
@@ -23,14 +23,14 @@ namespace GameSharp.Internal.Memory
 
         public ModulePointer GetMyModule()
         {
-            Dictionary<string, IModulePointer>.Enumerator modules = GameSharpProcess.Instance.Modules.GetEnumerator();
+            Dictionary<string, IModulePointer>.Enumerator modules = Internal.GameSharpProcess.Instance.Modules.GetEnumerator();
             while (modules.MoveNext())
             {
                 ModulePointer module = modules.Current.Value as ModulePointer;
 
                 // Address has to be between the start address of the module and the end address of the module.
-                if (Address.ToInt64() > module.BaseAddress.ToInt64()
-                    && Address.ToInt64() < module.BaseAddress.ToInt64() + module.ModuleMemorySize)
+                if (Address.ToInt64() > module.Address.ToInt64()
+                    && Address.ToInt64() < module.Address.ToInt64() + module.Size)
                 {
                     return module;
                 }
@@ -91,9 +91,13 @@ namespace GameSharp.Internal.Memory
             byte[] bArray;
 
             if (IntPtr.Size == 8)
+            {
                 bArray = BitConverter.GetBytes(value.ToInt64());
+            }
             else
+            {
                 bArray = BitConverter.GetBytes(value.ToInt32());
+            }
 
             Write(bArray);
         }

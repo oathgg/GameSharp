@@ -34,7 +34,7 @@ namespace GameSharp.Internal
 
         public ProcessModule MainModule => Instance.NativeProcess.MainModule;
 
-        public ManagedPeb GetPeb()
+        public MemoryPeb GetPeb()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
@@ -42,7 +42,7 @@ namespace GameSharp.Internal
 
             Ntdll.NtQueryInformationProcess(Instance.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, Marshal.SizeOf(pbi), out int _);
 
-            return new ManagedPeb(ntResult);
+            return new MemoryPeb(ntResult);
         }
 
         public IModulePointer LoadLibrary(string pathToDll)

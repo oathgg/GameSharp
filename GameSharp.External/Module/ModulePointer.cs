@@ -9,22 +9,22 @@ namespace GameSharp.External.Module
 {
     public class ModulePointer : ModulePointerBase
     {
-        public override IMemoryPointer MemoryAddress { get; }
+        public override IMemoryPointer MemoryPointer { get; }
 
         public GameSharpProcess GameSharpProcess { get; }
 
         public ModulePointer(GameSharpProcess process, ProcessModule processModule) : base(processModule)
         {
             GameSharpProcess = process;
-            MemoryAddress = new MemoryPointer(GameSharpProcess, processModule.BaseAddress);
+            MemoryPointer = new MemoryPointer(GameSharpProcess, processModule.BaseAddress);
         }
 
         public override IMemoryPointer GetProcAddress(string name)
         {
-            MemoryPointer address = new MemoryPointer(GameSharpProcess, Kernel32.GetProcAddress(NativeProcessModule.BaseAddress, name));
+            MemoryPointer address = new MemoryPointer(GameSharpProcess, Kernel32.GetProcAddress(ProcessModule.BaseAddress, name));
             if (address == null)
             {
-                throw new NullReferenceException($"Couldn't find function {name} in module {NativeProcessModule.ModuleName}");
+                throw new NullReferenceException($"Couldn't find function {name} in module {ProcessModule.ModuleName}");
             }
             return address;
         }

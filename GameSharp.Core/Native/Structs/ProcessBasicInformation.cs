@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameSharp.Core.Native.Structs
 {
@@ -17,9 +13,6 @@ namespace GameSharp.Core.Native.Structs
         public UIntPtr UniqueProcessId;
         public IntPtr InheritedFromUniqueProcessId;
 
-        public int Size
-        {
-            get { return Marshal.SizeOf(typeof(ProcessBasicInformation)); }
-        }
+        public int Size => Marshal.SizeOf(typeof(ProcessBasicInformation));
     }
 }

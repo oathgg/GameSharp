@@ -1,24 +1,19 @@
 ﻿using GameSharp.Core.Memory;
-using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Internal;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Memory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameSharp.Notepadpp.FunctionWrapper
 {
     public class InjectedNtQueryInformationProcess : SafeFunction
     {
-        static readonly IMemoryPointer Allocation = GameSharpProcess.Instance.AllocateManagedMemory(100);
+        private static readonly IMemoryPointer Allocation = GameSharpProcess.Instance.AllocateManagedMemory(100);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate uint InjectedNtQueryInformationProcessDelegate(IntPtr processHandle, int processInformationClass, [Out] IntPtr processInformation, 
+        private delegate uint InjectedNtQueryInformationProcessDelegate(IntPtr processHandle, int processInformationClass, [Out] IntPtr processInformation,
             uint processInformationLength, [Out] IntPtr returnLength);
 
         protected override Delegate InitializeDelegate()
@@ -36,7 +31,7 @@ namespace GameSharp.Notepadpp.FunctionWrapper
             IMemoryPointer bytesReadInternal = GameSharpProcess.Instance.AllocateManagedMemory(resultLength);
             IMemoryPointer resultInternal = GameSharpProcess.Instance.AllocateManagedMemory(resultLength);
 
-            uint retval = this.BaseCall<uint>(handle, pic, resultInternal.Address, (uint)resultLength, bytesReadInternal.Address);
+            uint retval = BaseCall<uint>(handle, pic, resultInternal.Address, (uint)resultLength, bytesReadInternal.Address);
 
             bytesRead = bytesReadInternal;
             result = resultInternal;

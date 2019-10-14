@@ -3,9 +3,7 @@ using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Services;
 using GameSharp.Internal;
-using GameSharp.Internal.Memory;
 using GameSharp.Notepadpp.FunctionWrapper;
-using System;
 using System.Runtime.InteropServices;
 
 namespace GameSharp.Notepadpp

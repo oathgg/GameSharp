@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GameSharp.Core.Native.Enums
+﻿namespace GameSharp.Core.Native.Enums
 {
     /// <summary>
     /// The structure of the Process Environment Block.

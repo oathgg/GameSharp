@@ -29,7 +29,7 @@ namespace GameSharp.External
 
         public ProcessModule MainModule => NativeProcess.MainModule;
 
-        public ManagedPeb GetPeb()
+        public MemoryPeb GetPeb()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
             IMemoryPointer ntResult = AllocateManagedMemory(pbi.Size);
@@ -38,7 +38,7 @@ namespace GameSharp.External
 
             if (result == 0)
             {
-                return new ManagedPeb(ntResult);
+                return new MemoryPeb(ntResult);
             }
             else
             {

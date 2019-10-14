@@ -24,7 +24,7 @@ namespace GameSharp.Notepadpp.FunctionWrapper
 
         public bool Call()
         {
-            return this.BaseCall<bool>(null);
+            return BaseCall<bool>(null);
         }
     }
 }

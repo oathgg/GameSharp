@@ -6,15 +6,15 @@ namespace GameSharp.Core.Module
 {
     public interface IModulePointer
     {
-        ProcessModule NativeProcessModule { get; }
+        ProcessModule ProcessModule { get; }
 
         string Name { get; }
 
-        IntPtr BaseAddress { get; }
+        IntPtr Address { get; }
 
-        int ModuleMemorySize { get; }
+        int Size { get; }
 
-        IMemoryPointer MemoryAddress { get; }
+        IMemoryPointer MemoryPointer { get; }
 
         IMemoryPointer GetProcAddress(string name);
 

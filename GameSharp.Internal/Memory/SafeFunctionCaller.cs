@@ -64,10 +64,14 @@ namespace GameSharp.Internal.Memory
         protected T BaseCall<T>(params object[] parameters)
         {
             if (SafeFunctionDelegate == null)
+            {
                 return default;
+            }
 
             if (!Kernel32.VirtualProtect(SafeFunctionDelegate.ToFunctionPtr().Address, CodeCaveSize, MemoryProtection.ExecuteReadWrite, out MemoryProtection old))
+            {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
 
             object invokeResult = SafeFunctionDelegate.DynamicInvoke(parameters);
 

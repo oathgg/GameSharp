@@ -7,26 +7,26 @@ namespace GameSharp.Core.Module
 {
     public abstract class ModulePointerBase : IModulePointer
     {
-        public ProcessModule NativeProcessModule { get; }
+        public ProcessModule ProcessModule { get; }
         public string Name { get; }
-        public IntPtr BaseAddress { get; }
-        public int ModuleMemorySize { get; }
+        public IntPtr Address { get; }
+        public int Size { get; }
         public IntPtr Handle => Kernel32.GetModuleHandle(Name);
 
         public ModulePointerBase(ProcessModule module)
         {
-            NativeProcessModule = module;
-            Name = NativeProcessModule.ModuleName.ToLower();
-            BaseAddress = NativeProcessModule.BaseAddress;
-            ModuleMemorySize = NativeProcessModule.ModuleMemorySize;
+            ProcessModule = module;
+            Name = ProcessModule.ModuleName.ToLower();
+            Address = ProcessModule.BaseAddress;
+            Size = ProcessModule.ModuleMemorySize;
         }
 
         public override string ToString()
         {
-            return $"{Name} 0x{BaseAddress.ToString("X")}";
+            return $"{Name} 0x{Address.ToString("X")}";
         }
 
         public abstract IMemoryPointer GetProcAddress(string name);
-        public abstract IMemoryPointer MemoryAddress { get; }
+        public abstract IMemoryPointer MemoryPointer { get; }
     }
 }

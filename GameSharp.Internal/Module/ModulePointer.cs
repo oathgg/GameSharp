@@ -14,17 +14,17 @@ namespace GameSharp.Internal.Module
     {
         public PeFile PeHeader { get; }
 
-        public override IMemoryPointer MemoryAddress { get; }
+        public override IMemoryPointer MemoryPointer { get; }
 
         public ModulePointer(ProcessModule processModule) : base(processModule)
         {
-            MemoryAddress = new MemoryPointer(NativeProcessModule.BaseAddress);
+            MemoryPointer = new MemoryPointer(ProcessModule.BaseAddress);
             PeHeader = GeneratePeHeader();
         }
 
         private PeFile GeneratePeHeader()
         {
-            PeFile header = new PeFile(MemoryAddress.Read(0x1000));
+            PeFile header = new PeFile(MemoryPointer.Read(0x1000));
 
             return header;
         }
@@ -37,7 +37,7 @@ namespace GameSharp.Internal.Module
         /// <returns>The address of the exported function.</returns>
         public override IMemoryPointer GetProcAddress(string name)
         {
-            MemoryPointer ret = new MemoryPointer(Kernel32.GetProcAddress(NativeProcessModule.BaseAddress, name));
+            MemoryPointer ret = new MemoryPointer(Kernel32.GetProcAddress(ProcessModule.BaseAddress, name));
 
             if (ret == null)
             {
@@ -65,9 +65,9 @@ namespace GameSharp.Internal.Module
         {
             uint baseOfCode = PeHeader.ImageNtHeaders.OptionalHeader.BaseOfCode;
             uint sizeOfCode = PeHeader.ImageNtHeaders.OptionalHeader.SizeOfCode;
-            ulong codeSection = (ulong)NativeProcessModule.BaseAddress + baseOfCode;
+            ulong codeSection = (ulong)ProcessModule.BaseAddress + baseOfCode;
 
-            byte[] moduleBytes = MemoryAddress.Read((int)sizeOfCode, (int)baseOfCode);
+            byte[] moduleBytes = MemoryPointer.Read((int)sizeOfCode, (int)baseOfCode);
 
             for (uint i = 0; i < moduleBytes.Length; i++)
             {

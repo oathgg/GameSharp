@@ -26,7 +26,7 @@ namespace GameSharp.Notepadpp.FunctionWrapper
 
         public int Call(IntPtr hWnd, string text, string caption, uint type)
         {
-            return this.BaseCall<int>(hWnd, text, caption, type);
+            return BaseCall<int>(hWnd, text, caption, type);
         }
     }
 }

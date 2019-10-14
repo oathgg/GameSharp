@@ -1,18 +1,14 @@
-﻿using GameSharp.Core.Memory;
-using GameSharp.Core.Native.Enums;
-using GameSharp.Core.Native.PInvoke;
+﻿using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Services;
 using GameSharp.Internal;
-using GameSharp.Notepadpp.FunctionWrapper;
 using System;
-using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace GameSharp.Notepadpp
 {
     public class AntiDebugChecks
     {
-        static GameSharpProcess Process { get; } = GameSharpProcess.Instance;
+        private static GameSharpProcess Process { get; } = GameSharpProcess.Instance;
 
         public static void CheckForDebugger()
         {

@@ -11,19 +11,19 @@ namespace GameSharp.External.Memory
     {
         public IntPtr Address { get; }
 
-        public IProcess Process { get; }
+        public IProcess GameSharpProcess { get; }
 
         public MemoryPointer(GameSharpProcess process, IntPtr address)
         {
             Address = address;
-            Process = process as IProcess;
+            GameSharpProcess = process as IProcess;
         }
 
         public T Read<T>(int offset = 0) where T : struct
         {
             byte[] result = new byte[Marshal.SizeOf<T>()];
 
-            Kernel32.ReadProcessMemory(Process.NativeProcess.Handle, Address + offset, result, result.Length, out IntPtr _);
+            Kernel32.ReadProcessMemory(GameSharpProcess.NativeProcess.Handle, Address + offset, result, result.Length, out IntPtr _);
 
             return result.CastTo<T>(); // [0] would be faster, but First() is safer. E.g. of buffer[0] ?? default(T)
         }
@@ -32,14 +32,14 @@ namespace GameSharp.External.Memory
         {
             byte[] result = new byte[size];
 
-            Kernel32.ReadProcessMemory(Process.NativeProcess.Handle, Address + offset, result, result.Length, out IntPtr _);
+            Kernel32.ReadProcessMemory(GameSharpProcess.NativeProcess.Handle, Address + offset, result, result.Length, out IntPtr _);
 
             return result;
         }
 
         public void Write(byte[] bytes, int offset = 0)
         {
-            Kernel32.WriteProcessMemory(Process.NativeProcess.Handle, Address + offset, bytes, bytes.Length, out IntPtr _);
+            Kernel32.WriteProcessMemory(GameSharpProcess.NativeProcess.Handle, Address + offset, bytes, bytes.Length, out IntPtr _);
         }
 
         public void Write(bool value, int offset = 0)
@@ -65,9 +65,13 @@ namespace GameSharp.External.Memory
             byte[] bArray;
 
             if (IntPtr.Size == 8)
+            {
                 bArray = BitConverter.GetBytes(value.ToInt64());
+            }
             else
+            {
                 bArray = BitConverter.GetBytes(value.ToInt32());
+            }
 
             Write(bArray);
         }

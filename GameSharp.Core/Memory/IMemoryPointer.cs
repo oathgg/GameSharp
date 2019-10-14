@@ -4,7 +4,7 @@ namespace GameSharp.Core.Memory
 {
     public interface IMemoryPointer : IDisposable
     {
-        IProcess Process { get; }
+        IProcess GameSharpProcess { get; }
         IntPtr Address { get; }
         T Read<T>(int offset = 0) where T : struct;
         byte[] Read(int size, int offset = 0);

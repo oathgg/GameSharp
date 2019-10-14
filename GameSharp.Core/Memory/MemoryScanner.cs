@@ -23,8 +23,8 @@ namespace GameSharp.Core.Memory
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
         public MemoryScanner(IModulePointer module)
         {
-            ModuleBase = module.MemoryAddress;
-            Bytes = ModuleBase.Read(module.ModuleMemorySize);
+            ModuleBase = module.MemoryPointer;
+            Bytes = ModuleBase.Read(module.Size);
         }
 
         public MemoryScanner(byte[] bytesToScan)
