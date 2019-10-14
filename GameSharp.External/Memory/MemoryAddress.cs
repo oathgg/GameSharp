@@ -37,9 +37,47 @@ namespace GameSharp.External.Memory
             return result;
         }
 
-        public void Write(byte[] bytes)
+        public void Write(byte[] bytes, int offset = 0)
         {
-            Kernel32.WriteProcessMemory(Process.NativeProcess.Handle, Address, bytes, bytes.Length, out IntPtr _);
+            Kernel32.WriteProcessMemory(Process.NativeProcess.Handle, Address + offset, bytes, bytes.Length, out IntPtr _);
+        }
+
+        public void Write(bool value, int offset = 0)
+        {
+            byte[] bArray = BitConverter.GetBytes(value);
+            Write(bArray);
+        }
+
+        public void Write(byte value, int offset = 0)
+        {
+            byte[] bArray = BitConverter.GetBytes(value);
+            Write(bArray);
+        }
+
+        public void Write(long value, int offset = 0)
+        {
+            byte[] bArray = BitConverter.GetBytes(value);
+            Write(bArray);
+        }
+
+        public void Write(IntPtr value, int offset = 0)
+        {
+            byte[] bArray;
+
+            if (IntPtr.Size == 8)
+                bArray = BitConverter.GetBytes(value.ToInt64());
+            else
+                bArray = BitConverter.GetBytes(value.ToInt32());
+
+            Write(bArray);
+        }
+
+        public void Write(IntPtr[] value, int offset = 0)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                Write(value[i], IntPtr.Size * i);
+            }
         }
 
         public void Dispose()

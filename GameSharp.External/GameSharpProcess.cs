@@ -3,6 +3,7 @@ using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
+using GameSharp.Core.Native.Structs;
 using GameSharp.Core.Services;
 using GameSharp.External.Helpers;
 using GameSharp.External.Memory;
@@ -27,6 +28,27 @@ namespace GameSharp.External
         public IntPtr Handle => NativeProcess.Handle;
 
         public ProcessModule MainModule => NativeProcess.MainModule;
+
+        ManagedPeb IProcess.ManagedPeb => ManagedPeb();
+
+        // Only supports 64-bit right now.
+        public ManagedPeb ManagedPeb()
+        {
+            ProcessBasicInformation pbi = new ProcessBasicInformation();
+
+            IMemoryAddress ntResult = AllocateManagedMemory(pbi.Size);
+
+            uint result = Ntdll.NtQueryInformationProcess(NativeProcess.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, pbi.Size, out int _);
+
+            if (result == 0)
+            {
+                return new ManagedPeb(ntResult);
+            }
+            else
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+        }
 
         public GameSharpProcess(Process process)
         {

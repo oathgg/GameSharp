@@ -3,6 +3,7 @@ using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
+using GameSharp.Core.Native.Structs;
 using GameSharp.Internal.Memory;
 using GameSharp.Internal.Module;
 using System;
@@ -32,6 +33,19 @@ namespace GameSharp.Internal
         public IntPtr Handle => Instance.NativeProcess.Handle;
 
         public ProcessModule MainModule => Instance.NativeProcess.MainModule;
+
+        ManagedPeb IProcess.ManagedPeb => ManagedPeb();
+
+        public ManagedPeb ManagedPeb()
+        {
+            ProcessBasicInformation pbi = new ProcessBasicInformation();
+
+            IMemoryAddress ntResult = AllocateManagedMemory(pbi.Size);
+
+            Ntdll.NtQueryInformationProcess(Instance.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, Marshal.SizeOf(pbi), out int _);
+
+            return new ManagedPeb(ntResult);
+        }
 
         public IMemoryModule LoadLibrary(string pathToDll)
         {

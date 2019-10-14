@@ -14,7 +14,28 @@ namespace GameSharp.Notepadpp
     {
         public static IsDebuggerPresent IsDebuggerPresent = new IsDebuggerPresent();
         public static MessageBoxW MessageBoxW = new MessageBoxW();
-        public static InjectedNtQueryInformationProcess InjectedNtQueryInformationProcess = new InjectedNtQueryInformationProcess();
+        private static readonly InjectedNtQueryInformationProcess InjectedNtQueryInformationProcessWrapper = new InjectedNtQueryInformationProcess();
+        public static T InjectedNtQueryInformationProcess<T>(GameSharpProcess process, ProcessInformationClass pic) where T : struct
+        {
+            T returnResult = default;
+
+            uint ntResult = InjectedNtQueryInformationProcessWrapper.Call(process.Handle, pic, out IMemoryAddress returnPtr, Marshal.SizeOf<T>(), out IMemoryAddress _);
+
+            // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55
+            if (ntResult == 0)
+            {
+                returnResult = returnPtr.Read<T>();
+            }
+            else
+            {
+                LoggingService.Error(
+                    $"Flag: {pic.ToString()}" +
+                    $", Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}" +
+                    $", Return value of NtQueryInformationProcess function is 0x{ntResult.ToString("X")}");
+            }
+
+            return returnResult;
+        }
 
         private static readonly NtQueryInformationProcess NtQueryInformationProcessWrapper = new NtQueryInformationProcess();
         /// <summary>
@@ -59,7 +80,7 @@ namespace GameSharp.Notepadpp
 
             IMemoryAddress ntResult = process.AllocateManagedMemory(Marshal.SizeOf<T>());
 
-            uint result = Ntdll.NtQueryInformationProcess(process.Handle, pic, ntResult.Address, (uint) Marshal.SizeOf<T>(), out _);
+            uint result = Ntdll.NtQueryInformationProcess(process.Handle, pic, ntResult.Address, Marshal.SizeOf<T>(), out int _);
 
             if (result == 0)
             {

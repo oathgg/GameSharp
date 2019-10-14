@@ -41,21 +41,9 @@ namespace GameSharp.Notepadpp
         private void InjectedIsProcessDebugPort()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
-            uint result = Functions.InjectedNtQueryInformationProcess.Call(Process.Handle, flag, out IMemoryAddress NtQueryResult, IntPtr.Size, out IMemoryAddress _);
-
-            if (result == 0)
+            if (Functions.InjectedNtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
             {
-                bool beingDebugged = (long)NtQueryResult.Read<IntPtr>() != 0;
-                if (beingDebugged)
-                {
-                    LoggingService.Info($"InjectedIsProcessDebugPort() => Debugger found.");
-                }
-            }
-            else
-            {
-                LoggingService.Error(
-                    $"Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}, " +
-                    $"Return value of NtQueryInformationProcess function is 0x{result.ToString("X")}.");
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
             }
         }
 

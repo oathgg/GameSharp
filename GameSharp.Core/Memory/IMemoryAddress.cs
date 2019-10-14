@@ -8,6 +8,11 @@ namespace GameSharp.Core.Memory
         IntPtr Address { get; }
         T Read<T>(int offset = 0) where T : struct;
         byte[] Read(int size, int offset = 0);
-        void Write(byte[] bytes);
+        void Write(bool value, int offset = 0);
+        void Write(byte value, int offset = 0);
+        void Write(long value, int offset = 0);
+        void Write(IntPtr value, int offset = 0);
+        void Write(IntPtr[] value, int offset = 0);
+        void Write(byte[] value, int offset = 0);
     }
 }

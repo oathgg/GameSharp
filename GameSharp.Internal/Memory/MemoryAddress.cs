@@ -21,30 +21,6 @@ namespace GameSharp.Internal.Memory
             Address = address;
         }
 
-        public T Read<T>(int offset = 0) where T : struct
-        {
-            T result = Marshal.PtrToStructure<T>(Address + offset);
-
-            return result;
-        }
-
-        public byte[] Read(int size, int offset = 0)
-        {
-            byte[] destination = new byte[size];
-
-            Marshal.Copy(Address + offset, destination, 0, destination.Length);
-
-            return destination;
-        }
-
-        public void Write(byte[] data)
-        {
-            // Make sure we have Write access to the page.
-            Kernel32.VirtualProtect(Address, data.Length, MemoryProtection.ExecuteReadWrite, out MemoryProtection old);
-            Marshal.Copy(data, 0, Address, data.Length);
-            Kernel32.VirtualProtect(Address, data.Length, old, out MemoryProtection _);
-        }
-
         public MemoryModule GetMyModule()
         {
             Dictionary<string, IMemoryModule>.Enumerator modules = GameSharpProcess.Instance.Modules.GetEnumerator();
@@ -66,6 +42,68 @@ namespace GameSharp.Internal.Memory
         public static MemoryAddress AllocateMemory(int size)
         {
             return new MemoryAddress(Marshal.AllocHGlobal(size));
+        }
+
+        public T Read<T>(int offset = 0) where T : struct
+        {
+            T result = Marshal.PtrToStructure<T>(Address + offset);
+
+            return result;
+        }
+
+        public byte[] Read(int size, int offset = 0)
+        {
+            byte[] destination = new byte[size];
+
+            Marshal.Copy(Address + offset, destination, 0, destination.Length);
+
+            return destination;
+        }
+
+        public void Write(byte[] data, int offset = 0)
+        {
+            // Make sure we have Write access to the page.
+            Kernel32.VirtualProtect(Address + offset, data.Length, MemoryProtection.ExecuteReadWrite, out MemoryProtection old);
+            Marshal.Copy(data, 0, Address + offset, data.Length);
+            Kernel32.VirtualProtect(Address + offset, data.Length, old, out MemoryProtection _);
+        }
+
+        public void Write(bool value, int offset = 0)
+        {
+            byte[] bArray = BitConverter.GetBytes(value);
+            Write(bArray);
+        }
+
+        public void Write(byte value, int offset = 0)
+        {
+            byte[] bArray = BitConverter.GetBytes(value);
+            Write(bArray);
+        }
+
+        public void Write(long value, int offset = 0)
+        {
+            byte[] bArray = BitConverter.GetBytes(value);
+            Write(bArray);
+        }
+
+        public void Write(IntPtr value, int offset = 0)
+        {
+            byte[] bArray;
+
+            if (IntPtr.Size == 8)
+                bArray = BitConverter.GetBytes(value.ToInt64());
+            else
+                bArray = BitConverter.GetBytes(value.ToInt32());
+
+            Write(bArray);
+        }
+
+        public void Write(IntPtr[] value, int offset = 0)
+        {
+            for (int i = 0; i < value.Length; i++)
+            {
+                Write(value[i], IntPtr.Size * i);
+            }
         }
 
         public void Dispose()

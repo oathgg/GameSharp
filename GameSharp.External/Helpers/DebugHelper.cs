@@ -32,7 +32,8 @@ namespace GameSharp.External.Helpers
 
         private void HideFromPEB()
         {
-            //throw new NotImplementedException();
+            ManagedPeb peb = Process.ManagedPeb();
+            peb.NtGlobalFlag = 0;
         }
 
         private void DisposeOfPatches()

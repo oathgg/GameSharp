@@ -46,6 +46,9 @@ namespace GameSharp.Core.Native.PInvoke
         public static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
 
         [DllImport(kernel32, SetLastError = true)]
+        public static extern IntPtr OpenProcess(ProcessAccess processAccess, bool bInheritHandle, int processId);
+
+        [DllImport(kernel32, SetLastError = true)]
         public static extern bool GetThreadContext(IntPtr hThread, ref ThreadContext32 lpContext);
 
         [DllImport(kernel32, SetLastError = true)]

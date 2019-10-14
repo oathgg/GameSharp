@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,6 +56,7 @@
     <Compile Include="Extensions\ObjectExtension.cs" />
     <Compile Include="Memory\IMemoryAddress.cs" />
     <Compile Include="Memory\Patch.cs" />
+    <Compile Include="Memory\ManagedPeb.cs" />
     <Compile Include="Module\IMemoryModule.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="Memory\MemoryScanner.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Native\Enums\Context.cs" />
     <Compile Include="Native\Enums\LoadLibraryFlags.cs" />
     <Compile Include="Native\Enums\MemoryProtection.cs" />
+    <Compile Include="Native\Enums\PebStructure.cs" />
     <Compile Include="Native\Enums\ProcessAccess.cs" />
     <Compile Include="Native\Enums\ProcessInformationClass.cs" />
     <Compile Include="Native\Enums\ThreadAccess.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="Native\Structs\FloatingSaveArea.cs" />
     <Compile Include="Native\Structs\M128A.cs" />
     <Compile Include="Native\Structs\MemoryBasicInformation.cs" />
+    <Compile Include="Native\Structs\ProcessBasicInformation.cs" />
     <Compile Include="Native\Structs\ThreadContext32.cs" />
     <Compile Include="Native\Structs\ThreadContext64.cs" />
     <Compile Include="Native\Structs\XSaveFormat64.cs" />
