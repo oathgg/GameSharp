@@ -53,7 +53,7 @@ namespace GameSharp.Internal.Memory
 
         private void InitializeAntiCheatHook()
         {
-            byte[] bytes = HookPtr.GetReturnToPtr(GetCallingConvention());
+            byte[] bytes = HookPtr.GetReturnToPtr();
             MemoryModule module = TargetFuncPtr.GetMyModule();
 
             if (module == null)
@@ -64,7 +64,7 @@ namespace GameSharp.Internal.Memory
             MemoryAddress codeCaveJmpTable = module.FindCodeCaveInModule((uint)bytes.Length);
             CodeCavePatch = new MemoryPatch(codeCaveJmpTable, bytes);
 
-            byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr(GetCallingConvention());
+            byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr();
 
             HookPatch = new MemoryPatch(TargetFuncPtr, retToCodeCave);
         }

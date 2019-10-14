@@ -35,24 +35,15 @@ namespace GameSharp.Internal.Extensions
         /// 
         /// Windows defaults to FastCalls in x64.</param>
         /// <returns></returns>
-        public static byte[] GetReturnToPtr(this IMemoryAddress memoryAddress, CallingConvention convention)
+        public static byte[] GetReturnToPtr(this IMemoryAddress memoryAddress)
         {
             List<byte> bytes = new List<byte>();
 
             // 64-bit
             if (IntPtr.Size == 8)
             {
-                //// Prepare the stack
-                switch (convention)
-                {
-                    case CallingConvention.FastCall:
-                        // SUB RSP, 28
-                        bytes.AddRange(new byte[] { 0x48, 0x83, 0xEC, 0x28 });
-                        break;
-
-                    default:
-                        throw new NotImplementedException();
-                }
+                // SUB RSP, 28
+                bytes.AddRange(new byte[] { 0x48, 0x83, 0xEC, 0x28 });
 
                 // MOV RAX, FUNKPTR
                 bytes.AddRange(new byte[] { 0x48, 0xB8 });
@@ -63,14 +54,8 @@ namespace GameSharp.Internal.Extensions
                 // CALL RAX
                 bytes.AddRange(new byte[] { 0xFF, 0xD0 });
 
-                // Clean up the stack
-                switch (convention)
-                {
-                    case CallingConvention.FastCall:
-                        // ADD RSP, 28
-                        bytes.AddRange(new byte[] { 0x48, 0x83, 0xC4, 0x28 });
-                        break;
-                }
+                // ADD RSP, 28
+                bytes.AddRange(new byte[] { 0x48, 0x83, 0xC4, 0x28 });
             }
             else
             {

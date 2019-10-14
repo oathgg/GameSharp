@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameSharp.Notepadpp
+namespace GameSharp.Notepadpp.FunctionWrapper
 {
     public class InjectedNtQueryInformationProcess : SafeFunction
     {

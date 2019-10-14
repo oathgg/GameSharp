@@ -11,19 +11,25 @@ namespace GameSharp.Notepadpp.Injector
     {
         private static void Main(string[] args)
         {
-            // The process we are injecting into.
-            Process notepadpp = Process.Start("notepad++");
-            notepadpp.WaitForInputIdle();
+            Process notepadpp;
+            notepadpp = Process.GetProcessesByName("notepad++").FirstOrDefault();
 
-            GameSharpProcess process = new GameSharpProcess(notepadpp);
+            if (notepadpp == null)
+            {
+                // The process we are injecting into.
+                notepadpp = Process.Start("notepad++");
+                notepadpp.WaitForInputIdle();
+            }
 
-            if (process == null)
+            GameSharpProcess gameSharp = new GameSharpProcess(notepadpp);
+
+            if (gameSharp == null)
             {
                 throw new Exception("Process not found.");
             }
 
             // A simple RemoteThreadInjector.
-            IInjection injector = new RemoteThreadInjection(process);
+            IInjection injector = new RemoteThreadInjection(gameSharp);
 
             // Inject the DLL and executes the entrypoint.
             string pathToDll = Path.Combine(Environment.CurrentDirectory, "GameSharp.Notepadpp.dll");

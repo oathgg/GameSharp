@@ -31,26 +31,28 @@ namespace GameSharp.Internal.Memory
 
             MemoryModule module = originalFuncPtr.GetMyModule();
 
+            Type typeOfDelegate = @delegate.GetType();
+
             List<byte> bytes = new List<byte>();
 
-            bytes.AddRange(originalFuncPtr.GetReturnToPtr(GetCallingConvention()));
+            bytes.AddRange(originalFuncPtr.GetReturnToPtr());
 
             CodeCaveSize = bytes.Count < 12 ? 12 : bytes.Count;
 
-            Type typeOfDelegate = @delegate.GetType();
-
-            // If the function belongs to a module we want to inject our code bytes into that module before calling it.
             if (module != null)
             {
+                // If the function belongs to a module we want to inject our code bytes into that module before calling it.
                 CodeCaveJumpTable = module.FindCodeCaveInModule((uint)CodeCaveSize);
-                CodeCaveJumpTable.Write(bytes.ToArray());
-                SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(CodeCaveJumpTable.Address, typeOfDelegate);
             }
-            // Otherwise we just call the function.
             else
             {
-                SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(originalFuncPtr.Address, typeOfDelegate);
+                // Otherwise we just call the function.
+                CodeCaveJumpTable = GameSharpProcess.Instance.AllocateManagedMemory(CodeCaveSize);
             }
+
+            CodeCaveJumpTable.Write(bytes.ToArray());
+
+            SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(originalFuncPtr.Address, typeOfDelegate);
         }
 
         public T Call<T>(params object[] parameters)

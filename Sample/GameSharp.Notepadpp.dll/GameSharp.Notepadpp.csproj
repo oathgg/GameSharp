@@ -65,7 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InjectedNtQueryInformationProcess.cs" />
+    <Compile Include="AntiDebugChecks.cs" />
+    <Compile Include="FunctionWrapper\InjectedNtQueryInformationProcess.cs" />
     <Compile Include="FunctionWrapper\Functions.cs" />
     <Compile Include="FunctionWrapper\IsDebuggerPresent.cs" />
     <Compile Include="FunctionWrapper\NtQueryInformationProcess.cs" />
