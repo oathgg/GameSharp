@@ -14,9 +14,7 @@ namespace GameSharp.External.Injection
         protected override void PreExecution(Injectable assembly)
         {
             Process.SuspendThreads(true);
-
             Process.LoadLibrary(assembly.PathToAssemblyFile);
-
         }
 
         protected override void Execute(Injectable assembly)
@@ -39,7 +37,10 @@ namespace GameSharp.External.Injection
             {
                 throw new Win32Exception($"Couldn't load DLL, system returned error code: {Marshal.GetLastWin32Error().ToString()}");
             }
+        }
 
+        protected override void PostExecution(Injectable assembly)
+        {
             Process.SuspendThreads(false);
         }
     }
