@@ -15,13 +15,13 @@ namespace GameSharp.Core.Memory
         /// <summary>
         ///     The base address of the module.
         /// </summary>
-        private IMemoryAddress ModuleBase { get; }
+        private IMemoryPointer ModuleBase { get; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MemoryScanner" /> class.
         /// </summary>
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
-        public MemoryScanner(IMemoryModule module)
+        public MemoryScanner(IModulePointer module)
         {
             ModuleBase = module.MemoryAddress;
             Bytes = ModuleBase.Read(module.ModuleMemorySize);

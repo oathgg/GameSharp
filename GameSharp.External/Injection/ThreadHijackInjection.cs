@@ -15,7 +15,7 @@ namespace GameSharp.External.Injection
 
         protected override void Execute(Injectable assembly)
         {
-            IMemoryAddress allocatedMemory = Process.AllocateManagedMemory(assembly.PathToAssemblyFile.Length);
+            IMemoryPointer allocatedMemory = Process.AllocateManagedMemory(assembly.PathToAssemblyFile.Length);
 
             allocatedMemory.Write(Encoding.Unicode.GetBytes(assembly.PathToAssemblyFile));
         }

@@ -24,11 +24,11 @@ namespace GameSharp.Internal.Memory
         /// </summary>
         private MemoryPatch CodeCavePatch { get; set; }
 
-        private MemoryAddress HookPtr { get; }
+        private MemoryPointer HookPtr { get; }
 
         private MemoryPatch HookPatch { get; set; }
 
-        private MemoryAddress TargetFuncPtr { get; }
+        private MemoryPointer TargetFuncPtr { get; }
 
         private Delegate TargetDelegate { get; }
 
@@ -54,14 +54,14 @@ namespace GameSharp.Internal.Memory
         private void InitializeAntiCheatHook()
         {
             byte[] bytes = HookPtr.GetReturnToPtr();
-            MemoryModule module = TargetFuncPtr.GetMyModule();
+            ModulePointer module = TargetFuncPtr.GetMyModule();
 
             if (module == null)
             {
                 throw new NullReferenceException("Cannot find a module which belongs to the specified pointer.");
             }
 
-            MemoryAddress codeCaveJmpTable = module.FindCodeCaveInModule((uint)bytes.Length);
+            MemoryPointer codeCaveJmpTable = module.FindCodeCaveInModule((uint)bytes.Length);
             CodeCavePatch = new MemoryPatch(codeCaveJmpTable, bytes);
 
             byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr();

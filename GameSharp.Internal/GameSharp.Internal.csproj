@@ -45,9 +45,9 @@
     <Compile Include="Extensions\UnsafeMemoryExtension.cs" />
     <Compile Include="GameSharpProcess.cs" />
     <Compile Include="Memory\Hook.cs" />
-    <Compile Include="Memory\MemoryAddress.cs" />
+    <Compile Include="Memory\MemoryPointer.cs" />
     <Compile Include="Memory\SafeFunctionCaller.cs" />
-    <Compile Include="Module\MemoryModule.cs" />
+    <Compile Include="Module\ModulePointer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

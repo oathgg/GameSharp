@@ -17,9 +17,6 @@ namespace GameSharp.Core.Native.Enums
     {
         InheritedAddressSpace = 0x0,
         ReadImageFileExecOptions = 0x1,
-        /// <summary>
-        /// Gets if the process is being debugged.
-        /// </summary>
         BeingDebugged = 0x2,
         SpareBool = 0x3,
         Mutant = 0x4,

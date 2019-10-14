@@ -7,22 +7,21 @@ using System.Diagnostics;
 
 namespace GameSharp.External.Module
 {
-    public class MemoryModule : ModuleBase
+    public class ModulePointer : ModulePointerBase
     {
-        public override IMemoryAddress MemoryAddress { get; }
+        public override IMemoryPointer MemoryAddress { get; }
 
         public GameSharpProcess GameSharpProcess { get; }
 
-        public MemoryModule(GameSharpProcess process, ProcessModule processModule) : base(processModule)
+        public ModulePointer(GameSharpProcess process, ProcessModule processModule) : base(processModule)
         {
             GameSharpProcess = process;
-
-            MemoryAddress = new MemoryAddress(GameSharpProcess, processModule.BaseAddress);
+            MemoryAddress = new MemoryPointer(GameSharpProcess, processModule.BaseAddress);
         }
 
-        public override IMemoryAddress GetProcAddress(string name)
+        public override IMemoryPointer GetProcAddress(string name)
         {
-            MemoryAddress address = new MemoryAddress(GameSharpProcess, Kernel32.GetProcAddress(NativeProcessModule.BaseAddress, name));
+            MemoryPointer address = new MemoryPointer(GameSharpProcess, Kernel32.GetProcAddress(NativeProcessModule.BaseAddress, name));
             if (address == null)
             {
                 throw new NullReferenceException($"Couldn't find function {name} in module {NativeProcessModule.ModuleName}");

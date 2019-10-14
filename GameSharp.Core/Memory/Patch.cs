@@ -10,7 +10,7 @@ namespace GameSharp.Core.Memory
     /// </summary>
     public class MemoryPatch : IDisposable
     {
-        public IMemoryAddress PatchAddress { get; }
+        public IMemoryPointer PatchAddress { get; }
         private byte[] OriginalBytes { get; set; }
         private bool IsActive { get; set; } = false;
         private byte[] NewBytes { get; set; }
@@ -21,7 +21,7 @@ namespace GameSharp.Core.Memory
         ///     A patch can be used to change byte(s) starting at the defined address.
         /// </summary>
         /// <param name="addressToPatch">The address of the byte where we want our patch to start.</param>
-        public MemoryPatch(IMemoryAddress addressToPatch, byte[] newBytes)
+        public MemoryPatch(IMemoryPointer addressToPatch, byte[] newBytes)
         {
             PatchAddress = addressToPatch;
             NewBytes = newBytes;

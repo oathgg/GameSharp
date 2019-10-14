@@ -7,13 +7,13 @@ using System.Runtime.InteropServices;
 
 namespace GameSharp.External.Memory
 {
-    public class MemoryAddress : IMemoryAddress
+    public class MemoryPointer : IMemoryPointer
     {
         public IntPtr Address { get; }
 
         public IProcess Process { get; }
 
-        public MemoryAddress(GameSharpProcess process, IntPtr address)
+        public MemoryPointer(GameSharpProcess process, IntPtr address)
         {
             Address = address;
             Process = process as IProcess;

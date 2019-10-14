@@ -17,15 +17,15 @@ namespace GameSharp.Notepadpp.FunctionWrapper
         protected override Delegate InitializeDelegate()
         {
             GameSharpProcess process = GameSharpProcess.Instance;
-            IMemoryModule ntdll = process.Modules["ntdll.dll"];
-            IMemoryAddress ntQueryInformationProcessPtr = ntdll.GetProcAddress("NtQueryInformationProcess");
+            IModulePointer ntdll = process.Modules["ntdll.dll"];
+            IMemoryPointer ntQueryInformationProcessPtr = ntdll.GetProcAddress("NtQueryInformationProcess");
             return ntQueryInformationProcessPtr.ToDelegate<NtQueryInformationProcessDelegate>();
         }
 
-        public uint Call(IntPtr handle, ProcessInformationClass pic, out IMemoryAddress result, int resultLength, out IMemoryAddress bytesRead)
+        public uint Call(IntPtr handle, ProcessInformationClass pic, out IMemoryPointer result, int resultLength, out IMemoryPointer bytesRead)
         {
-            IMemoryAddress bytesReadInternal = GameSharpProcess.Instance.AllocateManagedMemory(resultLength);
-            IMemoryAddress resultInternal = GameSharpProcess.Instance.AllocateManagedMemory(resultLength);
+            IMemoryPointer bytesReadInternal = GameSharpProcess.Instance.AllocateManagedMemory(resultLength);
+            IMemoryPointer resultInternal = GameSharpProcess.Instance.AllocateManagedMemory(resultLength);
 
             uint retval = this.BaseCall<uint>(handle, pic, resultInternal.Address, (uint) resultLength, bytesReadInternal.Address);
 

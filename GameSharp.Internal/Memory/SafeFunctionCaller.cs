@@ -20,16 +20,16 @@ namespace GameSharp.Internal.Memory
     public abstract class SafeFunction
     {
         private readonly Delegate SafeFunctionDelegate;
-        private readonly IMemoryAddress CodeCaveJumpTable;
+        private readonly IMemoryPointer CodeCaveJumpTable;
         private readonly int CodeCaveSize;
 
         public SafeFunction()
         {
             Delegate motherDelegate = InitializeDelegate();
 
-            MemoryAddress originalFuncPtr = motherDelegate.ToFunctionPtr();
+            MemoryPointer originalFuncPtr = motherDelegate.ToFunctionPtr();
 
-            MemoryModule module = originalFuncPtr.GetMyModule();
+            ModulePointer module = originalFuncPtr.GetMyModule();
 
             Type typeOfDelegate = motherDelegate.GetType();
 

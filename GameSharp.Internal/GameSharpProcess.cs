@@ -26,7 +26,7 @@ namespace GameSharp.Internal
 
         public static GameSharpProcess Instance => _instance ?? (_instance = new GameSharpProcess());
 
-        public Dictionary<string, IMemoryModule> Modules { get; private set; } = new Dictionary<string, IMemoryModule>();
+        public Dictionary<string, IModulePointer> Modules { get; private set; } = new Dictionary<string, IModulePointer>();
 
         public Process NativeProcess { get; } = Process.GetCurrentProcess();
 
@@ -38,19 +38,19 @@ namespace GameSharp.Internal
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
-            IMemoryAddress ntResult = AllocateManagedMemory(pbi.Size);
+            IMemoryPointer ntResult = AllocateManagedMemory(pbi.Size);
 
             Ntdll.NtQueryInformationProcess(Instance.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, Marshal.SizeOf(pbi), out int _);
 
             return new ManagedPeb(ntResult);
         }
 
-        public IMemoryModule LoadLibrary(string pathToDll)
+        public IModulePointer LoadLibrary(string pathToDll)
         {
             return LoadLibrary(pathToDll, true);
         }
 
-        public IMemoryModule LoadLibrary(string libraryPath, bool resolveReferences)
+        public IModulePointer LoadLibrary(string libraryPath, bool resolveReferences)
         {
             if (!File.Exists(libraryPath))
             {
@@ -69,9 +69,9 @@ namespace GameSharp.Internal
             return Modules[Path.GetFileName(libraryPath.ToLower())];
         }
 
-        public IMemoryAddress AllocateManagedMemory(int size)
+        public IMemoryPointer AllocateManagedMemory(int size)
         {
-            return new MemoryAddress(Marshal.AllocHGlobal(size));
+            return new MemoryPointer(Marshal.AllocHGlobal(size));
         }
 
         public void RefreshModules()
@@ -82,7 +82,7 @@ namespace GameSharp.Internal
 
             foreach (ProcessModule processModule in NativeProcess.Modules)
             {
-                Modules.Add(processModule.ModuleName.ToLower(), new MemoryModule(processModule));
+                Modules.Add(processModule.ModuleName.ToLower(), new ModulePointer(processModule));
             }
         }
     }

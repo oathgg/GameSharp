@@ -54,13 +54,13 @@
   <ItemGroup>
     <Compile Include="Extensions\ArrayExtension.cs" />
     <Compile Include="Extensions\ObjectExtension.cs" />
-    <Compile Include="Memory\IMemoryAddress.cs" />
+    <Compile Include="Memory\IMemoryPointer.cs" />
     <Compile Include="Memory\Patch.cs" />
     <Compile Include="Memory\ManagedPeb.cs" />
-    <Compile Include="Module\IMemoryModule.cs" />
+    <Compile Include="Module\IModulePointer.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="Memory\MemoryScanner.cs" />
-    <Compile Include="Module\BaseModule.cs" />
+    <Compile Include="Module\ModulePointerBase.cs" />
     <Compile Include="Native\Enums\AllocationType.cs" />
     <Compile Include="Native\Enums\Context.cs" />
     <Compile Include="Native\Enums\LoadLibraryFlags.cs" />

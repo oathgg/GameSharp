@@ -35,9 +35,9 @@ namespace GameSharp.Notepadpp.Hooks
         {
             GameSharpProcess process = GameSharpProcess.Instance;
 
-            IMemoryModule user32dll = process.Modules["user32.dll"];
+            IModulePointer user32dll = process.Modules["user32.dll"];
 
-            IMemoryAddress messageBoxWPtr = user32dll.GetProcAddress("MessageBoxW");
+            IMemoryPointer messageBoxWPtr = user32dll.GetProcAddress("MessageBoxW");
 
             return messageBoxWPtr.ToDelegate<HookMessageBoxWDelegate>();
         }

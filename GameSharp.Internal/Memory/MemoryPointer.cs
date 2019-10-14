@@ -10,23 +10,23 @@ using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal.Memory
 {
-    public class MemoryAddress : IMemoryAddress
+    public class MemoryPointer : IMemoryPointer
     {
         public IntPtr Address { get; }
 
         public IProcess Process => GameSharpProcess.Instance;
 
-        public MemoryAddress(IntPtr address)
+        public MemoryPointer(IntPtr address)
         {
             Address = address;
         }
 
-        public MemoryModule GetMyModule()
+        public ModulePointer GetMyModule()
         {
-            Dictionary<string, IMemoryModule>.Enumerator modules = GameSharpProcess.Instance.Modules.GetEnumerator();
+            Dictionary<string, IModulePointer>.Enumerator modules = GameSharpProcess.Instance.Modules.GetEnumerator();
             while (modules.MoveNext())
             {
-                MemoryModule module = modules.Current.Value as MemoryModule;
+                ModulePointer module = modules.Current.Value as ModulePointer;
 
                 // Address has to be between the start address of the module and the end address of the module.
                 if (Address.ToInt64() > module.BaseAddress.ToInt64()
@@ -39,9 +39,9 @@ namespace GameSharp.Internal.Memory
             return null;
         }
 
-        public static MemoryAddress AllocateMemory(int size)
+        public static MemoryPointer AllocateMemory(int size)
         {
-            return new MemoryAddress(Marshal.AllocHGlobal(size));
+            return new MemoryPointer(Marshal.AllocHGlobal(size));
         }
 
         public T Read<T>(int offset = 0) where T : struct

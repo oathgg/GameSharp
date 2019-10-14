@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace GameSharp.Core.Module
 {
-    public interface IMemoryModule
+    public interface IModulePointer
     {
         ProcessModule NativeProcessModule { get; }
 
@@ -14,9 +14,9 @@ namespace GameSharp.Core.Module
 
         int ModuleMemorySize { get; }
 
-        IMemoryAddress MemoryAddress { get; }
+        IMemoryPointer MemoryAddress { get; }
 
-        IMemoryAddress GetProcAddress(string name);
+        IMemoryPointer GetProcAddress(string name);
 
         IntPtr Handle { get; }
     }

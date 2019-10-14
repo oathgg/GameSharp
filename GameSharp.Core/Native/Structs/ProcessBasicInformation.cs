@@ -19,7 +19,7 @@ namespace GameSharp.Core.Native.Structs
 
         public int Size
         {
-            get { return (int)Marshal.SizeOf(typeof(ProcessBasicInformation)); }
+            get { return Marshal.SizeOf(typeof(ProcessBasicInformation)); }
         }
     }
 }

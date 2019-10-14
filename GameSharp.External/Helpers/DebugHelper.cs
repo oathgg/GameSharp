@@ -46,9 +46,9 @@ namespace GameSharp.External.Helpers
 
         private void ValidateDbgBreakPoint()
         {
-            IMemoryModule ntdll = Process.Modules["ntdll.dll"];
+            IModulePointer ntdll = Process.Modules["ntdll.dll"];
 
-            IMemoryAddress dbgBreakPointPtr = ntdll.GetProcAddress("DbgBreakPoint");
+            IMemoryPointer dbgBreakPointPtr = ntdll.GetProcAddress("DbgBreakPoint");
 
             byte dbgBreakPointByte = dbgBreakPointPtr.Read<byte>();
 

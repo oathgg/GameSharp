@@ -21,7 +21,7 @@ namespace GameSharp.External
 {
     public class GameSharpProcess : IProcess
     {
-        public Dictionary<string, IMemoryModule> Modules { get; set; } = new Dictionary<string, IMemoryModule>();
+        public Dictionary<string, IModulePointer> Modules { get; set; } = new Dictionary<string, IModulePointer>();
 
         public Process NativeProcess { get; }
 
@@ -29,12 +29,10 @@ namespace GameSharp.External
 
         public ProcessModule MainModule => NativeProcess.MainModule;
 
-        // Only supports 64-bit right now.
         public ManagedPeb GetPeb()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
-
-            IMemoryAddress ntResult = AllocateManagedMemory(pbi.Size);
+            IMemoryPointer ntResult = AllocateManagedMemory(pbi.Size);
 
             uint result = Ntdll.NtQueryInformationProcess(NativeProcess.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, pbi.Size, out int _);
 
@@ -55,16 +53,16 @@ namespace GameSharp.External
             RefreshModules();
         }
 
-        public IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences = true)
+        public IModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
             byte[] loadLibraryOpcodes = LoadLibraryPayload(pathToDll);
 
-            IMemoryAddress allocatedMemory = AllocateManagedMemory(loadLibraryOpcodes.Length);
+            IMemoryPointer allocatedMemory = AllocateManagedMemory(loadLibraryOpcodes.Length);
 
             if (Kernel32.WriteProcessMemory(NativeProcess.Handle, allocatedMemory.Address, loadLibraryOpcodes, loadLibraryOpcodes.Length, out IntPtr _))
             {
-                IMemoryModule kernel32Module = Modules["kernel32.dll"];
-                IMemoryAddress loadLibraryAddress;
+                IModulePointer kernel32Module = Modules["kernel32.dll"];
+                IMemoryPointer loadLibraryAddress;
                 if (resolveReferences)
                 {
                     loadLibraryAddress = kernel32Module.GetProcAddress("LoadLibraryW");
@@ -113,7 +111,7 @@ namespace GameSharp.External
 
             foreach (ProcessModule processModule in NativeProcess.Modules)
             {
-                Modules.Add(processModule.ModuleName.ToLower(), new MemoryModule(this, processModule));
+                Modules.Add(processModule.ModuleName.ToLower(), new ModulePointer(this, processModule));
             }
         }
 
@@ -158,12 +156,12 @@ namespace GameSharp.External
             }
         }
 
-        public IMemoryAddress AllocateManagedMemory(int size)
+        public IMemoryPointer AllocateManagedMemory(int size)
         {
-            return new MemoryAddress(this, Kernel32.VirtualAllocEx(NativeProcess.Handle, IntPtr.Zero, (uint)size, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite));
+            return new MemoryPointer(this, Kernel32.VirtualAllocEx(NativeProcess.Handle, IntPtr.Zero, (uint)size, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite));
         }
 
-        public IntPtr CreateRemoteThread(IMemoryAddress entryPoint, IMemoryAddress arguments)
+        public IntPtr CreateRemoteThread(IMemoryPointer entryPoint, IMemoryPointer arguments)
         {
             return Kernel32.CreateRemoteThread(NativeProcess.Handle, IntPtr.Zero, 0, entryPoint.Address, arguments.Address, 0, IntPtr.Zero);
         }

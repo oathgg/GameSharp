@@ -11,12 +11,12 @@ namespace GameSharp.Internal.Extensions
     /// </summary>
     public static class UnsafeMemoryExtension
     {
-        public static MemoryAddress ToFunctionPtr(this Delegate d)
+        public static MemoryPointer ToFunctionPtr(this Delegate d)
         {
-            return new MemoryAddress(Marshal.GetFunctionPointerForDelegate(d));
+            return new MemoryPointer(Marshal.GetFunctionPointerForDelegate(d));
         }
 
-        public static T ToDelegate<T>(this IMemoryAddress memoryAddress) where T : class
+        public static T ToDelegate<T>(this IMemoryPointer memoryAddress) where T : class
         {
             if (typeof(T).GetCustomAttributes(typeof(UnmanagedFunctionPointerAttribute), true).Length == 0)
             {
@@ -26,16 +26,7 @@ namespace GameSharp.Internal.Extensions
             return Marshal.GetDelegateForFunctionPointer<T>(memoryAddress.Address);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="memoryAddress"></param>
-        /// <param name="convention">Gets only used by the x64 architecture as we have to prepare the stack
-        /// The reason why we're only using this in x64 is because we're using the ret operator in x86.
-        /// 
-        /// Windows defaults to FastCalls in x64.</param>
-        /// <returns></returns>
-        public static byte[] GetReturnToPtr(this IMemoryAddress memoryAddress)
+        public static byte[] GetReturnToPtr(this IMemoryPointer memoryAddress)
         {
             List<byte> bytes = new List<byte>();
 

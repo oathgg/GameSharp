@@ -5,9 +5,9 @@ namespace GameSharp.Core.Memory
 {
     public class ManagedPeb
     {
-        private readonly IMemoryAddress PebAddress;
+        private readonly IMemoryPointer PebAddress;
 
-        public ManagedPeb(IMemoryAddress pebAddress)
+        public ManagedPeb(IMemoryPointer pebAddress)
         {
             PebAddress = pebAddress;
         }

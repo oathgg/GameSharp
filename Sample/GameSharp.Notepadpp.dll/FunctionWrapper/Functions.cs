@@ -19,7 +19,7 @@ namespace GameSharp.Notepadpp
         {
             T returnResult = default;
 
-            uint ntResult = InjectedNtQueryInformationProcessWrapper.Call(process.Handle, pic, out IMemoryAddress returnPtr, Marshal.SizeOf<T>(), out IMemoryAddress _);
+            uint ntResult = InjectedNtQueryInformationProcessWrapper.Call(process.Handle, pic, out IMemoryPointer returnPtr, Marshal.SizeOf<T>(), out IMemoryPointer _);
 
             // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55
             if (ntResult == 0)
@@ -49,7 +49,7 @@ namespace GameSharp.Notepadpp
         {
             T returnResult = default;
 
-            uint ntResult = NtQueryInformationProcessWrapper.Call(process.Handle, pic, out IMemoryAddress returnPtr, Marshal.SizeOf<T>(), out IMemoryAddress _);
+            uint ntResult = NtQueryInformationProcessWrapper.Call(process.Handle, pic, out IMemoryPointer returnPtr, Marshal.SizeOf<T>(), out IMemoryPointer _);
 
             // https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55
             if (ntResult == 0)
@@ -78,7 +78,7 @@ namespace GameSharp.Notepadpp
         {
             T returnResult = default;
 
-            IMemoryAddress ntResult = process.AllocateManagedMemory(Marshal.SizeOf<T>());
+            IMemoryPointer ntResult = process.AllocateManagedMemory(Marshal.SizeOf<T>());
 
             uint result = Ntdll.NtQueryInformationProcess(process.Handle, pic, ntResult.Address, Marshal.SizeOf<T>(), out int _);
 

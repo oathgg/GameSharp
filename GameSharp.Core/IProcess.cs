@@ -11,9 +11,9 @@ namespace GameSharp.Core
         Process NativeProcess { get; }
         ProcessModule MainModule { get; }
         IntPtr Handle { get; }
-        Dictionary<string, IMemoryModule> Modules { get; }
-        IMemoryModule LoadLibrary(string pathToDll, bool resolveReferences = true);
-        IMemoryAddress AllocateManagedMemory(int size);
+        Dictionary<string, IModulePointer> Modules { get; }
+        IModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true);
+        IMemoryPointer AllocateManagedMemory(int size);
         void RefreshModules();
         ManagedPeb GetPeb();
     }

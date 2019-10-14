@@ -10,15 +10,15 @@ using System.Diagnostics;
 
 namespace GameSharp.Internal.Module
 {
-    public class MemoryModule : ModuleBase
+    public class ModulePointer : ModulePointerBase
     {
         public PeFile PeHeader { get; }
 
-        public override IMemoryAddress MemoryAddress { get; }
+        public override IMemoryPointer MemoryAddress { get; }
 
-        public MemoryModule(ProcessModule processModule) : base(processModule)
+        public ModulePointer(ProcessModule processModule) : base(processModule)
         {
-            MemoryAddress = new MemoryAddress(NativeProcessModule.BaseAddress);
+            MemoryAddress = new MemoryPointer(NativeProcessModule.BaseAddress);
             PeHeader = GeneratePeHeader();
         }
 
@@ -35,9 +35,9 @@ namespace GameSharp.Internal.Module
         /// <param name="moduleName">The module name (not case-sensitive).</param>
         /// <param name="functionName">The function or variable name, or the function's ordinal value.</param>
         /// <returns>The address of the exported function.</returns>
-        public override IMemoryAddress GetProcAddress(string name)
+        public override IMemoryPointer GetProcAddress(string name)
         {
-            MemoryAddress ret = new MemoryAddress(Kernel32.GetProcAddress(NativeProcessModule.BaseAddress, name));
+            MemoryPointer ret = new MemoryPointer(Kernel32.GetProcAddress(NativeProcessModule.BaseAddress, name));
 
             if (ret == null)
             {
@@ -61,7 +61,7 @@ namespace GameSharp.Internal.Module
         /// <param name="module"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public MemoryAddress FindCodeCaveInModule(uint size)
+        public MemoryPointer FindCodeCaveInModule(uint size)
         {
             uint baseOfCode = PeHeader.ImageNtHeaders.OptionalHeader.BaseOfCode;
             uint sizeOfCode = PeHeader.ImageNtHeaders.OptionalHeader.SizeOfCode;
@@ -95,7 +95,7 @@ namespace GameSharp.Internal.Module
 
                             CodeCavesTaken.Add(address, size);
 
-                            return new MemoryAddress((IntPtr)address);
+                            return new MemoryPointer((IntPtr)address);
                         }
                     }
                     // If we can't find a codecave big enough we will stop looping through the bytes but increment the (i) var
