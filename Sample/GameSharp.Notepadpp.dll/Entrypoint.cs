@@ -3,6 +3,7 @@ using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Services;
 using GameSharp.Internal;
+using GameSharp.Notepadpp.Hooks;
 using RGiesecke.DllExport;
 using System;
 using System.ComponentModel;

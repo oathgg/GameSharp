@@ -24,12 +24,13 @@ namespace GameSharp.Notepadpp
             {
                 Console.Clear();
 
-                //antiDebug.IsDebuggerPresent();
-                antiDebug.InjectedIsProcessDebugPort();
+                antiDebug.IsDebuggerPresent();
                 antiDebug.IsProcessDebugPort();
+                antiDebug.IsProcessDebugObjectHandle();
+                antiDebug.IsProcessDebugFlag();
+
+                antiDebug.InjectedIsProcessDebugPort();
                 antiDebug.WinApiIsProcessDebugPort();
-                //antiDebug.IsProcessDebugObjectHandle();
-                //IsProcessDebugFlag();
 
                 Thread.Sleep(1000);
             }
@@ -37,11 +38,12 @@ namespace GameSharp.Notepadpp
 
         /// <summary>
         /// This debug flag will still trigger even if you use something like ScyllaHide to hide your presence in the X64 Debugger.
+        /// The reason is because ScyllaHide doesn't flip the NtGlobalFlag but instead nops part of the NtQueryInformationProcess method.
         /// </summary>
         private void InjectedIsProcessDebugPort()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
-            uint result = new InjectedNtQueryInformationProcess().Call<uint>(Process.Handle, flag, NtQueryResult.Address, (uint)IntPtr.Size, SizeRead.Address);
+            uint result = Functions.InjectedNtQueryInformationProcess.Call<uint>(Process.Handle, flag, NtQueryResult.Address, (uint)IntPtr.Size, SizeRead.Address);
 
             if (result == 0)
             {
@@ -64,8 +66,8 @@ namespace GameSharp.Notepadpp
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugFlags;
             if (Functions.NtQueryInformationProcess<ulong>(Process, flag) != 0)
             {
-                LoggingService.Info($"{flag.ToString()} => Debugger found.");
-            }           
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
+            }
         }
 
         private void IsProcessDebugObjectHandle()
@@ -73,7 +75,7 @@ namespace GameSharp.Notepadpp
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugObjectHandle;
             if (Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
             {
-                LoggingService.Info($"{flag.ToString()} => Debugger found.");
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
             }
         }
 
@@ -82,7 +84,7 @@ namespace GameSharp.Notepadpp
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
             if (Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
             {
-                LoggingService.Info($"{flag.ToString()} => Debugger found.");
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
             }
         }
 
@@ -96,7 +98,7 @@ namespace GameSharp.Notepadpp
                 bool beingDebugged = (long)NtQueryResult.Read<IntPtr>() != 0;
                 if (beingDebugged)
                 {
-                    LoggingService.Info($"WinApi{flag.ToString()} => Debugger found.");
+                    LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
                 }
             }
             else

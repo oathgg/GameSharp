@@ -72,7 +72,7 @@
     <Compile Include="FunctionWrapper\NtQueryInformationProcess.cs" />
     <Compile Include="FunctionWrapper\MessageBoxW.cs" />
     <Compile Include="Entrypoint.cs" />
-    <Compile Include="HookMessageBoxW.cs" />
+    <Compile Include="Hooks\HookMessageBoxW.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

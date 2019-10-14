@@ -7,7 +7,7 @@ using GameSharp.Internal.Memory;
 using System;
 using System.Runtime.InteropServices;
 
-namespace GameSharp.Notepadpp
+namespace GameSharp.Notepadpp.Hooks
 {
     public class HookMessageBoxW : Hook
     {
