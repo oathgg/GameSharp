@@ -40,6 +40,7 @@ namespace GameSharp.External
         public MemoryPeb GetPeb()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
+
             IMemoryPointer ntResult = AllocateManagedMemory(pbi.Size);
 
             uint result = Ntdll.NtQueryInformationProcess(Native.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, pbi.Size, out int _);

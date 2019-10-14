@@ -17,11 +17,6 @@ namespace GameSharp.Internal
 {
     public sealed class GameSharpProcess : IProcess
     {
-        private GameSharpProcess()
-        {
-            RefreshModules();
-        }
-
         private static GameSharpProcess _instance;
 
         public static GameSharpProcess Instance => _instance ?? (_instance = new GameSharpProcess());
@@ -34,6 +29,11 @@ namespace GameSharp.Internal
 
         public ProcessModule MainModule => Instance.Native.MainModule;
 
+        private GameSharpProcess()
+        {
+            RefreshModules();
+        }
+
         public MemoryPeb GetPeb()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
@@ -43,11 +43,6 @@ namespace GameSharp.Internal
             Ntdll.NtQueryInformationProcess(Instance.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, Marshal.SizeOf(pbi), out int _);
 
             return new MemoryPeb(ntResult);
-        }
-
-        public IModulePointer LoadLibrary(string pathToDll)
-        {
-            return LoadLibrary(pathToDll, true);
         }
 
         public IModulePointer LoadLibrary(string libraryPath, bool resolveReferences)
