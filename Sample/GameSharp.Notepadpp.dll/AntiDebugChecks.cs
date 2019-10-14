@@ -1,4 +1,6 @@
-﻿using GameSharp.Core.Native.Enums;
+﻿using GameSharp.Core.Memory;
+using GameSharp.Core.Native.Enums;
+using GameSharp.Core.Native.Structs;
 using GameSharp.Core.Services;
 using GameSharp.Internal;
 using System;
@@ -18,6 +20,8 @@ namespace GameSharp.Notepadpp
             {
                 Console.Clear();
 
+                antiDebug.HideFromDebugger();
+
                 antiDebug.IsDebuggerPresent();
                 antiDebug.IsProcessDebugPort();
                 antiDebug.IsProcessDebugObjectHandle();
@@ -28,6 +32,14 @@ namespace GameSharp.Notepadpp
 
                 Thread.Sleep(1000);
             }
+        }
+
+        private void HideFromDebugger()
+        {
+            MemoryPeb result = Process.GetPeb();
+
+            result.BeingDebugged = false;
+            result.NtGlobalFlag = 0;
         }
 
         /// <summary>

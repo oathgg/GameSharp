@@ -45,19 +45,19 @@ namespace GameSharp.External.Memory
         public void Write(bool value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
-            Write(bArray);
+            Write(bArray, offset);
         }
 
         public void Write(byte value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
-            Write(bArray);
+            Write(bArray, offset);
         }
 
         public void Write(long value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
-            Write(bArray);
+            Write(bArray, offset);
         }
 
         public void Write(IntPtr value, int offset = 0)
@@ -73,7 +73,7 @@ namespace GameSharp.External.Memory
                 bArray = BitConverter.GetBytes(value.ToInt32());
             }
 
-            Write(bArray);
+            Write(bArray, offset);
         }
 
         public void Write(IntPtr[] value, int offset = 0)

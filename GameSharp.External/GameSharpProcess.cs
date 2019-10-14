@@ -43,16 +43,10 @@ namespace GameSharp.External
 
             IMemoryPointer ntResult = AllocateManagedMemory(pbi.Size);
 
-            uint result = Ntdll.NtQueryInformationProcess(Native.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, pbi.Size, out int _);
+            // Currently only supports 64 bit, 32 bit requires the ProcessInformationClass.ProcessWow64Information enum and a different size.
+            Ntdll.NtQueryInformationProcess(Native.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, pbi.Size, out int _);
 
-            if (result == 0)
-            {
-                return new MemoryPeb(ntResult);
-            }
-            else
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
+            return new MemoryPeb(ntResult);
         }
 
         public IModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true)

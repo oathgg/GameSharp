@@ -62,7 +62,6 @@ namespace GameSharp.Internal.Memory
 
         public void Write(byte[] data, int offset = 0)
         {
-            // Make sure we have Write access to the page.
             Kernel32.VirtualProtect(Address + offset, data.Length, MemoryProtection.ExecuteReadWrite, out MemoryProtection old);
             Marshal.Copy(data, 0, Address + offset, data.Length);
             Kernel32.VirtualProtect(Address + offset, data.Length, old, out MemoryProtection _);
@@ -71,19 +70,19 @@ namespace GameSharp.Internal.Memory
         public void Write(bool value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
-            Write(bArray);
+            Write(bArray, offset);
         }
 
         public void Write(byte value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
-            Write(bArray);
+            Write(bArray, offset);
         }
 
         public void Write(long value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
-            Write(bArray);
+            Write(bArray, offset);
         }
 
         public void Write(IntPtr value, int offset = 0)
@@ -99,7 +98,7 @@ namespace GameSharp.Internal.Memory
                 bArray = BitConverter.GetBytes(value.ToInt32());
             }
 
-            Write(bArray);
+            Write(bArray, offset);
         }
 
         public void Write(IntPtr[] value, int offset = 0)
