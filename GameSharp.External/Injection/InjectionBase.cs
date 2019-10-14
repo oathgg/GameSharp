@@ -30,6 +30,8 @@ namespace GameSharp.External.Injection
             }
 
             Execute(assembly);
+
+            PostExecution(assembly);
         }
 
         private void UpdateFiles(string pathToDll)
@@ -47,12 +49,13 @@ namespace GameSharp.External.Injection
             File.Copy(source, destinationFullName, true);
         }
 
-        /// <summary>
-        ///     DLL needs to be the same platform as the target process (e.g. x64 or x86).
-        /// </summary>
-        /// <param name="pathToDll"></param>
-        /// <param name="entryPoint"></param>
-        protected abstract void PreExecution(Injectable assembly);
+        protected virtual void PreExecution(Injectable assembly)
+        {
+        }
+
+        protected virtual void PostExecution(Injectable assembly)
+        {
+        }
 
         /// <summary>
         ///     Execution after the DLL has been injected.
