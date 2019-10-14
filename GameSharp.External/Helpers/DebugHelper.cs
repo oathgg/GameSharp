@@ -24,7 +24,6 @@ namespace GameSharp.External.Helpers
             DebugHelper debugHelper = new DebugHelper(process);
 
             debugHelper.ValidateDbgBreakPoint();
-            //debugHelper.AttachNativeDebugger();
             debugHelper.AttachManagedDebugger();
             debugHelper.HideFromPEB();
             debugHelper.DisposeOfPatches();
@@ -91,15 +90,6 @@ namespace GameSharp.External.Helpers
 
                 Thread.Sleep(1000);
             } while (tryCount-- > 0);
-        }
-
-        // Should be called when injected into the remote process
-        private void AttachNativeDebugger()
-        {
-            if (!Debugger.Launch())
-            {
-                throw new Exception("Something went wrong while trying to attach to the process.");
-            }
         }
     }
 }
