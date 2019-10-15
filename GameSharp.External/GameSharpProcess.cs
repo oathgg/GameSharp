@@ -81,18 +81,19 @@ namespace GameSharp.External
                 }
             }
 
-            RefreshModules();
+            IModulePointer injectedModule;
 
-            return Modules[Path.GetFileName(pathToDll).ToLower()];
+            while (!Modules.TryGetValue(Path.GetFileName(pathToDll).ToLower(), out injectedModule))
+            {
+                Thread.Sleep(1000);
+            }
+
+            return injectedModule;
         }
 
         public Dictionary<string, IModulePointer> RefreshModules()
         {
-            Thread.Sleep(1000);
-
             Native.Refresh();
-
-            Modules.Clear();
 
             Dictionary<string, IModulePointer> modules = new Dictionary<string, IModulePointer>();
 

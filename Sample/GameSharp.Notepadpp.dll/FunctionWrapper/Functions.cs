@@ -12,6 +12,7 @@ namespace GameSharp.Notepadpp
     {
         public static IsDebuggerPresent IsDebuggerPresent = new IsDebuggerPresent();
         public static MessageBoxW MessageBoxW = new MessageBoxW();
+
         private static readonly InjectedNtQueryInformationProcess InjectedNtQueryInformationProcessWrapper = new InjectedNtQueryInformationProcess();
         public static T InjectedNtQueryInformationProcess<T>(GameSharpProcess process, ProcessInformationClass pic) where T : struct
         {

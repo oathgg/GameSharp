@@ -10,8 +10,6 @@ namespace GameSharp.Notepadpp
 {
     public class Entrypoint
     {
-        private static readonly GameSharpProcess Process = GameSharpProcess.Instance;
-
         [DllExport]
         public static void Main()
         {

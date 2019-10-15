@@ -4,6 +4,7 @@ using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Native.Structs;
+using GameSharp.Core.Services;
 using GameSharp.Internal.Memory;
 using GameSharp.Internal.Module;
 using System;
@@ -17,9 +18,7 @@ namespace GameSharp.Internal
 {
     public sealed class GameSharpProcess : IProcess
     {
-        private static GameSharpProcess _instance;
-
-        public static GameSharpProcess Instance => _instance ?? (_instance = new GameSharpProcess());
+        public static GameSharpProcess Instance { get; } = new GameSharpProcess();
 
         public Dictionary<string, IModulePointer> Modules => RefreshModules();
 
@@ -29,7 +28,9 @@ namespace GameSharp.Internal
 
         public ProcessModule MainModule { get; } = Instance.Native.MainModule;
 
-        private GameSharpProcess() {}
+        private GameSharpProcess() 
+        {
+        }
 
         public MemoryPeb GetPeb()
         {
@@ -73,8 +74,6 @@ namespace GameSharp.Internal
         public Dictionary<string, IModulePointer> RefreshModules()
         {
             Native.Refresh();
-
-            Modules.Clear();
 
             Dictionary<string, IModulePointer> modules = new Dictionary<string, IModulePointer>();
 
