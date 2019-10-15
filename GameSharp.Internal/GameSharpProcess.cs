@@ -22,14 +22,17 @@ namespace GameSharp.Internal
 
         public Dictionary<string, IModulePointer> Modules => RefreshModules();
 
-        public Process Native { get; } = Process.GetCurrentProcess();
+        public Process Native { get; }
 
-        public IntPtr Handle { get; } = Instance.Native.Handle;
+        public IntPtr Handle { get; }
 
-        public ProcessModule MainModule { get; } = Instance.Native.MainModule;
+        public ProcessModule MainModule { get; }
 
         private GameSharpProcess() 
         {
+            Native = Process.GetCurrentProcess();
+            Handle = Native.Handle;
+            MainModule = Native.MainModule;
         }
 
         public MemoryPeb GetPeb()
