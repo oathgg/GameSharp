@@ -38,8 +38,8 @@ namespace GameSharp.Notepadpp
         {
             MemoryPeb result = Process.GetPeb();
 
-            result.BeingDebugged = false;
-            result.NtGlobalFlag = 0;
+            //result.BeingDebugged = false;
+            //result.NtGlobalFlag = 0;
         }
 
         /// <summary>

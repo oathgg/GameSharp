@@ -22,19 +22,19 @@ namespace GameSharp.External
 {
     public class GameSharpProcess : IProcess
     {
-        public Dictionary<string, IModulePointer> Modules { get; set; } = new Dictionary<string, IModulePointer>();
+        public Dictionary<string, IModulePointer> Modules => RefreshModules();
 
         public Process Native { get; }
 
-        public IntPtr Handle => Native.Handle;
+        public IntPtr Handle { get; }
 
-        public ProcessModule MainModule => Native.MainModule;
+        public ProcessModule MainModule { get; }
 
         public GameSharpProcess(Process process)
         {
             Native = process ?? throw new NullReferenceException("process");
-
-            RefreshModules();
+            Handle = Native.Handle;
+            MainModule = Native.MainModule;
         }
 
         public MemoryPeb GetPeb()
@@ -46,7 +46,9 @@ namespace GameSharp.External
             // Currently only supports 64 bit, 32 bit requires the ProcessInformationClass.ProcessWow64Information enum and a different size.
             Ntdll.NtQueryInformationProcess(Native.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, pbi.Size, out int _);
 
-            return new MemoryPeb(ntResult);
+            IMemoryPointer pebPointer = new MemoryPointer(this, ntResult.Read<ProcessBasicInformation>().PebBaseAddress);
+
+            return new MemoryPeb(pebPointer);
         }
 
         public IModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true)
@@ -84,7 +86,7 @@ namespace GameSharp.External
             return Modules[Path.GetFileName(pathToDll).ToLower()];
         }
 
-        public void RefreshModules()
+        public Dictionary<string, IModulePointer> RefreshModules()
         {
             Thread.Sleep(1000);
 
@@ -92,10 +94,14 @@ namespace GameSharp.External
 
             Modules.Clear();
 
+            Dictionary<string, IModulePointer> modules = new Dictionary<string, IModulePointer>();
+
             foreach (ProcessModule processModule in Native.Modules)
             {
-                Modules.Add(processModule.ModuleName.ToLower(), new ModulePointer(this, processModule));
+                modules.Add(processModule.ModuleName.ToLower(), new ModulePointer(this, processModule));
             }
+            
+            return modules;
         }
 
         public void AttachDebugger()

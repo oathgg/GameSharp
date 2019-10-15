@@ -21,18 +21,15 @@ namespace GameSharp.Internal
 
         public static GameSharpProcess Instance => _instance ?? (_instance = new GameSharpProcess());
 
-        public Dictionary<string, IModulePointer> Modules { get; private set; } = new Dictionary<string, IModulePointer>();
+        public Dictionary<string, IModulePointer> Modules => RefreshModules();
 
         public Process Native { get; } = Process.GetCurrentProcess();
 
-        public IntPtr Handle => Instance.Native.Handle;
+        public IntPtr Handle { get; } = Instance.Native.Handle;
 
-        public ProcessModule MainModule => Instance.Native.MainModule;
+        public ProcessModule MainModule { get; } = Instance.Native.MainModule;
 
-        private GameSharpProcess()
-        {
-            RefreshModules();
-        }
+        private GameSharpProcess() {}
 
         public MemoryPeb GetPeb()
         {
@@ -73,16 +70,20 @@ namespace GameSharp.Internal
             return new MemoryPointer(Marshal.AllocHGlobal(size));
         }
 
-        public void RefreshModules()
+        public Dictionary<string, IModulePointer> RefreshModules()
         {
             Native.Refresh();
 
             Modules.Clear();
 
+            Dictionary<string, IModulePointer> modules = new Dictionary<string, IModulePointer>();
+
             foreach (ProcessModule processModule in Native.Modules)
             {
-                Modules.Add(processModule.ModuleName.ToLower(), new ModulePointer(processModule));
+                modules.Add(processModule.ModuleName.ToLower(), new ModulePointer(processModule));
             }
+
+            return modules;
         }
     }
 }
