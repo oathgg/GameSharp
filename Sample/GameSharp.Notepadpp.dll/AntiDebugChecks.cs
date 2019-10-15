@@ -51,7 +51,7 @@ namespace GameSharp.Notepadpp
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
             if (Functions.InjectedNtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
             {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
             }
         }
 
@@ -60,7 +60,7 @@ namespace GameSharp.Notepadpp
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugFlags;
             if (Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
             {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
             }
         }
 
@@ -69,7 +69,7 @@ namespace GameSharp.Notepadpp
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugObjectHandle;
             if (Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
             {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
             }
         }
 
@@ -78,7 +78,7 @@ namespace GameSharp.Notepadpp
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
             if (Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
             {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
             }
         }
 
@@ -87,7 +87,7 @@ namespace GameSharp.Notepadpp
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
             if (Functions.WinApiNtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
             {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name} => Debugger found.");
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
             }
         }
 
@@ -95,7 +95,7 @@ namespace GameSharp.Notepadpp
         {
             if (Functions.IsDebuggerPresent.Call())
             {
-                LoggingService.Info("IsDebuggerPresent() => Debugger found.");
+                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
             }
         }
     }
