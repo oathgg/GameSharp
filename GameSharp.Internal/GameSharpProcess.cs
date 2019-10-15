@@ -42,7 +42,11 @@ namespace GameSharp.Internal
 
             Ntdll.NtQueryInformationProcess(Instance.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, Marshal.SizeOf(pbi), out int _);
 
-            return new MemoryPeb(ntResult);
+            IntPtr pebAddress = ntResult.Read<ProcessBasicInformation>().PebBaseAddress;
+
+            IMemoryPointer pebRegion = new MemoryPointer(pebAddress);
+
+            return new MemoryPeb(pebRegion);
         }
 
         public IModulePointer LoadLibrary(string libraryPath, bool resolveReferences)
