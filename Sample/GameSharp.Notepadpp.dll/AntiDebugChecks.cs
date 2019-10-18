@@ -36,10 +36,10 @@ namespace GameSharp.Notepadpp
 
         private void HideFromDebugger()
         {
-            MemoryPeb result = Process.GetPeb();
+            IMemoryPeb result = Process.GetPeb();
 
-            //result.BeingDebugged = false;
-            //result.NtGlobalFlag = 0;
+            result.BeingDebugged = false;
+            result.NtGlobalFlag = 0;
         }
 
         /// <summary>

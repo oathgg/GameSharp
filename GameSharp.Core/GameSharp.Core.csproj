@@ -54,9 +54,10 @@
   <ItemGroup>
     <Compile Include="Extensions\ArrayExtension.cs" />
     <Compile Include="Extensions\ObjectExtension.cs" />
+    <Compile Include="Memory\IMemoryPeb.cs" />
     <Compile Include="Memory\IMemoryPointer.cs" />
     <Compile Include="Memory\MemoryPatch.cs" />
-    <Compile Include="Memory\MemoryPeb.cs" />
+    <Compile Include="Memory\MemoryPeb32.cs" />
     <Compile Include="Module\IModulePointer.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="Memory\MemoryScanner.cs" />
@@ -65,7 +66,8 @@
     <Compile Include="Native\Enums\Context.cs" />
     <Compile Include="Native\Enums\LoadLibraryFlags.cs" />
     <Compile Include="Native\Enums\MemoryProtection.cs" />
-    <Compile Include="Native\Enums\PebStructure.cs" />
+    <Compile Include="Native\Enums\PEB64.cs" />
+    <Compile Include="Native\Enums\PEB32.cs" />
     <Compile Include="Native\Enums\ProcessAccess.cs" />
     <Compile Include="Native\Enums\ProcessInformationClass.cs" />
     <Compile Include="Native\Enums\ThreadAccess.cs" />

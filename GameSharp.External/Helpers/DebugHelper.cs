@@ -31,7 +31,7 @@ namespace GameSharp.External.Helpers
 
         private void HideFromPEB()
         {
-            MemoryPeb peb = Process.GetPeb();
+            IMemoryPeb peb = Process.GetPeb();
             peb.NtGlobalFlag = 0;
         }
 

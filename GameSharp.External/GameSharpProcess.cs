@@ -30,14 +30,17 @@ namespace GameSharp.External
 
         public ProcessModule MainModule { get; }
 
+        public bool Is64Bit { get; }
+
         public GameSharpProcess(Process process)
         {
             Native = process ?? throw new NullReferenceException("process");
             Handle = Native.Handle;
             MainModule = Native.MainModule;
+            Is64Bit = IntPtr.Size == 8;
         }
 
-        public MemoryPeb GetPeb()
+        public IMemoryPeb GetPeb()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
@@ -48,7 +51,14 @@ namespace GameSharp.External
 
             IMemoryPointer pebPointer = new MemoryPointer(this, ntResult.Read<ProcessBasicInformation>().PebBaseAddress);
 
-            return new MemoryPeb(pebPointer);
+            if (Is64Bit)
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                return new MemoryPeb32(pebPointer);
+            }
         }
 
         public IModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true)

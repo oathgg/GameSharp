@@ -28,14 +28,17 @@ namespace GameSharp.Internal
 
         public ProcessModule MainModule { get; }
 
+        public bool Is64Bit { get; }
+
         private GameSharpProcess() 
         {
             Native = Process.GetCurrentProcess();
             Handle = Native.Handle;
             MainModule = Native.MainModule;
+            Is64Bit = IntPtr.Size == 8;
         }
 
-        public MemoryPeb GetPeb()
+        public IMemoryPeb GetPeb()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
@@ -47,7 +50,14 @@ namespace GameSharp.Internal
 
             IMemoryPointer pebRegion = new MemoryPointer(pebAddress);
 
-            return new MemoryPeb(pebRegion);
+            if (Is64Bit)
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                return new MemoryPeb32(pebRegion);
+            }
         }
 
         public IModulePointer LoadLibrary(string libraryPath, bool resolveReferences)

@@ -8,6 +8,7 @@ namespace GameSharp.Core
 {
     public interface IProcess
     {
+        bool Is64Bit { get; }
         Process Native { get; }
         ProcessModule MainModule { get; }
         IntPtr Handle { get; }
@@ -15,6 +16,6 @@ namespace GameSharp.Core
         IModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true);
         IMemoryPointer AllocateManagedMemory(int size);
         Dictionary<string, IModulePointer> RefreshModules();
-        MemoryPeb GetPeb();
+        IMemoryPeb GetPeb();
     }
 }
