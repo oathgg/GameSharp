@@ -31,7 +31,7 @@ namespace GameSharp.Internal.Extensions
             List<byte> bytes = new List<byte>();
 
             // 64-bit
-            if (IntPtr.Size == 8)
+            if (GameSharpProcess.Instance.Is64Bit)
             {
                 // SUB RSP, 28
                 bytes.AddRange(new byte[] { 0x48, 0x83, 0xEC, 0x28 });

@@ -7,7 +7,7 @@
     /// Tested on Windows 7 x64, 2013-03-10
     /// Source: http://blog.rewolf.pl/blog/?p=573#.UTyBo1fJL6p
     /// </remarks>
-    public enum PEB64
+    public enum PebOffsets64
     {
         BeingDebugged = 0x2,
         NtGlobalFlag = 0xBC,

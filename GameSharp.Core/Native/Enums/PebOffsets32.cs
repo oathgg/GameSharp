@@ -7,7 +7,7 @@
     /// Tested on Windows 7 x64, 2013-03-10
     /// Source: http://blog.rewolf.pl/blog/?p=573#.UTyBo1fJL6p
     /// </remarks>
-    public enum PEB32
+    public enum PebOffsets32
     {
         InheritedAddressSpace = 0x0,
         ReadImageFileExecOptions = 0x1,

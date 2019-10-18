@@ -23,24 +23,21 @@ namespace GameSharp.External
     public class GameSharpProcess : IProcess
     {
         public Dictionary<string, IModulePointer> Modules => RefreshModules();
-
         public Process Native { get; }
-
         public IntPtr Handle { get; }
-
         public ProcessModule MainModule { get; }
-
         public bool Is64Bit { get; }
-
+        public MemoryPeb MemoryPeb { get; }
         public GameSharpProcess(Process process)
         {
             Native = process ?? throw new NullReferenceException("process");
             Handle = Native.Handle;
             MainModule = Native.MainModule;
             Is64Bit = IntPtr.Size == 8;
+            MemoryPeb = new MemoryPeb(this);
         }
 
-        public IMemoryPeb GetPeb()
+        public IMemoryPointer GetPebAddress()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
@@ -49,16 +46,7 @@ namespace GameSharp.External
             // Currently only supports 64 bit, 32 bit requires the ProcessInformationClass.ProcessWow64Information enum and a different size.
             Ntdll.NtQueryInformationProcess(Native.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, pbi.Size, out int _);
 
-            IMemoryPointer pebPointer = new MemoryPointer(this, ntResult.Read<ProcessBasicInformation>().PebBaseAddress);
-
-            if (Is64Bit)
-            {
-                throw new NotImplementedException();
-            }
-            else
-            {
-                return new MemoryPeb32(pebPointer);
-            }
+            return new MemoryPointer(this, ntResult.Read<ProcessBasicInformation>().PebBaseAddress);
         }
 
         public IModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true)

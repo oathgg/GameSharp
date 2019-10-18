@@ -89,7 +89,7 @@ namespace GameSharp.Internal.Memory
         {
             byte[] bArray;
 
-            if (IntPtr.Size == 8)
+            if (GameSharpProcess.Is64Bit)
             {
                 bArray = BitConverter.GetBytes(value.ToInt64());
             }

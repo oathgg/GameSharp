@@ -16,6 +16,7 @@ namespace GameSharp.Core
         IModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true);
         IMemoryPointer AllocateManagedMemory(int size);
         Dictionary<string, IModulePointer> RefreshModules();
-        IMemoryPeb GetPeb();
+        IMemoryPointer GetPebAddress();
+        MemoryPeb MemoryPeb { get; }
     }
 }

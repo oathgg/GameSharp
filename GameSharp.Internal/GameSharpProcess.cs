@@ -19,26 +19,22 @@ namespace GameSharp.Internal
     public sealed class GameSharpProcess : IProcess
     {
         public static GameSharpProcess Instance { get; } = new GameSharpProcess();
-
         public Dictionary<string, IModulePointer> Modules => RefreshModules();
-
         public Process Native { get; }
-
         public IntPtr Handle { get; }
-
         public ProcessModule MainModule { get; }
-
         public bool Is64Bit { get; }
-
+        public MemoryPeb MemoryPeb { get; }
         private GameSharpProcess() 
         {
             Native = Process.GetCurrentProcess();
             Handle = Native.Handle;
             MainModule = Native.MainModule;
             Is64Bit = IntPtr.Size == 8;
+            MemoryPeb = new MemoryPeb(this);
         }
 
-        public IMemoryPeb GetPeb()
+        public IMemoryPointer GetPebAddress()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
@@ -46,18 +42,9 @@ namespace GameSharp.Internal
 
             Ntdll.NtQueryInformationProcess(Instance.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, Marshal.SizeOf(pbi), out int _);
 
-            IntPtr pebAddress = ntResult.Read<ProcessBasicInformation>().PebBaseAddress;
+            IntPtr pebAddressPtr = ntResult.Read<ProcessBasicInformation>().PebBaseAddress;
 
-            IMemoryPointer pebRegion = new MemoryPointer(pebAddress);
-
-            if (Is64Bit)
-            {
-                throw new NotImplementedException();
-            }
-            else
-            {
-                return new MemoryPeb32(pebRegion);
-            }
+            return new MemoryPointer(pebAddressPtr);
         }
 
         public IModulePointer LoadLibrary(string libraryPath, bool resolveReferences)
