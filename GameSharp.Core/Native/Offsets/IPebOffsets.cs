@@ -1,4 +1,4 @@
-﻿namespace GameSharp.Core.Native.Enums
+﻿namespace GameSharp.Core.Native.Offsets
 {
     /// <summary>
     /// The structure of the Process Environment Block of a 32-bit process.
@@ -7,9 +7,9 @@
     /// Tested on Windows 7 x64, 2013-03-10
     /// Source: http://blog.rewolf.pl/blog/?p=573#.UTyBo1fJL6p
     /// </remarks>
-    public enum PebOffsets64
+    public interface IPebOffsets
     {
-        BeingDebugged = 0x2,
-        NtGlobalFlag = 0xBC,
+        int BeingDebugged { get; }
+        int NtGlobalFlag { get; }
     }
 }

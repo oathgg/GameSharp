@@ -38,13 +38,9 @@ namespace GameSharp.Internal
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
-            IMemoryPointer ntResult = AllocateManagedMemory(pbi.Size);
+            Ntdll.NtQueryInformationProcess(Handle, ProcessInformationClass.ProcessBasicInformation, ref pbi, Marshal.SizeOf(pbi), out int _);
 
-            Ntdll.NtQueryInformationProcess(Instance.Handle, ProcessInformationClass.ProcessBasicInformation, ntResult.Address, Marshal.SizeOf(pbi), out int _);
-
-            IntPtr pebAddressPtr = ntResult.Read<ProcessBasicInformation>().PebBaseAddress;
-
-            return new MemoryPointer(pebAddressPtr);
+            return new MemoryPointer(pbi.PebBaseAddress);
         }
 
         public IModulePointer LoadLibrary(string libraryPath, bool resolveReferences)

@@ -20,8 +20,6 @@ namespace GameSharp.Notepadpp
             {
                 Console.Clear();
 
-                antiDebug.HideFromDebugger();
-
                 antiDebug.IsDebuggerPresent();
                 antiDebug.IsProcessDebugPort();
                 antiDebug.IsProcessDebugObjectHandle();
@@ -31,17 +29,6 @@ namespace GameSharp.Notepadpp
                 antiDebug.WinApiIsProcessDebugPort();
 
                 Thread.Sleep(1000);
-            }
-        }
-
-        private void HideFromDebugger()
-        {
-            MemoryPeb peb = Process.MemoryPeb;
-
-            if (peb != null)
-            {
-                peb.BeingDebugged = false;
-                peb.NtGlobalFlag = 0;
             }
         }
 

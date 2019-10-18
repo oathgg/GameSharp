@@ -10,8 +10,8 @@ namespace GameSharp.External.Memory
     public class MemoryPointer : IMemoryPointer
     {
         public IntPtr Address { get; }
-
         public IProcess GameSharpProcess { get; }
+        public bool IsValid => Address != IntPtr.Zero;
 
         public MemoryPointer(GameSharpProcess process, IntPtr address)
         {

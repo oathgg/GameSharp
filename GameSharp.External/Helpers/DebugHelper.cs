@@ -33,8 +33,9 @@ namespace GameSharp.External.Helpers
         {
             MemoryPeb peb = Process.MemoryPeb;
 
-            if (peb != null)
+            if (peb.IsValid)
             {
+                peb.BeingDebugged = false;
                 peb.NtGlobalFlag = 0;
             }
         }

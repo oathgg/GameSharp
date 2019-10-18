@@ -13,8 +13,8 @@ namespace GameSharp.Internal.Memory
     public class MemoryPointer : IMemoryPointer
     {
         public IntPtr Address { get; }
-
         public IProcess GameSharpProcess => Internal.GameSharpProcess.Instance;
+        public bool IsValid => Address != IntPtr.Zero;
 
         public MemoryPointer(IntPtr address)
         {
@@ -118,5 +118,7 @@ namespace GameSharp.Internal.Memory
         {
             return $"0x{Address.ToString("X")}";
         }
+
+        
     }
 }

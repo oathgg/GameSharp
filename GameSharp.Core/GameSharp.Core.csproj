@@ -65,8 +65,9 @@
     <Compile Include="Native\Enums\Context.cs" />
     <Compile Include="Native\Enums\LoadLibraryFlags.cs" />
     <Compile Include="Native\Enums\MemoryProtection.cs" />
-    <Compile Include="Native\Enums\PebOffsets64.cs" />
-    <Compile Include="Native\Enums\PebOffsets32.cs" />
+    <Compile Include="Native\Offsets\IPebOffsets.cs" />
+    <Compile Include="Native\Offsets\PebOffsets64.cs" />
+    <Compile Include="Native\Offsets\PebOffsets32.cs" />
     <Compile Include="Native\Enums\ProcessAccess.cs" />
     <Compile Include="Native\Enums\ProcessInformationClass.cs" />
     <Compile Include="Native\Enums\ThreadAccess.cs" />
