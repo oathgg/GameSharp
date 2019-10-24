@@ -22,7 +22,7 @@ You can add your own injection methods by overriding the `Inject` and `Execute` 
 Currently there are a lot of detection vectors which are still present and most likely you'll have to figure out how their anti-cheat is working to get the most out of this project.
 However, I do try to keep some of the anti-cheat in mind, for example:
 
-- The code creates a code cave inside the remote process before hooking or calling a function to bypass return address checks.
+- The code searches for a code cave inside the memory region of the to be called function before applying a hook or calling the original function. This is to bypass return address checks.
 - When a debugger attaches we set the IsBeingDebugged flag in the PEB to 0.
 
 ### What the sample includes
