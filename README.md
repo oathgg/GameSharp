@@ -30,7 +30,8 @@ However, I do try to keep some of the anti-cheat in mind, for example:
 - DLL injection of a managed DLL in an unmanaged application through the famous RemoteThread injection method.
 - Randomizing the PE header.
 - Attaching a managed debugger to the unmanaged remote process.
+- Hiding the presence of the debugger from the PEB!IsBeingDebugged flag.
 - Execution of the entry point of the injected DLL in the remote process.
-- Execution of the MessageBoxW function with my own arguments in an Unsafe and 'Safe' way.
-- Hooking the MessageBoxW function in a 'Safe' way.
-- (Currently commented) Disabling the MessageBoxW function.
+- Execution of the MessageBoxW function with my own arguments in a safe way.
+- Hooking the MessageBoxW function in a safe way.
+- Calling NtQueryInformationProcess in 3 different ways, safe function call, pinvoke, byte injection.
