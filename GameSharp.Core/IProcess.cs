@@ -12,10 +12,10 @@ namespace GameSharp.Core
         Process Native { get; }
         ProcessModule MainModule { get; }
         IntPtr Handle { get; }
-        Dictionary<string, IModulePointer> Modules { get; }
-        IModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true);
+        Dictionary<string, ModulePointer> Modules { get; }
+        ModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true);
         IMemoryPointer AllocateManagedMemory(int size);
-        Dictionary<string, IModulePointer> RefreshModules();
+        Dictionary<string, ModulePointer> RefreshModules();
         IMemoryPointer GetPebAddress();
         MemoryPeb MemoryPeb { get; }
     }

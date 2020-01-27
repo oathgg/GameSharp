@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace GameSharp.Core.Module
 {
-    public abstract class ModulePointerBase : IModulePointer
+    public abstract class ModulePointer : IModulePointer
     {
         public ProcessModule ProcessModule { get; }
         public string Name { get; }
@@ -13,7 +13,7 @@ namespace GameSharp.Core.Module
         public int Size { get; }
         public IntPtr Handle => Kernel32.GetModuleHandle(Name);
 
-        public ModulePointerBase(ProcessModule module)
+        public ModulePointer(ProcessModule module)
         {
             ProcessModule = module;
             Name = ProcessModule.ModuleName.ToLower();

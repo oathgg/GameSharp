@@ -13,9 +13,14 @@ namespace GameSharp.External.Helpers
     {
         public static  byte[] LoadLibraryPayload(string pathToDll)
         {
-            if (string.IsNullOrWhiteSpace(pathToDll) || !File.Exists(pathToDll))
+            if (string.IsNullOrWhiteSpace(pathToDll))
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                throw new NullReferenceException("pathToDll");
+            }
+
+            if (!File.Exists(pathToDll))
+            {
+                throw new FileNotFoundException(pathToDll);
             }
 
             byte[] pathBytes = Encoding.Unicode.GetBytes(pathToDll);

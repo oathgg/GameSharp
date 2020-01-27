@@ -10,13 +10,13 @@ using System.Diagnostics;
 
 namespace GameSharp.Internal.Module
 {
-    public class ModulePointer : ModulePointerBase
+    public class InternalModulePointer : ModulePointer
     {
         public PeFile PeHeader { get; }
 
         public override IMemoryPointer MemoryPointer { get; }
 
-        public ModulePointer(ProcessModule processModule) : base(processModule)
+        public InternalModulePointer(ProcessModule processModule) : base(processModule)
         {
             MemoryPointer = new MemoryPointer(ProcessModule.BaseAddress);
             PeHeader = GeneratePeHeader();

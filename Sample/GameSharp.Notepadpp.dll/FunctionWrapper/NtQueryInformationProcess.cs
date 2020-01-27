@@ -17,7 +17,7 @@ namespace GameSharp.Notepadpp.FunctionWrapper
         protected override Delegate InitializeDelegate()
         {
             GameSharpProcess process = GameSharpProcess.Instance;
-            IModulePointer ntdll = process.Modules["ntdll.dll"];
+            ModulePointer ntdll = process.Modules["ntdll.dll"];
             IMemoryPointer ntQueryInformationProcessPtr = ntdll.GetProcAddress("NtQueryInformationProcess");
             return ntQueryInformationProcessPtr.ToDelegate<NtQueryInformationProcessDelegate>();
         }

@@ -25,11 +25,14 @@ namespace GameSharp.External.Helpers
 
             debugHelper.ValidateDbgBreakPoint();
             debugHelper.AttachManagedDebugger();
-            debugHelper.HideFromPEB();
+            debugHelper.DisableAntiAntiDebugging();
             debugHelper.DisposeOfPatches();
         }
 
-        private void HideFromPEB()
+        /// <summary>
+        /// Anti-anti-debugging methods are placed in here
+        /// </summary>
+        private void DisableAntiAntiDebugging()
         {
             MemoryPeb peb = Process.MemoryPeb;
 
@@ -40,6 +43,9 @@ namespace GameSharp.External.Helpers
             }
         }
 
+        /// <summary>
+        /// Using our own memorypatch disposer otherwise we might dispose patches we don't want to if we call the base.
+        /// </summary>
         private void DisposeOfPatches()
         {
             foreach (MemoryPatch p in MemoryPatches)
@@ -50,7 +56,7 @@ namespace GameSharp.External.Helpers
 
         private void ValidateDbgBreakPoint()
         {
-            IModulePointer ntdll = Process.Modules["ntdll.dll"];
+            ModulePointer ntdll = Process.Modules["ntdll.dll"];
 
             IMemoryPointer dbgBreakPointPtr = ntdll.GetProcAddress("DbgBreakPoint");
 
@@ -76,6 +82,7 @@ namespace GameSharp.External.Helpers
 
             int tryCount = 5;
 
+            // using a do while because the object is sometimes null....
             do
             {
                 Process.Native.WaitForInputIdle();

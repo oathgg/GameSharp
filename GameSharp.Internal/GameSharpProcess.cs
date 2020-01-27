@@ -19,7 +19,7 @@ namespace GameSharp.Internal
     public sealed class GameSharpProcess : IProcess
     {
         public static GameSharpProcess Instance { get; } = new GameSharpProcess();
-        public Dictionary<string, IModulePointer> Modules => RefreshModules();
+        public Dictionary<string, ModulePointer> Modules => RefreshModules();
         public Process Native { get; }
         public IntPtr Handle { get; }
         public ProcessModule MainModule { get; }
@@ -43,7 +43,7 @@ namespace GameSharp.Internal
             return new MemoryPointer(pbi.PebBaseAddress);
         }
 
-        public IModulePointer LoadLibrary(string libraryPath, bool resolveReferences)
+        public ModulePointer LoadLibrary(string libraryPath, bool resolveReferences)
         {
             if (!File.Exists(libraryPath))
             {
@@ -67,15 +67,15 @@ namespace GameSharp.Internal
             return new MemoryPointer(Marshal.AllocHGlobal(size));
         }
 
-        public Dictionary<string, IModulePointer> RefreshModules()
+        public Dictionary<string, ModulePointer> RefreshModules()
         {
             Native.Refresh();
 
-            Dictionary<string, IModulePointer> modules = new Dictionary<string, IModulePointer>();
+            Dictionary<string, ModulePointer> modules = new Dictionary<string, ModulePointer>();
 
             foreach (ProcessModule processModule in Native.Modules)
             {
-                modules.Add(processModule.ModuleName.ToLower(), new ModulePointer(processModule));
+                modules.Add(processModule.ModuleName.ToLower(), new Module.InternalModulePointer(processModule));
             }
 
             return modules;
