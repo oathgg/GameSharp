@@ -35,8 +35,9 @@ namespace GameSharp.External.Helpers
 
             if (peb.IsValid)
             {
-                peb.BeingDebugged = false;
-                peb.NtGlobalFlag = 0;
+                // Disabled untill further inspection; if we set the BeingDebugged flag to false then
+                //  Visual studio stops being able to debug the process.
+                //peb.BeingDebugged = false;
             }
         }
 
