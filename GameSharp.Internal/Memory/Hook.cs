@@ -54,7 +54,7 @@ namespace GameSharp.Internal.Memory
         private void InitializeAntiCheatHook()
         {
             byte[] bytes = HookPtr.GetReturnToPtr();
-            ModulePointer module = TargetFuncPtr.GetMyModule();
+            InternalModulePointer module = TargetFuncPtr.GetMyModule();
 
             if (module == null)
             {

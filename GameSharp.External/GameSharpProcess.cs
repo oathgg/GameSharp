@@ -22,7 +22,7 @@ namespace GameSharp.External
 {
     public class GameSharpProcess : IProcess
     {
-        public Dictionary<string, IModulePointer> Modules => RefreshModules();
+        public Dictionary<string, ModulePointer> Modules => RefreshModules();
         public Process Native { get; }
         public IntPtr Handle { get; }
         public ProcessModule MainModule { get; }
@@ -48,7 +48,7 @@ namespace GameSharp.External
             return new MemoryPointer(this, pbi.PebBaseAddress);
         }
 
-        public IModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true)
+        public ModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
             byte[] loadLibraryOpcodes = LoadLibraryHelper.LoadLibraryPayload(pathToDll);
 
@@ -56,7 +56,7 @@ namespace GameSharp.External
 
             if (Kernel32.WriteProcessMemory(Native.Handle, allocatedMemory.Address, loadLibraryOpcodes, loadLibraryOpcodes.Length, out IntPtr _))
             {
-                IModulePointer kernel32Module = Modules["kernel32.dll"];
+                ModulePointer kernel32Module = Modules["kernel32.dll"];
                 IMemoryPointer loadLibraryAddress;
                 if (resolveReferences)
                 {
@@ -78,7 +78,7 @@ namespace GameSharp.External
                 }
             }
 
-            IModulePointer injectedModule;
+            ModulePointer injectedModule;
 
             while (!Modules.TryGetValue(Path.GetFileName(pathToDll).ToLower(), out injectedModule))
             {
@@ -88,15 +88,15 @@ namespace GameSharp.External
             return injectedModule;
         }
 
-        public Dictionary<string, IModulePointer> RefreshModules()
+        public Dictionary<string, ModulePointer> RefreshModules()
         {
             Native.Refresh();
 
-            Dictionary<string, IModulePointer> modules = new Dictionary<string, IModulePointer>();
+            Dictionary<string, ModulePointer> modules = new Dictionary<string, ModulePointer>();
 
             foreach (ProcessModule processModule in Native.Modules)
             {
-                modules.Add(processModule.ModuleName.ToLower(), new ModulePointer(this, processModule));
+                modules.Add(processModule.ModuleName.ToLower(), new ExternalModulePointer(this, processModule));
             }
             
             return modules;

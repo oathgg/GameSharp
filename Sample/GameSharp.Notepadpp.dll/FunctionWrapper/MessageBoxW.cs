@@ -17,7 +17,7 @@ namespace GameSharp.Notepadpp.FunctionWrapper
         {
             GameSharpProcess process = GameSharpProcess.Instance;
 
-            IModulePointer user32dll = process.Modules["user32.dll"];
+            ModulePointer user32dll = process.Modules["user32.dll"];
 
             IMemoryPointer messageBoxWPtr = user32dll.GetProcAddress("MessageBoxW");
 

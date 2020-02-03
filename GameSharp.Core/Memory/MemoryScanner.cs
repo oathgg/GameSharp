@@ -21,7 +21,7 @@ namespace GameSharp.Core.Memory
         ///     Initializes a new instance of the <see cref="MemoryScanner" /> class.
         /// </summary>
         /// <param name="module"><see cref="ProcessModule"/> which we are going to scan.</param>
-        public MemoryScanner(IModulePointer module)
+        public MemoryScanner(ModulePointer module)
         {
             ModuleBase = module.MemoryPointer;
             Bytes = ModuleBase.Read(module.Size);

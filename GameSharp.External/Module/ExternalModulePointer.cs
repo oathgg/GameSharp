@@ -7,13 +7,13 @@ using System.Diagnostics;
 
 namespace GameSharp.External.Module
 {
-    public class ModulePointer : ModulePointerBase
+    public class ExternalModulePointer : ModulePointer
     {
         public override IMemoryPointer MemoryPointer { get; }
 
         public GameSharpProcess GameSharpProcess { get; }
 
-        public ModulePointer(GameSharpProcess process, ProcessModule processModule) : base(processModule)
+        public ExternalModulePointer(GameSharpProcess process, ProcessModule processModule) : base(processModule)
         {
             GameSharpProcess = process;
             MemoryPointer = new MemoryPointer(GameSharpProcess, processModule.BaseAddress);

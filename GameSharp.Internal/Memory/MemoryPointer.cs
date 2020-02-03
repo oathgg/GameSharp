@@ -21,12 +21,12 @@ namespace GameSharp.Internal.Memory
             Address = address;
         }
 
-        public ModulePointer GetMyModule()
+        public InternalModulePointer GetMyModule()
         {
-            Dictionary<string, IModulePointer>.Enumerator modules = Internal.GameSharpProcess.Instance.Modules.GetEnumerator();
+            Dictionary<string, ModulePointer>.Enumerator modules = Internal.GameSharpProcess.Instance.Modules.GetEnumerator();
             while (modules.MoveNext())
             {
-                ModulePointer module = modules.Current.Value as ModulePointer;
+                InternalModulePointer module = modules.Current.Value as InternalModulePointer;
 
                 // Address has to be between the start address of the module and the end address of the module.
                 if (Address.ToInt64() > module.Address.ToInt64()

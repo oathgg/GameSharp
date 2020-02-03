@@ -29,7 +29,7 @@ namespace GameSharp.Internal.Memory
 
             MemoryPointer originalFuncPtr = motherDelegate.ToFunctionPtr();
 
-            ModulePointer module = originalFuncPtr.GetMyModule();
+            InternalModulePointer module = originalFuncPtr.GetMyModule();
 
             Type typeOfDelegate = motherDelegate.GetType();
 

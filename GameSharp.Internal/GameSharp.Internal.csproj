@@ -47,7 +47,7 @@
     <Compile Include="Memory\Hook.cs" />
     <Compile Include="Memory\MemoryPointer.cs" />
     <Compile Include="Memory\SafeFunctionCaller.cs" />
-    <Compile Include="Module\ModulePointer.cs" />
+    <Compile Include="Module\InternalModulePointer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

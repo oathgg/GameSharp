@@ -21,15 +21,17 @@ You can add your own injection methods by overriding the `Inject` and `Execute` 
 
 Currently there are a lot of detection vectors which are still present and most likely you'll have to figure out how their anti-cheat is working to get the most out of this project.
 However, I do try to keep some of the anti-cheat in mind, for example:
-- The code creates a code cave inside the remote process before hooking a function.
-This bypass is for an anti-cheat which is validating the return address of a function to reside in it's own module.
+
+- The code searches for a code cave inside the memory region of the to be called function before applying a hook or calling the original function. This is to bypass return address checks.
+- When a debugger attaches we set the IsBeingDebugged flag in the PEB to 0.
 
 ### What the sample includes
 
 - DLL injection of a managed DLL in an unmanaged application through the famous RemoteThread injection method.
 - Randomizing the PE header.
 - Attaching a managed debugger to the unmanaged remote process.
+- Hiding the presence of the debugger from the PEB!IsBeingDebugged flag.
 - Execution of the entry point of the injected DLL in the remote process.
-- Execution of the MessageBoxW function with my own arguments in an Unsafe and 'Safe' way.
-- Hooking the MessageBoxW function in a 'Safe' way.
-- (Currently commented) Disabling the MessageBoxW function.
+- Execution of the MessageBoxW function with my own arguments in a safe way.
+- Hooking the MessageBoxW function in a safe way.
+- Calling NtQueryInformationProcess in 3 different ways, safe function call, pinvoke, through a payload.
