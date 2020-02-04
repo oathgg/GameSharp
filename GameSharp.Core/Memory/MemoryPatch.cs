@@ -23,8 +23,8 @@ namespace GameSharp.Core.Memory
         /// <param name="addressToPatch">The address of the byte where we want our patch to start.</param>
         public MemoryPatch(IMemoryPointer addressToPatch, byte[] newBytes)
         {
-            PatchAddress = addressToPatch;
-            NewBytes = newBytes;
+            PatchAddress = addressToPatch ?? throw new ArgumentNullException(nameof(addressToPatch));
+            NewBytes = newBytes ?? throw new ArgumentNullException(nameof(newBytes));
             OriginalBytes = PatchAddress.Read(NewBytes.Length);
 
             MemoryPatches.Add(this);

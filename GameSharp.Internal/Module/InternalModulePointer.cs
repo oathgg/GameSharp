@@ -86,6 +86,12 @@ namespace GameSharp.Internal.Module
 
                 for (uint j = 0; j <= size; j++)
                 {
+                    // Making sure we don't throw an IndexOutOfRangeException.
+                    if (i + j >= moduleBytes.Length)
+                    {
+                        break;
+                    }
+
                     byte curByte = moduleBytes[i + j];
                     if (curByte == 0x0)
                     {
@@ -108,7 +114,7 @@ namespace GameSharp.Internal.Module
                 }
             }
 
-            throw new NullReferenceException("Unable to find a codecave.");
+            return null;
         }
     }
 }

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.External", "GameS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Core", "GameSharp.Core\GameSharp.Core.csproj", "{C8009EEC-5B88-43EE-AF12-2D973C4676C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSharp.Notepadpp.AntiDebug", "GameSharp.Notepadpp.AntiDebug\GameSharp.Notepadpp.AntiDebug.csproj", "{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,14 @@ Global
 		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Release|x86.ActiveCfg = Release|Any CPU
 		{C8009EEC-5B88-43EE-AF12-2D973C4676C2}.Release|x86.Build.0 = Release|Any CPU
+		{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA}.Debug|x86.Build.0 = Debug|Any CPU
+		{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA}.Release|x86.ActiveCfg = Release|Any CPU
+		{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +80,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{79C11529-1264-454A-B086-0E10EB21A584} = {85FF6757-CBA4-460F-B028-ABC0282D73E8}
 		{33487D43-8039-476F-B1E6-E906A0897F7B} = {85FF6757-CBA4-460F-B028-ABC0282D73E8}
+		{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA} = {85FF6757-CBA4-460F-B028-ABC0282D73E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D08A4915-36D7-4636-A195-69744BA601A1}

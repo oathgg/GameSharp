@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{79C11529-1264-454A-B086-0E10EB21A584}</ProjectGuid>
+    <ProjectGuid>{0EFE9932-D8A2-4876-86C1-A1CB79CA0FBA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameSharp.Notepadpp</RootNamespace>
-    <AssemblyName>GameSharp.Notepadpp</AssemblyName>
+    <RootNamespace>GameSharp.Notepadpp.AntiDebug</RootNamespace>
+    <AssemblyName>GameSharp.Notepadpp.AntiDebug</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,29 +29,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RGiesecke.DllExport.Metadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8f52d83c1a22df51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\UnmanagedExports.1.2.7\lib\net\RGiesecke.DllExport.Metadata.dll</HintPath>
+      <HintPath>..\packages\UnmanagedExports.1.2.7\lib\net\RGiesecke.DllExport.Metadata.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -65,25 +45,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FunctionWrapper\Functions.cs" />
-    <Compile Include="FunctionWrapper\MessageBoxW.cs" />
+    <Compile Include="AntiDebugChecks.cs" />
     <Compile Include="Entrypoint.cs" />
-    <Compile Include="Hooks\HookMessageBoxW.cs" />
+    <Compile Include="FunctionWrapper\Functions.cs" />
+    <Compile Include="FunctionWrapper\InjectedNtQueryInformationProcess.cs" />
+    <Compile Include="FunctionWrapper\IsDebuggerPresent.cs" />
+    <Compile Include="FunctionWrapper\NtQueryInformationProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\GameSharp.Core\GameSharp.Core.csproj">
+    <ProjectReference Include="..\GameSharp.Core\GameSharp.Core.csproj">
       <Project>{C8009EEC-5B88-43EE-AF12-2D973C4676C2}</Project>
       <Name>GameSharp.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GameSharp.Internal\GameSharp.Internal.csproj">
-      <Project>{9f88a5b2-866e-4df0-98b7-69e88009194b}</Project>
+    <ProjectReference Include="..\GameSharp.Internal\GameSharp.Internal.csproj">
+      <Project>{9F88A5B2-866E-4DF0-98B7-69E88009194B}</Project>
       <Name>GameSharp.Internal</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="../../packages/UnmanagedExports.1.2.7/tools/RGiesecke.DllExport.targets" Condition="Exists('../../packages/UnmanagedExports.1.2.7/tools/RGiesecke.DllExport.targets')" />
+  <Import Project="../packages/UnmanagedExports.1.2.7/tools/RGiesecke.DllExport.targets" Condition="Exists('../packages/UnmanagedExports.1.2.7/tools/RGiesecke.DllExport.targets')" />
 </Project>

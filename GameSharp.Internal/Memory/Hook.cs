@@ -61,7 +61,11 @@ namespace GameSharp.Internal.Memory
                 throw new NullReferenceException("Cannot find a module which belongs to the specified pointer.");
             }
 
-            MemoryPointer codeCaveJmpTable = module.FindCodeCaveInModule((uint)bytes.Length);
+            IMemoryPointer codeCaveJmpTable = module.FindCodeCaveInModule((uint)bytes.Length);
+            if (codeCaveJmpTable == null)
+            {
+                codeCaveJmpTable = GameSharpProcess.Instance.AllocateManagedMemory(bytes.Length);
+            }
             CodeCavePatch = new MemoryPatch(codeCaveJmpTable, bytes);
 
             byte[] retToCodeCave = CodeCavePatch.PatchAddress.GetReturnToPtr();

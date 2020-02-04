@@ -2,6 +2,7 @@
 using GameSharp.Core.Memory;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
+using GameSharp.Core.Services;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
@@ -20,7 +21,6 @@ namespace GameSharp.Internal.Memory
     public abstract class SafeFunction
     {
         private readonly Delegate SafeFunctionDelegate;
-        private readonly IMemoryPointer CodeCaveJumpTable;
         private readonly int CodeCaveSize;
 
         public SafeFunction()
@@ -39,18 +39,22 @@ namespace GameSharp.Internal.Memory
 
             CodeCaveSize = bytes.Count < 12 ? 12 : bytes.Count;
 
+            IMemoryPointer jumpTable = null;
             if (module != null)
             {
                 // If the function belongs to a module we can find we want to inject our code bytes into that module before calling it.
-                CodeCaveJumpTable = module.FindCodeCaveInModule((uint)CodeCaveSize);
-            }
-            else
-            {
-                // Otherwise we create a fictional jump table...
-                CodeCaveJumpTable = GameSharpProcess.Instance.AllocateManagedMemory(CodeCaveSize);
+                jumpTable = module.FindCodeCaveInModule((uint)CodeCaveSize);
             }
 
-            CodeCaveJumpTable.Write(bytes.ToArray());
+            if (jumpTable == null)
+            {
+                LoggingService.Warning($"Couldn't find a codecave in module.");
+
+                // Create our own code cave by allocating memory, an anti-cheat can detect this easily!
+                jumpTable = GameSharpProcess.Instance.AllocateManagedMemory(CodeCaveSize);
+            }
+
+            jumpTable.Write(bytes.ToArray());
 
             SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(originalFuncPtr.Address, typeOfDelegate);
         }

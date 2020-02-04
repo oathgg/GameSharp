@@ -36,10 +36,10 @@ namespace GameSharp.Internal.Extensions
                 // SUB RSP, 28
                 bytes.AddRange(new byte[] { 0x48, 0x83, 0xEC, 0x28 });
 
-                // MOV RAX, FUNKPTR
+                // MOV RAX, 
                 bytes.AddRange(new byte[] { 0x48, 0xB8 });
 
-                // Our address which we wish to call
+                // FUNCTION PTR
                 bytes.AddRange(BitConverter.GetBytes(memoryAddress.Address.ToInt64()));
 
                 // CALL RAX
@@ -52,6 +52,8 @@ namespace GameSharp.Internal.Extensions
             {
                 // PUSH opcode http://ref.x86asm.net/coder32.html#x68
                 bytes.Add(0x68);
+
+                // FUNCTION TO PUSH
                 bytes.AddRange(BitConverter.GetBytes(memoryAddress.Address.ToInt32()));
             }
 
