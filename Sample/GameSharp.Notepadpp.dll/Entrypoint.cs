@@ -20,7 +20,7 @@ namespace GameSharp.Notepadpp
             LoggingService.Info("I have been injected!");
 
             LoggingService.Info("Calling MessageBoxW!");
-            if (Functions.MessageBoxW.Call(IntPtr.Zero, "Through a SafeFunctionCall method", "Caption", 0) == 0)
+            if (!Functions.MessageBoxW.Call(IntPtr.Zero, "Through a SafeFunctionCall method", "Caption", 0))
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }

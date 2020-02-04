@@ -65,7 +65,7 @@ namespace GameSharp.Internal.Memory
         /// <typeparam name="T"></typeparam>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        protected T BaseCall<T>(params object[] parameters)
+        protected T Call<T>(params object[] parameters)
         {
             if (SafeFunctionDelegate == null)
             {

@@ -31,7 +31,7 @@ namespace GameSharp.Notepadpp.FunctionWrapper
             IMemoryPointer bytesReadInternal = GameSharpProcess.Instance.AllocateManagedMemory(resultLength);
             IMemoryPointer resultInternal = GameSharpProcess.Instance.AllocateManagedMemory(resultLength);
 
-            uint retval = BaseCall<uint>(handle, pic, resultInternal.Address, (uint)resultLength, bytesReadInternal.Address);
+            uint retval = Call<uint>(handle, pic, resultInternal.Address, (uint)resultLength, bytesReadInternal.Address);
 
             bytesRead = bytesReadInternal;
             result = resultInternal;

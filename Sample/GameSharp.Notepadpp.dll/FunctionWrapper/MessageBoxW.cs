@@ -24,9 +24,10 @@ namespace GameSharp.Notepadpp.FunctionWrapper
             return messageBoxWPtr.ToDelegate<MessageBoxWDelegate>();
         }
 
-        public int Call(IntPtr hWnd, string text, string caption, uint type)
+        public bool Call(IntPtr hWnd, string text, string caption, uint type)
         {
-            return BaseCall<int>(hWnd, text, caption, type);
+            // 0 means fail
+            return Call<int>(hWnd, text, caption, type) != 0;
         }
     }
 }
