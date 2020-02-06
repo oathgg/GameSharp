@@ -37,28 +37,29 @@ namespace GameSharp.Core.Services
         /// <param name="ex"></param>
         private static void BeautifyException(Exception exception)
         {
-            Console.WriteLine("");
-            Console.WriteLine("===================================================");
-            Console.WriteLine("");
+
+            LoggingService.Error("");
+            LoggingService.Error("===================================================");
+            LoggingService.Error("");
 
             if (exception != null)
             {
                 do
                 {
-                    Console.WriteLine("Type: {0}", exception.GetType().FullName);
-                    Console.WriteLine("Message: {0}", exception.Message);
+                    LoggingService.Error($"Type: {exception.GetType().FullName}");
+                    LoggingService.Error($"Message: {exception.Message}");
                     if (!string.IsNullOrEmpty(exception.StackTrace))
                     {
-                        Console.WriteLine("Stracktrace:");
-                        Console.WriteLine(exception.StackTrace);
+                        LoggingService.Error("Stracktrace:");
+                        LoggingService.Error(exception.StackTrace);
                     }
                     exception = exception.InnerException;
                 } while (exception != null);
             }
 
-            Console.WriteLine("");
-            Console.WriteLine("===================================================");
-            Console.WriteLine("");
+            LoggingService.Error("");
+            LoggingService.Error("===================================================");
+            LoggingService.Error("");
         }
     }
 }
