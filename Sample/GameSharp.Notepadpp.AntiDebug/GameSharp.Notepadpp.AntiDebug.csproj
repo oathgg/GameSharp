@@ -57,11 +57,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameSharp.Core\GameSharp.Core.csproj">
+    <ProjectReference Include="..\..\GameSharp.Core\GameSharp.Core.csproj">
       <Project>{C8009EEC-5B88-43EE-AF12-2D973C4676C2}</Project>
       <Name>GameSharp.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameSharp.Internal\GameSharp.Internal.csproj">
+    <ProjectReference Include="..\..\GameSharp.Internal\GameSharp.Internal.csproj">
       <Project>{9F88A5B2-866E-4DF0-98B7-69E88009194B}</Project>
       <Name>GameSharp.Internal</Name>
     </ProjectReference>
