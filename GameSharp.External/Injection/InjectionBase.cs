@@ -1,5 +1,4 @@
-﻿using GameSharp.External.Extensions;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -20,7 +19,7 @@ namespace GameSharp.External.Injection
 
             PreExecution(assembly);
 
-            Process.Native.AllocConsole();
+            Process.AllocConsole();
 
             // In case we want to attach then we have to do so BEFORE we execute to give full debugging capabilities.
             if (attach && Debugger.IsAttached)

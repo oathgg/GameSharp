@@ -48,12 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\ProcessExtensions.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\LoadLibraryHelper.cs" />
     <Compile Include="Injection\IInjection.cs" />
     <Compile Include="Injection\Injectable.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
+    <Compile Include="Injection\ManualMapInjection.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />
     <Compile Include="Injection\ThreadHijackInjection.cs" />
     <Compile Include="Memory\MemoryPointer.cs" />
@@ -66,6 +66,9 @@
       <Project>{c8009eec-5b88-43ee-af12-2d973c4676c2}</Project>
       <Name>GameSharp.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
