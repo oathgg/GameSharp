@@ -82,7 +82,7 @@ namespace GameSharp.External
 
             while (!Modules.TryGetValue(Path.GetFileName(pathToDll).ToLower(), out injectedModule))
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(1);
             }
 
             return injectedModule;
