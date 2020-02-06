@@ -4,6 +4,6 @@
     {
         GameSharpProcess Process { get; }
 
-        void InjectAndExecute(Injectable assembly, bool attach);
+        void InjectAndExecute(Injectable assembly, bool attach, bool launchConsole);
     }
 }

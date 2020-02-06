@@ -13,13 +13,16 @@ namespace GameSharp.External.Injection
             Process = process ?? throw new NullReferenceException();
         }
 
-        public void InjectAndExecute(Injectable assembly, bool attach)
+        public void InjectAndExecute(Injectable assembly, bool attach, bool launchConsole)
         {
             UpdateFiles(assembly.PathToAssemblyFile);
 
             PreExecution(assembly);
 
-            Process.AllocConsole();
+            if (launchConsole)
+            {
+                Process.AllocConsole();
+            }
 
             // In case we want to attach then we have to do so BEFORE we execute to give full debugging capabilities.
             if (attach && Debugger.IsAttached)
