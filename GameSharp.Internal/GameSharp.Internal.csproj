@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,8 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\Direct3DDevice9ExFunctionOrdinals.cs" />
+    <Compile Include="Enums\Direct3DDevice9FunctionOrdinals.cs" />
     <Compile Include="Extensions\UnsafeMemoryExtension.cs" />
+    <Compile Include="Functions\Direct3DDevice9.cs" />
     <Compile Include="GameSharpProcess.cs" />
+    <Compile Include="HookHelpers\Direct3Device9EndsceneHookHelper.cs" />
     <Compile Include="Memory\Hook.cs" />
     <Compile Include="Memory\MemoryPointer.cs" />
     <Compile Include="Memory\SafeFunctionCaller.cs" />

@@ -140,8 +140,6 @@ namespace GameSharp.External
 
         public void AllocConsole()
         {
-            LoggingService.Info($"Creating a console for output from our injected DLL.");
-
             IntPtr kernel32Module = Kernel32.GetModuleHandle("kernel32.dll");
             IntPtr allocConsoleAddress = Kernel32.GetProcAddress(kernel32Module, "AllocConsole");
             Kernel32.CreateRemoteThread(Native.Handle, IntPtr.Zero, 0, allocConsoleAddress, IntPtr.Zero, 0, IntPtr.Zero);
