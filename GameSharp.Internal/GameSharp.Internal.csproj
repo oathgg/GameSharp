@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,12 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\Direct3DDevice9ExFunctionOrdinals.cs" />
-    <Compile Include="Enums\Direct3DDevice9FunctionOrdinals.cs" />
+    <Compile Include="Direct3D\D3D11Device.cs" />
+    <Compile Include="Direct3D\D3D9Device.cs" />
+    <Compile Include="Direct3D\D3DDevice.cs" />
     <Compile Include="Extensions\UnsafeMemoryExtension.cs" />
-    <Compile Include="Functions\Direct3DDevice9.cs" />
+    <Compile Include="Direct3D\D3D9Helper.cs" />
     <Compile Include="GameSharpProcess.cs" />
-    <Compile Include="HookHelpers\Direct3Device9EndsceneHookHelper.cs" />
+    <Compile Include="Direct3D\D3D9EndsceneHookHelper.cs" />
     <Compile Include="Memory\Hook.cs" />
     <Compile Include="Memory\MemoryPointer.cs" />
     <Compile Include="Memory\SafeFunctionCaller.cs" />

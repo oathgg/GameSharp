@@ -1,5 +1,4 @@
-﻿using GameSharp.Internal.Enums;
-using GameSharp.Core.Memory;
+﻿using GameSharp.Core.Memory;
 using GameSharp.Core.Module;
 using GameSharp.Internal;
 using GameSharp.Internal.Extensions;
@@ -11,15 +10,16 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameSharp.Internal.HookHelpers
+namespace GameSharp.Internal.Direct3D
 {
-    public abstract class Direct3Device9EndsceneHookHelper : Hook
+    public abstract class D3D9EndsceneHookHelper : Hook
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall, SetLastError = true)]
         delegate int EndSceneDelegate(IntPtr device);
 
         private int DetourMethod(IntPtr device)
         {
+            DoWork(device);
             return CallOriginal<int>(device);
         }
 
@@ -30,7 +30,7 @@ namespace GameSharp.Internal.HookHelpers
 
         public override Delegate GetHookDelegate()
         {
-            IMemoryPointer ptr = Functions.Direct3DDevice9.GetAddress(Direct3DDevice9FunctionOrdinals.EndScene);
+            IMemoryPointer ptr = Functions.D3D9Helper.GetD3D9Endscene();
             return ptr.ToDelegate<EndSceneDelegate>();
         }
 
