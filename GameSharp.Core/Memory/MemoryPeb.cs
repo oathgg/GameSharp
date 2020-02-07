@@ -1,6 +1,4 @@
-﻿using GameSharp.Core.Native.Enums;
-using GameSharp.Core.Native.Offsets;
-using System;
+﻿using GameSharp.Core.Native.Offsets;
 
 namespace GameSharp.Core.Memory
 {
@@ -29,7 +27,7 @@ namespace GameSharp.Core.Memory
             get => PebBasePointer.Read<bool>(PebOffsets.BeingDebugged);
             set => PebBasePointer.Write(value, PebOffsets.BeingDebugged);
         }
-        
+
         public long NtGlobalFlag
         {
             get => PebBasePointer.Read<long>(PebOffsets.NtGlobalFlag);

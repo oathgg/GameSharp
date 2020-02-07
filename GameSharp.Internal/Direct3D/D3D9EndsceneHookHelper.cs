@@ -1,21 +1,15 @@
 ﻿using GameSharp.Core.Memory;
-using GameSharp.Core.Module;
-using GameSharp.Internal;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Memory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameSharp.Internal.Direct3D
 {
     public abstract class D3D9EndsceneHookHelper : Hook
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall, SetLastError = true)]
-        delegate int EndSceneDelegate(IntPtr device);
+        private delegate int EndSceneDelegate(IntPtr device);
 
         private int DetourMethod(IntPtr device)
         {

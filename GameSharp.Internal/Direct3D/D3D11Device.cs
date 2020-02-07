@@ -14,20 +14,17 @@ namespace GameSharp.Internal.Direct3D
         public delegate int DxgiSwapChainResizeTargetDelegate(
             IntPtr swapChainPtr, ref ModeDescription newTargetParameters);
 
-        const int DXGI_FORMAT_R8G8B8A8_UNORM = 0x1C;
-        const int DXGI_USAGE_RENDER_TARGET_OUTPUT = 0x20;
-        const int D3D11_SDK_VERSION = 7;
-        const int D3D_DRIVER_TYPE_HARDWARE = 1;
-        IntPtr _device;
-        VTableFuncDelegate _deviceContextRelease;
-
-        VTableFuncDelegate _deviceRelease;
-
-        IntPtr _myDxgiDll;
-
-        IntPtr _swapChain;
-        VTableFuncDelegate _swapchainRelease;
-        IntPtr _theirDxgiDll;
+        private const int DXGI_FORMAT_R8G8B8A8_UNORM = 0x1C;
+        private const int DXGI_USAGE_RENDER_TARGET_OUTPUT = 0x20;
+        private const int D3D11_SDK_VERSION = 7;
+        private const int D3D_DRIVER_TYPE_HARDWARE = 1;
+        private IntPtr _device;
+        private VTableFuncDelegate _deviceContextRelease;
+        private VTableFuncDelegate _deviceRelease;
+        private IntPtr _myDxgiDll;
+        private IntPtr _swapChain;
+        private VTableFuncDelegate _swapchainRelease;
+        private IntPtr _theirDxgiDll;
 
         public D3D11Device(Process targetProc) : base(targetProc, "d3d11.dll")
         {
@@ -40,7 +37,7 @@ namespace GameSharp.Internal.Direct3D
         protected override void InitD3D(out IntPtr d3DDevicePtr)
         {
             LoadDxgiDll();
-            var scd = new SwapChainDescription
+            SwapChainDescription scd = new SwapChainDescription
             {
                 BufferCount = 1,
                 ModeDescription = new ModeDescription { Format = DXGI_FORMAT_R8G8B8A8_UNORM },
@@ -52,11 +49,11 @@ namespace GameSharp.Internal.Direct3D
 
             unsafe
             {
-                var pSwapChain = IntPtr.Zero;
-                var pDevice = IntPtr.Zero;
-                var pImmediateContext = IntPtr.Zero;
+                IntPtr pSwapChain = IntPtr.Zero;
+                IntPtr pDevice = IntPtr.Zero;
+                IntPtr pImmediateContext = IntPtr.Zero;
 
-                var ret = D3D11CreateDeviceAndSwapChain((void*)IntPtr.Zero, D3D_DRIVER_TYPE_HARDWARE,
+                int ret = D3D11CreateDeviceAndSwapChain((void*)IntPtr.Zero, D3D_DRIVER_TYPE_HARDWARE,
                     (void*)IntPtr.Zero, 0, (void*)IntPtr.Zero, 0, D3D11_SDK_VERSION, &scd, &pSwapChain, &pDevice,
                     (void*)IntPtr.Zero, &pImmediateContext);
 
@@ -66,19 +63,19 @@ namespace GameSharp.Internal.Direct3D
 
                 if (ret >= 0)
                 {
-                    var vTableFuncAddress = GetVTableFuncAddress(_swapChain, VTableIndexes.DXGISwapChainRelease);
+                    IntPtr vTableFuncAddress = GetVTableFuncAddress(_swapChain, VTableIndexes.DXGISwapChainRelease);
                     _swapchainRelease = Marshal.GetDelegateForFunctionPointer<VTableFuncDelegate>(vTableFuncAddress);
 
-                    var deviceptr = GetVTableFuncAddress(_device, VTableIndexes.D3D11DeviceRelease);
+                    IntPtr deviceptr = GetVTableFuncAddress(_device, VTableIndexes.D3D11DeviceRelease);
                     _deviceRelease = Marshal.GetDelegateForFunctionPointer<VTableFuncDelegate>(deviceptr);
 
-                    var contex = GetVTableFuncAddress(d3DDevicePtr, VTableIndexes.D3D11DeviceContextRelease);
+                    IntPtr contex = GetVTableFuncAddress(d3DDevicePtr, VTableIndexes.D3D11DeviceContextRelease);
                     _deviceContextRelease = Marshal.GetDelegateForFunctionPointer<VTableFuncDelegate>(contex);
                 }
             }
         }
 
-        void LoadDxgiDll()
+        private void LoadDxgiDll()
         {
             _myDxgiDll = LoadLibrary("dxgi.dll");
             if (_myDxgiDll == IntPtr.Zero)
@@ -92,10 +89,10 @@ namespace GameSharp.Internal.Direct3D
 
         public unsafe IntPtr GetSwapVTableFuncAbsoluteAddress(int funcIndex)
         {
-            var pointer = *(IntPtr*)(void*)_swapChain;
+            IntPtr pointer = *(IntPtr*)(void*)_swapChain;
             pointer = *(IntPtr*)(void*)(pointer + funcIndex * IntPtr.Size);
 
-            var offset = new IntPtr(pointer.ToInt64() - _myDxgiDll.ToInt64());
+            IntPtr offset = new IntPtr(pointer.ToInt64() - _myDxgiDll.ToInt64());
             return new IntPtr(_theirDxgiDll.ToInt64() + offset.ToInt64());
         }
 
@@ -128,26 +125,26 @@ namespace GameSharp.Internal.Direct3D
         [StructLayout(LayoutKind.Sequential)]
         public struct Rational
         {
-            readonly int Numerator;
-            readonly int Denominator;
+            private readonly int Numerator;
+            private readonly int Denominator;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct ModeDescription
         {
-            readonly int Width;
-            readonly int Height;
-            readonly Rational RefreshRate;
+            private readonly int Width;
+            private readonly int Height;
+            private readonly Rational RefreshRate;
             public int Format;
-            readonly int ScanlineOrdering;
-            readonly int Scaling;
+            private readonly int ScanlineOrdering;
+            private readonly int Scaling;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct SampleDescription
         {
             public int Count;
-            readonly int Quality;
+            private readonly int Quality;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -159,9 +156,8 @@ namespace GameSharp.Internal.Direct3D
             public int BufferCount;
             public IntPtr OutputHandle;
             [MarshalAs(UnmanagedType.Bool)] public bool IsWindowed;
-
-            readonly int SwapEffect;
-            readonly int Flags;
+            private readonly int SwapEffect;
+            private readonly int Flags;
         }
 
         public struct VTableIndexes

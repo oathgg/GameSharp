@@ -9,16 +9,13 @@ namespace GameSharp.Internal.Direct3D
 {
     public abstract class D3DDevice : IDisposable
     {
-        readonly string _d3DDllName;
-
-        readonly List<IntPtr> _loadedLibraries = new List<IntPtr>();
+        private readonly string _d3DDllName;
+        private readonly List<IntPtr> _loadedLibraries = new List<IntPtr>();
         protected readonly IntPtr D3DDevicePtr;
         protected readonly Process TargetProcess;
-
-        bool _disposed;
-
-        IntPtr _myD3DDll;
-        IntPtr _theirD3DDll;
+        private bool _disposed;
+        private IntPtr _myD3DDll;
+        private IntPtr _theirD3DDll;
 
         protected D3DDevice(Process targetProcess, string d3DDllName)
         {
@@ -45,7 +42,7 @@ namespace GameSharp.Internal.Direct3D
 
         protected abstract void CleanD3D();
 
-        void LoadDll()
+        private void LoadDll()
         {
             _myD3DDll = LoadLibrary(_d3DDllName);
             if (_myD3DDll == IntPtr.Zero)
@@ -60,7 +57,7 @@ namespace GameSharp.Internal.Direct3D
         protected IntPtr LoadLibrary(string library)
         {
             // Attempt to grab the module handle if its loaded already.
-            var ret = NativeMethods.GetModuleHandle(library);
+            IntPtr ret = NativeMethods.GetModuleHandle(library);
             if (ret == IntPtr.Zero)
             {
                 // Load the lib manually if its not, storing it in a list so we can free it later.
@@ -72,20 +69,20 @@ namespace GameSharp.Internal.Direct3D
 
         protected unsafe IntPtr GetVTableFuncAddress(IntPtr obj, int funcIndex)
         {
-            var pointer = *(IntPtr*)(void*)obj;
+            IntPtr pointer = *(IntPtr*)(void*)obj;
             return *(IntPtr*)(void*)(pointer + funcIndex * IntPtr.Size);
         }
 
         public unsafe IntPtr GetDeviceVTableFuncAbsoluteAddress(int funcIndex)
         {
             //Expect the unexpected
-            var pointer = *(IntPtr*)(void*)D3DDevicePtr;
+            IntPtr pointer = *(IntPtr*)(void*)D3DDevicePtr;
             pointer = *(IntPtr*)(void*)(pointer + funcIndex * IntPtr.Size);
-            var offset = new IntPtr(pointer.ToInt64() - _myD3DDll.ToInt64());
+            IntPtr offset = new IntPtr(pointer.ToInt64() - _myD3DDll.ToInt64());
             return new IntPtr(_theirD3DDll.ToInt64() + offset.ToInt64());
         }
 
-        void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!_disposed)
             {
@@ -94,7 +91,7 @@ namespace GameSharp.Internal.Direct3D
                     CleanD3D();
                     Form?.Dispose();
 
-                    foreach (var loadedLibrary in _loadedLibraries)
+                    foreach (IntPtr loadedLibrary in _loadedLibraries)
                     {
                         NativeMethods.FreeLibrary(loadedLibrary);
                     }

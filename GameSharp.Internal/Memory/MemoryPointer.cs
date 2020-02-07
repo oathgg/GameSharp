@@ -119,6 +119,6 @@ namespace GameSharp.Internal.Memory
             return $"0x{Address.ToString("X")}";
         }
 
-        
+
     }
 }

@@ -4,9 +4,7 @@ using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Native.Structs;
-using GameSharp.Core.Services;
 using GameSharp.Internal.Memory;
-using GameSharp.Internal.Module;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,7 +23,7 @@ namespace GameSharp.Internal
         public ProcessModule MainModule { get; }
         public bool Is64Bit { get; }
         public MemoryPeb MemoryPeb { get; }
-        private GameSharpProcess() 
+        private GameSharpProcess()
         {
             Native = Process.GetCurrentProcess();
             Handle = Native.Handle;

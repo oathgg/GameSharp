@@ -25,13 +25,11 @@ namespace GameSharp.Internal.Direct3D
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate int Direct3D9ResetEx(IntPtr presentationParameters, IntPtr displayModeEx);
 
-        const int D3D9SdkVersion = 0x20;
-        const int D3DCREATE_SOFTWARE_VERTEXPROCESSING = 0x20;
-
-        VTableFuncDelegate _d3DDeviceRelease;
-        VTableFuncDelegate _d3DRelease;
-
-        IntPtr _pD3D;
+        private const int D3D9SdkVersion = 0x20;
+        private const int D3DCREATE_SOFTWARE_VERTEXPROCESSING = 0x20;
+        private VTableFuncDelegate _d3DDeviceRelease;
+        private VTableFuncDelegate _d3DRelease;
+        private IntPtr _pD3D;
 
         public D3D9Device(Process targetProc) : base(targetProc, "d3d9.dll")
         {
@@ -50,16 +48,16 @@ namespace GameSharp.Internal.Direct3D
                 throw new Exception("Failed to create D3D.");
             }
 
-            var parameters = new D3DPresentParameters
+            D3DPresentParameters parameters = new D3DPresentParameters
             {
                 Windowed = true,
                 SwapEffect = 1,
                 BackBufferFormat = 0
             };
 
-            var createDevicePtr = GetVTableFuncAddress(_pD3D, VTableIndexes.Direct3D9CreateDevice);
+            IntPtr createDevicePtr = GetVTableFuncAddress(_pD3D, VTableIndexes.Direct3D9CreateDevice);
 
-            var createDevice = Marshal.GetDelegateForFunctionPointer<CreateDeviceDelegate>(createDevicePtr);
+            CreateDeviceDelegate createDevice = Marshal.GetDelegateForFunctionPointer<CreateDeviceDelegate>(createDevicePtr);
 
             if (createDevice(_pD3D, 0, 1, Form.Handle, D3DCREATE_SOFTWARE_VERTEXPROCESSING, ref parameters,
                     out d3DDevicePtr) < 0)
@@ -67,10 +65,10 @@ namespace GameSharp.Internal.Direct3D
                 throw new Exception("Failed to create device.");
             }
 
-            var deviceReleasePtr = GetVTableFuncAddress(D3DDevicePtr, VTableIndexes.Direct3DDevice9Release);
+            IntPtr deviceReleasePtr = GetVTableFuncAddress(D3DDevicePtr, VTableIndexes.Direct3DDevice9Release);
             _d3DDeviceRelease = Marshal.GetDelegateForFunctionPointer<VTableFuncDelegate>(deviceReleasePtr);
 
-            var releasePtr = GetVTableFuncAddress(_pD3D, VTableIndexes.Direct3D9Release);
+            IntPtr releasePtr = GetVTableFuncAddress(_pD3D, VTableIndexes.Direct3D9Release);
             _d3DRelease = Marshal.GetDelegateForFunctionPointer<VTableFuncDelegate>(releasePtr);
         }
 
@@ -93,20 +91,20 @@ namespace GameSharp.Internal.Direct3D
         [StructLayout(LayoutKind.Sequential)]
         public struct D3DPresentParameters
         {
-            readonly uint BackBufferWidth;
-            readonly uint BackBufferHeight;
+            private readonly uint BackBufferWidth;
+            private readonly uint BackBufferHeight;
             public uint BackBufferFormat;
-            readonly uint BackBufferCount;
-            readonly uint MultiSampleType;
-            readonly uint MultiSampleQuality;
+            private readonly uint BackBufferCount;
+            private readonly uint MultiSampleType;
+            private readonly uint MultiSampleQuality;
             public uint SwapEffect;
-            readonly IntPtr hDeviceWindow;
+            private readonly IntPtr hDeviceWindow;
             [MarshalAs(UnmanagedType.Bool)] public bool Windowed;
-            [MarshalAs(UnmanagedType.Bool)] readonly bool EnableAutoDepthStencil;
-            readonly uint AutoDepthStencilFormat;
-            readonly uint Flags;
-            readonly uint FullScreen_RefreshRateInHz;
-            readonly uint PresentationInterval;
+            [MarshalAs(UnmanagedType.Bool)] private readonly bool EnableAutoDepthStencil;
+            private readonly uint AutoDepthStencilFormat;
+            private readonly uint Flags;
+            private readonly uint FullScreen_RefreshRateInHz;
+            private readonly uint PresentationInterval;
         }
 
         public struct VTableIndexes

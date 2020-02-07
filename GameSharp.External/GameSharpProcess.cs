@@ -4,7 +4,6 @@ using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Native.Structs;
-using GameSharp.Core.Services;
 using GameSharp.External.Helpers;
 using GameSharp.External.Memory;
 using GameSharp.External.Module;
@@ -14,7 +13,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 
 namespace GameSharp.External
@@ -97,7 +95,7 @@ namespace GameSharp.External
             {
                 modules.Add(processModule.ModuleName.ToLower(), new ExternalModulePointer(this, processModule));
             }
-            
+
             return modules;
         }
 
