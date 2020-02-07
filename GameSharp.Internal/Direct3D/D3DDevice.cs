@@ -5,6 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
+/// <summary>
+/// CREDITS: https://github.com/lolp1/GetD3DHookOffset
+/// </summary>
 namespace GameSharp.Internal.Direct3D
 {
     public abstract class D3DDevice : IDisposable

@@ -2,6 +2,9 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
+/// <summary>
+/// CREDITS: https://github.com/lolp1/GetD3DHookOffset
+/// </summary>
 namespace GameSharp.Internal.Direct3D
 {
     public sealed class D3D9Device : D3DDevice
