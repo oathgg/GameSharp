@@ -4,9 +4,9 @@ using GameSharp.Internal.Memory;
 using System;
 using System.Runtime.InteropServices;
 
-namespace GameSharp.Internal.Direct3D
+namespace GameSharp.Internal.Direct3D.Hooks
 {
-    public abstract class D3D9EndsceneHookHelper : Hook
+    public abstract class D3D9Endscene : Hook
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall, SetLastError = true)]
         private delegate int EndSceneDelegate(IntPtr device);

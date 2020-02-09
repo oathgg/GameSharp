@@ -4,7 +4,7 @@ using System;
 
 namespace GameSharp.Internal.Functions
 {
-    public class D3D9Helper
+    public static class D3D9Helper
     {
         public static MemoryPointer GetD3D9Endscene()
         {

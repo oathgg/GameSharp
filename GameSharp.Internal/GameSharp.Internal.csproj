@@ -50,7 +50,7 @@
     <Compile Include="Extensions\UnsafeMemoryExtension.cs" />
     <Compile Include="Direct3D\D3D9Helper.cs" />
     <Compile Include="GameSharpProcess.cs" />
-    <Compile Include="Direct3D\D3D9EndsceneHookHelper.cs" />
+    <Compile Include="Direct3D\Hooks\D3D9Endscene.cs" />
     <Compile Include="Memory\Hook.cs" />
     <Compile Include="Memory\MemoryPointer.cs" />
     <Compile Include="Memory\SafeFunctionCaller.cs" />
