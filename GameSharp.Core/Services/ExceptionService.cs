@@ -5,11 +5,17 @@ namespace GameSharp.Core.Services
 {
     public static class ExceptionService
     {
+        static bool IsInitialized = false;
+
         public static void Initialize()
         {
-            // Set the System.Diagnostics.Process.Exited event to be raised when the process terminates.
-            Process.GetCurrentProcess().EnableRaisingEvents = true;
-            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+            if (!IsInitialized)
+            {
+                // Set the System.Diagnostics.Process.Exited event to be raised when the process terminates.
+                Process.GetCurrentProcess().EnableRaisingEvents = true;
+                AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+                IsInitialized = true;
+            }
         }
 
         private static void UnhandledException(object sender, UnhandledExceptionEventArgs eventArgs)
@@ -37,7 +43,6 @@ namespace GameSharp.Core.Services
         /// <param name="ex"></param>
         private static void BeautifyException(Exception exception)
         {
-
             LoggingService.Error("");
             LoggingService.Error("===================================================");
             LoggingService.Error("");

@@ -4,6 +4,7 @@ using GameSharp.Core.Module;
 using GameSharp.Core.Native.Enums;
 using GameSharp.Core.Native.PInvoke;
 using GameSharp.Core.Native.Structs;
+using GameSharp.Core.Services;
 using GameSharp.Internal.Memory;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace GameSharp.Internal
         public MemoryPeb MemoryPeb { get; }
         private GameSharpProcess()
         {
+            ExceptionService.Initialize();
+
             Native = Process.GetCurrentProcess();
             Handle = Native.Handle;
             MainModule = Native.MainModule;

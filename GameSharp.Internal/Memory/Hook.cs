@@ -3,6 +3,7 @@
 //
 
 using GameSharp.Core.Memory;
+using GameSharp.Core.Services;
 using GameSharp.Internal.Extensions;
 using GameSharp.Internal.Module;
 using System;
@@ -42,13 +43,20 @@ namespace GameSharp.Internal.Memory
         /// <param name="hook">The hook delegate where want it to go.</param>
         public Hook()
         {
-            TargetDelegate = GetHookDelegate();
-            TargetFuncPtr = TargetDelegate.ToFunctionPtr();
+            try
+            {
+                TargetDelegate = GetHookDelegate();
+                HookDelegate = GetDetourDelegate();
 
-            HookDelegate = GetDetourDelegate();
-            HookPtr = HookDelegate.ToFunctionPtr();
+                TargetFuncPtr = TargetDelegate.ToFunctionPtr();
+                HookPtr = HookDelegate.ToFunctionPtr();
 
-            InitializeAntiCheatHook();
+                InitializeAntiCheatHook();
+            }
+            catch (Exception ex)
+            {
+                LoggingService.Error($"Hook {this.ToString()}, could not be initialized: {ex.Message}");
+            }
         }
 
         private void InitializeAntiCheatHook()

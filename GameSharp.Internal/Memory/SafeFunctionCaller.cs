@@ -25,38 +25,45 @@ namespace GameSharp.Internal.Memory
 
         public SafeFunction()
         {
-            Delegate motherDelegate = InitializeDelegate();
-
-            MemoryPointer originalFuncPtr = motherDelegate.ToFunctionPtr();
-
-            InternalModulePointer module = originalFuncPtr.GetMyModule();
-
-            Type typeOfDelegate = motherDelegate.GetType();
-
-            List<byte> bytes = new List<byte>();
-
-            bytes.AddRange(originalFuncPtr.GetReturnToPtr());
-
-            CodeCaveSize = bytes.Count < 12 ? 12 : bytes.Count;
-
-            IMemoryPointer jumpTable = null;
-            if (module != null)
+            try
             {
-                // If the function belongs to a module we can find we want to inject our code bytes into that module before calling it.
-                jumpTable = module.FindCodeCaveInModule((uint)CodeCaveSize);
-            }
+                Delegate motherDelegate = InitializeDelegate();
 
-            if (jumpTable == null)
+                MemoryPointer originalFuncPtr = motherDelegate.ToFunctionPtr();
+
+                InternalModulePointer module = originalFuncPtr.GetMyModule();
+
+                Type typeOfDelegate = motherDelegate.GetType();
+
+                List<byte> bytes = new List<byte>();
+
+                bytes.AddRange(originalFuncPtr.GetReturnToPtr());
+
+                CodeCaveSize = bytes.Count < 12 ? 12 : bytes.Count;
+
+                IMemoryPointer jumpTable = null;
+                if (module != null)
+                {
+                    // If the function belongs to a module we can find we want to inject our code bytes into that module before calling it.
+                    jumpTable = module.FindCodeCaveInModule((uint)CodeCaveSize);
+                }
+
+                if (jumpTable == null)
+                {
+                    LoggingService.Warning($"Couldn't find a codecave in module.");
+
+                    // Create our own code cave by allocating memory, an anti-cheat can detect this easily!
+                    jumpTable = GameSharpProcess.Instance.AllocateManagedMemory(CodeCaveSize);
+                }
+
+                jumpTable.Write(bytes.ToArray());
+
+                SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(originalFuncPtr.Address, typeOfDelegate);
+            }
+            catch (Exception ex)
             {
-                LoggingService.Warning($"Couldn't find a codecave in module.");
-
-                // Create our own code cave by allocating memory, an anti-cheat can detect this easily!
-                jumpTable = GameSharpProcess.Instance.AllocateManagedMemory(CodeCaveSize);
+                LoggingService.Error($"Function {this.ToString()}, could not be initialized: {ex.Message}");
             }
-
-            jumpTable.Write(bytes.ToArray());
-
-            SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(originalFuncPtr.Address, typeOfDelegate);
         }
 
         /// <summary>
