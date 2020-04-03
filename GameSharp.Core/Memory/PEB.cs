@@ -2,13 +2,13 @@
 
 namespace GameSharp.Core.Memory
 {
-    public class MemoryPeb
+    public class PEB
     {
         public bool IsValid => _pebPointer.IsValid;
         private readonly IMemoryPointer _pebPointer;
         private readonly IPebOffsets _pebOffsets;
 
-        public MemoryPeb(IProcess process)
+        public PEB(IProcess process)
         {
             _pebPointer = process.GetPebAddress();
 

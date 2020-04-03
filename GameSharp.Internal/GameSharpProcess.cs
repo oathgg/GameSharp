@@ -23,7 +23,7 @@ namespace GameSharp.Internal
         public IntPtr NativeHandle { get; }
         public ProcessModule MainModule { get; }
         public bool Is64Bit { get; }
-        public MemoryPeb PEB { get; }
+        public PEB PEB { get; }
         private GameSharpProcess()
         {
             ExceptionService.Initialize();
@@ -32,7 +32,7 @@ namespace GameSharp.Internal
             NativeHandle = Native.Handle;
             MainModule = Native.MainModule;
             Is64Bit = IntPtr.Size == 8;
-            PEB = new MemoryPeb(this);
+            PEB = new PEB(this);
         }
 
         public IMemoryPointer GetPebAddress()

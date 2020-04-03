@@ -17,6 +17,6 @@ namespace GameSharp.Core
         IMemoryPointer AllocateManagedMemory(int size);
         Dictionary<string, ModulePointer> RefreshModules();
         IMemoryPointer GetPebAddress();
-        MemoryPeb PEB { get; }
+        PEB PEB { get; }
     }
 }

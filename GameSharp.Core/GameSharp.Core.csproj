@@ -56,7 +56,7 @@
     <Compile Include="Extensions\ObjectExtension.cs" />
     <Compile Include="Memory\IMemoryPointer.cs" />
     <Compile Include="Memory\MemoryPatch.cs" />
-    <Compile Include="Memory\MemoryPeb.cs" />
+    <Compile Include="Memory\PEB.cs" />
     <Compile Include="Module\IModulePointer.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="Memory\MemoryScanner.cs" />

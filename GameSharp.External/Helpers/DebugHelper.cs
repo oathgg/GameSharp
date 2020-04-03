@@ -33,7 +33,7 @@ namespace GameSharp.External.Helpers
         /// </summary>
         private void HideDebugger()
         {
-            MemoryPeb peb = Process.PEB;
+            PEB peb = Process.PEB;
 
             if (peb.IsValid)
             {
