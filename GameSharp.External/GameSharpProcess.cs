@@ -21,26 +21,24 @@ namespace GameSharp.External
     {
         public Dictionary<string, ModulePointer> Modules => RefreshModules();
         public Process Native { get; }
-        public IntPtr Handle { get; }
+        public IntPtr NativeHandle { get; }
         public ProcessModule MainModule { get; }
         public bool Is64Bit { get; }
-        public MemoryPeb MemoryPeb { get; }
-        private IntPtr InternalHandle { get; }
+        public MemoryPeb PEB { get; }
         public GameSharpProcess(Process process)
         {
             Native = process ?? throw new NullReferenceException("process");
-            InternalHandle = Kernel32.OpenProcess(ProcessAccess.All, false, Native.Id);
-            Handle = Native.Handle;
+            NativeHandle = Native.Handle;
             MainModule = Native.MainModule;
             Is64Bit = IntPtr.Size == 8;
-            MemoryPeb = new MemoryPeb(this);
+            PEB = new MemoryPeb(this);
         }
 
         public IMemoryPointer GetPebAddress()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
-            Ntdll.NtQueryInformationProcess(InternalHandle, ProcessInformationClass.ProcessBasicInformation, ref pbi, pbi.Size, out int _);
+            Ntdll.NtQueryInformationProcess(NativeHandle, ProcessInformationClass.ProcessBasicInformation, ref pbi, pbi.Size, out int _);
 
             return new MemoryPointer(this, pbi.PebBaseAddress);
         }

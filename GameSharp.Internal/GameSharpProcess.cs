@@ -20,26 +20,26 @@ namespace GameSharp.Internal
         public static GameSharpProcess Instance { get; } = new GameSharpProcess();
         public Dictionary<string, ModulePointer> Modules => RefreshModules();
         public Process Native { get; }
-        public IntPtr Handle { get; }
+        public IntPtr NativeHandle { get; }
         public ProcessModule MainModule { get; }
         public bool Is64Bit { get; }
-        public MemoryPeb MemoryPeb { get; }
+        public MemoryPeb PEB { get; }
         private GameSharpProcess()
         {
             ExceptionService.Initialize();
 
             Native = Process.GetCurrentProcess();
-            Handle = Native.Handle;
+            NativeHandle = Native.Handle;
             MainModule = Native.MainModule;
             Is64Bit = IntPtr.Size == 8;
-            MemoryPeb = new MemoryPeb(this);
+            PEB = new MemoryPeb(this);
         }
 
         public IMemoryPointer GetPebAddress()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
-            Ntdll.NtQueryInformationProcess(Handle, ProcessInformationClass.ProcessBasicInformation, ref pbi, Marshal.SizeOf(pbi), out int _);
+            Ntdll.NtQueryInformationProcess(NativeHandle, ProcessInformationClass.ProcessBasicInformation, ref pbi, Marshal.SizeOf(pbi), out int _);
 
             return new MemoryPointer(pbi.PebBaseAddress);
         }

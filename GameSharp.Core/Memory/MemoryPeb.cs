@@ -4,34 +4,34 @@ namespace GameSharp.Core.Memory
 {
     public class MemoryPeb
     {
-        public bool IsValid => PebBasePointer.IsValid;
-        private readonly IMemoryPointer PebBasePointer;
-        private readonly IPebOffsets PebOffsets;
+        public bool IsValid => _pebPointer.IsValid;
+        private readonly IMemoryPointer _pebPointer;
+        private readonly IPebOffsets _pebOffsets;
 
         public MemoryPeb(IProcess process)
         {
-            PebBasePointer = process.GetPebAddress();
+            _pebPointer = process.GetPebAddress();
 
             if (process.Is64Bit)
             {
-                PebOffsets = new PebOffsets64();
+                _pebOffsets = new PebOffsets64();
             }
             else
             {
-                PebOffsets = new PebOffsets32();
+                _pebOffsets = new PebOffsets32();
             }
         }
 
         public bool BeingDebugged
         {
-            get => PebBasePointer.Read<bool>(PebOffsets.BeingDebugged);
-            set => PebBasePointer.Write(value, PebOffsets.BeingDebugged);
+            get => _pebPointer.Read<bool>(_pebOffsets.BeingDebugged);
+            set => _pebPointer.Write(value, _pebOffsets.BeingDebugged);
         }
 
         public long NtGlobalFlag
         {
-            get => PebBasePointer.Read<long>(PebOffsets.NtGlobalFlag);
-            set => PebBasePointer.Write(value, PebOffsets.NtGlobalFlag);
+            get => _pebPointer.Read<long>(_pebOffsets.NtGlobalFlag);
+            set => _pebPointer.Write(value, _pebOffsets.NtGlobalFlag);
         }
     }
 }

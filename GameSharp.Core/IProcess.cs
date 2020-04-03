@@ -11,12 +11,12 @@ namespace GameSharp.Core
         bool Is64Bit { get; }
         Process Native { get; }
         ProcessModule MainModule { get; }
-        IntPtr Handle { get; }
+        IntPtr NativeHandle { get; }
         Dictionary<string, ModulePointer> Modules { get; }
         ModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true);
         IMemoryPointer AllocateManagedMemory(int size);
         Dictionary<string, ModulePointer> RefreshModules();
         IMemoryPointer GetPebAddress();
-        MemoryPeb MemoryPeb { get; }
+        MemoryPeb PEB { get; }
     }
 }

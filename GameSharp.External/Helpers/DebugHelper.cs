@@ -33,13 +33,12 @@ namespace GameSharp.External.Helpers
         /// </summary>
         private void DisableAntiAntiDebugging()
         {
-            MemoryPeb peb = Process.MemoryPeb;
+            MemoryPeb peb = Process.PEB;
 
             if (peb.IsValid)
             {
-                // Disabled untill further inspection; if we set the BeingDebugged flag to false then
-                //  Visual studio stops being able to debug the process.
-                //peb.BeingDebugged = false;
+                peb.BeingDebugged = false;
+                peb.NtGlobalFlag = 0;
             }
         }
 
