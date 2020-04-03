@@ -29,15 +29,15 @@ namespace GameSharp.Internal.Memory
             {
                 Delegate motherDelegate = InitializeDelegate();
 
-                MemoryPointer originalFuncPtr = motherDelegate.ToFunctionPtr();
+                MemoryPointer delegatePtr = motherDelegate.ToFunctionPtr();
 
-                InternalModulePointer module = originalFuncPtr.GetMyModule();
+                InternalModulePointer module = delegatePtr.GetMyModule();
 
                 Type typeOfDelegate = motherDelegate.GetType();
 
                 List<byte> bytes = new List<byte>();
 
-                bytes.AddRange(originalFuncPtr.GetReturnToPtr());
+                bytes.AddRange(delegatePtr.CreateFunctionCall());
 
                 CodeCaveSize = bytes.Count < 12 ? 12 : bytes.Count;
 
@@ -52,13 +52,13 @@ namespace GameSharp.Internal.Memory
                 {
                     LoggingService.Warning($"Couldn't find a codecave in module.");
 
-                    // Create our own code cave by allocating memory, an anti-cheat can detect this easily!
+                    // Allocate memory
                     jumpTable = GameSharpProcess.Instance.AllocateManagedMemory(CodeCaveSize);
                 }
 
                 jumpTable.Write(bytes.ToArray());
 
-                SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(originalFuncPtr.Address, typeOfDelegate);
+                SafeFunctionDelegate = Marshal.GetDelegateForFunctionPointer(delegatePtr.Address, typeOfDelegate);
             }
             catch (Exception ex)
             {
