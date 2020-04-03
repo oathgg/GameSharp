@@ -42,17 +42,6 @@ namespace GameSharp.External.Helpers
             }
         }
 
-        /// <summary>
-        /// Using our own memorypatch disposer otherwise we might dispose patches we don't want to if we call the base.
-        /// </summary>
-        private void DisposeOfPatches()
-        {
-            foreach (MemoryPatch p in MemoryPatches)
-            {
-                p.Dispose();
-            }
-        }
-
         private void ValidateDbgBreakPoint()
         {
             ModulePointer ntdll = Process.Modules["ntdll.dll"];
@@ -101,6 +90,17 @@ namespace GameSharp.External.Helpers
 
                 Thread.Sleep(1000);
             } while (tryCount-- > 0);
+        }
+
+        /// <summary>
+        /// Using our own memorypatch disposer otherwise we might dispose patches we don't want to if we call the base.
+        /// </summary>
+        private void DisposeOfPatches()
+        {
+            foreach (MemoryPatch p in MemoryPatches)
+            {
+                p.Dispose();
+            }
         }
     }
 }
