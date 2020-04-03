@@ -34,6 +34,7 @@ namespace GameSharp.Notepadpp
         /// <summary>
         /// This debug flag will still trigger even if you use something like ScyllaHide to hide your presence in the X64 Debugger.
         /// The reason is because ScyllaHide doesn't flip the NtGlobalFlag but instead nops part of the NtQueryInformationProcess method.
+        /// And by creating our own NtQueryInformationProcess method we can do our validation through there where the opcodes are not nopped.
         /// </summary>
         private void InjectedIsProcessDebugPort()
         {
