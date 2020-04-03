@@ -39,16 +39,13 @@ namespace GameSharp.Internal.Extensions
             return Marshal.GetDelegateForFunctionPointer<T>(memoryAddress.Address);
         }
 
-        public static byte[] GetReturnToPtr(this IMemoryPointer memoryAddress)
+        public static byte[] CreateFunctionCall(this IMemoryPointer memoryAddress)
         {
             List<byte> bytes = new List<byte>();
 
             // 64-bit
             if (GameSharpProcess.Instance.Is64Bit)
             {
-                // SUB RSP, 28
-                bytes.AddRange(new byte[] { 0x48, 0x83, 0xEC, 0x28 });
-
                 // MOV RAX, 
                 bytes.AddRange(new byte[] { 0x48, 0xB8 });
 
@@ -57,9 +54,6 @@ namespace GameSharp.Internal.Extensions
 
                 // CALL RAX
                 bytes.AddRange(new byte[] { 0xFF, 0xD0 });
-
-                // ADD RSP, 28
-                bytes.AddRange(new byte[] { 0x48, 0x83, 0xC4, 0x28 });
             }
             else
             {
