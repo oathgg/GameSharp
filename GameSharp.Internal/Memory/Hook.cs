@@ -55,7 +55,7 @@ namespace GameSharp.Internal.Memory
             }
             catch (Exception ex)
             {
-                LoggingService.Error($"Hook {this.ToString()}, could not be initialized: {ex.Message}");
+                LoggingService.Error($"Hook {ToString()}, could not be initialized: {ex.Message}");
             }
         }
 

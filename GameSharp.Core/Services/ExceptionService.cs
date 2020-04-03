@@ -5,7 +5,7 @@ namespace GameSharp.Core.Services
 {
     public static class ExceptionService
     {
-        static bool IsInitialized = false;
+        private static bool IsInitialized = false;
 
         public static void Initialize()
         {

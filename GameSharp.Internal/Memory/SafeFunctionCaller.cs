@@ -62,7 +62,7 @@ namespace GameSharp.Internal.Memory
             }
             catch (Exception ex)
             {
-                LoggingService.Error($"Function {this.ToString()}, could not be initialized: {ex.Message}");
+                LoggingService.Error($"Function {ToString()}, could not be initialized: {ex.Message}");
             }
         }
 

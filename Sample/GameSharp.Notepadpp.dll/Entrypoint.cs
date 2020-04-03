@@ -1,18 +1,16 @@
 ﻿using GameSharp.Core.Services;
-using GameSharp.Internal;
 using GameSharp.Notepadpp.Hooks;
 using RGiesecke.DllExport;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace GameSharp.Notepadpp
 {
     public class Entrypoint
     {
         // Prevents it from being cleaned by the GC
-        static readonly HookMessageBoxW messageBoxHook = new HookMessageBoxW();
+        private static readonly HookMessageBoxW messageBoxHook = new HookMessageBoxW();
 
         [DllExport]
         public static void Main()
