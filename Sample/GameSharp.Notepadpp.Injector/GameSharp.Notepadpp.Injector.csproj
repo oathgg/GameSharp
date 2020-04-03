@@ -54,6 +54,10 @@
       <Project>{4422D079-E831-48AB-BC8A-1B805C7C12FA}</Project>
       <Name>GameSharp.External</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameSharp.Notepadpp.AntiDebug\GameSharp.Notepadpp.AntiDebug.csproj">
+      <Project>{0efe9932-d8a2-4876-86c1-a1cb79ca0fba}</Project>
+      <Name>GameSharp.Notepadpp.AntiDebug</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GameSharp.Notepadpp.dll\GameSharp.Notepadpp.csproj">
       <Project>{79c11529-1264-454a-b086-0e10eb21a584}</Project>
       <Name>GameSharp.Notepadpp</Name>

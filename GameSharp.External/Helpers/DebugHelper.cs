@@ -24,14 +24,14 @@ namespace GameSharp.External.Helpers
 
             debugHelper.ValidateDbgBreakPoint();
             debugHelper.AttachManagedDebugger();
-            debugHelper.DisableAntiAntiDebugging();
+            debugHelper.HideDebugger();
             debugHelper.DisposeOfPatches();
         }
 
         /// <summary>
         /// Anti-anti-debugging methods are placed in here
         /// </summary>
-        private void DisableAntiAntiDebugging()
+        private void HideDebugger()
         {
             MemoryPeb peb = Process.PEB;
 

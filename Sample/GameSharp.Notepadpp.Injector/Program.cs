@@ -27,7 +27,7 @@ namespace GameSharp.Notepadpp.Injector
                 throw new Exception("Process not found.");
             }
 
-            string pathToDll = Path.Combine(Environment.CurrentDirectory, "GameSharp.Notepadpp.dll");
+            string pathToDll = Path.Combine(Environment.CurrentDirectory, "GameSharp.Notepadpp.AntiDebug.dll");
 
             // My remote thread injector, you can replace this with any injector.
             IInjection injector = new RemoteThreadInjection(gameSharp);

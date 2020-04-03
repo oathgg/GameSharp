@@ -19,9 +19,10 @@ namespace GameSharp.Notepadpp
                 Console.Clear();
 
                 antiDebug.IsDebuggerPresent();
+                antiDebug.IsProcessDebugFlags();
+
                 antiDebug.IsProcessDebugPort();
                 antiDebug.IsProcessDebugObjectHandle();
-                antiDebug.IsProcessDebugFlags();
 
                 antiDebug.InjectedIsProcessDebugPort();
                 antiDebug.WinApiIsProcessDebugPort();
@@ -37,54 +38,42 @@ namespace GameSharp.Notepadpp
         private void InjectedIsProcessDebugPort()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
-            if (Functions.InjectedNtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
-            {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
-            }
+            bool check = Functions.InjectedNtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero;
+            LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => {check}.");
         }
 
         private void IsProcessDebugFlags()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugFlags;
-            if (Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
-            {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
-            }
+            bool check = Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero;
+            LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => {check}.");
         }
 
         private void IsProcessDebugObjectHandle()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugObjectHandle;
-            if (Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
-            {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
-            }
+            bool check = Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero;
+            LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => {check}.");
         }
 
         private void IsProcessDebugPort()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
-            if (Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
-            {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
-            }
+            bool check = Functions.NtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero;
+            LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => {check}.");
         }
 
         private void WinApiIsProcessDebugPort()
         {
             ProcessInformationClass flag = ProcessInformationClass.ProcessDebugPort;
-            if (Functions.WinApiNtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero)
-            {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
-            }
+            bool check = Functions.WinApiNtQueryInformationProcess<IntPtr>(Process, flag) != IntPtr.Zero;
+            LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => {check}.");
         }
 
         private void IsDebuggerPresent()
         {
-            if (Functions.IsDebuggerPresent.Call())
-            {
-                LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => Debugger found.");
-            }
+            bool check = Functions.IsDebuggerPresent.Call();
+            LoggingService.Info($"{System.Reflection.MethodBase.GetCurrentMethod().Name}() => {check}.");
         }
     }
 }

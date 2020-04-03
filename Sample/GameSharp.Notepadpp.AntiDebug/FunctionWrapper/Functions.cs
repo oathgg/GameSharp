@@ -54,13 +54,13 @@ namespace GameSharp.Notepadpp
             {
                 returnResult = returnPtr.Read<T>();
             }
-            else
-            {
-                LoggingService.Error(
-                    $"Flag: {pic.ToString()}" +
-                    $", Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}" +
-                    $", Return value of NtQueryInformationProcess function is 0x{ntResult.ToString("X")}");
-            }
+            //else
+            //{
+            //    LoggingService.Error(
+            //        $"Flag: {pic.ToString()}" +
+            //        $", Couldn't query NtQueryInformationProcess, Error code: {Marshal.GetLastWin32Error().ToString("X")}" +
+            //        $", Return value of NtQueryInformationProcess function is 0x{ntResult.ToString("X")}");
+            //}
 
             return returnResult;
         }
