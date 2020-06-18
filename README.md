@@ -34,4 +34,4 @@ However, I do try to keep some of the anti-cheat in mind, for example:
 - Execution of the entry point of the injected DLL in the remote process.
 - Execution of the MessageBoxW function with my own arguments in a safe way.
 - Hooking the MessageBoxW function in a safe way.
-- Calling NtQueryInformationProcess in 3 different ways, safe function call, pinvoke, through a payload.
+  - Calling NtQueryInformationProcess in 3 different ways, safe function call, pinvoke, through a payload.
