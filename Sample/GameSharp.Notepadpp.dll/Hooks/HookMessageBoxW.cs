@@ -21,7 +21,7 @@ namespace GameSharp.Notepadpp.Hooks
             LoggingService.Info(caption = "Changed messagebox title");
             LoggingService.Info(text);
 
-            int result = CallOriginal<int>(hWnd, text, caption, type);
+            int result = CallOriginal<int>(hWnd, "This is the new text", caption, type);
 
             return result;
         }

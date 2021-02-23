@@ -37,7 +37,7 @@ namespace GameSharp.External.Helpers
 
             if (peb.IsValid)
             {
-                peb.BeingDebugged = false;
+                //peb.BeingDebugged = false;
                 peb.NtGlobalFlag = 0;
             }
         }
