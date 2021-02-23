@@ -26,7 +26,7 @@ namespace GameSharp.Core.Module
             return $"{Name} 0x{Address.ToString("X")}";
         }
 
-        public abstract IMemoryPointer GetProcAddress(string name);
-        public abstract IMemoryPointer MemoryPointer { get; }
+        public abstract MemoryPointer GetProcAddress(string name);
+        public abstract MemoryPointer MemoryPointer { get; }
     }
 }

@@ -7,19 +7,19 @@ using System.Runtime.InteropServices;
 
 namespace GameSharp.External.Memory
 {
-    public class MemoryPointer : IMemoryPointer
+    public class ExternalMemoryPointer : MemoryPointer
     {
-        public IntPtr Address { get; }
-        public IProcess GameSharpProcess { get; }
-        public bool IsValid => Address != IntPtr.Zero;
+        public override IntPtr Address { get; }
+        public override IProcess GameSharpProcess { get; }
+        public override bool IsValid => Address != IntPtr.Zero;
 
-        public MemoryPointer(GameSharpProcess process, IntPtr address)
+        public ExternalMemoryPointer(GameSharpProcess process, IntPtr address)
         {
             Address = address;
             GameSharpProcess = process as IProcess;
         }
 
-        public T Read<T>(int offset = 0) where T : struct
+        public override T Read<T>(int offset = 0)
         {
             byte[] result = new byte[Marshal.SizeOf<T>()];
 
@@ -28,7 +28,7 @@ namespace GameSharp.External.Memory
             return result.CastTo<T>(); // [0] would be faster, but First() is safer. E.g. of buffer[0] ?? default(T)
         }
 
-        public byte[] Read(int size, int offset = 0)
+        public override byte[] Read(int size, int offset = 0)
         {
             byte[] result = new byte[size];
 
@@ -37,30 +37,30 @@ namespace GameSharp.External.Memory
             return result;
         }
 
-        public void Write(byte[] bytes, int offset = 0)
+        public override void Write(byte[] bytes, int offset = 0)
         {
             Kernel32.WriteProcessMemory(GameSharpProcess.Native.Handle, Address + offset, bytes, bytes.Length, out IntPtr _);
         }
 
-        public void Write(bool value, int offset = 0)
+        public override void Write(bool value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
             Write(bArray, offset);
         }
 
-        public void Write(byte value, int offset = 0)
+        public override void Write(byte value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
             Write(bArray, offset);
         }
 
-        public void Write(long value, int offset = 0)
+        public override void Write(long value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
             Write(bArray, offset);
         }
 
-        public void Write(IntPtr value, int offset = 0)
+        public override void Write(IntPtr value, int offset = 0)
         {
             byte[] bArray;
 
@@ -76,7 +76,7 @@ namespace GameSharp.External.Memory
             Write(bArray, offset);
         }
 
-        public void Write(IntPtr[] value, int offset = 0)
+        public override void Write(IntPtr[] value, int offset = 0)
         {
             for (int i = 0; i < value.Length; i++)
             {
@@ -84,7 +84,7 @@ namespace GameSharp.External.Memory
             }
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             //throw new NotImplementedException();
         }

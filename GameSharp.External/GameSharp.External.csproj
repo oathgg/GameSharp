@@ -54,7 +54,7 @@
     <Compile Include="Injection\Injectable.cs" />
     <Compile Include="Injection\InjectionBase.cs" />
     <Compile Include="Injection\RemoteThreadInjection.cs" />
-    <Compile Include="Memory\MemoryPointer.cs" />
+    <Compile Include="Memory\ExternalMemoryPointer.cs" />
     <Compile Include="GameSharpProcess.cs" />
     <Compile Include="Module\ExternalModulePointer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

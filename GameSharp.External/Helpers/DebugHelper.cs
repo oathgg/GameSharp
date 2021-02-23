@@ -38,7 +38,7 @@ namespace GameSharp.External.Helpers
             if (peb.IsValid)
             {
                 //peb.BeingDebugged = false;
-                peb.NtGlobalFlag = 0;
+                //peb.NtGlobalFlag = 0;
             }
         }
 
@@ -46,7 +46,7 @@ namespace GameSharp.External.Helpers
         {
             ModulePointer ntdll = Process.Modules["ntdll.dll"];
 
-            IMemoryPointer dbgBreakPointPtr = ntdll.GetProcAddress("DbgBreakPoint");
+            MemoryPointer dbgBreakPointPtr = ntdll.GetProcAddress("DbgBreakPoint");
 
             byte dbgBreakPointByte = dbgBreakPointPtr.Read<byte>();
 

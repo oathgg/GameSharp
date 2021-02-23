@@ -5,7 +5,7 @@ namespace GameSharp.Core.Memory
     public class PEB
     {
         public bool IsValid => _pebPointer.IsValid;
-        private readonly IMemoryPointer _pebPointer;
+        private readonly MemoryPointer _pebPointer;
         private readonly IPebOffsets _pebOffsets;
 
         public PEB(IProcess process)

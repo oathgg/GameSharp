@@ -17,19 +17,19 @@ namespace GameSharp.Internal.Extensions
         /// <param name="intPtr">The int PTR.</param>
         /// <param name="functionIndex">Index of the function.</param>
         /// <returns>IntPtr.</returns>
-        public static MemoryPointer GetVtableAddress(this IMemoryPointer intPtr, int functionIndex)
+        public static InternalMemoryPointer GetVtableAddress(this MemoryPointer intPtr, int functionIndex)
         {
             IntPtr vftable = intPtr.Read<IntPtr>();
-            IntPtr result = new MemoryPointer(vftable + (functionIndex * IntPtr.Size)).Read<IntPtr>();
-            return new MemoryPointer(result);
+            IntPtr result = new InternalMemoryPointer(vftable + (functionIndex * IntPtr.Size)).Read<IntPtr>();
+            return new InternalMemoryPointer(result);
         }
 
-        public static MemoryPointer ToFunctionPtr(this Delegate d)
+        public static InternalMemoryPointer ToFunctionPtr(this Delegate d)
         {
-            return new MemoryPointer(Marshal.GetFunctionPointerForDelegate(d));
+            return new InternalMemoryPointer(Marshal.GetFunctionPointerForDelegate(d));
         }
 
-        public static T ToDelegate<T>(this IMemoryPointer memoryAddress) where T : class
+        public static T ToDelegate<T>(this MemoryPointer memoryAddress) where T : class
         {
             if (typeof(T).GetCustomAttributes(typeof(UnmanagedFunctionPointerAttribute), true).Length == 0)
             {
@@ -39,7 +39,7 @@ namespace GameSharp.Internal.Extensions
             return Marshal.GetDelegateForFunctionPointer<T>(memoryAddress.Address);
         }
 
-        public static byte[] CreateFunctionCall(this IMemoryPointer memoryAddress)
+        public static byte[] CreateFunctionCall(this MemoryPointer memoryAddress)
         {
             List<byte> bytes = new List<byte>();
 

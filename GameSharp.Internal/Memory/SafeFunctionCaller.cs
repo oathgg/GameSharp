@@ -29,7 +29,7 @@ namespace GameSharp.Internal.Memory
             {
                 Delegate motherDelegate = InitializeDelegate();
 
-                MemoryPointer delegatePtr = motherDelegate.ToFunctionPtr();
+                InternalMemoryPointer delegatePtr = motherDelegate.ToFunctionPtr();
 
                 InternalModulePointer module = delegatePtr.GetMyModule();
 
@@ -41,7 +41,7 @@ namespace GameSharp.Internal.Memory
 
                 CodeCaveSize = bytes.Count < 12 ? 12 : bytes.Count;
 
-                IMemoryPointer jumpTable = null;
+                MemoryPointer jumpTable = null;
                 if (module != null)
                 {
                     // If the function belongs to a module we can find we want to inject our code bytes into that module before calling it.

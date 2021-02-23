@@ -23,13 +23,13 @@ namespace GameSharp.Internal.Memory
         ///     This variable contains the jump from the module where the hookable function resides into our module.
         ///     Bypass for an anti-cheat which is validating the return address of a function to reside in it's own module.
         /// </summary>
-        private MemoryPatch CodeCavePatch { get; set; }
+        private MemoryPatch MemoryPatch { get; set; }
 
-        private MemoryPointer HookPtr { get; }
+        private InternalMemoryPointer HookPtr { get; }
 
         private MemoryPatch HookPatch { get; set; }
 
-        private MemoryPointer TargetFuncPtr { get; }
+        private InternalMemoryPointer TargetFuncPtr { get; }
 
         private Delegate TargetDelegate { get; }
 
@@ -41,7 +41,7 @@ namespace GameSharp.Internal.Memory
         /// </summary>
         /// <param name="target">The target delegate we want to detour.</param>
         /// <param name="hook">The hook delegate where want it to go.</param>
-        public Hook()
+        public Hook(bool useAntiCheatHook = true)
         {
             try
             {
@@ -51,7 +51,9 @@ namespace GameSharp.Internal.Memory
                 TargetFuncPtr = TargetDelegate.ToFunctionPtr();
                 HookPtr = HookDelegate.ToFunctionPtr();
 
-                InitializeAntiCheatHook();
+                byte[] function = HookPtr.CreateFunctionCall();
+                MemoryPointer codeCavePtr = useAntiCheatHook ? CreateAntiCheatCodeCave(function) : AllocateMemory(function);
+                FillMemoryPointer(codeCavePtr, function);
             }
             catch (Exception ex)
             {
@@ -59,9 +61,10 @@ namespace GameSharp.Internal.Memory
             }
         }
 
-        private void InitializeAntiCheatHook()
+        private MemoryPointer CreateAntiCheatCodeCave(byte[] function)
         {
-            byte[] bytes = HookPtr.CreateFunctionCall();
+            LoggingService.Info($"Searching anti-cheat code cave for hook {TargetDelegate}");
+
             InternalModulePointer module = TargetFuncPtr.GetMyModule();
 
             if (module == null)
@@ -69,28 +72,50 @@ namespace GameSharp.Internal.Memory
                 throw new NullReferenceException("Cannot find a module which belongs to the specified pointer.");
             }
 
-            IMemoryPointer codeCaveJmpTable = module.FindCodeCaveInModule((uint)bytes.Length);
-            if (codeCaveJmpTable == null)
-            {
-                codeCaveJmpTable = GameSharpProcess.Instance.AllocateManagedMemory(bytes.Length);
-            }
-            CodeCavePatch = new MemoryPatch(codeCaveJmpTable, bytes);
+            MemoryPointer codeCavePtr = module.FindCodeCaveInModule((uint)function.Length);
 
-            byte[] retToCodeCave = CodeCavePatch.PatchAddress.CreateFunctionCall();
+            LoggingService.Info($"Found codecave at 0x{codeCavePtr.ToString()}");
 
-            HookPatch = new MemoryPatch(TargetFuncPtr, retToCodeCave);
+            return codeCavePtr;
+        }
+
+        private MemoryPointer AllocateMemory(byte[] function)
+        {
+            LoggingService.Info($"Allocating memory for hook {TargetDelegate}");
+
+            MemoryPointer allocatedMemory = GameSharpProcess.Instance.AllocateManagedMemory(function.Length);
+
+            LoggingService.Info($"Allocated memory at {allocatedMemory}");
+
+            return allocatedMemory;
+        }
+
+        private void FillMemoryPointer(MemoryPointer memoryPointer, byte[] function)
+        {
+            MemoryPatch = new MemoryPatch(memoryPointer, function);
+
+            byte[] retToMemoryPtr = MemoryPatch.PatchAddress.CreateFunctionCall();
+
+            HookPatch = new MemoryPatch(TargetFuncPtr, retToMemoryPtr);
         }
 
         public void Disable()
         {
-            CodeCavePatch.Disable();
+            MemoryPatch.Disable();
             HookPatch.Disable();
         }
 
         public void Enable()
         {
-            CodeCavePatch.Enable();
+            MemoryPatch.Enable();
             HookPatch.Enable();
+        }
+
+        public void CallOriginal(params object[] args)
+        {
+            Disable();
+            TargetDelegate.DynamicInvoke(args);
+            Enable();
         }
 
         /// <summary>

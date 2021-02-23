@@ -10,13 +10,13 @@ using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal.Memory
 {
-    public class MemoryPointer : IMemoryPointer
+    public class InternalMemoryPointer : MemoryPointer
     {
-        public IntPtr Address { get; }
-        public IProcess GameSharpProcess => Internal.GameSharpProcess.Instance;
-        public bool IsValid => Address != IntPtr.Zero;
+        public override IntPtr Address { get; }
+        public override IProcess GameSharpProcess => Internal.GameSharpProcess.Instance;
+        public override bool IsValid => Address != IntPtr.Zero;
 
-        public MemoryPointer(IntPtr address)
+        public InternalMemoryPointer(IntPtr address)
         {
             Address = address;
         }
@@ -39,19 +39,19 @@ namespace GameSharp.Internal.Memory
             return null;
         }
 
-        public static MemoryPointer AllocateMemory(int size)
+        public static InternalMemoryPointer AllocateMemory(int size)
         {
-            return new MemoryPointer(Marshal.AllocHGlobal(size));
+            return new InternalMemoryPointer(Marshal.AllocHGlobal(size));
         }
 
-        public T Read<T>(int offset = 0) where T : struct
+        public override T Read<T>(int offset = 0)
         {
             T result = Marshal.PtrToStructure<T>(Address + offset);
 
             return result;
         }
 
-        public byte[] Read(int size, int offset = 0)
+        public override byte[] Read(int size, int offset = 0)
         {
             byte[] destination = new byte[size];
 
@@ -60,32 +60,32 @@ namespace GameSharp.Internal.Memory
             return destination;
         }
 
-        public void Write(byte[] data, int offset = 0)
+        public override void Write(byte[] data, int offset = 0)
         {
             Kernel32.VirtualProtect(Address + offset, data.Length, MemoryProtection.ExecuteReadWrite, out MemoryProtection old);
             Marshal.Copy(data, 0, Address + offset, data.Length);
             Kernel32.VirtualProtect(Address + offset, data.Length, old, out MemoryProtection _);
         }
 
-        public void Write(bool value, int offset = 0)
+        public override void Write(bool value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
             Write(bArray, offset);
         }
 
-        public void Write(byte value, int offset = 0)
+        public override void Write(byte value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
             Write(bArray, offset);
         }
 
-        public void Write(long value, int offset = 0)
+        public override void Write(long value, int offset = 0)
         {
             byte[] bArray = BitConverter.GetBytes(value);
             Write(bArray, offset);
         }
 
-        public void Write(IntPtr value, int offset = 0)
+        public override void Write(IntPtr value, int offset = 0)
         {
             byte[] bArray;
 
@@ -101,7 +101,7 @@ namespace GameSharp.Internal.Memory
             Write(bArray, offset);
         }
 
-        public void Write(IntPtr[] value, int offset = 0)
+        public override void Write(IntPtr[] value, int offset = 0)
         {
             for (int i = 0; i < value.Length; i++)
             {
@@ -109,16 +109,9 @@ namespace GameSharp.Internal.Memory
             }
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             Marshal.FreeHGlobal(Address);
         }
-
-        public override string ToString()
-        {
-            return $"0x{Address.ToString("X")}";
-        }
-
-
     }
 }

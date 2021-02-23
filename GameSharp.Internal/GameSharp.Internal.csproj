@@ -47,12 +47,15 @@
     <Compile Include="Direct3D\D3D11Device.cs" />
     <Compile Include="Direct3D\D3D9Device.cs" />
     <Compile Include="Direct3D\D3DDevice.cs" />
+    <Compile Include="Direct3D\Hooks\D3D11Present.cs" />
+    <Compile Include="Direct3D\Hooks\D3D11Endscene.cs" />
+    <Compile Include="Direct3D\Hooks\D3D9Present.cs" />
     <Compile Include="Extensions\UnsafeMemoryExtension.cs" />
-    <Compile Include="Direct3D\D3D9Helper.cs" />
+    <Compile Include="Direct3D\D3DHelper.cs" />
     <Compile Include="GameSharpProcess.cs" />
     <Compile Include="Direct3D\Hooks\D3D9Endscene.cs" />
     <Compile Include="Memory\Hook.cs" />
-    <Compile Include="Memory\MemoryPointer.cs" />
+    <Compile Include="Memory\InternalMemoryPointer.cs" />
     <Compile Include="Memory\SafeFunctionCaller.cs" />
     <Compile Include="Module\InternalModulePointer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

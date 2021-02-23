@@ -35,13 +35,13 @@ namespace GameSharp.Internal
             PEB = new PEB(this);
         }
 
-        public IMemoryPointer GetPebAddress()
+        public MemoryPointer GetPebAddress()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
             Ntdll.NtQueryInformationProcess(NativeHandle, ProcessInformationClass.ProcessBasicInformation, ref pbi, Marshal.SizeOf(pbi), out int _);
 
-            return new MemoryPointer(pbi.PebBaseAddress);
+            return new InternalMemoryPointer(pbi.PebBaseAddress);
         }
 
         public ModulePointer LoadLibrary(string libraryPath, bool resolveReferences)
@@ -63,9 +63,9 @@ namespace GameSharp.Internal
             return Modules[Path.GetFileName(libraryPath.ToLower())];
         }
 
-        public IMemoryPointer AllocateManagedMemory(int size)
+        public MemoryPointer AllocateManagedMemory(int size)
         {
-            return new MemoryPointer(Marshal.AllocHGlobal(size));
+            return new InternalMemoryPointer(Marshal.AllocHGlobal(size));
         }
 
         public Dictionary<string, ModulePointer> RefreshModules()

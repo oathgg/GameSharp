@@ -34,25 +34,25 @@ namespace GameSharp.External
             PEB = new PEB(this);
         }
 
-        public IMemoryPointer GetPebAddress()
+        public MemoryPointer GetPebAddress()
         {
             ProcessBasicInformation pbi = new ProcessBasicInformation();
 
             Ntdll.NtQueryInformationProcess(NativeHandle, ProcessInformationClass.ProcessBasicInformation, ref pbi, pbi.Size, out int _);
 
-            return new MemoryPointer(this, pbi.PebBaseAddress);
+            return new ExternalMemoryPointer(this, pbi.PebBaseAddress);
         }
 
         public ModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true)
         {
             byte[] loadLibraryOpcodes = LoadLibraryHelper.LoadLibraryPayload(pathToDll);
 
-            IMemoryPointer allocatedMemory = AllocateManagedMemory(loadLibraryOpcodes.Length);
+            MemoryPointer allocatedMemory = AllocateManagedMemory(loadLibraryOpcodes.Length);
 
             if (Kernel32.WriteProcessMemory(Native.Handle, allocatedMemory.Address, loadLibraryOpcodes, loadLibraryOpcodes.Length, out IntPtr _))
             {
                 ModulePointer kernel32Module = Modules["kernel32.dll"];
-                IMemoryPointer loadLibraryAddress;
+                MemoryPointer loadLibraryAddress;
                 if (resolveReferences)
                 {
                     loadLibraryAddress = kernel32Module.GetProcAddress("LoadLibraryW");
@@ -102,9 +102,9 @@ namespace GameSharp.External
             DebugHelper.SafeAttach(this);
         }
 
-        public IMemoryPointer AllocateManagedMemory(int size)
+        public MemoryPointer AllocateManagedMemory(int size)
         {
-            return new MemoryPointer(this, Kernel32.VirtualAllocEx(Native.Handle, IntPtr.Zero, (uint)size, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite));
+            return new ExternalMemoryPointer(this, Kernel32.VirtualAllocEx(Native.Handle, IntPtr.Zero, (uint)size, AllocationType.Reserve | AllocationType.Commit, MemoryProtection.ExecuteReadWrite));
         }
 
         public void SuspendThreads(bool suspend = true)

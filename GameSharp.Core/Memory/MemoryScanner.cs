@@ -15,7 +15,7 @@ namespace GameSharp.Core.Memory
         /// <summary>
         ///     The base address of the module.
         /// </summary>
-        private IMemoryPointer ModuleBase { get; }
+        private MemoryPointer ModuleBase { get; }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="MemoryScanner" /> class.

@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 
 namespace GameSharp.Internal.Direct3D.Hooks
 {
-    public abstract class D3D9Endscene : Hook
+    public abstract class D3D9Present : Hook
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall, SetLastError = true)]
-        private delegate int D3D9EndSceneDelegate(IntPtr device);
+        private delegate int D3D9PresentDelegate(IntPtr device);
 
         private int DetourMethod(IntPtr device)
         {
@@ -19,13 +19,13 @@ namespace GameSharp.Internal.Direct3D.Hooks
 
         public override Delegate GetDetourDelegate()
         {
-            return new D3D9EndSceneDelegate(DetourMethod);
+            return new D3D9PresentDelegate(DetourMethod);
         }
 
         public override Delegate GetHookDelegate()
         {
-            InternalMemoryPointer ptr = D3DHelper.GetD3D9Endscene();
-            return ptr.ToDelegate<D3D9EndSceneDelegate>();
+            MemoryPointer ptr = D3DHelper.GetD3D9Present();
+            return ptr.ToDelegate<D3D9PresentDelegate>();
         }
 
         public abstract void DoWork(IntPtr device);

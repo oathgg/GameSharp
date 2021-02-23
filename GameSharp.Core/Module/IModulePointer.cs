@@ -14,9 +14,9 @@ namespace GameSharp.Core.Module
 
         int Size { get; }
 
-        IMemoryPointer MemoryPointer { get; }
+        MemoryPointer MemoryPointer { get; }
 
-        IMemoryPointer GetProcAddress(string name);
+        MemoryPointer GetProcAddress(string name);
 
         IntPtr Handle { get; }
     }

@@ -14,11 +14,11 @@ namespace GameSharp.Internal.Module
     {
         public PeFile PeHeader { get; }
 
-        public override IMemoryPointer MemoryPointer { get; }
+        public override MemoryPointer MemoryPointer { get; }
 
         public InternalModulePointer(ProcessModule processModule) : base(processModule)
         {
-            MemoryPointer = new MemoryPointer(ProcessModule.BaseAddress);
+            MemoryPointer = new InternalMemoryPointer(ProcessModule.BaseAddress);
             PeHeader = GeneratePeHeader();
         }
 
@@ -35,9 +35,9 @@ namespace GameSharp.Internal.Module
         /// <param name="moduleName">The module name (not case-sensitive).</param>
         /// <param name="functionName">The function or variable name, or the function's ordinal value.</param>
         /// <returns>The address of the exported function.</returns>
-        public override IMemoryPointer GetProcAddress(string name)
+        public override MemoryPointer GetProcAddress(string name)
         {
-            MemoryPointer ret = new MemoryPointer(Kernel32.GetProcAddress(ProcessModule.BaseAddress, name));
+            MemoryPointer ret = new InternalMemoryPointer(Kernel32.GetProcAddress(ProcessModule.BaseAddress, name));
 
             if (ret == null)
             {
@@ -101,7 +101,7 @@ namespace GameSharp.Internal.Module
 
                             CodeCavesTaken.Add(address, size);
 
-                            return new MemoryPointer((IntPtr)address);
+                            return new InternalMemoryPointer((IntPtr)address);
                         }
                     }
                     // If we can't find a codecave big enough we will stop looping through the bytes but increment the (i) var

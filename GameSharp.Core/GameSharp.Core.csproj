@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="Extensions\ArrayExtension.cs" />
     <Compile Include="Extensions\ObjectExtension.cs" />
-    <Compile Include="Memory\IMemoryPointer.cs" />
+    <Compile Include="Memory\MemoryPointer.cs" />
     <Compile Include="Memory\MemoryPatch.cs" />
     <Compile Include="Memory\PEB.cs" />
     <Compile Include="Module\IModulePointer.cs" />
@@ -65,6 +65,7 @@
     <Compile Include="Native\Enums\Context.cs" />
     <Compile Include="Native\Enums\LoadLibraryFlags.cs" />
     <Compile Include="Native\Enums\MemoryProtection.cs" />
+    <Compile Include="Native\Enums\NtStatus.cs" />
     <Compile Include="Native\Offsets\IPebOffsets.cs" />
     <Compile Include="Native\Offsets\PebOffsets64.cs" />
     <Compile Include="Native\Offsets\PebOffsets32.cs" />

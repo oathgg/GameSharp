@@ -14,9 +14,9 @@ namespace GameSharp.Core
         IntPtr NativeHandle { get; }
         Dictionary<string, ModulePointer> Modules { get; }
         ModulePointer LoadLibrary(string pathToDll, bool resolveReferences = true);
-        IMemoryPointer AllocateManagedMemory(int size);
+        MemoryPointer AllocateManagedMemory(int size);
         Dictionary<string, ModulePointer> RefreshModules();
-        IMemoryPointer GetPebAddress();
+        MemoryPointer GetPebAddress();
         PEB PEB { get; }
     }
 }
