@@ -50,7 +50,7 @@ namespace GameSharp.External.Helpers
 
             byte dbgBreakPointByte = dbgBreakPointPtr.Read<byte>();
 
-            if (dbgBreakPointByte == 0xC3)
+            if (dbgBreakPointByte != 0xCC)
             {
                 MemoryPatches.Add(new MemoryPatch(dbgBreakPointPtr, new byte[] { 0xCC }));
             }
